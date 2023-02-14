@@ -19,6 +19,35 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: "gray.100",
     dark: "gray.700",
   },
+  // Text
+  text: {
+    light: "gray.800",
+    dark: "white",
+  },
+  "text.primary": {
+    light: "primary.500",
+    dark: "primary.200",
+  },
+  "text.secondary": {
+    light: "secondary.500",
+    dark: "secondary.200",
+  },
+  "text.contrast": {
+    light: "gray.100",
+    dark: "gray.800",
+  },
+  "text.soft": {
+    light: "gray.600",
+    dark: "gray.300",
+  },
+  "text.softer": {
+    light: "gray.400",
+    dark: "gray.500",
+  },
+  "text.softest": {
+    light: "gray.200",
+    dark: "gray.500",
+  },
 } as const // as const is important.
 
 type ColorTokensMap = typeof COLOR_TOKENS

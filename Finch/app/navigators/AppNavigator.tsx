@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { HelloScreen, WelcomeScreen } from "../screens"
+import { HelloScreen, LoginScreen, WelcomeScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -30,6 +30,7 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 export type AppStackParamList = {
   Welcome: undefined
   // 🔥 Your screens go here
+  Login: { username?: string; password?: string } | undefined
   Hello: undefined
 }
 
@@ -50,8 +51,9 @@ const Stack = createNativeStackNavigator<AppStackParamList>()
 const AppStack = observer(function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
       {/** 🔥 Your screens go here */}
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name="Hello" component={HelloScreen} />
     </Stack.Navigator>
   )

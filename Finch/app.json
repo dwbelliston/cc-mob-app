@@ -8,16 +8,19 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/app-icon-all.png",
+    "backgroundColor": "#000000",
     "splash": {
       "image": "./assets/images/splash-logo-all.png",
       "resizeMode": "contain",
-      "backgroundColor": "#191015"
+      "backgroundColor": "#FFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "android": {
       "icon": "./assets/images/app-icon-android-legacy.png",
       "package": "com.currentclient.mobile",
@@ -28,7 +31,7 @@
       "splash": {
         "image": "./assets/images/splash-logo-android-universal.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#FFF"
       }
     },
     "ios": {
@@ -38,8 +41,8 @@
       "splash": {
         "image": "./assets/images/splash-logo-ios-mobile.png",
         "tabletImage": "./assets/images/splash-logo-ios-tablet.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "resizeMode": "cover",
+        "backgroundColor": "#FFF"
       }
     },
     "web": {
@@ -47,7 +50,7 @@
       "splash": {
         "image": "./assets/images/splash-logo-web.png",
         "resizeMode": "contain",
-        "backgroundColor": "#191015"
+        "backgroundColor": "#FFF"
       }
     }
   }

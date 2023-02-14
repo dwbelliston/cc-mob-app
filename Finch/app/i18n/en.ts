@@ -4,6 +4,12 @@ const en = {
     cancel: "Cancel",
     back: "Back",
   },
+  loginScreen: {
+    login: "Login",
+    enter: "Please Enter Login",
+    createAccount: "Create Account",
+    resetPassword: "Reset Password",
+  },
   welcomeScreen: {
     postscript:
       "hey there",

@@ -1,114 +1,42 @@
-import * as React from "react"
-import { ComponentType } from "react"
 import {
-  Image,
-  ImageStyle,
-  StyleProp,
-  TouchableOpacity,
-  TouchableOpacityProps,
-  View,
-  ViewStyle,
-} from "react-native"
+  ArrowLongRightIcon,
+  ArrowRightIcon,
+  EyeIcon,
+  EyeSlashIcon,
+  LockClosedIcon,
+  LockOpenIcon,
+} from "react-native-heroicons/outline"
+
+import { Icon as NBIcon, IIconProps as INBIconProps } from "native-base"
+import * as React from "react"
+import { ColorTokenOption, useColor } from "../theme/useColor"
 
 export type IconTypes = keyof typeof iconRegistry
 
-interface IconProps extends TouchableOpacityProps {
+interface IconProps extends INBIconProps {
   /**
    * The name of the icon
    */
   icon: IconTypes
-
   /**
-   * An optional tint color for the icon
+   * Color token to use
    */
-  color?: string
-
-  /**
-   * An optional size for the icon. If not provided, the icon will be sized to the icon's resolution.
-   */
-  size?: number
-
-  /**
-   * Style overrides for the icon image
-   */
-  style?: StyleProp<ImageStyle>
-
-  /**
-   * Style overrides for the icon container
-   */
-  containerStyle?: StyleProp<ViewStyle>
-
-  /**
-   * An optional function to be called when the icon is pressed
-   */
-  onPress?: TouchableOpacityProps["onPress"]
+  colorToken?: ColorTokenOption
 }
 
-/**
- * A component to render a registered icon.
- * It is wrapped in a <TouchableOpacity /> if `onPress` is provided, otherwise a <View />.
- *
- * - [Documentation and Examples](https://github.com/infinitered/ignite/blob/master/docs/Components-Icon.md)
- */
-export function Icon(props: IconProps) {
-  const {
-    icon,
-    color,
-    size,
-    style: $imageStyleOverride,
-    containerStyle: $containerStyleOverride,
-    ...WrapperProps
-  } = props
+export const Icon = (props: IconProps) => {
+  const { icon, colorToken, ...iconProps } = props
 
-  const isPressable = !!WrapperProps.onPress
-  const Wrapper: ComponentType<TouchableOpacityProps> = WrapperProps?.onPress
-    ? TouchableOpacity
-    : View
+  const _color = colorToken ? useColor(colorToken) : undefined
 
-  return (
-    <Wrapper
-      accessibilityRole={isPressable ? "imagebutton" : undefined}
-      {...WrapperProps}
-      style={$containerStyleOverride}
-    >
-      <Image
-        style={[
-          $imageStyle,
-          color && { tintColor: color },
-          size && { width: size, height: size },
-          $imageStyleOverride,
-        ]}
-        source={iconRegistry[icon]}
-      />
-    </Wrapper>
-  )
+  return <NBIcon size="24" as={iconRegistry[icon]} color={_color} {...iconProps} />
 }
 
 export const iconRegistry = {
-  back: require("../../assets/icons/back.png"),
-  bell: require("../../assets/icons/bell.png"),
-  caretLeft: require("../../assets/icons/caretLeft.png"),
-  caretRight: require("../../assets/icons/caretRight.png"),
-  check: require("../../assets/icons/check.png"),
-  clap: require("../../assets/icons/clap.png"),
-  community: require("../../assets/icons/community.png"),
-  components: require("../../assets/icons/components.png"),
-  debug: require("../../assets/icons/debug.png"),
-  github: require("../../assets/icons/github.png"),
-  heart: require("../../assets/icons/heart.png"),
-  hidden: require("../../assets/icons/hidden.png"),
-  ladybug: require("../../assets/icons/ladybug.png"),
-  lock: require("../../assets/icons/lock.png"),
-  menu: require("../../assets/icons/menu.png"),
-  more: require("../../assets/icons/more.png"),
-  pin: require("../../assets/icons/pin.png"),
-  podcast: require("../../assets/icons/podcast.png"),
-  settings: require("../../assets/icons/settings.png"),
-  slack: require("../../assets/icons/slack.png"),
-  view: require("../../assets/icons/view.png"),
-  x: require("../../assets/icons/x.png"),
-}
-
-const $imageStyle: ImageStyle = {
-  resizeMode: "contain",
+  eye: EyeIcon,
+  eyeSlash: EyeSlashIcon,
+  lockOpen: LockOpenIcon,
+  lockClosed: LockClosedIcon,
+  arrowRight: ArrowRightIcon,
+  arrowRightLong: ArrowLongRightIcon,
 }

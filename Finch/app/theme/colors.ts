@@ -330,10 +330,6 @@ export const colors = {
    */
   textDim: palette.neutral600,
   /**
-   * The default color of the screen background.
-   */
-  background: palette.neutral200,
-  /**
    * The default border color.
    */
   border: palette.neutral400,

@@ -11,7 +11,7 @@ export default {
       },
     }
   },
-  // sizes: {
+  sizes: {
   //   lg: {
   //     // h: 16,
   //     _text: {
@@ -32,9 +32,9 @@ export default {
   //       lineHeight: "20"
   //     },
   //   },
-  // },
+  },
   defaultProps: {
-    colorScheme: "primary",
+    colorScheme: "gray",
     variant: "solid",
   },
   variants: {
@@ -44,6 +44,9 @@ export default {
           bg: `${colorScheme}.600`,
           borderColor: `${colorScheme}.600`,
           _text: {
+            color: "white",
+          },
+          _icon: {
             color: "white",
           },
           _hover: {
@@ -57,8 +60,11 @@ export default {
         },
         _dark: {
           bg: `${colorScheme}.600`,
-          borderColor: `${colorScheme}.500`,
+          borderColor: `${colorScheme}.600`,
           _text: {
+            color: "white",
+          },
+          _icon: {
             color: "white",
           },
           _hover: {
@@ -80,6 +86,9 @@ export default {
             _text: {
               color: "gray.800",
             },
+            _icon: {
+              color: "gray.800",
+            },
             _hover: {
               bg: `${colorScheme}.50`,
               borderColor: `${colorScheme}.50`,
@@ -95,6 +104,9 @@ export default {
             _text: {
               color: "white",
             },
+            _icon: {
+              color: "white",
+            },
             _hover: {
               bg: `${colorScheme}.700`,
               borderColor: `${colorScheme}.700`,
@@ -104,7 +116,6 @@ export default {
               borderColor: `${colorScheme}.700`,
             },
           },
-
         }
       }
 
@@ -115,6 +126,9 @@ export default {
           borderColor: styles._light.borderColor,
           _text: {
             color: styles._light._text.color,
+          },
+          _icon: {
+            color: styles._light._icon.color,
           },
           _hover: {
             bg: styles._light._hover.bg,
@@ -130,6 +144,9 @@ export default {
           borderColor: styles._dark.borderColor,
           _text: {
             color: styles._dark._text.color,
+          },
+          _icon: {
+            color: styles._dark._icon.color,
           },
           _hover: {
             bg: styles._dark._hover.bg,
@@ -179,7 +196,7 @@ export default {
         _light: {
           bg: `${colorScheme}.100`,
           _icon: {
-            color: `${colorScheme}.900`,
+            color: `${colorScheme}.700`,
           },
           _text: {
             color: `${colorScheme}.800`,

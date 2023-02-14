@@ -1,14 +1,15 @@
+/**
+ * Wraps native base text to allow for translate
+ */
 import i18n from "i18n-js"
+import { ITextProps as NBITextProps, Text as NBText } from "native-base"
 import React from "react"
-import { StyleProp, Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native"
-import { isRTL, translate, TxKeyPath } from "../i18n"
-import { colors } from "../theme"
-
-type Sizes = keyof typeof $sizeStyles
+import { translate, TxKeyPath } from "../i18n"
+import { ColorTokenOption, useColor } from "../theme/useColor"
 
 type Presets = keyof typeof $presets
 
-export interface TextProps extends RNTextProps {
+export interface TextProps extends NBITextProps {
   /**
    * Text which is looked up via i18n.
    */
@@ -23,70 +24,52 @@ export interface TextProps extends RNTextProps {
    */
   txOptions?: i18n.TranslateOptions
   /**
-   * An optional style override useful for padding & margin.
+   * Color token to use
    */
-  style?: StyleProp<TextStyle>
+  colorToken?: ColorTokenOption
   /**
    * One of the different types of text presets.
    */
   preset?: Presets
-
-  /**
-   * Text size modifier.
-   */
-  size?: Sizes
-  /**
-   * Children components.
-   */
-  children?: React.ReactNode
 }
 
-/**
- * For your text displaying needs.
- * This component is a HOC over the built-in React Native one.
- *
- * - [Documentation and Examples](https://github.com/infinitered/ignite/blob/master/docs/Components-Text.md)
- */
-export function Text(props: TextProps) {
-  const { size, tx, txOptions, text, children, style: $styleOverride, ...rest } = props
+export const Text = (props: TextProps) => {
+  const { size, tx, txOptions, text, color, colorToken, children, ...rest } = props
 
   const i18nText = tx && translate(tx, txOptions)
   const content = i18nText || text || children
 
-  const preset: Presets = $presets[props.preset] ? props.preset : "default"
-  const $styles = [$rtlStyle, $presets[preset], $sizeStyles[size], $styleOverride]
+  const presetStyles =
+    rest.preset && $presets[rest.preset] ? $presets[rest.preset] : $presets["default"]
+
+  const _color = colorToken ? useColor(colorToken) : color
 
   return (
-    <RNText {...rest} style={$styles}>
+    <NBText color={_color} {...presetStyles} {...rest}>
       {content}
-    </RNText>
+    </NBText>
   )
 }
 
-const $sizeStyles = {
-  xxl: { fontSize: 36, lineHeight: 44 } as TextStyle,
-  xl: { fontSize: 24, lineHeight: 34 } as TextStyle,
-  lg: { fontSize: 20, lineHeight: 32 } as TextStyle,
-  md: { fontSize: 18, lineHeight: 26 } as TextStyle,
-  sm: { fontSize: 16, lineHeight: 24 } as TextStyle,
-  xs: { fontSize: 14, lineHeight: 21 } as TextStyle,
-  xxs: { fontSize: 12, lineHeight: 18 } as TextStyle,
+const $baseStyle = {
+  fontSize: "md",
+  fontWeight: "normal",
 }
-
-const $baseStyle: StyleProp<TextStyle> = [$sizeStyles.sm, { color: colors.text }]
 
 const $presets = {
   default: $baseStyle,
-
-  bold: [$baseStyle, { fontWeight: "bold" }] as StyleProp<TextStyle>,
-
-  heading: [$baseStyle, $sizeStyles.xxl, { fontWeight: "bold" }] as StyleProp<TextStyle>,
-
-  subheading: [$baseStyle, $sizeStyles.lg, { fontWeight: "medium" }] as StyleProp<TextStyle>,
-
-  formLabel: [$baseStyle, { fontWeight: "medium" }] as StyleProp<TextStyle>,
-
-  formHelper: [$baseStyle, $sizeStyles.sm, { fontWeight: "normal" }] as StyleProp<TextStyle>,
+  heading: {
+    fontSize: "3xl",
+    fontWeight: "bold",
+    maxFontSizeMultiplier: 1,
+  },
+  subheading: {
+    fontSize: "lg",
+    fontWeight: "semibold",
+    maxFontSizeMultiplier: 1,
+  },
+  legal: {
+    fontSize: "xs",
+    fontWeight: "normal",
+  },
 }
-
-const $rtlStyle: TextStyle = isRTL ? { writingDirection: "rtl" } : {}
