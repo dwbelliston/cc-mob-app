@@ -7,11 +7,11 @@
  */
 import {
   ApisauceInstance,
-  create,
+  create
 } from "apisauce"
 import Config from "../../config"
 import type {
-  ApiConfig,
+  ApiConfig
 } from "./api.types"
 
 /**

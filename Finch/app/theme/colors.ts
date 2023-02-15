@@ -312,6 +312,13 @@ export const colors = {
   primary: TAILDWIND_COLORS.blue,
   secondary: TAILDWIND_COLORS.indigo,
   /**
+   * Status colors messages.
+   */
+  success: TAILDWIND_COLORS.green,
+  info: TAILDWIND_COLORS.indigo,
+  error: TAILDWIND_COLORS.rose,
+  warning: TAILDWIND_COLORS.amber,
+  /**
    * The palette is available to use, but prefer using the name.
    * This is only included for rare, one-off cases. Try to use
    * semantic names as much as possible.
@@ -341,10 +348,7 @@ export const colors = {
    * A subtle color used for lines.
    */
   separator: palette.neutral300,
-  /**
-   * Error messages.
-   */
-  error: palette.angry500,
+
   /**
    * Error Background.
    *

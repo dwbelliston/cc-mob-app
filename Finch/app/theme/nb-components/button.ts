@@ -12,26 +12,20 @@ export default {
     }
   },
   sizes: {
-  //   lg: {
-  //     // h: 16,
-  //     _text: {
-  //       fontSize: "xl",
-  //       lineHeight: "20"
-  //     },
-  //   },
-  //   md: {
-  //     _text: {
-  //       fontSize: "lg",
-  //       lineHeight: "20"
-  //     },
-  //   },
-  //   sm: {
-  //     // h: 10,
-  //     _text: {
-  //       fontSize: "md",
-  //       lineHeight: "20"
-  //     },
-  //   },
+    xs: {
+      minH: 8,
+      px: '2',
+      py: '1',
+    },
+    sm: {
+      minH: 10,
+    },
+    md: {
+      minH: 12,
+    },
+    lg: {
+      minH: 16,
+    },
   },
   defaultProps: {
     colorScheme: "gray",
@@ -57,6 +51,9 @@ export default {
             bg: `${colorScheme}.400`,
             borderColor: `${colorScheme}.500`,
           },
+          _spinner: {
+            color: "white",
+          },
         },
         _dark: {
           bg: `${colorScheme}.600`,
@@ -74,6 +71,9 @@ export default {
           _pressed: {
             bg: `${colorScheme}.800`,
             borderColor: `${colorScheme}.800`,
+          },
+          _spinner: {
+            color: "white",
           },
         },
       }
@@ -97,6 +97,9 @@ export default {
               bg: `${colorScheme}.100`,
               borderColor: `${colorScheme}.200`,
             },
+            _spinner: {
+              color: `${colorScheme}.700`,
+            },
           },
           _dark: {
             bg: "gray.800",
@@ -115,12 +118,18 @@ export default {
               bg: `${colorScheme}.900`,
               borderColor: `${colorScheme}.700`,
             },
+            _spinner: {
+              color: `${colorScheme}.700`,
+            },
           },
         }
       }
 
       return {
         borderWidth: "1px",
+        _loading: {
+          opacity: 80
+        },
         _light: {
           bg: styles._light.bg,
           borderColor: styles._light.borderColor,
@@ -137,6 +146,9 @@ export default {
           _pressed: {
             bg: styles._light._pressed.bg,
             borderColor: styles._light._pressed.borderColor,
+          },
+          _spinner: {
+            color: styles._light._spinner.color,
           },
         },
         _dark: {
@@ -155,6 +167,9 @@ export default {
           _pressed: {
             bg: styles._dark._pressed.bg,
             borderColor: styles._dark._pressed.borderColor,
+          },
+          _spinner: {
+            color: styles._dark._spinner.color,
           },
         },
       }

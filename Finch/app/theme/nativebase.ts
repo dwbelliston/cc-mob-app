@@ -1,5 +1,5 @@
 import { colors } from "./colors";
-import { Button } from "./nb-components";
+import { Button, FormControlErrorMessage, Input } from "./nb-components";
 import { typography } from "./typography";
 
 
@@ -10,6 +10,8 @@ export const finchTheme = {
     },
     components: {
       Button,
+      Input,
+      FormControlErrorMessage
     },
     colors,
     fontConfig: {

@@ -1,3 +1,4 @@
+import { AuthProvider } from "./AuthProvider"
 import NativeBaseProvider from "./NativeBaseProvider"
 
 interface IProps {
@@ -5,7 +6,11 @@ interface IProps {
 }
 
 function AppProviders(props: IProps) {
-  return <NativeBaseProvider>{props.children}</NativeBaseProvider>
+  return (
+    <NativeBaseProvider>
+      <AuthProvider>{props.children}</AuthProvider>
+    </NativeBaseProvider>
+  )
 }
 
 export default AppProviders

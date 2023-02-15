@@ -4,9 +4,15 @@ const en = {
     cancel: "Cancel",
     back: "Back",
   },
+  fieldLabels: {
+    lastname: "Last Name",
+    email: "Email",
+    password: "Password",
+    rememberDevice: "Remember login"
+  },
   loginScreen: {
     login: "Login",
-    enter: "Please Enter Login",
+    enter: "Please Login",
     createAccount: "Create Account",
     resetPassword: "Reset Password",
   },
@@ -28,6 +34,15 @@ const en = {
       content: "No data found yet. Try clicking the button to refresh or reload the app.",
       button: "Let's try this again",
     },
+  },
+  navigator: {
+    homeTab: "Home",
+    profileTab: "Profile",
+    contactsTab: "Contacts",
+    inboxTab: "Inbox",
+    feedback: "Feedback",
+    signout: "Sign out",
+    settings: "Settings",
   },
 }
 

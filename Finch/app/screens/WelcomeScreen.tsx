@@ -3,6 +3,8 @@ import { Stack, Text as NBText, View as NBView } from "native-base"
 import React, { FC } from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { Button, Screen, Text } from "../components"
+import { Butter } from "../components/Butter"
+import { AppStackScreenProps } from "../navigators"
 import { spacing } from "../theme"
 import { useColor } from "../theme/useColor"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
@@ -14,7 +16,9 @@ const COLORS = ["gray", "primary", "secondary", "green", "red"]
 const VARIANTS = ["solid", "subtle", "outline"]
 const SIZES = ["xs", "sm", "md", "lg"]
 
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen() {
+interface IScreenProps extends AppStackScreenProps<"Welcome"> {}
+
+export const WelcomeScreen: FC<IScreenProps> = observer(function WelcomeScreen(_props) {
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   const bgMain = useColor("bg.main")
@@ -51,6 +55,19 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
               </Stack>
             )
           })}
+        </Stack>
+
+        <Stack space={2}>
+          <Butter.Success
+            title={"Success!"}
+            description={"Please double check it"}
+          ></Butter.Success>
+          <Butter.Info title={"Info!"} description={"Please double check it"}></Butter.Info>
+          <Butter.Error title={"Error!"} description={"Please double check it"}></Butter.Error>
+          <Butter.Warning
+            title={"Warning!"}
+            description={"Please double check it"}
+          ></Butter.Warning>
         </Stack>
       </NBView>
     </Screen>

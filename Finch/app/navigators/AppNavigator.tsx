@@ -11,7 +11,10 @@ import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
-import { HelloScreen, LoginScreen, WelcomeScreen } from "../screens"
+import { useStores } from "../models"
+import { LoginScreen, ResetPasswordScreen } from "../screens"
+import AppHomeNavigator from "./AppHomeNavigator"
+
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 /**
@@ -29,9 +32,11 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 export type AppStackParamList = {
   Welcome: undefined
-  // 🔥 Your screens go here
   Login: { username?: string; password?: string } | undefined
+  ResetPassword: undefined
   Hello: undefined
+  AppHome: undefined
+  Settings: undefined
 }
 
 /**
@@ -49,12 +54,25 @@ export type AppStackScreenProps<T extends keyof AppStackParamList> = StackScreen
 const Stack = createNativeStackNavigator<AppStackParamList>()
 
 const AppStack = observer(function AppStack() {
+  const {
+    authenticationStore: { isAuthenticated },
+  } = useStores()
+
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {/** 🔥 Your screens go here */}
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="Hello" component={HelloScreen} />
+    <Stack.Navigator
+      screenOptions={{ headerShown: false }}
+      initialRouteName={isAuthenticated ? "AppHome" : "Login"}
+    >
+      {isAuthenticated ? (
+        <Stack.Group>
+          <Stack.Screen name="AppHome" component={AppHomeNavigator} />
+        </Stack.Group>
+      ) : (
+        <Stack.Group>
+          <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+        </Stack.Group>
+      )}
     </Stack.Navigator>
   )
 })

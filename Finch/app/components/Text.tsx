@@ -52,7 +52,7 @@ export const Text = (props: TextProps) => {
 }
 
 const $baseStyle = {
-  fontSize: "md",
+  fontSize: "sm",
   fontWeight: "normal",
 }
 
