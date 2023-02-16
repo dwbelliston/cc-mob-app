@@ -208,6 +208,7 @@ export default {
     },
     subtle: ({ colorScheme }: { colorScheme: string }) => {
       return {
+        shadow: "unset",
         _light: {
           bg: `${colorScheme}.100`,
           _icon: {
@@ -229,10 +230,10 @@ export default {
         _dark: {
           bg: `${colorScheme}.700`,
           _icon: {
-            color: `${colorScheme}.300`,
+            color: `${colorScheme}.200`,
           },
           _text: {
-            color: `${colorScheme}.300`,
+            color: `${colorScheme}.200`,
           },
           _spinner: {
             color: `${colorScheme}.300`,

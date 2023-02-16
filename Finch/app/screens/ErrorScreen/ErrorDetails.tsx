@@ -17,13 +17,13 @@ export function ErrorDetails(props: ErrorDetailsProps) {
       contentContainerStyle={$contentContainer}
     >
       <View style={$topSection}>
-        <Icon icon="ladybug" size={64} />
+        <Icon icon="check" size={64} />
         <Text style={$heading} preset="subheading" tx="errorScreen.title" />
         <Text tx="errorScreen.friendlySubtitle" />
       </View>
 
       <ScrollView style={$errorSection} contentContainerStyle={$errorSectionContentContainer}>
-        <Text style={$errorContent} weight="bold" text={`${props.error}`.trim()} />
+        <Text style={$errorContent} fontWeight="bold" text={`${props.error}`.trim()} />
         <Text
           selectable
           style={$errorBacktrace}
@@ -32,7 +32,7 @@ export function ErrorDetails(props: ErrorDetailsProps) {
       </ScrollView>
 
       <Button
-        preset="reversed"
+        // preset="reversed"
         style={$resetButton}
         onPress={props.onReset}
         tx="errorScreen.reset"
@@ -54,7 +54,7 @@ const $topSection: ViewStyle = {
 }
 
 const $heading: TextStyle = {
-  color: colors.error,
+  // color: colors.error,
   marginBottom: spacing.medium,
 }
 
@@ -70,7 +70,7 @@ const $errorSectionContentContainer: ViewStyle = {
 }
 
 const $errorContent: TextStyle = {
-  color: colors.error,
+  // color: colors.error,
 }
 
 const $errorBacktrace: TextStyle = {
@@ -79,6 +79,6 @@ const $errorBacktrace: TextStyle = {
 }
 
 const $resetButton: ViewStyle = {
-  backgroundColor: colors.error,
+  // backgroundColor: colors.error,
   paddingHorizontal: spacing.huge,
 }

@@ -12,7 +12,6 @@ export const AuthenticationStoreModel = types
     validateError: types.maybe(types.string),
   })
   .views((store) => ({
-
     get isAuthenticated() {
       // Auth.currentSession().then(res => console.log(res.getAccessToken().getJwtToken()))
       return !!store.userId;
@@ -38,7 +37,6 @@ export const AuthenticationStoreModel = types
     },
     async login(username: string, password: string) {
       try {
-        console.log("LOGIN", username, password);
 
         const user = await Auth.signIn(username, password);
 

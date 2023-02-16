@@ -1,7 +1,7 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 
-import { Circle, IconButton, useColorModeValue } from "native-base"
+import { Box, Circle, IconButton, useColorModeValue } from "native-base"
 import React from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, Text } from "../components"
@@ -9,7 +9,9 @@ import { Icon, Text } from "../components"
 import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
+import { useUserInitials } from "../models/UserProfile"
 import { ContactsScreen, ConversationsScreen, SettingsScreen } from "../screens"
+import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 import { colors, spacing } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
@@ -35,28 +37,37 @@ const Tab = createBottomTabNavigator<HomeTabParamList>()
 export const HomeTabNavigator = () => {
   const { bottom } = useSafeAreaInsets()
 
+  const { data: userProfile } = useReadUserProfile()
+  const userInitials = useUserInitials(userProfile)
+
   const tabBg = useColorModeValue(colors.white, colors.gray[900])
 
   // const tabBorder = useColor("border.soft");
-  const tabBorder = useColorModeValue(colors.gray[100], colors.gray[800])
+  const tabBorder = useColorModeValue(colors.gray[50], colors.gray[700])
 
-  const tabIconColorActive = useColorModeValue(colors.primary[600], colors.white)
-
-  const tabIconBgActive = useColorModeValue(colors.gray[50], colors.secondary[400])
+  const tabIconBgActive = useColorModeValue(colors.gray[50], colors.gray[800])
+  const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
 
   const tabIconColorInActive = useColorModeValue(colors.gray[500], colors.gray[600])
-
-  const tintColor = useColorModeValue("light", "dark")
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        headerTitleStyle: { paddingBottom: "4px" },
+        headerTitleStyle: { paddingBottom: "8px" },
         headerStyle: {
           height: 120,
+          // borderBottomColor: "red",
+          // borderBottomWidth: 2,
         },
         headerLeftContainerStyle: { paddingLeft: spacing.large },
+        headerTitleContainerStyle: { width: "100%" },
+        headerBackgroundContainerStyle: {
+          borderBottomWidth: 2,
+          borderBottomColor: tabBorder,
+          backgroundColor: tabBg,
+          height: bottom + 80,
+        },
         headerRightContainerStyle: { paddingRight: spacing.large },
         headerTransparent: true,
         headerTitleAlign: "center",
@@ -68,13 +79,23 @@ export const HomeTabNavigator = () => {
         //   />
         // ),
         headerTitle: ({ children }) => {
-          return <Text preset="heading" fontSize="lg" text={children} />
+          return (
+            <Box w="full">
+              <Text
+                textAlign={"center"}
+                colorToken="text.soft"
+                preset="heading"
+                fontSize="lg"
+                text={children}
+              />
+            </Box>
+          )
         },
-
         headerLeft: (props) => {
           const navigation = useNavigation()
           return (
             <IconButton
+              colorScheme={"gray"}
               onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
               icon={<Icon colorToken="text.softer" icon="menu" size={32} />}
             ></IconButton>
@@ -99,7 +120,7 @@ export const HomeTabNavigator = () => {
         },
         tabBarLabelStyle: {
           fontSize: 12,
-          fontWeight: "500",
+          fontWeight: "600",
           lineHeight: 16,
           flex: 1,
           paddingTop: 8,
@@ -111,9 +132,8 @@ export const HomeTabNavigator = () => {
         name="Inbox"
         component={ConversationsScreen}
         options={{
-          headerShown: true,
-          title: "Conversations",
-
+          headerShown: false,
+          title: "Inbox",
           tabBarLabel: translate("navigator.inboxTab"),
           tabBarIcon: ({ focused }) => (
             <Circle bg={focused ? tabIconBgActive : tabBg} p={1} h={10} w={10} borderRadius={8}>

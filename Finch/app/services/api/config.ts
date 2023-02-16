@@ -1,29 +1,30 @@
 export enum APIEndpoints {
   authenticatedUsers = "authenticatedUsers",
   publicUsers = "publicUsers",
+  authenticatedOutbounds = "authenticatedOutbounds",
   private = "private",
   public = "public",
 }
 
 enum QueryKeysEnum {
-  surveys = "surveys",
-  advocateprofile = "advocateprofile",
   userprofile = "userprofile",
+  conversations = "conversations",
+  advocateprofile = "advocateprofile",
   consentFiles = "consentFiles",
 }
 
 export class QueryKeys {
-  static surveys(): string[] {
-    return [QueryKeysEnum.surveys]
-  }
-  static surveyDetailComplete(usersurveyId: string = ""): string[] {
-    return [QueryKeysEnum.surveys, usersurveyId, "complete"]
-  }
-  static surveysDetail(surveyId: string = ""): string[] {
-    return [QueryKeysEnum.surveys, surveyId]
-  }
   static userprofile(): string[] {
     return [QueryKeysEnum.userprofile]
+  }
+  static conversations(): string[] {
+    return [QueryKeysEnum.conversations]
+  }
+  static conversationsDetailComplete(userconversationsId: string = ""): string[] {
+    return [QueryKeysEnum.conversations, userconversationsId, "complete"]
+  }
+  static conversationssDetail(conversationsId: string = ""): string[] {
+    return [QueryKeysEnum.conversations, conversationsId]
   }
   static advocateprofile(): string[] {
     return [QueryKeysEnum.advocateprofile]

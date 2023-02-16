@@ -46,6 +46,7 @@ const config = {
     },
     Welcome: "welcome",
     Inbox: "inbox",
+    Contacts: "contacts",
     Demo: {
       screens: {
         DemoShowroom: {

@@ -1,5 +1,6 @@
 import { AuthProvider } from "./AuthProvider"
 import NativeBaseProvider from "./NativeBaseProvider"
+import { ReactQueryProvider } from "./ReactQueryProvider"
 
 interface IProps {
   children?: React.ReactNode
@@ -8,7 +9,9 @@ interface IProps {
 function AppProviders(props: IProps) {
   return (
     <NativeBaseProvider>
-      <AuthProvider>{props.children}</AuthProvider>
+      <ReactQueryProvider>
+        <AuthProvider>{props.children}</AuthProvider>
+      </ReactQueryProvider>
     </NativeBaseProvider>
   )
 }
