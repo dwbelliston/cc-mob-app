@@ -18,10 +18,19 @@ import { runFormatTimeFromNowSpecial } from "../../utils/useFormatDate"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 import { useInitials } from "../../utils/useInitials"
 
+import { useActionSheet } from "@expo/react-native-action-sheet"
+
 interface IProps {
   conversation: IConversation
   // onClickConversation: (conversation: IConversation) => void;
 }
+
+interface IRightActions extends IProps {
+  onBlock: () => void
+  onViewContact: () => void
+}
+
+interface IConversationListItem extends IRightActions {}
 
 const LeftSwipeActions = ({ conversation }: IProps) => {
   const statusBg = useColorModeValue("indigo.600", "indigo.800")
@@ -46,12 +55,46 @@ const LeftSwipeActions = ({ conversation }: IProps) => {
     </View>
   )
 }
-const RightSwipeActions = ({ conversation }: IProps) => {
+const RightSwipeActions = ({ conversation, onViewContact, onBlock }: IRightActions) => {
   const moreBg = useColorModeValue("gray.100", "gray.800")
   const statusBg = useColorModeValue("primary.600", "primary.800")
 
-  const handleOnMore = () => {}
+  const { showActionSheetWithOptions } = useActionSheet()
+  const conversationNumber = useConversationContactNumber(conversation)
+  const title = conversation.ContactName || runFormatPhoneSimple(conversationNumber)
+
   const handleOnDone = () => {}
+
+  const handleOnMore = () => {
+    const options = ["Block Number", "View Contact", "Cancel"]
+    const destructiveButtonIndex = 0
+    const cancelButtonIndex = 2
+
+    showActionSheetWithOptions(
+      {
+        title,
+        options,
+        cancelButtonIndex,
+        destructiveButtonIndex,
+      },
+      (selectedIndex: number) => {
+        switch (selectedIndex) {
+          case 1:
+            // View Contact
+            onViewContact()
+            break
+
+          case destructiveButtonIndex:
+            onBlock()
+            // Block
+            break
+
+          case cancelButtonIndex:
+          // Canceled
+        }
+      },
+    )
+  }
 
   return (
     <View bg={moreBg}>
@@ -93,7 +136,7 @@ const swipeFromOpen = (direction: "left" | "right") => {
   // alert(direction)
 }
 
-const ConversationListItem = ({ conversation }: IProps) => {
+const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConversationListItem) => {
   const avatarColor = useAvatarColor(conversation.ContactName)
   const initials = useInitials(conversation.ContactName)
 
@@ -108,7 +151,13 @@ const ConversationListItem = ({ conversation }: IProps) => {
   return (
     <Swipeable
       renderLeftActions={() => <LeftSwipeActions conversation={conversation} />}
-      renderRightActions={() => <RightSwipeActions conversation={conversation} />}
+      renderRightActions={() => (
+        <RightSwipeActions
+          conversation={conversation}
+          onBlock={onBlock}
+          onViewContact={onViewContact}
+        />
+      )}
       onSwipeableOpen={swipeFromOpen}
     >
       <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">

@@ -54,6 +54,13 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
     navigation.dispatch(DrawerActions.toggleDrawer())
   }
 
+  const handleOnViewContact = (conversation: IConversation) => {
+    alert(conversation.ContactName)
+  }
+  const handleOnBlock = (conversation: IConversation) => {
+    alert(conversation.ContactId)
+  }
+
   React.useEffect(() => {
     if (dataConversations) {
       const flatDataUpdate = dataConversations.pages.flatMap((page, idx) =>
@@ -97,6 +104,8 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
             <PureConversationListItem
               key={conversation.ConversationId}
               conversation={conversation}
+              onViewContact={() => handleOnViewContact(conversation)}
+              onBlock={() => handleOnBlock(conversation)}
               // onClickConversation={handleClickConversation}
             ></PureConversationListItem>
           )}
