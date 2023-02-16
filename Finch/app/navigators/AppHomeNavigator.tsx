@@ -131,6 +131,7 @@ const AppHomeNavigator = () => {
   return (
     <Drawer.Navigator
       screenOptions={({ navigation }) => ({
+        drawerType: "front",
         drawerStyle: {
           backgroundColor: drawerBg,
         },

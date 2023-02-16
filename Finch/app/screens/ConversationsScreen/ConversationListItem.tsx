@@ -1,9 +1,9 @@
-import { Avatar, Circle, HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
+import { HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
 import React from "react"
 
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { Icon, Text } from "../../components"
-import { GenericAvatarIcon } from "../../components/GenericAvatar"
+import { AvatarRing } from "../../components/AvatarRing"
 import {
   ConversationStatusEnum,
   IConversation,
@@ -112,15 +112,12 @@ const ConversationListItem = ({ conversation }: IProps) => {
       onSwipeableOpen={swipeFromOpen}
     >
       <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
-        <Circle bg={cardBg} p={1} borderWidth={2} borderColor={isIncoming ? errorColor : cardBg}>
-          {initials ? (
-            <Avatar bg={avatarColor} _text={{ color: "white", fontSize: "xs" }} size="md">
-              {initials}
-            </Avatar>
-          ) : (
-            <GenericAvatarIcon size="md" />
-          )}
-        </Circle>
+        <AvatarRing
+          outerRingColor={isIncoming ? errorColor : cardBg}
+          innerRingColor={cardBg}
+          avatarColor={avatarColor}
+          initials={initials}
+        ></AvatarRing>
 
         <Stack flex={1}>
           <Text

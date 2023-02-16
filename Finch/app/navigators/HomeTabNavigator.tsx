@@ -1,7 +1,7 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 
-import { Box, Circle, IconButton, useColorModeValue } from "native-base"
+import { Box, IconButton, useColorModeValue } from "native-base"
 import React from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, Text } from "../components"
@@ -50,9 +50,10 @@ export const HomeTabNavigator = () => {
 
   const tabBg = useColorModeValue(colors.white, colors.gray[900])
   const tabBorder = useColorModeValue(colors.gray[50], colors.gray[700])
-  const tabIconBgActive = useColorModeValue(colors.gray[50], colors.gray[800])
+  const tabIconBgActive = useColorModeValue(colors.primary[600], colors.gray[800])
   const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
-  const tabIconColorInActive = useColorModeValue(colors.gray[500], colors.gray[600])
+  const tabIconColorInActive = useColorModeValue(colors.gray[400], colors.gray[600])
+  const tabLabelColorInActive = useColorModeValue(colors.gray[300], colors.gray[600])
 
   return (
     <Tab.Navigator
@@ -105,6 +106,7 @@ export const HomeTabNavigator = () => {
             ></IconButton>
           )
         },
+        tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: tabIconColorActive,
         tabBarInactiveTintColor: tabIconColorInActive,
@@ -114,22 +116,23 @@ export const HomeTabNavigator = () => {
           // borderTopColor: "red",
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
-          height: bottom + 80,
+          height: bottom + 60,
         },
-        tabBarLabelPosition: "below-icon",
+        // tabBarLabelPosition: "below-icon",
         tabBarItemStyle: {
-          paddingTop: spacing.medium,
+          // paddingTop: spacing.medium,
         },
         tabBarIconStyle: {
           flex: 1,
         },
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "600",
-          lineHeight: 16,
-          flex: 1,
-          paddingTop: 8,
-        },
+        // tabBarLabelStyle: {
+        //   fontSize: 8,
+        //   fontWeight: "600",
+        //   lineHeight: 16,
+        //   flex: 1,
+        //   paddingTop: 8,
+        //   color: tabLabelColorInActive,
+        // },
         tabBarBadgeStyle: {
           top: -14,
         },
@@ -142,15 +145,15 @@ export const HomeTabNavigator = () => {
         options={{
           headerShown: false,
           title: "Inbox",
+          tabBarAccessibilityLabel: translate("navigator.inboxTab"),
           tabBarLabel: translate("navigator.inboxTab"),
           tabBarIcon: ({ focused }) => (
-            <Circle bg={focused ? tabIconBgActive : tabBg} p={1} h={10} w={10} borderRadius={8}>
-              <Icon
-                color={focused ? tabIconColorActive : tabIconColorInActive}
-                icon="chat"
-                isOutline={focused ? false : true}
-              />
-            </Circle>
+            <Icon
+              size={32}
+              color={focused ? tabIconColorActive : tabIconColorInActive}
+              icon="chat"
+              // isOutline={focused ? false : true}
+            />
           ),
 
           tabBarBadge: unreadCountBadge,
@@ -185,15 +188,15 @@ export const HomeTabNavigator = () => {
         options={{
           headerShown: true,
           title: "Contacts",
+          tabBarAccessibilityLabel: translate("navigator.contactsTab"),
           tabBarLabel: translate("navigator.contactsTab"),
           tabBarIcon: ({ focused }) => (
-            <Circle bg={focused ? tabIconBgActive : tabBg} p={1} h={10} w={10} borderRadius={8}>
-              <Icon
-                color={focused ? tabIconColorActive : tabIconColorInActive}
-                isOutline={focused ? false : true}
-                icon="contacts"
-              />
-            </Circle>
+            <Icon
+              size={32}
+              color={focused ? tabIconColorActive : tabIconColorInActive}
+              // isOutline={focused ? false : true}
+              icon="contacts"
+            />
           ),
         }}
       />
@@ -203,15 +206,23 @@ export const HomeTabNavigator = () => {
         component={SettingsScreen}
         options={{
           headerShown: true,
+          tabBarAccessibilityLabel: translate("navigator.settings"),
           tabBarLabel: translate("navigator.settings"),
           tabBarIcon: ({ focused }) => (
-            <Circle bg={focused ? tabIconBgActive : tabBg} p={1} h={10} w={10} borderRadius={8}>
-              <Icon
-                color={focused ? tabIconColorActive : tabIconColorInActive}
-                isOutline={focused ? false : true}
-                icon="settings"
-              />
-            </Circle>
+            // <Circle
+            //   bg={focused ? tabIconBgActive : tabBg}
+            //   p={1}
+            //   h={12}
+            //   w={12}
+            //   borderRadius={"full"}
+            // >
+            <Icon
+              size={32}
+              color={focused ? tabIconColorActive : tabIconColorInActive}
+              // isOutline={focused ? false : true}
+              icon="settings"
+            />
+            // </Circle>
           ),
         }}
       />

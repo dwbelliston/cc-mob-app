@@ -1,8 +1,9 @@
-import { Avatar, IAvatarProps, Pressable } from "native-base"
+import { IAvatarProps, Pressable } from "native-base"
 import { useUserInitials } from "../models/UserProfile"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 
 import * as Haptics from "expo-haptics"
+import { AvatarRing } from "./AvatarRing"
 
 interface IProps extends IAvatarProps {
   onPress?: () => void
@@ -23,27 +24,27 @@ export const UserAvatar = (props: IProps) => {
 
   return (
     <Pressable onPress={handleOnPress} _pressed={{ opacity: 60 }}>
-      <Avatar
-        _light={{
-          bg: "primary.700",
-          _text: {
-            color: "white",
+      <AvatarRing
+        initials={userInitials}
+        avatarProps={{
+          _light: {
+            bg: "primary.700",
+            _text: {
+              color: "white",
+            },
           },
-        }}
-        _dark={{
-          bg: "primary.200",
-          _text: {
-            color: "black",
+          _dark: {
+            bg: "primary.200",
+            _text: {
+              color: "black",
+            },
           },
+          source: {
+            uri: userProfile?.BrandImageUrl,
+          },
+          ...rest,
         }}
-        size="md"
-        source={{
-          uri: userProfile?.BrandImageUrl,
-        }}
-        {...rest}
-      >
-        {userInitials}
-      </Avatar>
+      ></AvatarRing>
     </Pressable>
   )
 }
