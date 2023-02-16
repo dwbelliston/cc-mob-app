@@ -1,15 +1,20 @@
 import {
+  ArrowDownRightIcon,
   ArrowLeftIcon,
   ArrowLeftOnRectangleIcon,
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
   ArrowRightIcon,
   ArrowTopRightOnSquareIcon,
+  ArrowUpRightIcon,
   AtSymbolIcon,
   Bars3Icon,
+  BellAlertIcon,
   ChatBubbleLeftRightIcon,
   CheckIcon,
   Cog6ToothIcon,
+  EllipsisHorizontalIcon,
+  EllipsisVerticalIcon,
   ExclamationTriangleIcon,
   EyeIcon,
   EyeSlashIcon,
@@ -21,21 +26,28 @@ import {
   LockClosedIcon,
   LockOpenIcon,
   PhoneIcon,
+  UserCircleIcon,
   UserGroupIcon,
+  UserIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline"
 import {
+  ArrowDownRightIcon as ArrowDownRightIconSolid,
   ArrowLeftIcon as ArrowLeftIconSolid,
   ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconSolid,
   ArrowLongLeftIcon as ArrowLongLeftIconSolid,
   ArrowLongRightIcon as ArrowLongRightIconSolid,
   ArrowRightIcon as ArrowRightIconSolid,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid,
+  ArrowUpRightIcon as ArrowUpRightIconSolid,
   AtSymbolIcon as AtSymbolIconSolid,
   Bars3Icon as Bars3IconSolid,
+  BellAlertIcon as BellAlertIconSolid,
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
   CheckIcon as CheckIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
+  EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
+  EllipsisVerticalIcon as EllipsisVerticalIconSolid,
   ExclamationTriangleIcon as ExclamationTriangleIconSolid,
   EyeIcon as EyeIconSolid,
   EyeSlashIcon as EyeSlashIconSolid,
@@ -47,7 +59,9 @@ import {
   LockClosedIcon as LockClosedIconSolid,
   LockOpenIcon as LockOpenIconSolid,
   PhoneIcon as PhoneIconSolid,
+  UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
+  UserIcon as UserIconSolid,
   XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
 
@@ -165,6 +179,15 @@ export const iconRegistry = {
     outline: InformationCircleIcon,
     solid: InformationCircleIconSolid,
   },
+  arrowDownRight: {
+    outline: ArrowDownRightIcon,
+    solid: ArrowDownRightIconSolid,
+  },
+  arrowUpRight: {
+    outline: ArrowUpRightIcon,
+    solid: ArrowUpRightIconSolid,
+  },
+
   "arrow-top-right-on-square": {
     outline: ArrowTopRightOnSquareIcon,
     solid: ArrowTopRightOnSquareIconSolid,
@@ -180,5 +203,25 @@ export const iconRegistry = {
   phone: {
     outline: PhoneIcon,
     solid: PhoneIconSolid,
+  },
+  bellAlert: {
+    outline: BellAlertIcon,
+    solid: BellAlertIconSolid,
+  },
+  user: {
+    outline: UserIcon,
+    solid: UserIconSolid,
+  },
+  userCircle: {
+    outline: UserCircleIcon,
+    solid: UserCircleIconSolid,
+  },
+  ellipsisVertical: {
+    outline: EllipsisVerticalIcon,
+    solid: EllipsisVerticalIconSolid,
+  },
+  ellipsisHorizontal: {
+    outline: EllipsisHorizontalIcon,
+    solid: EllipsisHorizontalIconSolid,
   },
 }

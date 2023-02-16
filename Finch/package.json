@@ -52,7 +52,7 @@
     "apisauce": "2.1.5",
     "aws-amplify": "^5.0.14",
     "aws-amplify-react-native": "^6.0.5",
-    "date-fns": "^2.29.2",
+    "date-fns": "^2.29.3",
     "expo": "^47.0.0",
     "expo-application": "~5.0.1",
     "expo-constants": "~14.0.2",

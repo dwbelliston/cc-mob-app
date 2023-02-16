@@ -17,8 +17,14 @@ export class QueryKeys {
   static userprofile(): string[] {
     return [QueryKeysEnum.userprofile]
   }
-  static conversations(): string[] {
-    return [QueryKeysEnum.conversations]
+  static conversations({
+    pageLimit,
+    search,
+    isUnread,
+    fromFolderId,
+    conversationStatus
+  }): string[] {
+    return [QueryKeysEnum.conversations, pageLimit, search, isUnread, fromFolderId,conversationStatus]
   }
   static conversationsDetailComplete(userconversationsId: string = ""): string[] {
     return [QueryKeysEnum.conversations, userconversationsId, "complete"]

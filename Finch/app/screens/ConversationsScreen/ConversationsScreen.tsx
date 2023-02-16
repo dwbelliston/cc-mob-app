@@ -2,24 +2,28 @@ import { useHeaderHeight } from "@react-navigation/elements"
 import { DrawerActions, useNavigation } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
-import { HStack, Stack, useColorModeValue, View } from "native-base"
+import { Divider, FlatList, HStack, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
-import { ViewStyle } from "react-native"
+import { StyleSheet, ViewStyle } from "react-native"
+
 import { Icon, Screen, Text } from "../../components"
 import { UserAvatar } from "../../components/UserAvatar"
-import { ConversationStatusEnum } from "../../models/Conversation"
+import { ConversationStatusEnum, IConversation } from "../../models/Conversation"
 import { AppHomeScreenProps } from "../../navigators"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
 import { spacing } from "../../theme"
-import { ConversationCard } from "./ConversationCard"
+import { PureConversationListItem } from "./ConversationListItem"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
 interface IScreenProps extends AppHomeScreenProps<"Conversations"> {}
 
+const Separator = () => <View style={styles.itemSeparator} />
+
 export const ConversationsScreen: FC<IScreenProps> = observer(function ConversationsScreen() {
   const [viewLimit] = React.useState(25)
+  const [flatData, setFlatData] = React.useState<IConversation[]>()
 
   const navigation = useNavigation()
 
@@ -29,8 +33,20 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
 
   const [selectedConversationIds, setSelectedConversationIds] = React.useState<string[]>([])
 
-  const { data, isFetching, isLoading, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useListConversations(viewLimit, null, null, null, ConversationStatusEnum.OPEN)
+  const {
+    data: dataConversations,
+    isFetching,
+    isLoading,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useListConversations({
+    pageLimit: viewLimit,
+    search: null,
+    isUnread: false,
+    fromFolderId: null,
+    conversationStatus: ConversationStatusEnum.CLOSED,
+  })
 
   const setConversationUrl = () => {}
 
@@ -38,15 +54,22 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
     navigation.dispatch(DrawerActions.toggleDrawer())
   }
 
-  console.log("data", data?.pages)
+  React.useEffect(() => {
+    if (dataConversations) {
+      const flatDataUpdate = dataConversations.pages.flatMap((page, idx) =>
+        page.records.flatMap((conversation, iidx) => conversation),
+      )
+
+      setFlatData(flatDataUpdate)
+    }
+  }, [dataConversations])
 
   return (
     <Screen
       preset="fixed"
       safeAreaEdges={["top"]}
       contentContainerStyle={{
-        flex: 1,
-        paddingBottom: 24,
+        paddingBottom: 0,
         paddingTop: headerHeight,
       }}
     >
@@ -65,33 +88,33 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
           </HStack>
           <Icon icon="menu"></Icon>
         </HStack>
-        <Stack py={4} space={3}>
-          {data &&
-            data.pages.map((page, idx) => {
-              return (
-                <Stack space={3} key={idx}>
-                  {page.records.map((conversation, idx) => {
-                    const isCardSelected = selectedConversationIds.includes(
-                      conversation.ConversationId,
-                    )
 
-                    return (
-                      <ConversationCard
-                        key={conversation.ConversationId}
-                        conversation={conversation}
-                        onClickConversation={setConversationUrl}
-                        isSelected={isCardSelected}
-                        isShowSelectBox={!!selectedConversationIds.length}
-                        onToggleSelected={() => {
-                          // handleOnToggleSelectConversation(conversation.ConversationId)
-                        }}
-                      ></ConversationCard>
-                    )
-                  })}
-                </Stack>
-              )
-            })}
-        </Stack>
+        <FlatList
+          ItemSeparatorComponent={() => <Divider bg="transparent" />}
+          // bg={bgColor}
+          data={flatData}
+          renderItem={({ item: conversation }) => (
+            <PureConversationListItem
+              key={conversation.ConversationId}
+              conversation={conversation}
+              // onClickConversation={handleClickConversation}
+            ></PureConversationListItem>
+          )}
+          // ListHeaderComponent={
+          //   <FlatListHeaderSearch
+          //     onSearch={handleOnSearch}
+          //   ></FlatListHeaderSearch>
+          // }
+          // ListFooterComponent={<Box h={tabBarHeight}></Box>}
+          // ListEmptyComponent={<FlatListEmptyComponent></FlatListEmptyComponent>}
+          keyExtractor={(item) => item.ConversationId.toString()}
+          // refreshing={isLoadingConversations || isFetching}
+          // onRefresh={handleRefresh}
+          // onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          initialNumToRender={10}
+          // ItemSeparatorComponent={FlatListItemSeparator}
+        />
       </View>
     </Screen>
   )
@@ -100,3 +123,14 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
 const $root: ViewStyle = {
   flex: 1,
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  itemSeparator: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#444",
+  },
+})

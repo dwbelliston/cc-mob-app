@@ -267,6 +267,7 @@ export const useIsHasCompletedOnboarding = (userProfile: IUserProfile): boolean 
 
 export const useUserInitials = (userProfile: IUserProfile | undefined): string => {
   let initials = ""
+
   if (userProfile) {
     const fI = userProfile?.FirstName?.charAt(0)
     const lI = userProfile?.LastName?.charAt(0)

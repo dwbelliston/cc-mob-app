@@ -9,9 +9,9 @@ import { Icon, Text } from "../components"
 import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
-import { useUserInitials } from "../models/UserProfile"
+import { ConversationStatusEnum, useGetCountMessages } from "../models/Conversation"
 import { ContactsScreen, ConversationsScreen, SettingsScreen } from "../screens"
-import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
+import useListConversations from "../services/api/conversations/queries/useListConversations"
 import { colors, spacing } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
@@ -35,19 +35,23 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScre
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export const HomeTabNavigator = () => {
+  const [viewLimit] = React.useState(25)
   const { bottom } = useSafeAreaInsets()
 
-  const { data: userProfile } = useReadUserProfile()
-  const userInitials = useUserInitials(userProfile)
+  const { data: dataUnreadConversations } = useListConversations({
+    pageLimit: viewLimit,
+    search: null,
+    isUnread: true,
+    fromFolderId: null,
+    conversationStatus: ConversationStatusEnum.OPEN,
+  })
+
+  const unreadCountBadge = useGetCountMessages(viewLimit, dataUnreadConversations)
 
   const tabBg = useColorModeValue(colors.white, colors.gray[900])
-
-  // const tabBorder = useColor("border.soft");
   const tabBorder = useColorModeValue(colors.gray[50], colors.gray[700])
-
   const tabIconBgActive = useColorModeValue(colors.gray[50], colors.gray[800])
   const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
-
   const tabIconColorInActive = useColorModeValue(colors.gray[500], colors.gray[600])
 
   return (
@@ -105,8 +109,9 @@ export const HomeTabNavigator = () => {
         tabBarActiveTintColor: tabIconColorActive,
         tabBarInactiveTintColor: tabIconColorInActive,
         tabBarStyle: {
-          borderTopWidth: 1,
-          paddingTop: 8,
+          borderTopWidth: 3,
+          paddingTop: 0,
+          // borderTopColor: "red",
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
           height: bottom + 80,
@@ -124,6 +129,9 @@ export const HomeTabNavigator = () => {
           lineHeight: 16,
           flex: 1,
           paddingTop: 8,
+        },
+        tabBarBadgeStyle: {
+          top: -14,
         },
         // tabBarItemStyle: {},
       }}
@@ -144,6 +152,8 @@ export const HomeTabNavigator = () => {
               />
             </Circle>
           ),
+
+          tabBarBadge: unreadCountBadge,
         }}
       />
       {/* <Tab.Screen

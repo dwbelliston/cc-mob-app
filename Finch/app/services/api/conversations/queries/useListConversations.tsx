@@ -4,24 +4,29 @@ import { API } from "aws-amplify"
 import { ConversationStatusEnum, IPaginatedConversations } from "../../../../models/Conversation"
 import { APIEndpoints, QueryKeys } from "../../config"
 
-interface IProps {
-  pageLimit?: any
-  pageCursor?: any
+interface IQueryProps {
+  pageLimit: number
   search: string | null
   isUnread: boolean | null
   fromFolderId: string | null
   conversationStatus: ConversationStatusEnum | null
 }
 
+interface IProps extends IQueryProps {
+  pageCursor?: any
+}
+
 // const makeApiRequest = (props: IProps): Promise<IPaginatedConversations> => {
 const makeApiRequest = (props: IProps) => {
   const qParams = {
     queryStringParameters: {
+      // Add if no cursor
       ...(!props.pageCursor && { limit: props.pageLimit }),
       ...(!props.pageCursor && props.search && { search: props.search.toLowerCase() }),
       ...(!props.pageCursor && props.isUnread && { isUnread: props.isUnread }),
       ...(!props.pageCursor && props.fromFolderId && { folderId: props.fromFolderId }),
       ...(!props.pageCursor && props.conversationStatus && { status: props.conversationStatus }),
+      // Just use cursor
       ...(props.pageCursor && { cursor: props.pageCursor }),
     },
   } as {}
@@ -29,29 +34,25 @@ const makeApiRequest = (props: IProps) => {
   return API.get(APIEndpoints.authenticatedOutbounds, "/api/v1/conversations/", qParams)
 }
 
-const useListConversations = (
-  pageLimit: number,
-  search: string | null = null,
-  isUnread: boolean | null = null,
-  fromFolderId: string | null = null,
-  conversationStatus: ConversationStatusEnum | null = null,
-) => {
+const useListConversations = (props: IQueryProps) => {
   return useInfiniteQuery<IPaginatedConversations>(
-    [QueryKeys.conversations(), search, isUnread, fromFolderId, conversationStatus],
-    (props) => {
+    QueryKeys.conversations({
+      pageLimit: props.pageLimit,
+      search: props.search,
+      isUnread: props.isUnread,
+      fromFolderId: props.fromFolderId,
+      conversationStatus: props.conversationStatus,
+    }),
+    (_props) => {
       return makeApiRequest({
-        pageLimit,
-        pageCursor: props.pageParam,
-        search,
-        isUnread,
-        fromFolderId,
-        conversationStatus,
+        ...props,
+        pageCursor: _props.pageParam,
       })
     },
     {
       getPreviousPageParam: (firstPage) => firstPage.meta.cursor ?? false,
       getNextPageParam: (lastPage) => lastPage.meta.cursor ?? false,
-      refetchInterval: 15000,
+      refetchInterval: 5000,
       retry: 2,
     },
   )

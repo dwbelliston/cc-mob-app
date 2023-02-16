@@ -76,7 +76,7 @@ const CustomDrawerContent = (props: any) => {
                   noOfLines={1}
                   fontSize="sm"
                   colorToken={"text.softer"}
-                  text={userProfile.CompanyName}
+                  text={userProfile?.CompanyName}
                 ></Text>
               </Stack>
             </HStack>
@@ -148,7 +148,7 @@ const AppHomeNavigator = () => {
         headerTransparent: true,
         drawerItemStyle: {
           paddingLeft: 16,
-          borderRadius: 16,
+          borderRadius: 8,
         },
         headerTitleAlign: "center",
         // headerBackground: () => (
