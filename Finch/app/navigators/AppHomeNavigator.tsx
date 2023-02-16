@@ -11,13 +11,14 @@ import React from "react"
 import { NavigatorScreenParams } from "@react-navigation/native"
 import { StackScreenProps } from "@react-navigation/stack"
 
-import { Box, HStack, IconButton, Stack, useColorModeValue } from "native-base"
-import { Linking } from "react-native"
+import { Badge, Box, HStack, IconButton, Image, Stack, useColorModeValue } from "native-base"
 import { Button, Icon, Text } from "../components"
 import { useStores } from "../models"
 import { SettingsScreen } from "../screens/SettingsScreen"
 import { colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
+
+const concentricSrc = require("../../assets/images/img-concentric-bl.png")
 
 import { Avatar } from "native-base"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
@@ -67,63 +68,79 @@ const CustomDrawerContent = (props: any) => {
         resizeMode="cover"
         style={{ minHeight: "100%" }}
       > */}
-      <Stack space={6} flex={1}>
-        <Box px="4">
-          <Box pt={4} pb={6}>
-            <HStack space={spacing.tiny}>
+      <Stack space={12} flex={1}>
+        <Stack space={spacing.extraSmall} px={spacing.tiny}>
+          <Box pt={spacing.tiny}>
+            <HStack space={spacing.tiny} alignItems="center">
               <Avatar
-                bg="cyan.500"
-                source={{
-                  uri: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                bg="primary.700"
+                _dark={{
+                  bg: "primary.500",
+                  _text: {
+                    color: "black",
+                  },
                 }}
+                _text={{
+                  color: "white",
+                }}
+                size="md"
+                // source={{
+                //   uri: "https://images.unsplash.com/photo-1603415526960-f7e0328c63b1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+                // }}
               >
-                TE
+                DB
               </Avatar>
-              <Stack>
-                <Text fontWeight={"semibold"} text={"Dustin Belliston"}></Text>
-                <Text colorToken={"text.soft"} text={"324-343-4443"}></Text>
+              <Stack flex={1}>
+                <Text
+                  colorToken={"text"}
+                  noOfLines={1}
+                  fontSize="md"
+                  fontWeight={"semibold"}
+                  text={"Ray Dalio"}
+                ></Text>
+                <Text
+                  noOfLines={1}
+                  fontSize="sm"
+                  colorToken={"text.softer"}
+                  text={"Bridgewater"}
+                ></Text>
               </Stack>
             </HStack>
-            {/* <Image
-                height="12"
-                w="32"
-                source={imgLogoSrc}
-                resizeMode="contain"
-                alt="geneial logo"
-              /> */}
           </Box>
-        </Box>
+
+          <Stack space={1}>
+            <Text fontSize="xs" colorToken={"text"} noOfLines={1} tx={"common.myNumber"}></Text>
+            <Badge colorScheme={"gray"}>(385) 323-3434</Badge>
+          </Stack>
+        </Stack>
 
         <DrawerItemList {...props} />
 
         <DrawerItem
           style={{
-            paddingLeft: 8,
+            marginTop: 24,
+            paddingLeft: 12,
+            width: "100%",
           }}
-          // label="Feedback"
-          icon={() => (
-            <Icon
-              icon="arrow-top-right-on-square"
-              color={inActiveColor}
-              size={20}
-              // icon="arrow-top-right"
-            ></Icon>
-          )}
-          onPress={() => Linking.openURL("https://currentclient.com")}
-          label={({ color }) => (
-            <Text fontSize="sm" color={inActiveColor} tx="navigator.feedback"></Text>
+          onPress={() => {}}
+          label={() => (
+            <Button
+              size="sm"
+              onPress={logout}
+              leftIcon={<Icon icon="arrow-left-on-rectangle"></Icon>}
+              tx="navigator.signout"
+              variant="subtle"
+              colorScheme={"error"}
+            ></Button>
           )}
         />
 
-        <DrawerItem
-          style={{
-            paddingLeft: 8,
-          }}
-          icon={() => <Icon colorToken={"error"} icon="arrow-left-on-rectangle"></Icon>}
-          onPress={logout}
-          label={() => <Button tx="navigator.signout" colorScheme={"error"}></Button>}
-        />
+        <Box pt={48}></Box>
+        <Box position={"absolute"} bottom={0}>
+          <Image height="48" source={concentricSrc} resizeMode="contain" alt="geneial logo" />
+        </Box>
       </Stack>
+
       {/* </ImageBackground> */}
     </DrawerContentScrollView>
   )
@@ -132,13 +149,11 @@ const CustomDrawerContent = (props: any) => {
 const AppHomeNavigator = () => {
   const drawerBg = useColorModeValue(colors.white, colors.gray[900])
 
-  const activeColor = useColorModeValue(colors.primary[600], colors.white)
+  const activeBg = useColorModeValue(colors.gray[100], colors.gray[800])
+  const activeColor = useColorModeValue(colors.gray[900], colors.white)
 
   const inActiveBg = useColorModeValue(colors.white, colors.gray[900])
-
-  const activeBg = useColorModeValue(colors.primary[50], colors.gray[800])
-
-  const inActiveColor = useColorModeValue(colors.gray[700], colors.gray[600])
+  const inActiveColor = useColorModeValue(colors.black, colors.gray[600])
 
   const tintColor = useColorModeValue("light", "dark")
 
@@ -161,7 +176,8 @@ const AppHomeNavigator = () => {
         headerRightContainerStyle: { paddingRight: spacing.small },
         headerTransparent: true,
         drawerItemStyle: {
-          paddingLeft: 8,
+          paddingLeft: 12,
+          borderRadius: 12,
         },
         headerTitleAlign: "center",
         // headerBackground: () => (
@@ -194,10 +210,11 @@ const AppHomeNavigator = () => {
         options={{
           drawerIcon: ({ color }) => <Icon icon="home" size={20} color={color} />,
           drawerLabel: ({ color }) => (
-            <Text color={color} fontSize="sm" tx="navigator.homeTab"></Text>
+            <Text color={color} fontSize="xs" tx="navigator.homeTab"></Text>
           ),
         }}
       />
+
       <Drawer.Screen
         name="Settings"
         component={SettingsScreen}
@@ -205,7 +222,7 @@ const AppHomeNavigator = () => {
           headerShown: true,
           drawerIcon: ({ color }) => <Icon icon="settings" size={20} color={color} />,
           drawerLabel: ({ color }) => (
-            <Text color={color} fontSize="sm" tx="navigator.settings"></Text>
+            <Text color={color} fontSize="xs" tx="navigator.settings"></Text>
           ),
         }}
       />

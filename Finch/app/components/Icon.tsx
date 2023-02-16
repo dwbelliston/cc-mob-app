@@ -14,11 +14,13 @@ import {
   EyeIcon,
   EyeSlashIcon,
   FireIcon,
+  HashtagIcon,
   HomeIcon,
   InformationCircleIcon,
   KeyIcon,
   LockClosedIcon,
   LockOpenIcon,
+  PhoneIcon,
   UserGroupIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline"
@@ -38,11 +40,13 @@ import {
   EyeIcon as EyeIconSolid,
   EyeSlashIcon as EyeSlashIconSolid,
   FireIcon as FireIconSolid,
+  HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
   InformationCircleIcon as InformationCircleIconSolid,
   KeyIcon as KeyIconSolid,
   LockClosedIcon as LockClosedIconSolid,
   LockOpenIcon as LockOpenIconSolid,
+  PhoneIcon as PhoneIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
@@ -168,5 +172,13 @@ export const iconRegistry = {
   fire: {
     outline: FireIcon,
     solid: FireIconSolid,
+  },
+  hashtag: {
+    outline: HashtagIcon,
+    solid: HashtagIconSolid,
+  },
+  phone: {
+    outline: PhoneIcon,
+    solid: PhoneIconSolid,
   },
 }

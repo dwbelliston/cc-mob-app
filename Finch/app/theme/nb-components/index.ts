@@ -1,5 +1,6 @@
+import Badge from "./badge"
 import Button from "./button"
 import { FormControlErrorMessage } from "./form-control"
 import Input from "./input"
 
-export { Button, Input, FormControlErrorMessage }
+export { Badge, Button, Input, FormControlErrorMessage }
