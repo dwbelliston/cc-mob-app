@@ -11,7 +11,7 @@ interface IProps extends IAvatarProps {
 export const UserAvatar = (props: IProps) => {
   const { onPress, ...rest } = props
 
-  const { data: userProfile } = useReadUserProfile()
+  const { data: userProfile, isLoading } = useReadUserProfile()
 
   const userInitials = useUserInitials(userProfile)
 
@@ -28,7 +28,7 @@ export const UserAvatar = (props: IProps) => {
         initials={userInitials}
         avatarProps={{
           _light: {
-            bg: "primary.700",
+            bg: "primary.600",
             _text: {
               color: "white",
             },
@@ -44,6 +44,7 @@ export const UserAvatar = (props: IProps) => {
           },
           ...rest,
         }}
+        isLoading={isLoading}
       ></AvatarRing>
     </Pressable>
   )

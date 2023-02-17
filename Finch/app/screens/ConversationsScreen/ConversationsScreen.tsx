@@ -2,16 +2,14 @@ import { useHeaderHeight } from "@react-navigation/elements"
 import { DrawerActions, useNavigation } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
-import { Divider, FlatList, HStack, useColorModeValue, View } from "native-base"
+import { Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { StyleSheet, ViewStyle } from "react-native"
 
-import { Icon, Screen, Text } from "../../components"
-import { UserAvatar } from "../../components/UserAvatar"
+import { Screen } from "../../components"
 import { ConversationStatusEnum, IConversation } from "../../models/Conversation"
 import { AppHomeScreenProps } from "../../navigators"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
-import { spacing } from "../../theme"
 import { PureConversationListItem } from "./ConversationListItem"
 
 // import { useNavigation } from "@react-navigation/native"
@@ -77,26 +75,14 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
       safeAreaEdges={["top"]}
       contentContainerStyle={{
         paddingBottom: 0,
-        paddingTop: headerHeight,
+        // paddingTop: headerHeight,
       }}
     >
       <StatusBar style={statusBarColor} />
 
       <View h="full">
-        <HStack
-          py={spacing.micro}
-          px={spacing.tiny}
-          alignItems={"center"}
-          justifyContent="space-between"
-        >
-          <HStack space={spacing.tiny} alignItems={"center"}>
-            <UserAvatar onPress={handleOnPressSettings}></UserAvatar>
-            <Text colorToken="text" preset="heading" tx="common.inbox" />
-          </HStack>
-          <Icon icon="menu"></Icon>
-        </HStack>
-
         <FlatList
+          contentInsetAdjustmentBehavior="automatic"
           ItemSeparatorComponent={() => <Divider bg="transparent" />}
           // bg={bgColor}
           data={flatData}

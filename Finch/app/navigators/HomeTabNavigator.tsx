@@ -10,14 +10,16 @@ import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
 import { ConversationStatusEnum, useGetCountMessages } from "../models/Conversation"
-import { ContactsScreen, ConversationsScreen, SettingsScreen } from "../screens"
+import { ContactsScreen, SettingsScreen } from "../screens"
+import { WrappedInboxScreen } from "../screens/ConversationsScreen/ConversationsStack"
 import useListConversations from "../services/api/conversations/queries/useListConversations"
 import { colors, spacing } from "../theme"
+import { useColor } from "../theme/useColor"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type HomeTabParamList = {
   Dashboard: undefined
-  Inbox: undefined
+  InboxTab: undefined
   Contacts: undefined
   Settings: undefined
 }
@@ -55,6 +57,8 @@ export const HomeTabNavigator = () => {
   const tabIconColorInActive = useColorModeValue(colors.gray[400], colors.gray[600])
   const tabLabelColorInActive = useColorModeValue(colors.gray[300], colors.gray[600])
 
+  const headerBg = useColor("bg.main")
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -70,7 +74,7 @@ export const HomeTabNavigator = () => {
         headerBackgroundContainerStyle: {
           borderBottomWidth: 2,
           borderBottomColor: tabBorder,
-          backgroundColor: tabBg,
+          backgroundColor: headerBg,
           height: bottom + 80,
         },
         headerRightContainerStyle: { paddingRight: spacing.large },
@@ -111,13 +115,14 @@ export const HomeTabNavigator = () => {
         tabBarActiveTintColor: tabIconColorActive,
         tabBarInactiveTintColor: tabIconColorInActive,
         tabBarStyle: {
-          borderTopWidth: 3,
+          borderTopWidth: 2,
           paddingTop: 0,
           // borderTopColor: "red",
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
           height: bottom + 60,
         },
+
         // tabBarLabelPosition: "below-icon",
         tabBarItemStyle: {
           // paddingTop: spacing.medium,
@@ -140,8 +145,8 @@ export const HomeTabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="Inbox"
-        component={ConversationsScreen}
+        name="InboxTab"
+        component={WrappedInboxScreen}
         options={{
           headerShown: false,
           title: "Inbox",
@@ -155,31 +160,25 @@ export const HomeTabNavigator = () => {
               // isOutline={focused ? false : true}
             />
           ),
-
-          tabBarBadge: unreadCountBadge,
         }}
       />
-      {/* <Tab.Screen
-        name="Dashboard"
-        component={DashboardScreen}
-        options={{
-          tabBarLabel: translate("navigator.AppTab"),
-          tabBarIcon: ({ focused }) => (
-            <Circle
-              bg={focused ? tabIconBgActive : tabBg}
-              p={1}
-              h={10}
-              w={10}
-              borderRadius={8}
-            >
-              <Icon
-                color={focused ? tabIconColorActive : tabIconColorInActive}
 
-                as={<MaterialIcons name="home" />}
-              />
-            </Circle>
-          ),
-        }}
+      {/* <Tab.Screen
+        name="Inbox"
+        options={{ headerShown: false }}
+        component={() => (
+          <Stack.Navigator>
+            <Tab.Screen
+              name="Homesceen"
+              component={ConversationsScreen}
+              options={{
+                headerShown: true,
+
+                tabBarBadge: unreadCountBadge,
+              }}
+            />
+          </Stack.Navigator>
+        )}
       /> */}
 
       <Tab.Screen
@@ -229,3 +228,26 @@ export const HomeTabNavigator = () => {
     </Tab.Navigator>
   )
 }
+
+//  <Tab.Screen
+//   name="Dashboard"
+//   component={DashboardScreen}
+//   options={{
+//     tabBarLabel: translate("navigator.AppTab"),
+//     tabBarIcon: ({ focused }) => (
+//       <Circle
+//         bg={focused ? tabIconBgActive : tabBg}
+//         p={1}
+//         h={10}
+//         w={10}
+//         borderRadius={8}
+//       >
+//         <Icon
+//           color={focused ? tabIconColorActive : tabIconColorInActive}
+
+//           as={<MaterialIcons name="home" />}
+//         />
+//       </Circle>
+//     ),
+//   }}
+// />

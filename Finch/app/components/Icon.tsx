@@ -11,6 +11,7 @@ import {
   Bars3Icon,
   BellAlertIcon,
   ChatBubbleLeftRightIcon,
+  CheckCircleIcon,
   CheckIcon,
   Cog6ToothIcon,
   EllipsisHorizontalIcon,
@@ -21,6 +22,8 @@ import {
   FireIcon,
   HashtagIcon,
   HomeIcon,
+  InboxIcon,
+  InboxStackIcon,
   InformationCircleIcon,
   KeyIcon,
   LockClosedIcon,
@@ -44,6 +47,7 @@ import {
   Bars3Icon as Bars3IconSolid,
   BellAlertIcon as BellAlertIconSolid,
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
+  CheckCircleIcon as CheckCircleIconSolid,
   CheckIcon as CheckIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
   EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
@@ -54,6 +58,8 @@ import {
   FireIcon as FireIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
+  InboxIcon as InboxIconSolid,
+  InboxStackIcon as InboxStackIconSolid,
   InformationCircleIcon as InformationCircleIconSolid,
   KeyIcon as KeyIconSolid,
   LockClosedIcon as LockClosedIconSolid,
@@ -126,6 +132,10 @@ export const iconRegistry = {
   check: {
     outline: CheckIcon,
     solid: CheckIconSolid,
+  },
+  checkCircle: {
+    outline: CheckCircleIcon,
+    solid: CheckCircleIconSolid,
   },
   arrowRight: {
     outline: ArrowRightIcon,
@@ -223,5 +233,13 @@ export const iconRegistry = {
   ellipsisHorizontal: {
     outline: EllipsisHorizontalIcon,
     solid: EllipsisHorizontalIconSolid,
+  },
+  inboxStack: {
+    outline: InboxStackIcon,
+    solid: InboxStackIconSolid,
+  },
+  inbox: {
+    outline: InboxIcon,
+    solid: InboxIconSolid,
   },
 }

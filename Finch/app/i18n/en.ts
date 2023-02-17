@@ -6,13 +6,20 @@ const en = {
     myNumber: "My Number",
     mySubscription: "My Subscription",
     myCCNumber: "CurrentClient Number",
-    inbox: "Inbox",
+
   },
   fieldLabels: {
     lastname: "Last Name",
     email: "Email",
     password: "Password",
     rememberDevice: "Remember login"
+  },
+  inbox: {
+    unread: "Unread",
+    active: "Active",
+    closed: "Closed",
+    inbox: "Inbox",
+
   },
   loginScreen: {
     login: "Login",

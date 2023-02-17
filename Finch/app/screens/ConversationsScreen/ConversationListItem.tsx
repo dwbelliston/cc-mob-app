@@ -1,4 +1,4 @@
-import { HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
+import { Box, HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
 import React from "react"
 
 import Swipeable from "react-native-gesture-handler/Swipeable"
@@ -169,15 +169,23 @@ const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConvers
         ></AvatarRing>
 
         <Stack flex={1}>
-          <Text
-            numberOfLines={1}
-            colorToken={"text"}
-            fontWeight="semibold"
-            text={conversation.ContactName || runFormatPhoneSimple(conversationNumber)}
-          ></Text>
+          <HStack justifyContent={"space-between"}>
+            <Text
+              numberOfLines={1}
+              colorToken={"text"}
+              fontWeight="semibold"
+              text={conversation.ContactName || runFormatPhoneSimple(conversationNumber)}
+            ></Text>
+            {createdTime && (
+              <Text textAlign={"right"} fontSize="xs" colorToken={"text.softer"}>
+                {runFormatTimeFromNowSpecial(createdTime)}
+              </Text>
+            )}
+          </HStack>
           <HStack alignItems="center" space={spacing.micro}>
             {isIncoming ? <Icon size={16} color={errorColor} icon="arrowDownRight"></Icon> : null}
             <Text
+              flex={1}
               numberOfLines={1}
               fontSize="sm"
               colorToken={!conversation.IsRead ? "text" : "text.soft"}
@@ -187,18 +195,9 @@ const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConvers
           </HStack>
         </Stack>
 
-        <HStack space={spacing.micro} alignItems="center">
-          {createdTime && (
-            <Text
-              fontSize="xs"
-              colorToken={"text.softer"}
-              // whiteSpace={"nowrap"}
-            >
-              {runFormatTimeFromNowSpecial(createdTime)}
-            </Text>
-          )}
+        <Box alignItems="center">
           <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
-        </HStack>
+        </Box>
       </HStack>
     </Swipeable>
   )
