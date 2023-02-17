@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics"
 import { Box, HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
 import React from "react"
 
@@ -10,6 +11,8 @@ import {
   useConversationContactNumber,
   useConversationCreatedTime,
   useConversationIsIncoming,
+  useConversationIsLastACall,
+  useConversationIsLastAMessage,
   useConversationLastMessage,
 } from "../../models/Conversation"
 import { spacing, useAvatarColor } from "../../theme"
@@ -19,43 +22,67 @@ import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 import { useInitials } from "../../utils/useInitials"
 
 import { useActionSheet } from "@expo/react-native-action-sheet"
+import { Dot } from "../../components/Dot"
 
 interface IProps {
   conversation: IConversation
-  // onClickConversation: (conversation: IConversation) => void;
+}
+
+interface ILeftActions extends IProps {
+  onMarkUnread: () => void
+  onMarkRead: () => void
 }
 
 interface IRightActions extends IProps {
   onBlock: () => void
   onViewContact: () => void
+  onMarkActive: () => void
+  onMarkComplete: () => void
 }
 
-interface IConversationListItem extends IRightActions {}
+interface IConversationListItem extends IRightActions, ILeftActions {
+  // onClickConversation: (conversation: IConversation) => void;
+}
 
-const LeftSwipeActions = ({ conversation }: IProps) => {
-  const statusBg = useColorModeValue("indigo.600", "indigo.800")
+const LeftSwipeActions = ({ conversation, onMarkRead, onMarkUnread }: ILeftActions) => {
+  const unreadBg = useColorModeValue("error.200", "error.300")
+  const unreadColor = useColorModeValue("error.900", "error.900")
+  const readBg = useColorModeValue("success.100", "success.300")
+  const readColor = useColorModeValue("success.900", "success.900")
+
+  const statusBg = conversation.IsRead ? unreadBg : readBg
 
   return (
-    <View px={spacing.extraSmall} justifyContent={"center"} bg={statusBg}>
+    <View bg={statusBg}>
       {conversation?.IsRead ? (
-        <Stack alignItems={"center"}>
-          <Icon color="white" icon="bellAlert"></Icon>
-          <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
-            Unread
-          </Text>
-        </Stack>
+        <Pressable onPress={onMarkUnread} w={32} px={spacing.tiny}>
+          <Stack h="full" alignItems={"center"} justifyContent="center">
+            <Icon color={unreadColor} icon="bellAlert"></Icon>
+            <Text fontSize="xs" fontFamily={"mono"} color={unreadColor} fontWeight="semibold">
+              Unread
+            </Text>
+          </Stack>
+        </Pressable>
       ) : (
-        <Stack alignItems={"center"}>
-          <Icon color="white" icon="bellAlert"></Icon>
-          <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
-            Read
-          </Text>
-        </Stack>
+        <Pressable onPress={onMarkRead} w={32} px={spacing.tiny}>
+          <Stack h="full" alignItems={"center"} justifyContent="center">
+            <Icon color={readColor} icon="check"></Icon>
+            <Text fontSize="xs" fontFamily={"mono"} color={readColor} fontWeight="semibold">
+              Read
+            </Text>
+          </Stack>
+        </Pressable>
       )}
     </View>
   )
 }
-const RightSwipeActions = ({ conversation, onViewContact, onBlock }: IRightActions) => {
+const RightSwipeActions = ({
+  conversation,
+  onViewContact,
+  onBlock,
+  onMarkActive,
+  onMarkComplete,
+}: IRightActions) => {
   const moreBg = useColorModeValue("gray.100", "gray.800")
   const statusBg = useColorModeValue("primary.600", "primary.800")
 
@@ -63,7 +90,7 @@ const RightSwipeActions = ({ conversation, onViewContact, onBlock }: IRightActio
   const conversationNumber = useConversationContactNumber(conversation)
   const title = conversation.ContactName || runFormatPhoneSimple(conversationNumber)
 
-  const handleOnDone = () => {}
+  const isClosed = conversation?.Status === ConversationStatusEnum.CLOSED
 
   const handleOnMore = () => {
     const options = ["Block Number", "View Contact", "Cancel"]
@@ -108,35 +135,41 @@ const RightSwipeActions = ({ conversation, onViewContact, onBlock }: IRightActio
           </Stack>
         </Pressable>
 
-        <Pressable onPress={handleOnDone} bg={statusBg} w={24} px={spacing.micro}>
-          <Stack h="full" alignItems={"center"} justifyContent="center">
-            {conversation?.Status === ConversationStatusEnum.CLOSED ? (
-              <>
-                <Icon color="white" icon="fire"></Icon>
-                <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
-                  Active
-                </Text>
-              </>
-            ) : (
-              <>
-                <Icon color="white" icon="check"></Icon>
-                <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
-                  Complete
-                </Text>
-              </>
-            )}
-          </Stack>
-        </Pressable>
+        {isClosed ? (
+          <Pressable onPress={onMarkActive} bg={statusBg} w={24} px={spacing.micro}>
+            <Stack h="full" alignItems={"center"} justifyContent="center">
+              <Icon color="white" icon="fire"></Icon>
+              <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
+                Active
+              </Text>
+            </Stack>
+          </Pressable>
+        ) : (
+          <Pressable onPress={onMarkComplete} bg={statusBg} w={24} px={spacing.micro}>
+            <Stack h="full" alignItems={"center"} justifyContent="center">
+              <Icon color="white" icon="checkCircle"></Icon>
+              <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
+                Complete
+              </Text>
+            </Stack>
+          </Pressable>
+        )}
       </HStack>
     </View>
   )
 }
 
-const swipeFromOpen = (direction: "left" | "right") => {
-  // alert(direction)
-}
+const ConversationListItem = ({
+  conversation,
+  onBlock,
+  onViewContact,
+  onMarkUnread,
+  onMarkRead,
+  onMarkComplete,
+  onMarkActive,
+}: IConversationListItem) => {
+  const swipeableRef = React.useRef(null)
 
-const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConversationListItem) => {
   const avatarColor = useAvatarColor(conversation.ContactName)
   const initials = useInitials(conversation.ContactName)
 
@@ -144,21 +177,69 @@ const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConvers
   const conversationNumber = useConversationContactNumber(conversation)
   const conversationMessage = useConversationLastMessage(conversation)
   const isIncoming = useConversationIsIncoming(conversation)
+  const isMessage = useConversationIsLastAMessage(conversation)
+  const isCall = useConversationIsLastACall(conversation)
 
   const errorColor = useColorModeValue("error.300", "error.400")
   const cardBg = useColor("bg.main")
 
+  const closeSwipeable = () => {
+    Haptics.selectionAsync()
+    swipeableRef.current.close()
+  }
+
+  const handleOnMarkRead = () => {
+    closeSwipeable()
+    onMarkRead()
+  }
+
+  const handleOnMarkUnread = () => {
+    closeSwipeable()
+    onMarkUnread()
+  }
+  const handleOnBlock = () => {
+    closeSwipeable()
+    onBlock()
+  }
+
+  const handleOnViewContact = () => {
+    closeSwipeable()
+    onViewContact()
+  }
+
+  const handleOnMarkActive = () => {
+    closeSwipeable()
+    onMarkActive()
+  }
+  const handleOnMarkComplete = () => {
+    closeSwipeable()
+    onMarkComplete()
+  }
+
+  console.log(conversation.ContactName)
+  console.log(conversation.LatestMessage?.Message)
+
   return (
     <Swipeable
-      renderLeftActions={() => <LeftSwipeActions conversation={conversation} />}
+      ref={swipeableRef}
+      renderLeftActions={() => (
+        <LeftSwipeActions
+          conversation={conversation}
+          onMarkRead={handleOnMarkRead}
+          onMarkUnread={handleOnMarkUnread}
+        />
+      )}
       renderRightActions={() => (
         <RightSwipeActions
           conversation={conversation}
-          onBlock={onBlock}
-          onViewContact={onViewContact}
+          onBlock={handleOnBlock}
+          onViewContact={handleOnViewContact}
+          onMarkActive={handleOnMarkActive}
+          onMarkComplete={handleOnMarkComplete}
         />
       )}
-      onSwipeableOpen={swipeFromOpen}
+      overshootLeft={false}
+      overshootRight={false}
     >
       <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
         <AvatarRing
@@ -169,8 +250,9 @@ const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConvers
         ></AvatarRing>
 
         <Stack flex={1}>
-          <HStack justifyContent={"space-between"}>
+          <HStack alignItems="center" justifyContent={"space-between"} space={spacing.micro}>
             <Text
+              flex={1}
               numberOfLines={1}
               colorToken={"text"}
               fontWeight="semibold"
@@ -183,15 +265,22 @@ const ConversationListItem = ({ conversation, onBlock, onViewContact }: IConvers
             )}
           </HStack>
           <HStack alignItems="center" space={spacing.micro}>
-            {isIncoming ? <Icon size={16} color={errorColor} icon="arrowDownRight"></Icon> : null}
+            {isIncoming && isMessage ? (
+              <Icon size={16} color={errorColor} icon="arrowDownLeft"></Icon>
+            ) : null}
+            {isIncoming && isCall ? (
+              <Icon size={16} color={errorColor} icon="phoneArrowDownLeft"></Icon>
+            ) : null}
             <Text
               flex={1}
               numberOfLines={1}
+              maxH={12}
               fontSize="sm"
               colorToken={!conversation.IsRead ? "text" : "text.soft"}
               fontWeight={!conversation.IsRead ? "medium" : "normal"}
-              text={isIncoming ? conversationMessage : `You: ${conversationMessage}`}
+              text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
             ></Text>
+            {!conversation.IsRead && <Dot.Error size="sm" />}
           </HStack>
         </Stack>
 

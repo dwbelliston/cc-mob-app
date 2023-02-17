@@ -247,5 +247,10 @@ export default {
         },
       }
     },
+    ghost: ({ colorScheme }: { colorScheme: string }) => {
+      return {
+        shadow: "unset",
+      }
+    },
   },
 }

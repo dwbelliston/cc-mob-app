@@ -52,6 +52,10 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: "error.600",
     dark: "error.300",
   },
+  success: {
+    light: "success.600",
+    dark: "success.300",
+  },
 } as const // as const is important.
 
 type ColorTokensMap = typeof COLOR_TOKENS

@@ -34,6 +34,11 @@ export interface IConversationUpdate {
   ContactName?: string
 }
 
+export interface IConversationStatusUpdate {
+  status: ConversationStatusEnum
+  conversationId: string
+}
+
 export interface IPaginatedConversationStream extends IPaginatedResponse {
   records: (IMessage | ICall)[]
 }
@@ -124,4 +129,11 @@ export const useConversationIsIncoming = (conversation: IConversation): boolean 
   }, [conversation])
 
   return isIncoming
+}
+export const useConversationIsLastAMessage = (conversation: IConversation): boolean => {
+  return !!conversation?.LatestMessage
+}
+
+export const useConversationIsLastACall = (conversation: IConversation): boolean => {
+  return !!conversation?.LatestCall
 }

@@ -7,8 +7,16 @@ import React, { FC } from "react"
 import { StyleSheet, ViewStyle } from "react-native"
 
 import { Screen } from "../../components"
-import { ConversationStatusEnum, IConversation } from "../../models/Conversation"
+import { useStores } from "../../models"
+import {
+  ConversationStatusEnum,
+  IConversation,
+  IConversationStatusUpdate,
+  IConversationUpdate,
+} from "../../models/Conversation"
 import { AppHomeScreenProps } from "../../navigators"
+import usePostConversationStatus from "../../services/api/conversations/mutations/usePostConversationStatus"
+import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
 import { PureConversationListItem } from "./ConversationListItem"
 
@@ -20,8 +28,10 @@ interface IScreenProps extends AppHomeScreenProps<"Conversations"> {}
 const Separator = () => <View style={styles.itemSeparator} />
 
 export const ConversationsScreen: FC<IScreenProps> = observer(function ConversationsScreen() {
-  const [viewLimit] = React.useState(25)
+  const [viewLimit] = React.useState(20)
   const [flatData, setFlatData] = React.useState<IConversation[]>()
+
+  const { conversationStore } = useStores()
 
   const navigation = useNavigation()
 
@@ -33,18 +43,23 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
 
   const {
     data: dataConversations,
-    isFetching,
-    isLoading,
+    isFetching: isFetchingConversations,
+    isLoading: isLoadingConversations,
     isFetchingNextPage,
     fetchNextPage,
+    refetch,
     hasNextPage,
   } = useListConversations({
     pageLimit: viewLimit,
     search: null,
-    isUnread: false,
+    isUnread: conversationStore.isViewingUnread,
     fromFolderId: null,
-    conversationStatus: ConversationStatusEnum.CLOSED,
+    conversationStatus: conversationStore.isViewingUnread ? null : conversationStore.inboxViewEnum,
   })
+
+  const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
+
+  const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } = usePostConversationStatus()
 
   const setConversationUrl = () => {}
 
@@ -52,11 +67,66 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
     navigation.dispatch(DrawerActions.toggleDrawer())
   }
 
+  const handleRefresh = () => {
+    refetch()
+  }
+
+  const handleLoadMore = () => {
+    if (!isFetchingConversations) {
+      if (dataConversations?.pages) {
+        const lastPage = dataConversations?.pages.length - 1
+
+        if (dataConversations?.pages[lastPage].meta.cursor) {
+          fetchNextPage()
+        }
+      }
+    }
+  }
+
   const handleOnViewContact = (conversation: IConversation) => {
     alert(conversation.ContactName)
   }
   const handleOnBlock = (conversation: IConversation) => {
     alert(conversation.ContactId)
+  }
+  const handleOnMarkUnread = async (conversation: IConversation) => {
+    const updates: IConversationUpdate = {
+      IsRead: false,
+    }
+
+    await mutateAsyncConversation({
+      conversationId: conversation.ConversationId,
+      updates,
+    })
+  }
+
+  const handleOnMarkRead = async (conversation: IConversation) => {
+    const updates: IConversationUpdate = {
+      IsRead: true,
+    }
+
+    await mutateAsyncConversation({
+      conversationId: conversation.ConversationId,
+      updates,
+    })
+  }
+
+  const handleOnMarkComplete = async (conversation: IConversation) => {
+    const updates: IConversationStatusUpdate = {
+      conversationId: conversation?.ConversationId,
+      status: ConversationStatusEnum.CLOSED,
+    }
+
+    await mutateAsyncStatus(updates)
+  }
+
+  const handleOnMarkActive = async (conversation: IConversation) => {
+    const updates: IConversationStatusUpdate = {
+      conversationId: conversation?.ConversationId,
+      status: ConversationStatusEnum.OPEN,
+    }
+
+    await mutateAsyncStatus(updates)
   }
 
   React.useEffect(() => {
@@ -92,7 +162,10 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
               conversation={conversation}
               onViewContact={() => handleOnViewContact(conversation)}
               onBlock={() => handleOnBlock(conversation)}
-              // onClickConversation={handleClickConversation}
+              onMarkUnread={() => handleOnMarkUnread(conversation)}
+              onMarkRead={() => handleOnMarkRead(conversation)}
+              onMarkComplete={() => handleOnMarkComplete(conversation)}
+              onMarkActive={() => handleOnMarkActive(conversation)}
             ></PureConversationListItem>
           )}
           // ListHeaderComponent={
@@ -103,9 +176,9 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
           // ListFooterComponent={<Box h={tabBarHeight}></Box>}
           // ListEmptyComponent={<FlatListEmptyComponent></FlatListEmptyComponent>}
           keyExtractor={(item) => item.ConversationId.toString()}
-          // refreshing={isLoadingConversations || isFetching}
+          refreshing={isLoadingConversations || isFetchingConversations}
           // onRefresh={handleRefresh}
-          // onEndReached={handleLoadMore}
+          onEndReached={handleLoadMore}
           onEndReachedThreshold={0.5}
           initialNumToRender={10}
           // ItemSeparatorComponent={FlatListItemSeparator}

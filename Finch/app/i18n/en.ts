@@ -17,7 +17,7 @@ const en = {
   inbox: {
     unread: "Unread",
     active: "Active",
-    closed: "Closed",
+    completed: "Completed",
     inbox: "Inbox",
 
   },

@@ -1,22 +1,25 @@
 import { DrawerActions, useNavigation } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
-import { Box, HStack, IconButton, Menu, useColorModeValue } from "native-base"
+import { useColorModeValue } from "native-base"
 import React from "react"
-import { Icon, Text } from "../../components"
+import { ConversationInboxPicker } from "../../components"
 import { UserAvatar } from "../../components/UserAvatar"
-import { colors, spacing } from "../../theme"
+import { useStores } from "../../models"
+import { colors } from "../../theme"
 import { ConversationsScreen } from "./ConversationsScreen"
 
 const Stack = createNativeStackNavigator()
 
 export const WrappedInboxScreen = () => {
+  const { conversationStore } = useStores()
+
   const headerBg = useColorModeValue("white", colors.gray[900])
 
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Inbox"
+        name={"Inbox"}
         component={ConversationsScreen}
         options={{
           headerLargeTitle: true,
@@ -32,56 +35,7 @@ export const WrappedInboxScreen = () => {
 
             return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
           },
-          headerRight: ({}) => {
-            const handleOnUnread = () => {
-              // navigation.dispatch(DrawerActions.toggleDrawer())
-            }
-
-            const handleOnActive = () => {
-              // navigation.dispatch(DrawerActions.toggleDrawer())
-            }
-
-            const handleOnClosed = () => {
-              // navigation.dispatch(DrawerActions.toggleDrawer())
-            }
-
-            return (
-              <Box position="relative">
-                <Menu
-                  w="48"
-                  trigger={(triggerProps) => {
-                    return (
-                      <IconButton
-                        colorScheme={"gray"}
-                        accessibilityLabel="More options menu"
-                        icon={<Icon icon="inbox"></Icon>}
-                        {...triggerProps}
-                      ></IconButton>
-                    )
-                  }}
-                >
-                  <Menu.Item onPress={handleOnUnread}>
-                    <HStack space={spacing.tiny} alignItems="center">
-                      <Icon size={16} colorToken={"text"} icon="inbox"></Icon>
-                      <Text colorToken={"text"} tx="inbox.unread"></Text>
-                    </HStack>
-                  </Menu.Item>
-                  <Menu.Item onPress={handleOnActive}>
-                    <HStack space={spacing.tiny} alignItems="center">
-                      <Icon size={16} colorToken={"text"} icon="chat"></Icon>
-                      <Text colorToken={"text"} tx="inbox.active"></Text>
-                    </HStack>
-                  </Menu.Item>
-                  <Menu.Item onPress={handleOnClosed}>
-                    <HStack space={spacing.tiny} alignItems="center">
-                      <Icon size={16} colorToken={"text"} icon="checkCircle"></Icon>
-                      <Text colorToken={"text"} tx="inbox.closed"></Text>
-                    </HStack>
-                  </Menu.Item>
-                </Menu>
-              </Box>
-            )
-          },
+          headerRight: () => <ConversationInboxPicker />,
           // header: ({ navigation, options }) => {
 
           //   return (

@@ -301,7 +301,7 @@ export const colors = {
   /**
    * Status colors messages.
    */
-  success: TAILDWIND_COLORS.green,
+  success: TAILDWIND_COLORS.emerald,
   info: TAILDWIND_COLORS.indigo,
   error: TAILDWIND_COLORS.rose,
   warning: TAILDWIND_COLORS.amber,

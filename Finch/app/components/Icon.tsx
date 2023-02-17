@@ -1,4 +1,5 @@
 import {
+  ArrowDownLeftIcon,
   ArrowDownRightIcon,
   ArrowLeftIcon,
   ArrowLeftOnRectangleIcon,
@@ -10,6 +11,7 @@ import {
   AtSymbolIcon,
   Bars3Icon,
   BellAlertIcon,
+  BellIcon,
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
   CheckIcon,
@@ -22,19 +24,23 @@ import {
   FireIcon,
   HashtagIcon,
   HomeIcon,
+  InboxArrowDownIcon,
   InboxIcon,
   InboxStackIcon,
   InformationCircleIcon,
   KeyIcon,
   LockClosedIcon,
   LockOpenIcon,
+  PhoneArrowDownLeftIcon,
   PhoneIcon,
+  StarIcon,
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline"
 import {
+  ArrowDownLeftIcon as ArrowDownLeftIconSolid,
   ArrowDownRightIcon as ArrowDownRightIconSolid,
   ArrowLeftIcon as ArrowLeftIconSolid,
   ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconSolid,
@@ -46,6 +52,7 @@ import {
   AtSymbolIcon as AtSymbolIconSolid,
   Bars3Icon as Bars3IconSolid,
   BellAlertIcon as BellAlertIconSolid,
+  BellIcon as BellIconSolid,
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
   CheckCircleIcon as CheckCircleIconSolid,
   CheckIcon as CheckIconSolid,
@@ -58,13 +65,16 @@ import {
   FireIcon as FireIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
+  InboxArrowDownIcon as InboxArrowDownIconSolid,
   InboxIcon as InboxIconSolid,
   InboxStackIcon as InboxStackIconSolid,
   InformationCircleIcon as InformationCircleIconSolid,
   KeyIcon as KeyIconSolid,
   LockClosedIcon as LockClosedIconSolid,
   LockOpenIcon as LockOpenIconSolid,
+  PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneIcon as PhoneIconSolid,
+  StarIcon as StarIconSolid,
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
@@ -112,6 +122,10 @@ export const iconRegistry = {
   eyeSlash: {
     outline: EyeSlashIcon,
     solid: EyeSlashIconSolid,
+  },
+  star: {
+    outline: StarIcon,
+    solid: StarIconSolid,
   },
   home: {
     outline: HomeIcon,
@@ -193,6 +207,10 @@ export const iconRegistry = {
     outline: ArrowDownRightIcon,
     solid: ArrowDownRightIconSolid,
   },
+  arrowDownLeft: {
+    outline: ArrowDownLeftIcon,
+    solid: ArrowDownLeftIconSolid,
+  },
   arrowUpRight: {
     outline: ArrowUpRightIcon,
     solid: ArrowUpRightIconSolid,
@@ -213,6 +231,14 @@ export const iconRegistry = {
   phone: {
     outline: PhoneIcon,
     solid: PhoneIconSolid,
+  },
+  phoneArrowDownLeft: {
+    outline: PhoneArrowDownLeftIcon,
+    solid: PhoneArrowDownLeftIconSolid,
+  },
+  bell: {
+    outline: BellIcon,
+    solid: BellIconSolid,
   },
   bellAlert: {
     outline: BellAlertIcon,
@@ -237,6 +263,10 @@ export const iconRegistry = {
   inboxStack: {
     outline: InboxStackIcon,
     solid: InboxStackIconSolid,
+  },
+  inboxArrowDown: {
+    outline: InboxArrowDownIcon,
+    solid: InboxArrowDownIconSolid,
   },
   inbox: {
     outline: InboxIcon,

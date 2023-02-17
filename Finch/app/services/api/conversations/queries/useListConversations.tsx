@@ -36,7 +36,7 @@ const makeApiRequest = (props: IProps) => {
 
 const useListConversations = (props: IQueryProps) => {
   return useInfiniteQuery<IPaginatedConversations>(
-    QueryKeys.conversations({
+    QueryKeys.conversationsList({
       pageLimit: props.pageLimit,
       search: props.search,
       isUnread: props.isUnread,
@@ -52,7 +52,7 @@ const useListConversations = (props: IQueryProps) => {
     {
       getPreviousPageParam: (firstPage) => firstPage.meta.cursor ?? false,
       getNextPageParam: (lastPage) => lastPage.meta.cursor ?? false,
-      refetchInterval: 5000,
+      refetchInterval: 15000,
       retry: 2,
     },
   )
