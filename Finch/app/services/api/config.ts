@@ -1,7 +1,10 @@
+import { IContactFilter } from "../../models/Contact"
+
 export enum APIEndpoints {
   authenticatedUsers = "authenticatedUsers",
   publicUsers = "publicUsers",
   authenticatedOutbounds = "authenticatedOutbounds",
+  authenticatedContacts = "authenticatedContacts",
   private = "private",
   public = "public",
 }
@@ -12,6 +15,7 @@ enum QueryKeysEnum {
   conversations = "conversations",
   advocateprofile = "advocateprofile",
   consentFiles = "consentFiles",
+  contacts = "contacts",
 }
 
 export class QueryKeys {
@@ -51,5 +55,22 @@ export class QueryKeys {
     search,
   }): string[] {
     return [QueryKeysEnum.blockednumbers, pageLimit, pageNumber, search]
+  }
+
+  // contacts
+  static contacts(): string[] {
+    return [QueryKeysEnum.contacts]
+  }
+
+  static contactsList({
+    pageLimit,
+    pageNumber,
+    queryFilters,
+  }: {
+    pageLimit: number;
+    pageNumber: number;
+    queryFilters: IContactFilter[]
+  }) {
+    return [QueryKeysEnum.contacts, pageLimit, pageNumber, queryFilters]
   }
 }

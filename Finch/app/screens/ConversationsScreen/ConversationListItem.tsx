@@ -216,9 +216,6 @@ const ConversationListItem = ({
     onMarkComplete()
   }
 
-  console.log(conversation.ContactName)
-  console.log(conversation.LatestMessage?.Message)
-
   return (
     <Swipeable
       ref={swipeableRef}

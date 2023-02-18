@@ -53,8 +53,6 @@ export const ConversationCard = (props: IProps) => {
     props.onToggleSelected()
   }
 
-  console.log("ConversationCard", ConversationCard)
-
   React.useEffect(() => {
     // Has message
     if (props.conversation?.LatestMessage) {

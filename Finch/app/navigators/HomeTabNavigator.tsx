@@ -10,7 +10,8 @@ import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
 import { ConversationStatusEnum, useGetCountMessages } from "../models/Conversation"
-import { ContactsScreen, SettingsScreen } from "../screens"
+import { SettingsScreen } from "../screens"
+import { WrappedContactsScreen } from "../screens/ContactsScreen/ContactsStack"
 import { WrappedInboxScreen } from "../screens/ConversationsScreen/ConversationsStack"
 import useListConversations from "../services/api/conversations/queries/useListConversations"
 import { colors, spacing } from "../theme"
@@ -20,7 +21,7 @@ import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 export type HomeTabParamList = {
   Dashboard: undefined
   InboxTab: undefined
-  Contacts: undefined
+  ContactsTab: undefined
   Settings: undefined
 }
 
@@ -63,12 +64,6 @@ export const HomeTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        headerTitleStyle: { paddingBottom: "8px" },
-        headerStyle: {
-          height: 120,
-          // borderBottomColor: "red",
-          // borderBottomWidth: 2,
-        },
         headerLeftContainerStyle: { paddingLeft: spacing.large },
         headerTitleContainerStyle: { width: "100%" },
         headerBackgroundContainerStyle: {
@@ -163,38 +158,20 @@ export const HomeTabNavigator = () => {
         }}
       />
 
-      {/* <Tab.Screen
-        name="Inbox"
-        options={{ headerShown: false }}
-        component={() => (
-          <Stack.Navigator>
-            <Tab.Screen
-              name="Homesceen"
-              component={ConversationsScreen}
-              options={{
-                headerShown: true,
-
-                tabBarBadge: unreadCountBadge,
-              }}
-            />
-          </Stack.Navigator>
-        )}
-      /> */}
-
       <Tab.Screen
-        name="Contacts"
-        component={ContactsScreen}
+        name="ContactsTab"
+        component={WrappedContactsScreen}
         options={{
-          headerShown: true,
-          title: "Contacts",
+          headerShown: false,
+          title: "Inbox",
           tabBarAccessibilityLabel: translate("navigator.contactsTab"),
           tabBarLabel: translate("navigator.contactsTab"),
           tabBarIcon: ({ focused }) => (
             <Icon
               size={32}
               color={focused ? tabIconColorActive : tabIconColorInActive}
-              // isOutline={focused ? false : true}
               icon="contacts"
+              // isOutline={focused ? false : true}
             />
           ),
         }}

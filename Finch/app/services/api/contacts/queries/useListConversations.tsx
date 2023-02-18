@@ -1,6 +1,5 @@
 import { API } from "@aws-amplify/api"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { AxiosError } from "axios"
 
 import { ConversationStatusEnum, IPaginatedConversations } from "../../../../models/Conversation"
 import { APIEndpoints, QueryKeys } from "../../config"
@@ -36,7 +35,7 @@ const makeApiRequest = (props: IProps) => {
 }
 
 const useListConversations = (props: IQueryProps) => {
-  return useInfiniteQuery<IPaginatedConversations, AxiosError>(
+  return useInfiniteQuery<IPaginatedConversations>(
     QueryKeys.conversationsList({
       pageLimit: props.pageLimit,
       search: props.search,
