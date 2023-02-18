@@ -5,11 +5,11 @@ import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
+  DrawerScreenProps,
 } from "@react-navigation/drawer"
 import React from "react"
 
 import { DrawerActions, NavigatorScreenParams, useNavigation } from "@react-navigation/native"
-import { StackScreenProps } from "@react-navigation/stack"
 
 import { Box, HStack, IconButton, Stack, useColorModeValue } from "native-base"
 import { Button, Icon, Text } from "../components"
@@ -28,13 +28,10 @@ import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
 
 export type AppHomeParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
-  Conversations: undefined
-  Contacts: undefined
-  Profile: undefined
   Settings: undefined
 }
 
-export type AppHomeScreenProps<T extends keyof AppHomeParamList> = StackScreenProps<
+export type AppHomeScreenProps<T extends keyof AppHomeParamList> = DrawerScreenProps<
   AppHomeParamList,
   T
 >

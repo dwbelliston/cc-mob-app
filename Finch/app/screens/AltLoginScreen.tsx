@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as LocalAuthentication from "expo-local-authentication"
 import { observer } from "mobx-react-lite"
-import { Box, Image, Stack } from "native-base"
+import { Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
@@ -24,9 +24,9 @@ import { useCustomToast } from "../utils/useCustomToast"
 
 const welcomeLogo = require("../../assets/images/img-concentric.png")
 
-const STORAGE_KEY_REMEMBERLOGIN = "v1.rememberlogin"
-const STORAGE_KEY_USERNAME = "v1.username"
-const STORAGE_KEY_PASSWORD = "v1.password"
+const STORAGE_KEY_REMEMBERLOGIN = "v1.rememberloginAlt"
+const STORAGE_KEY_USERNAME = "v1.usernameAlt"
+const STORAGE_KEY_PASSWORD = "v1.passwordAlt"
 
 type IFormInputs = {
   email: string
@@ -40,7 +40,9 @@ const schema = yup.object({
   rememberDevice: yup.boolean(),
 })
 
-export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function LoginScreen(_props) {
+export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(function AltLoginScreen(
+  _props,
+) {
   const { route, navigation } = _props
 
   const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -91,20 +93,15 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
     setIsSubmitting(false)
   }
 
-  const handleOnReset = () => {
+  const handleOnBack = () => {
     setLoginError("")
-    navigation.navigate("ResetPassword")
-  }
-
-  const handleOnAltLogin = () => {
-    setLoginError("")
-    navigation.navigate("AltLogin")
+    navigation.navigate("Login")
   }
 
   const handleFillInWithBio = async () => {
     try {
       const biometricAuth = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Use saved login",
+        promptMessage: "Use saved alt login",
         disableDeviceFallback: true,
         cancelLabel: "Cancel",
       })
@@ -128,17 +125,6 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   }
 
   React.useEffect(() => {
-    // Here is where you could fetch credentials from keychain or storage
-    // and pre-fill the form fields.
-    if (route.params?.username) {
-      setValue("email", route.params?.username)
-    }
-    if (route.params?.password) {
-      setValue("password", route.params?.password)
-    }
-  }, [route])
-
-  React.useEffect(() => {
     setLoginError("")
     ;(async () => {
       // if bio available and is remembered, fill with bio
@@ -156,19 +142,20 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   return (
     <Screen preset="scroll" safeAreaEdges={["top", "bottom"]}>
       <Stack space={4} py={spacing.extraSmall}>
-        <Box>
-          <Image
-            height="48"
-            width="100%"
-            source={welcomeLogo}
-            resizeMode="contain"
-            alt="CurrentClient logo"
-          />
-        </Box>
-
         <Stack space={12} px={spacing.extraSmall}>
-          <Text colorToken="text" textAlign={"center"} preset="heading" tx="loginScreen.enter" />
-
+          <Stack space={4}>
+            <Text
+              colorToken="text"
+              textAlign={"center"}
+              preset="heading"
+              tx="loginScreen.enterAlt"
+            />
+            <Text
+              colorToken="text.softer"
+              textAlign={"center"}
+              tx="loginScreen.enterAltDescription"
+            />
+          </Stack>
           <Stack space={4}>
             <FormControl
               name="email"
@@ -202,6 +189,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
               <FormSingleCheckbox
                 name="rememberDevice"
                 control={control}
+                colorScheme="secondary"
                 errors={errors}
                 labelTx="fieldLabels.rememberDevice"
               ></FormSingleCheckbox>
@@ -215,14 +203,13 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
           <Stack space={4}>
             <Button
               isLoading={isSubmitting}
-              colorScheme="primary"
+              colorScheme="secondary"
               tx="loginScreen.login"
               onPress={handleSubmit(onSubmit)}
               rightIcon={<Icon icon="arrowRightLong" />}
             ></Button>
 
-            <Button onPress={handleOnReset} tx="loginScreen.resetPassword"></Button>
-            <Button variant={"ghost"} onPress={handleOnAltLogin} tx="loginScreen.altLogin"></Button>
+            <Button onPress={handleOnBack} tx="loginScreen.backToLogin"></Button>
           </Stack>
 
           <Text

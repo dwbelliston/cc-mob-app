@@ -6,27 +6,27 @@ import { AppStackScreenProps } from "../navigators"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
-interface IScreenProps extends AppStackScreenProps<"ResetPassword"> {}
+export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = observer(
+  function ResetPasswordScreen(_props) {
+    const { navigation } = _props
+    // Pull in one of our MST stores
+    // const { someStore, anotherStore } = useStores()
 
-export const ResetPasswordScreen: FC<IScreenProps> = observer(function ResetPasswordScreen(_props) {
-  const { navigation } = _props
-  // Pull in one of our MST stores
-  // const { someStore, anotherStore } = useStores()
+    // Pull in navigation via hook
+    // const navigation = useNavigation()
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+    const handleOnLogin = () => {
+      navigation.navigate("Login")
+    }
 
-  const handleOnLogin = () => {
-    navigation.navigate("Login")
-  }
-
-  return (
-    <Screen style={$root} preset="scroll">
-      <Text text="resetPassword" />
-      <Button onPress={handleOnLogin} tx="loginScreen.login"></Button>
-    </Screen>
-  )
-})
+    return (
+      <Screen preset="scroll" safeAreaEdges={["top", "bottom"]}>
+        <Text text="resetPassword" />
+        <Button onPress={handleOnLogin} tx="loginScreen.login"></Button>
+      </Screen>
+    )
+  },
+)
 
 const $root: ViewStyle = {
   flex: 1,

@@ -6,7 +6,6 @@ const en = {
     myNumber: "My Number",
     mySubscription: "My Subscription",
     myCCNumber: "CurrentClient Number",
-
   },
   fieldLabels: {
     lastname: "Last Name",
@@ -19,13 +18,16 @@ const en = {
     active: "Active",
     completed: "Completed",
     inbox: "Inbox",
-
   },
   loginScreen: {
     login: "Login",
     enter: "Please Login",
+    enterAlt: "Alt Login",
+    enterAltDescription: "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
     createAccount: "Create Account",
     resetPassword: "Reset Password",
+    altLogin: "Alt Login",
+    backToLogin: "Back to primary login",
   },
   welcomeScreen: {
     postscript:

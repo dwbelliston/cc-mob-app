@@ -2,7 +2,7 @@ import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigatio
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 
 import { Box, IconButton, useColorModeValue } from "native-base"
-import React from "react"
+import React, { FC } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, Text } from "../components"
 
@@ -10,19 +10,17 @@ import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
 import { ConversationStatusEnum, useGetCountMessages } from "../models/Conversation"
-import { SettingsScreen } from "../screens"
 import { WrappedContactsScreen } from "../screens/ContactsScreen/ContactsStack"
 import { WrappedInboxScreen } from "../screens/ConversationsScreen/ConversationsStack"
 import useListConversations from "../services/api/conversations/queries/useListConversations"
 import { colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
+import { AppHomeScreenProps } from "./AppHomeNavigator"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type HomeTabParamList = {
-  Dashboard: undefined
   InboxTab: undefined
   ContactsTab: undefined
-  Settings: undefined
 }
 
 /**
@@ -37,7 +35,7 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScre
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
-export const HomeTabNavigator = () => {
+export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
   const [viewLimit] = React.useState(25)
   const { bottom } = useSafeAreaInsets()
 
@@ -53,10 +51,9 @@ export const HomeTabNavigator = () => {
 
   const tabBg = useColorModeValue(colors.white, colors.gray[900])
   const tabBorder = useColorModeValue(colors.gray[50], colors.gray[700])
-  const tabIconBgActive = useColorModeValue(colors.primary[600], colors.gray[800])
+
   const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
   const tabIconColorInActive = useColorModeValue(colors.gray[400], colors.gray[600])
-  const tabLabelColorInActive = useColorModeValue(colors.gray[300], colors.gray[600])
 
   const headerBg = useColor("bg.main")
 
@@ -75,13 +72,7 @@ export const HomeTabNavigator = () => {
         headerRightContainerStyle: { paddingRight: spacing.large },
         headerTransparent: true,
         headerTitleAlign: "center",
-        // headerBackground: () => (
-        //   <BlurView
-        //     tint={tintColor}
-        //     intensity={80}
-        //     style={StyleSheet.absoluteFill}
-        //   />
-        // ),
+
         headerTitle: ({ children }) => {
           return (
             <Box w="full">
@@ -112,31 +103,14 @@ export const HomeTabNavigator = () => {
         tabBarStyle: {
           borderTopWidth: 2,
           paddingTop: 0,
-          // borderTopColor: "red",
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
           height: bottom + 60,
         },
-
-        // tabBarLabelPosition: "below-icon",
-        tabBarItemStyle: {
-          // paddingTop: spacing.medium,
-        },
+        tabBarLabelPosition: "below-icon",
         tabBarIconStyle: {
           flex: 1,
         },
-        // tabBarLabelStyle: {
-        //   fontSize: 8,
-        //   fontWeight: "600",
-        //   lineHeight: 16,
-        //   flex: 1,
-        //   paddingTop: 8,
-        //   color: tabLabelColorInActive,
-        // },
-        tabBarBadgeStyle: {
-          top: -14,
-        },
-        // tabBarItemStyle: {},
       }}
     >
       <Tab.Screen
@@ -147,12 +121,13 @@ export const HomeTabNavigator = () => {
           title: "Inbox",
           tabBarAccessibilityLabel: translate("navigator.inboxTab"),
           tabBarLabel: translate("navigator.inboxTab"),
+          tabBarBadge: unreadCountBadge,
           tabBarIcon: ({ focused }) => (
             <Icon
               size={32}
               color={focused ? tabIconColorActive : tabIconColorInActive}
               icon="chat"
-              // isOutline={focused ? false : true}
+              isOutline={focused ? false : true}
             />
           ),
         }}
@@ -171,60 +146,11 @@ export const HomeTabNavigator = () => {
               size={32}
               color={focused ? tabIconColorActive : tabIconColorInActive}
               icon="contacts"
-              // isOutline={focused ? false : true}
+              isOutline={focused ? false : true}
             />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          headerShown: true,
-          tabBarAccessibilityLabel: translate("navigator.settings"),
-          tabBarLabel: translate("navigator.settings"),
-          tabBarIcon: ({ focused }) => (
-            // <Circle
-            //   bg={focused ? tabIconBgActive : tabBg}
-            //   p={1}
-            //   h={12}
-            //   w={12}
-            //   borderRadius={"full"}
-            // >
-            <Icon
-              size={32}
-              color={focused ? tabIconColorActive : tabIconColorInActive}
-              // isOutline={focused ? false : true}
-              icon="settings"
-            />
-            // </Circle>
           ),
         }}
       />
     </Tab.Navigator>
   )
 }
-
-//  <Tab.Screen
-//   name="Dashboard"
-//   component={DashboardScreen}
-//   options={{
-//     tabBarLabel: translate("navigator.AppTab"),
-//     tabBarIcon: ({ focused }) => (
-//       <Circle
-//         bg={focused ? tabIconBgActive : tabBg}
-//         p={1}
-//         h={10}
-//         w={10}
-//         borderRadius={8}
-//       >
-//         <Icon
-//           color={focused ? tabIconColorActive : tabIconColorInActive}
-
-//           as={<MaterialIcons name="home" />}
-//         />
-//       </Circle>
-//     ),
-//   }}
-// />

@@ -244,6 +244,7 @@ const ConversationListItem = ({
           innerRingColor={cardBg}
           avatarColor={avatarColor}
           initials={initials}
+          avatarProps={{ size: "sm" }}
         ></AvatarRing>
 
         <Stack flex={1}>

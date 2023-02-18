@@ -5,14 +5,13 @@
  * and a "main" flow which the user will use once logged in.
  */
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { StackScreenProps } from "@react-navigation/stack"
+import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
-import { LoginScreen, ResetPasswordScreen } from "../screens"
+import { AltLoginScreen, LoginScreen, ResetPasswordScreen, WelcomeScreen } from "../screens"
 import AppHomeNavigator from "./AppHomeNavigator"
 
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
@@ -32,11 +31,10 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 export type AppStackParamList = {
   Welcome: undefined
-  Login: { username?: string; password?: string } | undefined
-  ResetPassword: undefined
-  Hello: undefined
   AppHome: undefined
-  Settings: undefined
+  Login: { username?: string; password?: string } | undefined
+  AltLogin: undefined
+  ResetPassword: undefined
 }
 
 /**
@@ -45,7 +43,7 @@ export type AppStackParamList = {
  */
 const exitRoutes = Config.exitRoutes
 
-export type AppStackScreenProps<T extends keyof AppStackParamList> = StackScreenProps<
+export type AppStackScreenProps<T extends keyof AppStackParamList> = NativeStackScreenProps<
   AppStackParamList,
   T
 >
@@ -66,10 +64,12 @@ const AppStack = observer(function AppStack() {
       {isAuthenticated ? (
         <Stack.Group>
           <Stack.Screen name="AppHome" component={AppHomeNavigator} />
+          <Stack.Screen name="Welcome" component={WelcomeScreen} />
         </Stack.Group>
       ) : (
         <Stack.Group>
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="AltLogin" component={AltLoginScreen} />
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
         </Stack.Group>
       )}

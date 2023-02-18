@@ -21,17 +21,16 @@ export const ConversationStoreModel = types
       return translate(inboxKeyPath)
 
     },
-    get inboxViewEnum(): ConversationStatusEnum | null {
+    get inboxViewEnum(): ConversationStatusEnum {
 
-      let viewEnum: ConversationStatusEnum | null = null
+      let viewEnum: ConversationStatusEnum = ConversationStatusEnum.OPEN
 
       if (store.inboxView === ConversationStatusEnum.CLOSED) {
         viewEnum = ConversationStatusEnum.CLOSED
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
         viewEnum = ConversationStatusEnum.UNREAD
-      } else if (store.inboxView === ConversationStatusEnum.OPEN) {
-        viewEnum = ConversationStatusEnum.OPEN
       }
+
       return viewEnum
 
     },

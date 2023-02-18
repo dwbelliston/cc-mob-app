@@ -16,16 +16,22 @@ const COLORS = ["gray", "primary", "secondary", "green", "red"]
 const VARIANTS = ["solid", "subtle", "outline"]
 const SIZES = ["xs", "sm", "md", "lg"]
 
-interface IScreenProps extends AppStackScreenProps<"Welcome"> {}
-
-export const WelcomeScreen: FC<IScreenProps> = observer(function WelcomeScreen(_props) {
+export const WelcomeScreen: FC<AppStackScreenProps<"Welcome">> = observer(function WelcomeScreen(
+  _props,
+) {
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   const bgMain = useColor("bg.main")
 
+  const handleOnBack = () => {
+    _props.navigation.navigate("Login")
+  }
+
   return (
     <Screen preset="scroll">
       <NBView px={spacing.small} bg={bgMain} py={spacing.medium}>
+        <Button onPress={handleOnBack} text="Home"></Button>
+
         <Text tx="welcomeScreen.postscript" size="md" />
 
         <Stack space={16}>
