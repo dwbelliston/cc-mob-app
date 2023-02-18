@@ -111,6 +111,9 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
         tabBarIconStyle: {
           flex: 1,
         },
+        tabBarBadgeStyle: {
+          top: 2,
+        },
       }}
     >
       <Tab.Screen

@@ -48,23 +48,6 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
               return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
             },
             headerRight: () => <ConversationInboxPicker />,
-            // header: ({ navigation, options }) => {
-
-            //   return (
-            //     <HStack
-            //       py={spacing.micro}
-            //       px={spacing.tiny}
-            //       alignItems={"center"}
-            //       justifyContent="space-between"
-            //     >
-            //       <HStack space={spacing.tiny} alignItems={"center"}>
-
-            //         <Text colorToken="text" preset="heading" tx="common.inbox" />
-            //       </HStack>
-            //       <Icon icon="menu"></Icon>
-            //     </HStack>
-            //   )
-            // },
           }}
         />
       </Stack.Navigator>
