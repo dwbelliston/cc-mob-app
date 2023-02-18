@@ -8,6 +8,7 @@ import { StyleSheet, ViewStyle } from "react-native"
 
 import { Screen } from "../../components"
 import { useStores } from "../../models"
+import { IBlockedNumberCreate } from "../../models/BlockedNumber"
 import {
   ConversationStatusEnum,
   IConversation,
@@ -15,9 +16,11 @@ import {
   IConversationUpdate,
 } from "../../models/Conversation"
 import { AppHomeScreenProps } from "../../navigators"
+import useCreateBlockedNumber from "../../services/api/blockednumbers/mutations/useCreateBlockedNumber"
 import usePostConversationStatus from "../../services/api/conversations/mutations/usePostConversationStatus"
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
+import { useCustomToast } from "../../utils/useCustomToast"
 import { PureConversationListItem } from "./ConversationListItem"
 
 // import { useNavigation } from "@react-navigation/native"
@@ -36,6 +39,7 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
   const navigation = useNavigation()
 
   const headerHeight = useHeaderHeight()
+  const toast = useCustomToast()
 
   const statusBarColor = useColorModeValue("dark", "light")
 
@@ -56,6 +60,9 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
     fromFolderId: null,
     conversationStatus: conversationStore.isViewingUnread ? null : conversationStore.inboxViewEnum,
   })
+
+  const { mutateAsync: mutateAsyncCreateBlockednumber, isLoading: isLoadingBlockednumber } =
+    useCreateBlockedNumber()
 
   const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
 
@@ -86,9 +93,20 @@ export const ConversationsScreen: FC<IScreenProps> = observer(function Conversat
   const handleOnViewContact = (conversation: IConversation) => {
     alert(conversation.ContactName)
   }
-  const handleOnBlock = (conversation: IConversation) => {
-    alert(conversation.ContactId)
+  const handleOnBlock = async (conversation: IConversation) => {
+    const contactNumber =
+      conversation?.LatestMessage?.ContactNumber || conversation?.LatestCall?.ContactNumber
+
+    const updates: IBlockedNumberCreate = {
+      Number: contactNumber,
+      Reason: "unsubscribed",
+    }
+
+    await mutateAsyncCreateBlockednumber(updates)
+
+    toast.success({ title: "Blocked" })
   }
+
   const handleOnMarkUnread = async (conversation: IConversation) => {
     const updates: IConversationUpdate = {
       IsRead: false,

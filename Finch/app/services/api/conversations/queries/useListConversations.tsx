@@ -1,5 +1,5 @@
+import { API } from "@aws-amplify/api"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import { API } from "aws-amplify"
 
 import { ConversationStatusEnum, IPaginatedConversations } from "../../../../models/Conversation"
 import { APIEndpoints, QueryKeys } from "../../config"

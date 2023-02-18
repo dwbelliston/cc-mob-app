@@ -8,6 +8,7 @@ export enum APIEndpoints {
 
 enum QueryKeysEnum {
   userprofile = "userprofile",
+  blockednumbers = "blockednumbers",
   conversations = "conversations",
   advocateprofile = "advocateprofile",
   consentFiles = "consentFiles",
@@ -39,10 +40,16 @@ export class QueryKeys {
   static conversationssDetail(conversationsId: string = ""): string[] {
     return [QueryKeysEnum.conversations, conversationsId]
   }
-  static advocateprofile(): string[] {
-    return [QueryKeysEnum.advocateprofile]
+
+  static blockednumbers(): string[] {
+    return [QueryKeysEnum.blockednumbers]
   }
-  static consentFiles(): string[] {
-    return [QueryKeysEnum.consentFiles]
+
+  static blockednumbersList({
+    pageLimit,
+    pageNumber,
+    search,
+  }): string[] {
+    return [QueryKeysEnum.blockednumbers, pageLimit, pageNumber, search]
   }
 }
