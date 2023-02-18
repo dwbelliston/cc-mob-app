@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { Button, HStack, Menu, Stack } from "native-base"
+import { HStack, IconButton, Menu, Stack } from "native-base"
 import React from "react"
 import { Icon, Text } from "../../components"
 import { useStores } from "../../models"
@@ -41,7 +41,7 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
         w="48"
         trigger={(triggerProps) => {
           return (
-            <Button
+            <IconButton
               size="sm"
               variant={"ghost"}
               colorScheme={"gray"}
@@ -49,11 +49,9 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
                 color: txtColor,
               }}
               accessibilityLabel="Select inbox filter"
-              rightIcon={<Icon icon="inbox"></Icon>}
+              icon={<Icon icon="inbox"></Icon>}
               {...triggerProps}
-            >
-              {conversationStore.inboxViewTx}
-            </Button>
+            ></IconButton>
           )
         }}
       >

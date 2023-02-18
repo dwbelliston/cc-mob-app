@@ -17,6 +17,9 @@ const en = {
     unread: "Unread",
     active: "Active",
     completed: "Completed",
+    activeHeader: "Inbox",
+    unreadHeader: "Unread",
+    completedHeader: "Completed",
     inbox: "Inbox",
   },
   loginScreen: {

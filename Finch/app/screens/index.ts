@@ -1,6 +1,6 @@
 export * from "./AltLoginScreen"
 export * from "./ContactsScreen/ContactsScreen"
-export * from "./ConversationsScreen/ConversationsScreen"
+export * from "./ConversationsScreen/InboxScreen"
 export * from "./ErrorScreen/ErrorBoundary"
 export * from "./LoginScreen"
 export * from "./ResetPasswordScreen"

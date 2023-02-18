@@ -11,12 +11,12 @@ export const ConversationStoreModel = types
   .views((store) => ({
     get inboxViewTx() {
 
-      let inboxKeyPath: TxKeyPath = "inbox.active"
+      let inboxKeyPath: TxKeyPath = "inbox.activeHeader"
       // Auth.currentSession().then(res => console.log(res.getAccessToken().getJwtToken()))
       if (store.inboxView === ConversationStatusEnum.CLOSED) {
-        inboxKeyPath = "inbox.completed"
+        inboxKeyPath = "inbox.completedHeader"
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
-        inboxKeyPath = "inbox.unread"
+        inboxKeyPath = "inbox.unreadHeader"
       }
       return translate(inboxKeyPath)
 

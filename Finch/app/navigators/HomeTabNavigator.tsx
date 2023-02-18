@@ -10,8 +10,8 @@ import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
 import { ConversationStatusEnum, useGetCountMessages } from "../models/Conversation"
-import { WrappedContactsScreen } from "../screens/ContactsScreen/ContactsStack"
-import { WrappedInboxScreen } from "../screens/ConversationsScreen/ConversationsStack"
+import { ContactsStack } from "../screens/ContactsScreen/ContactsStack"
+import { ConversationsStack } from "../screens/ConversationsScreen/ConversationsStack"
 import useListConversations from "../services/api/conversations/queries/useListConversations"
 import { colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
@@ -19,8 +19,8 @@ import { AppHomeScreenProps } from "./AppHomeNavigator"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type HomeTabParamList = {
-  InboxTab: undefined
-  ContactsTab: undefined
+  ConversationsStack: undefined
+  ContactsStack: undefined
 }
 
 /**
@@ -114,8 +114,8 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
       }}
     >
       <Tab.Screen
-        name="InboxTab"
-        component={WrappedInboxScreen}
+        name="ConversationsStack"
+        component={ConversationsStack}
         options={{
           headerShown: false,
           title: "Inbox",
@@ -134,8 +134,8 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
       />
 
       <Tab.Screen
-        name="ContactsTab"
-        component={WrappedContactsScreen}
+        name="ContactsStack"
+        component={ContactsStack}
         options={{
           headerShown: false,
           title: "Inbox",
