@@ -22,6 +22,7 @@ import {
   EyeIcon,
   EyeSlashIcon,
   FireIcon,
+  HandThumbUpIcon,
   HashtagIcon,
   HomeIcon,
   InboxArrowDownIcon,
@@ -33,6 +34,8 @@ import {
   LockOpenIcon,
   PhoneArrowDownLeftIcon,
   PhoneIcon,
+  RocketLaunchIcon,
+  SparklesIcon,
   StarIcon,
   UserCircleIcon,
   UserGroupIcon,
@@ -63,6 +66,7 @@ import {
   EyeIcon as EyeIconSolid,
   EyeSlashIcon as EyeSlashIconSolid,
   FireIcon as FireIconSolid,
+  HandThumbUpIcon as HandThumbUpIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
   InboxArrowDownIcon as InboxArrowDownIconSolid,
@@ -74,6 +78,8 @@ import {
   LockOpenIcon as LockOpenIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneIcon as PhoneIconSolid,
+  RocketLaunchIcon as RocketLaunchIconSolid,
+  SparklesIcon as SparklesIconSolid,
   StarIcon as StarIconSolid,
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
@@ -154,6 +160,14 @@ export const iconRegistry = {
   arrowRight: {
     outline: ArrowRightIcon,
     solid: ArrowRightIconSolid,
+  },
+  sparkles: {
+    outline: SparklesIcon,
+    solid: SparklesIconSolid,
+  },
+  handThumbUp: {
+    outline: HandThumbUpIcon,
+    solid: HandThumbUpIconSolid,
   },
   arrowRightLong: {
     outline: ArrowLongRightIcon,
@@ -259,6 +273,10 @@ export const iconRegistry = {
   ellipsisHorizontal: {
     outline: EllipsisHorizontalIcon,
     solid: EllipsisHorizontalIconSolid,
+  },
+  rocketLaunch: {
+    outline: RocketLaunchIcon,
+    solid: RocketLaunchIconSolid,
   },
   inboxStack: {
     outline: InboxStackIcon,

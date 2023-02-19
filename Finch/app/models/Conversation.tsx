@@ -58,8 +58,6 @@ export const getConversationCreatedTime = (conversation: IConversation) => {
 export const getConversationContactNumber = (conversation: IConversation) => {
   let number: string
 
-  console.log("useConversationContactNumber", conversation.ConversationId)
-
   // Has message
   if (conversation?.LatestMessage) {
     number = conversation.LatestMessage.ContactNumber

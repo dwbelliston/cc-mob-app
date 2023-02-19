@@ -1,4 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { ColorType } from "native-base/lib/typescript/components/types"
+import { IconTypes } from "../components"
 import { translate, TxKeyPath } from "../i18n"
 import { ConversationStatusEnum } from "./Conversation"
 import { withSetPropAction } from "./helpers/withSetPropAction"
@@ -12,7 +14,7 @@ export const ConversationStoreModel = types
     get inboxViewTx() {
 
       let inboxKeyPath: TxKeyPath = "inbox.activeHeader"
-      // Auth.currentSession().then(res => console.log(res.getAccessToken().getJwtToken()))
+
       if (store.inboxView === ConversationStatusEnum.CLOSED) {
         inboxKeyPath = "inbox.completedHeader"
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
@@ -20,6 +22,46 @@ export const ConversationStoreModel = types
       }
       return translate(inboxKeyPath)
 
+    },
+    get noDataTitleTx() {
+      let inboxKeyPath: TxKeyPath = "inbox.noActiveTitle"
+
+      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+        inboxKeyPath = "inbox.noCloseTitle"
+      } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
+        inboxKeyPath = "inbox.noUnreadTitle"
+      }
+      return translate(inboxKeyPath)
+    },
+    get noDataDescriptionTx() {
+      let inboxKeyPath: TxKeyPath = "inbox.noActiveDescription"
+
+      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+        inboxKeyPath = "inbox.noCloseDescription"
+      } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
+        inboxKeyPath = "inbox.noUnreadDescription"
+      }
+      return translate(inboxKeyPath)
+    },
+    get noDataIcon() {
+      let iconName: IconTypes = "sparkles"
+
+      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+        iconName = "checkCircle"
+      } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
+        iconName = "rocketLaunch"
+      }
+      return iconName
+    },
+    get noDataColorScheme() {
+      let iconName: ColorType = "green"
+
+      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+        iconName = "gray"
+      } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
+        iconName = "primary"
+      }
+      return iconName
     },
     get inboxViewEnum(): ConversationStatusEnum {
 

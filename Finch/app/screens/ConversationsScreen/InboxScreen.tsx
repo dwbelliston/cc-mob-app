@@ -1,11 +1,20 @@
-import { useHeaderHeight } from "@react-navigation/elements"
-import { DrawerActions, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
-import { Divider, FlatList, useColorModeValue, View } from "native-base"
+import {
+  Box,
+  Center,
+  Divider,
+  FlatList,
+  Spinner,
+  Stack,
+  useColorModeValue,
+  View,
+} from "native-base"
 import React, { FC } from "react"
 
-import { Screen } from "../../components"
+import { Icon, Screen, Text } from "../../components"
+import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IBlockedNumberCreate } from "../../models/BlockedNumber"
 import {
@@ -17,6 +26,7 @@ import useCreateBlockedNumber from "../../services/api/blockednumbers/mutations/
 import usePostConversationStatus from "../../services/api/conversations/mutations/usePostConversationStatus"
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
+import { spacing } from "../../theme"
 import { useCustomToast } from "../../utils/useCustomToast"
 import {
   IConversationListItem,
@@ -29,16 +39,41 @@ import { ConversationStackScreenProps } from "./ConversationsStack"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
+const ListFooterComponent = ({ isLoading, isShowEnd }) => {
+  if (isLoading) {
+    return (
+      <Stack space={spacing.micro} px={spacing.tiny} py={spacing.small}>
+        <Center>
+          <Spinner></Spinner>
+        </Center>
+        <Text textAlign={"center"} colorToken="text.softer" tx="inbox.loadingConversations"></Text>
+      </Stack>
+    )
+  }
+
+  if (isShowEnd) {
+    return (
+      <Stack space={spacing.micro} px={spacing.tiny} py={spacing.small}>
+        <Center>
+          <Icon colorToken="text.softer" icon="inbox"></Icon>
+        </Center>
+        <Text textAlign={"center"} colorToken="text.softer" tx="inbox.endOfConversations"></Text>
+      </Stack>
+    )
+  }
+
+  return null
+}
+
 export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
   function InboxScreen() {
-    const [viewLimit] = React.useState(15)
+    const [viewLimit] = React.useState(25)
     const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
 
     const { conversationStore } = useStores()
 
     const navigation = useNavigation()
 
-    const headerHeight = useHeaderHeight()
     const toast = useCustomToast()
 
     const statusBarColor = useColorModeValue("dark", "light")
@@ -68,12 +103,6 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
 
     const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } =
       usePostConversationStatus()
-
-    const setConversationUrl = () => {}
-
-    const handleOnPressSettings = () => {
-      navigation.dispatch(DrawerActions.toggleDrawer())
-    }
 
     const handleRefresh = () => {
       refetch()
@@ -200,8 +229,22 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
             //     onSearch={handleOnSearch}
             //   ></FlatListHeaderSearch>
             // }
-            // ListFooterComponent={<Box h={tabBarHeight}></Box>}
-            // ListEmptyComponent={<FlatListEmptyComponent></FlatListEmptyComponent>}
+            // ListFooterComponent={
+            //   <ListFooterComponent
+            //     isLoading={isLoadingConversations || isFetchingConversations}
+            //     isShowEnd={flatData && flatData.length > viewLimit}
+            //   />
+            // }
+            ListEmptyComponent={
+              <Box px={spacing.tiny} py={spacing.small} h="full">
+                <DataStatus
+                  title={conversationStore.noDataTitleTx}
+                  description={conversationStore.noDataDescriptionTx}
+                  icon={conversationStore.noDataIcon}
+                  colorScheme={conversationStore.noDataColorScheme}
+                />
+              </Box>
+            }
             keyExtractor={extractConversationId}
             // refreshing={isLoadingConversations || isFetchingConversations}
             // onRefresh={handleRefresh}
