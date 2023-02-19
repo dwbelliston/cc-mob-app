@@ -239,11 +239,6 @@ const ConversationListItem = ({
   onMarkComplete,
   onMarkActive,
 }: IConversationListItem) => {
-  console.log("*********ConversationListItem")
-  console.log("*********")
-  console.log("*********")
-  console.log("*********")
-  console.log("*********")
   const swipeableRef = React.useRef(null)
 
   const errorColor = useColorModeValue("error.300", "error.400")
@@ -281,9 +276,6 @@ const ConversationListItem = ({
     closeSwipeable()
     onMarkComplete(conversationId)
   }
-
-  console.log("")
-  console.log("ITEM")
 
   return (
     <Swipeable
@@ -351,6 +343,7 @@ const ConversationListItem = ({
               text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
             ></Text>
             {!isRead && <Dot.Error size="sm" />}
+            {isRead && isClosed && <Dot.Success size="sm" />}
           </HStack>
         </Stack>
 

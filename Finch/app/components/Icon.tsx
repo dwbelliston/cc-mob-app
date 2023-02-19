@@ -32,6 +32,7 @@ import {
   KeyIcon,
   LockClosedIcon,
   LockOpenIcon,
+  MagnifyingGlassIcon,
   PhoneArrowDownLeftIcon,
   PhoneIcon,
   RocketLaunchIcon,
@@ -76,6 +77,7 @@ import {
   KeyIcon as KeyIconSolid,
   LockClosedIcon as LockClosedIconSolid,
   LockOpenIcon as LockOpenIconSolid,
+  MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneIcon as PhoneIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
@@ -277,6 +279,10 @@ export const iconRegistry = {
   rocketLaunch: {
     outline: RocketLaunchIcon,
     solid: RocketLaunchIconSolid,
+  },
+  magnifyingGlass: {
+    outline: MagnifyingGlassIcon,
+    solid: MagnifyingGlassIconSolid,
   },
   inboxStack: {
     outline: InboxStackIcon,

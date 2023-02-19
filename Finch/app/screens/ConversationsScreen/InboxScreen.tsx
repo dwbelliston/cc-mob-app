@@ -12,6 +12,7 @@ import {
   View,
 } from "native-base"
 import React, { FC } from "react"
+import { useDebounce } from "use-debounce"
 
 import { Icon, Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
@@ -67,7 +68,7 @@ const ListFooterComponent = ({ isLoading, isShowEnd }) => {
 
 export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
   function InboxScreen() {
-    const [viewLimit] = React.useState(25)
+    const [viewLimit] = React.useState(15)
     const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
 
     const { conversationStore } = useStores()
@@ -78,6 +79,10 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
 
     const statusBarColor = useColorModeValue("dark", "light")
 
+    const [conversationSearch, setConversationSearch] = React.useState("")
+
+    const [debouncedConversationSearch] = useDebounce(conversationSearch, 750)
+
     const {
       data: dataConversations,
       isFetching: isFetchingConversations,
@@ -87,8 +92,8 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
       refetch,
       hasNextPage,
     } = useListConversations({
-      pageLimit: viewLimit,
-      search: null,
+      pageLimit: conversationStore.viewLimit,
+      search: debouncedConversationSearch,
       isUnread: conversationStore.isViewingUnread,
       fromFolderId: null,
       conversationStatus: conversationStore.isViewingUnread
@@ -205,6 +210,22 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
         setFlatData(flatDataUpdate)
       }
     }, [dataConversations])
+
+    React.useLayoutEffect(() => {
+      // https://reactnavigation.org/docs/native-stack-navigator/#headersearchbaroptions
+      navigation.setOptions({
+        headerSearchBarOptions: {
+          // hideNavigationBar: false,
+          onChangeText: (event) => {
+            setConversationSearch(event.nativeEvent.text)
+          },
+        },
+      })
+    }, [navigation])
+
+    React.useEffect(() => {
+      conversationStore.setInboxSearch(debouncedConversationSearch)
+    }, [debouncedConversationSearch])
 
     return (
       <Screen

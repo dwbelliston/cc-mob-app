@@ -23,6 +23,7 @@ const Stack = createNativeStackNavigator<ConversationsStackParamList>()
 
 export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = observer(
   function ConversationsStack(_props) {
+    const { navigation } = _props
     const { conversationStore } = useStores()
 
     const headerBg = useColorModeValue("white", colors.gray[900])

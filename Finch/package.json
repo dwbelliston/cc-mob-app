@@ -86,6 +86,7 @@
     "reactotron-mst": "3.1.4",
     "reactotron-react-js": "^3.3.7",
     "reactotron-react-native": "5.0.3",
+    "use-debounce": "^9.0.3",
     "yup": "^1.0.0"
   },
   "devDependencies": {

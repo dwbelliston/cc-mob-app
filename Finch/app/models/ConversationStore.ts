@@ -9,8 +9,12 @@ export const ConversationStoreModel = types
   .model("ConversationStore")
   .props({
     inboxView: types.maybe(types.string),
+    inboxSearch: types.maybe(types.string),
   })
   .views((store) => ({
+    get viewLimit() {
+      return 15
+    },
     get inboxViewTx() {
 
       let inboxKeyPath: TxKeyPath = "inbox.activeHeader"
@@ -26,17 +30,23 @@ export const ConversationStoreModel = types
     get noDataTitleTx() {
       let inboxKeyPath: TxKeyPath = "inbox.noActiveTitle"
 
-      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+      if (store.inboxSearch) {
+        inboxKeyPath = "inbox.noSearchTitle"
+      } else if (store.inboxView === ConversationStatusEnum.CLOSED) {
         inboxKeyPath = "inbox.noCloseTitle"
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
         inboxKeyPath = "inbox.noUnreadTitle"
       }
+
+
       return translate(inboxKeyPath)
     },
     get noDataDescriptionTx() {
       let inboxKeyPath: TxKeyPath = "inbox.noActiveDescription"
 
-      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+      if (store.inboxSearch) {
+        inboxKeyPath = "inbox.noSearchDescription"
+      } else if (store.inboxView === ConversationStatusEnum.CLOSED) {
         inboxKeyPath = "inbox.noCloseDescription"
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
         inboxKeyPath = "inbox.noUnreadDescription"
@@ -46,7 +56,9 @@ export const ConversationStoreModel = types
     get noDataIcon() {
       let iconName: IconTypes = "sparkles"
 
-      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+      if (store.inboxSearch) {
+        iconName = "magnifyingGlass"
+      } else if (store.inboxView === ConversationStatusEnum.CLOSED) {
         iconName = "checkCircle"
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
         iconName = "rocketLaunch"
@@ -56,7 +68,9 @@ export const ConversationStoreModel = types
     get noDataColorScheme() {
       let iconName: ColorType = "green"
 
-      if (store.inboxView === ConversationStatusEnum.CLOSED) {
+      if (store.inboxSearch) {
+        iconName = "amber"
+      } else if (store.inboxView === ConversationStatusEnum.CLOSED) {
         iconName = "gray"
       } else if (store.inboxView === ConversationStatusEnum.UNREAD) {
         iconName = "primary"
@@ -90,6 +104,9 @@ export const ConversationStoreModel = types
   .actions((store) => ({
     setInboxView(inboxView: string) {
       store.inboxView = inboxView
+    },
+    setInboxSearch(inboxSearch: string) {
+      store.inboxSearch = inboxSearch
     },
   }))
 

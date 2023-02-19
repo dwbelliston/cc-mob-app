@@ -7,6 +7,7 @@ import { ConversationStatusEnum } from "../../models/Conversation"
 import { spacing } from "../../theme"
 
 import { StyleProp, ViewStyle } from "react-native"
+import { Dot } from "../../components/Dot"
 import { useColor } from "../../theme/useColor"
 
 export interface ConversationInboxPickerProps {
@@ -38,7 +39,7 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
   return (
     <Stack position="relative">
       <Menu
-        w="48"
+        w="56"
         trigger={(triggerProps) => {
           return (
             <IconButton
@@ -56,19 +57,22 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
         }}
       >
         <Menu.Item onPress={handleOnUnread}>
-          <HStack space={spacing.tiny} alignItems="center">
+          <HStack space={spacing.micro} alignItems="center">
+            <Dot.Error size="sm" />
             <Text flex={1} colorToken={"text"} tx="inbox.unread"></Text>
             <Icon size={24} colorToken={"text"} icon="bellAlert"></Icon>
           </HStack>
         </Menu.Item>
         <Menu.Item onPress={handleOnActive}>
-          <HStack space={spacing.tiny} alignItems="center">
+          <HStack space={spacing.micro} alignItems="center">
+            <Dot.Info size="sm" />
             <Text flex={1} colorToken={"text"} tx="inbox.active"></Text>
             <Icon size={24} colorToken={"text"} icon="chat"></Icon>
           </HStack>
         </Menu.Item>
         <Menu.Item onPress={handleOnClosed}>
-          <HStack space={spacing.tiny} alignItems="center">
+          <HStack space={spacing.micro} alignItems="center">
+            <Dot.Success size="sm" />
             <Text flex={1} colorToken={"text"} tx="inbox.completed"></Text>
             <Icon size={24} colorToken={"text"} icon="checkCircle"></Icon>
           </HStack>

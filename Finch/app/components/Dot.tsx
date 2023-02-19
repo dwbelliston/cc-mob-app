@@ -44,9 +44,9 @@ interface StatusConfig {
 const STATUSES: Record<DotStatuses, StatusConfig> = {
   info: {
     _light: {
-      bg: "indigo.600",
+      bg: "primary.600",
     },
-    _dark: { bg: "indigo.400" },
+    _dark: { bg: "primary.400" },
   },
   success: {
     _light: {

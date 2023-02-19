@@ -23,6 +23,8 @@ const en = {
     inbox: "Inbox",
     noUnreadTitle: "You are all caught up!",
     noUnreadDescription: "Change the inbox view on the top right to view Active or Completed conversations",
+    noSearchTitle: "Nothing found",
+    noSearchDescription: "Clear your search and try again",
     noActiveTitle: "Everything is completed",
     noActiveDescription: "Well done staying on top of the conversations. Take a minute to get outside and get some fresh air!",
     noCloseTitle: "No conversations",
