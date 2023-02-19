@@ -2,18 +2,10 @@ import { API } from "@aws-amplify/api"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 
-import { ConversationStatusEnum, IPaginatedConversations } from "../../../../models/Conversation"
-import { APIEndpoints, conversationKeys } from "../../config"
+import { IPaginatedConversations } from "../../../../models/Conversation"
+import { APIEndpoints, conversationKeys, IConversationListFilterProps } from "../../config"
 
-interface IQueryProps {
-  pageLimit: number
-  search: string | null
-  isUnread: boolean | null
-  fromFolderId: string | null
-  conversationStatus: ConversationStatusEnum | null
-}
-
-interface IProps extends IQueryProps {
+interface IProps extends IConversationListFilterProps {
   pageCursor?: any
 }
 
@@ -34,7 +26,7 @@ const makeApiRequest = (props: IProps): Promise<IPaginatedConversations> => {
   return API.get(APIEndpoints.authenticatedOutbounds, "/api/v1/conversations/", qParams)
 }
 
-const useListConversations = (props: IQueryProps) => {
+const useListConversations = (props: IConversationListFilterProps) => {
   return useInfiniteQuery<IPaginatedConversations, AxiosError>(
     conversationKeys.list({
       pageLimit: props.pageLimit,

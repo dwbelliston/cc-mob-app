@@ -1,4 +1,5 @@
-import { IContactFilter } from "../../models/Contact"
+import { IContactFilter } from "../../models/Contact";
+import { ConversationStatusEnum } from './../../models/Conversation';
 
 export enum APIEndpoints {
   authenticatedUsers = "authenticatedUsers",
@@ -18,10 +19,20 @@ enum QueryKeysEnum {
   contacts = "contacts",
 }
 
+
+export interface IConversationListFilterProps {
+  pageLimit: number
+  search: string | null
+  isUnread: boolean | null
+  fromFolderId: string | null
+  conversationStatus: ConversationStatusEnum | null
+}
+
+
 export const conversationKeys = {
   all: [QueryKeysEnum.conversations] as const,
   lists: () => [...conversationKeys.all, 'list'] as const,
-  list: ({pageLimit, search, isUnread, fromFolderId, conversationStatus}) => [...conversationKeys.lists(), { pageLimit, search, isUnread, fromFolderId, conversationStatus }] as const,
+  list: (filters: IConversationListFilterProps) => [...conversationKeys.lists(), filters] as const,
   getUnreadCount: () => [...conversationKeys.all, 'count-unread'] as const,
   details: () => [...conversationKeys.all, 'detail'] as const,
   detail: (id: string) => [...conversationKeys.details(), id] as const,
