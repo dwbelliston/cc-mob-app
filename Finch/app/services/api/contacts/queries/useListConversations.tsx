@@ -52,7 +52,7 @@ const useListConversations = (props: IQueryProps) => {
     {
       getPreviousPageParam: (firstPage) => firstPage.meta.cursor ?? false,
       getNextPageParam: (lastPage) => lastPage.meta.cursor ?? false,
-      refetchInterval: 15000,
+      refetchInterval: 2000,
       retry: 2,
     },
   )

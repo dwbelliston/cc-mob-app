@@ -2,7 +2,7 @@ import { API } from "@aws-amplify/api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { IConversation, IConversationUpdate } from "../../../../models/Conversation"
-import { APIEndpoints, QueryKeys } from "../../config"
+import { APIEndpoints, conversationKeys } from "../../config"
 
 interface IPutProps {
   conversationId: string
@@ -29,38 +29,35 @@ const useUpdateConversation = () => {
       return makeApiRequest(props)
     },
     {
-      retry: 1,
+      retry: 0,
+      // onSuccess: (resConversation, updatedConversation) => {
+      //   queryClient.setQueriesData<InfiniteData<IPaginatedConversations>>(
+      //     conversationKeys.lists(),
+      //     (previous) => {
+      //       return {
+      //         ...previous,
+      //         pages: previous.pages.map((page) => {
+      //           return {
+      //             ...page,
+      //             records: page.records.map((record) => {
+      //               if (record.ConversationId === updatedConversation.conversationId) {
+      //                 return {
+      //                   ...record,
+      //                   ...updatedConversation.updates,
+      //                 }
+      //               }
 
-      onMutate: async (updatedConversation) => {
-        // Cancel any outgoing refetches
-        // (so they don't overwrite our optimistic update)
-        // await queryClient.cancelQueries({ queryKey: QueryKeys.conversations() })
-
-        // Snapshot the previous value
-        const previousConversations = queryClient.getQueryData(QueryKeys.conversations())
-
-        console.log("previousConversations")
-        console.log(previousConversations)
-
-        // Optimistically update to the new value
-        // queryClient.setQueryData(["todos"], (old) => [...old, newTodo])
-
-        // Return a context object with the snapshotted value
-        return { previousConversations }
-      },
-      // If the mutation fails,
-      // use the context returned from onMutate to roll back
-      // onError: (err, newTodo, context) => {
-      //   queryClient.setQueryData(['todos'], context.previousTodos)
-      // },
-      // // Always refetch after error or success:
-      // onSettled: () => {
-      //   queryClient.invalidateQueries({ queryKey: ['todos'] })
+      //               return record
+      //             }),
+      //           }
+      //         }),
+      //       }
+      //     },
+      //   )
       // },
       onSettled: () => {
-        queryClient.invalidateQueries(QueryKeys.conversations(), {
-          exact: false,
-        })
+        queryClient.invalidateQueries({ queryKey: conversationKeys.lists() })
+        queryClient.invalidateQueries({ queryKey: conversationKeys.getUnreadCount() })
       },
     },
   )

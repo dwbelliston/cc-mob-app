@@ -9,10 +9,9 @@ import { Icon, Text } from "../components"
 import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
-import { ConversationStatusEnum, useGetCountMessages } from "../models/Conversation"
 import { ContactsStack } from "../screens/ContactsScreen/ContactsStack"
 import { ConversationsStack } from "../screens/ConversationsScreen/ConversationsStack"
-import useListConversations from "../services/api/conversations/queries/useListConversations"
+import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
 import { colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
 import { AppHomeScreenProps } from "./AppHomeNavigator"
@@ -36,18 +35,11 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScre
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
-  const [viewLimit] = React.useState(25)
   const { bottom } = useSafeAreaInsets()
 
-  const { data: dataUnreadConversations } = useListConversations({
-    pageLimit: viewLimit,
-    search: null,
-    isUnread: true,
-    fromFolderId: null,
-    conversationStatus: ConversationStatusEnum.OPEN,
-  })
+  const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
 
-  const unreadCountBadge = useGetCountMessages(viewLimit, dataUnreadConversations)
+  const unreadCountBadge = dataCountUnreadConversations
 
   const tabBg = useColorModeValue(colors.white, colors.gray[900])
   const tabBorder = useColorModeValue(colors.gray[50], colors.gray[700])

@@ -5,10 +5,10 @@ import React from "react"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { Icon, Text } from "../../components"
 import { AvatarRing } from "../../components/AvatarRing"
-import { spacing, useAvatarColor } from "../../theme"
+import { getAvatarColor, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { getInitials } from "../../utils/getInitials"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
-import { useInitials } from "../../utils/useInitials"
 
 import { useActionSheet } from "@expo/react-native-action-sheet"
 import { IContact } from "../../models/Contact"
@@ -74,8 +74,8 @@ const ContactListItem = ({ contact, onBlock, onViewContact }: ContactListItem) =
 
   const contactName = `${contact.FirstName} ${contact.LastName}`
 
-  const avatarColor = useAvatarColor(contactName)
-  const initials = useInitials(contactName)
+  const avatarColor = getAvatarColor(contactName)
+  const initials = getInitials(contactName)
 
   const errorColor = useColorModeValue("error.300", "error.400")
   const cardBg = useColor("bg.main")

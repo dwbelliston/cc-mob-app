@@ -1,5 +1,5 @@
 
-  export function useInitials(name: string = ""): string {
+  export function getInitials(name: string = ""): string {
     let initials = ""
     if (name) {
       const [firstName, lastName] = name.split(" ")

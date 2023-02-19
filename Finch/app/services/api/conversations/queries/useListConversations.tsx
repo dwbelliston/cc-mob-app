@@ -3,7 +3,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 
 import { ConversationStatusEnum, IPaginatedConversations } from "../../../../models/Conversation"
-import { APIEndpoints, QueryKeys } from "../../config"
+import { APIEndpoints, conversationKeys } from "../../config"
 
 interface IQueryProps {
   pageLimit: number
@@ -17,8 +17,7 @@ interface IProps extends IQueryProps {
   pageCursor?: any
 }
 
-// const makeApiRequest = (props: IProps): Promise<IPaginatedConversations> => {
-const makeApiRequest = (props: IProps) => {
+const makeApiRequest = (props: IProps): Promise<IPaginatedConversations> => {
   const qParams = {
     queryStringParameters: {
       // Add if no cursor
@@ -37,7 +36,7 @@ const makeApiRequest = (props: IProps) => {
 
 const useListConversations = (props: IQueryProps) => {
   return useInfiniteQuery<IPaginatedConversations, AxiosError>(
-    QueryKeys.conversationsList({
+    conversationKeys.list({
       pageLimit: props.pageLimit,
       search: props.search,
       isUnread: props.isUnread,
@@ -53,7 +52,7 @@ const useListConversations = (props: IQueryProps) => {
     {
       getPreviousPageParam: (firstPage) => firstPage.meta.cursor ?? false,
       getNextPageParam: (lastPage) => lastPage.meta.cursor ?? false,
-      refetchInterval: 15000,
+      refetchInterval: 1000 * 15,
       retry: 2,
     },
   )

@@ -472,7 +472,7 @@ const randomHex = () =>
     .toString(16)
     .padEnd(6, "0")}`
 
-export function useRandomColor(opts?: RandomColorOptions) {
+export function getRandomColor(opts?: RandomColorOptions) {
   const fallback = randomHex()
 
   if (!opts || isEmptyObject(opts)) {
@@ -494,6 +494,6 @@ export function useRandomColor(opts?: RandomColorOptions) {
   return fallback
 }
 
-export function useAvatarColor(name: string) {
-  return useRandomColor({ string: name, colors: PRETTY_COLORS })
+export function getAvatarColor(name: string) {
+  return getRandomColor({ string: name, colors: PRETTY_COLORS })
 }

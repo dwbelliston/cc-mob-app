@@ -189,19 +189,25 @@ const CallStatusBadge = ({ status }: IProps) => {
   )
 }
 
+export const getCallStatusDescription = (
+  status: CallStatusEnum | undefined,
+): string | undefined => {
+  let description: string | undefined
+
+  if (status && STYLE_MAPPING[status]) {
+    description = STYLE_MAPPING[status].description
+  }
+
+  return description
+}
+
 export const useCallStatusDescription = (
   status: CallStatusEnum | undefined,
 ): string | undefined => {
-  const [description, set_description] = React.useState()
+  const [description, setDescription] = React.useState<string>()
 
   React.useEffect(() => {
-    let descriptionUpdate
-
-    if (status && STYLE_MAPPING[status]) {
-      descriptionUpdate = STYLE_MAPPING[status].description
-    }
-
-    set_description(descriptionUpdate)
+    setDescription(getCallStatusDescription(status))
   }, [status])
 
   return description

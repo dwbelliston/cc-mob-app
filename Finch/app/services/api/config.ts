@@ -18,6 +18,16 @@ enum QueryKeysEnum {
   contacts = "contacts",
 }
 
+export const conversationKeys = {
+  all: [QueryKeysEnum.conversations] as const,
+  lists: () => [...conversationKeys.all, 'list'] as const,
+  list: ({pageLimit, search, isUnread, fromFolderId, conversationStatus}) => [...conversationKeys.lists(), { pageLimit, search, isUnread, fromFolderId, conversationStatus }] as const,
+  getUnreadCount: () => [...conversationKeys.all, 'count-unread'] as const,
+  details: () => [...conversationKeys.all, 'detail'] as const,
+  detail: (id: string) => [...conversationKeys.details(), id] as const,
+}
+
+
 export class QueryKeys {
   static userprofile(): string[] {
     return [QueryKeysEnum.userprofile]

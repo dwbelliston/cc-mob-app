@@ -4,14 +4,12 @@ import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
 import { Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
-import { StyleSheet, ViewStyle } from "react-native"
 
 import { Screen } from "../../components"
 import { useStores } from "../../models"
 import { IBlockedNumberCreate } from "../../models/BlockedNumber"
 import {
   ConversationStatusEnum,
-  IConversation,
   IConversationStatusUpdate,
   IConversationUpdate,
 } from "../../models/Conversation"
@@ -20,18 +18,21 @@ import usePostConversationStatus from "../../services/api/conversations/mutation
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
 import { useCustomToast } from "../../utils/useCustomToast"
-import { PureConversationListItem } from "./ConversationListItem"
+import {
+  IConversationListItem,
+  IConversationListItemData,
+  makeConversationListItemData,
+  PureConversationListItem,
+} from "./ConversationListItem"
 import { ConversationStackScreenProps } from "./ConversationsStack"
 
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
-const Separator = () => <View style={styles.itemSeparator} />
-
 export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
   function InboxScreen() {
-    const [viewLimit] = React.useState(20)
-    const [flatData, setFlatData] = React.useState<IConversation[]>()
+    const [viewLimit] = React.useState(15)
+    const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
 
     const { conversationStore } = useStores()
 
@@ -41,8 +42,6 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
     const toast = useCustomToast()
 
     const statusBarColor = useColorModeValue("dark", "light")
-
-    const [selectedConversationIds, setSelectedConversationIds] = React.useState<string[]>([])
 
     const {
       data: dataConversations,
@@ -92,13 +91,11 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
       }
     }
 
-    const handleOnViewContact = (conversation: IConversation) => {
-      alert(conversation.ContactName)
-    }
-    const handleOnBlock = async (conversation: IConversation) => {
-      const contactNumber =
-        conversation?.LatestMessage?.ContactNumber || conversation?.LatestCall?.ContactNumber
+    const handleOnViewContact = React.useCallback((contactId: string) => {
+      alert(contactId)
+    }, [])
 
+    const handleOnBlock = React.useCallback(async (contactNumber: string) => {
       const updates: IBlockedNumberCreate = {
         Number: contactNumber,
         Reason: "unsubscribed",
@@ -106,53 +103,74 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
 
       await mutateAsyncCreateBlockednumber(updates)
 
-      toast.success({ title: "Blocked" })
-    }
+      toast.success({ title: "Blocked", description: contactNumber })
+    }, [])
 
-    const handleOnMarkUnread = async (conversation: IConversation) => {
+    const handleOnMarkUnread = React.useCallback(async (conversationId: string) => {
       const updates: IConversationUpdate = {
         IsRead: false,
       }
 
       await mutateAsyncConversation({
-        conversationId: conversation.ConversationId,
+        conversationId: conversationId,
         updates,
       })
-    }
+    }, [])
 
-    const handleOnMarkRead = async (conversation: IConversation) => {
+    const handleOnMarkRead = React.useCallback(async (conversationId: string) => {
       const updates: IConversationUpdate = {
         IsRead: true,
       }
 
       await mutateAsyncConversation({
-        conversationId: conversation.ConversationId,
+        conversationId: conversationId,
         updates,
       })
-    }
+    }, [])
 
-    const handleOnMarkComplete = async (conversation: IConversation) => {
+    const handleOnMarkComplete = React.useCallback(async (conversationId: string) => {
       const updates: IConversationStatusUpdate = {
-        conversationId: conversation?.ConversationId,
+        conversationId: conversationId,
         status: ConversationStatusEnum.CLOSED,
       }
 
       await mutateAsyncStatus(updates)
-    }
+    }, [])
 
-    const handleOnMarkActive = async (conversation: IConversation) => {
+    const handleOnMarkActive = React.useCallback(async (conversationId: string) => {
       const updates: IConversationStatusUpdate = {
-        conversationId: conversation?.ConversationId,
+        conversationId,
         status: ConversationStatusEnum.OPEN,
       }
 
       await mutateAsyncStatus(updates)
-    }
+    }, [])
+
+    const extractConversationId = React.useCallback(
+      (item: IConversationListItem) => `${item.conversationId}-${item.createdTime}`,
+      [],
+    )
+
+    const renderItem = React.useCallback(({ item }: { item: IConversationListItemData }) => {
+      return (
+        <PureConversationListItem
+          key={item.conversationId}
+          {...item}
+          onMarkActive={handleOnMarkActive}
+          onMarkComplete={handleOnMarkComplete}
+          onBlock={handleOnBlock}
+          onViewContact={handleOnViewContact}
+          onMarkUnread={handleOnMarkUnread}
+          onMarkRead={handleOnMarkRead}
+        ></PureConversationListItem>
+      )
+    }, [])
 
     React.useEffect(() => {
       if (dataConversations) {
-        const flatDataUpdate = dataConversations.pages.flatMap((page, idx) =>
-          page.records.flatMap((conversation, iidx) => conversation),
+        const flatDataUpdate: IConversationListItemData[] = dataConversations.pages.flatMap(
+          (page, idx) =>
+            page.records.flatMap((conversation, idx) => makeConversationListItemData(conversation)),
         )
 
         setFlatData(flatDataUpdate)
@@ -176,18 +194,7 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
             ItemSeparatorComponent={() => <Divider bg="transparent" />}
             // bg={bgColor}
             data={flatData}
-            renderItem={({ item: conversation }) => (
-              <PureConversationListItem
-                key={conversation.ConversationId}
-                conversation={conversation}
-                onViewContact={() => handleOnViewContact(conversation)}
-                onBlock={() => handleOnBlock(conversation)}
-                onMarkUnread={() => handleOnMarkUnread(conversation)}
-                onMarkRead={() => handleOnMarkRead(conversation)}
-                onMarkComplete={() => handleOnMarkComplete(conversation)}
-                onMarkActive={() => handleOnMarkActive(conversation)}
-              ></PureConversationListItem>
-            )}
+            renderItem={renderItem}
             // ListHeaderComponent={
             //   <FlatListHeaderSearch
             //     onSearch={handleOnSearch}
@@ -195,8 +202,8 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
             // }
             // ListFooterComponent={<Box h={tabBarHeight}></Box>}
             // ListEmptyComponent={<FlatListEmptyComponent></FlatListEmptyComponent>}
-            keyExtractor={(item) => item.ConversationId.toString()}
-            refreshing={isLoadingConversations || isFetchingConversations}
+            keyExtractor={extractConversationId}
+            // refreshing={isLoadingConversations || isFetchingConversations}
             // onRefresh={handleRefresh}
             onEndReached={handleLoadMore}
             onEndReachedThreshold={0.5}
@@ -208,18 +215,3 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
     )
   },
 )
-
-const $root: ViewStyle = {
-  flex: 1,
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  itemSeparator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#444",
-  },
-})
