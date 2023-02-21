@@ -12,6 +12,7 @@ import {
   Bars3Icon,
   BellAlertIcon,
   BellIcon,
+  ChatBubbleLeftIcon,
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
   CheckIcon,
@@ -57,6 +58,7 @@ import {
   Bars3Icon as Bars3IconSolid,
   BellAlertIcon as BellAlertIconSolid,
   BellIcon as BellIconSolid,
+  ChatBubbleLeftIcon as ChatBubbleLeftIconSolid,
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
   CheckCircleIcon as CheckCircleIconSolid,
   CheckIcon as CheckIconSolid,
@@ -202,6 +204,10 @@ export const iconRegistry = {
   chat: {
     outline: ChatBubbleLeftRightIcon,
     solid: ChatBubbleLeftRightIconSolid,
+  },
+  chatBubbleLeft: {
+    outline: ChatBubbleLeftIcon,
+    solid: ChatBubbleLeftIconSolid,
   },
   contacts: {
     outline: UserGroupIcon,

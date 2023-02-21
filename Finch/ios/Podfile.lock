@@ -24,6 +24,8 @@ PODS:
     - ExpoModulesCore
   - ExpoLocalization (14.0.0):
     - ExpoModulesCore
+  - ExpoMailComposer (12.0.0):
+    - ExpoModulesCore
   - ExpoModulesCore (1.1.1):
     - React-Core
     - ReactCommon/turbomodule/core
@@ -465,6 +467,7 @@ DEPENDENCIES:
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLocalization (from `../node_modules/expo-localization/ios`)
+  - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
@@ -580,6 +583,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLocalization:
     :path: "../node_modules/expo-localization/ios"
+  ExpoMailComposer:
+    :path: "../node_modules/expo-mail-composer/ios"
   ExpoModulesCore:
     :path: "../node_modules/expo-modules-core"
   EXSecureStore:
@@ -684,6 +689,7 @@ SPEC CHECKSUMS:
   ExpoHaptics: 5a56d30a87ea213dd00b09566dc4b441a4dff97f
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
   ExpoLocalization: e202d1e2a4950df17ac8d0889d65a1ffd7532d7e
+  ExpoMailComposer: 5bd9a732104eb1721a5aa4744903673787d1410c
   ExpoModulesCore: 485dff3a59b036a33b6050c0a5aea3cf1037fdd1
   EXSecureStore: daec0117c922a67c658cb229152a9e252e5c1750
   EXSplashScreen: 3e989924f61a8dd07ee4ea584c6ba14be9b51949

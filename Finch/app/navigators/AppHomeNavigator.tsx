@@ -185,7 +185,7 @@ const AppHomeNavigator = () => {
         options={{
           drawerIcon: ({ color }) => <Icon icon="home" size={20} color={color} />,
           drawerLabel: ({ color }) => (
-            <Text color={color} fontSize="xs" tx="navigator.homeTab"></Text>
+            <Text color={color} fontSize="sm" tx="navigator.homeTab"></Text>
           ),
         }}
       />
@@ -197,7 +197,7 @@ const AppHomeNavigator = () => {
           headerShown: true,
           drawerIcon: ({ color }) => <Icon icon="settings" size={20} color={color} />,
           drawerLabel: ({ color }) => (
-            <Text color={color} fontSize="xs" tx="navigator.settings"></Text>
+            <Text color={color} fontSize="sm" tx="navigator.settings"></Text>
           ),
         }}
       />

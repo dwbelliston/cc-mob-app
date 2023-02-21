@@ -1,175 +1,240 @@
-import { DrawerActions, useNavigation } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
-import { Box, Center, Divider, FlatList, Text, useColorModeValue, View } from "native-base"
+import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
-import { StyleSheet, ViewStyle } from "react-native"
+import { useDebounce } from "use-debounce"
 
-import { Screen } from "../../components"
-import { IBlockedNumberCreate } from "../../models/BlockedNumber"
-import { IContact, IContactFilter } from "../../models/Contact"
-import { AppHomeScreenProps } from "../../navigators"
-import useCreateBlockedNumber from "../../services/api/blockednumbers/mutations/useCreateBlockedNumber"
+import * as MailComposer from "expo-mail-composer"
+import { Screen, Text } from "../../components"
+import { DataStatus } from "../../components/DataStatus"
+import { useStores } from "../../models"
+import { IContactFilter } from "../../models/Contact"
 import useListContacts from "../../services/api/contacts/queries/useListContacts"
-import usePostConversationStatus from "../../services/api/conversations/mutations/usePostConversationStatus"
-import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
+import { spacing } from "../../theme"
+
+import { Platform } from "react-native"
 import { useCustomToast } from "../../utils/useCustomToast"
-import { PureContactListItem } from "./ContactListItem"
+import {
+  IContactListItem,
+  IContactListItemData,
+  makeContactListItemData,
+  PureContactListItem,
+} from "./ContactListItem"
+import { ContactsStackScreenProps } from "./ContactsStack"
 
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../models"
+export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = observer(
+  function ContactsScreen(_props) {
+    const [isEmailEnabled, setIsEmailEnabled] = React.useState<boolean>(false)
+    const [flatData, setFlatData] = React.useState<IContactListItemData[]>()
 
-interface IScreenProps extends AppHomeScreenProps<"Conversations"> {}
+    const [useFilters, setUseFilters] = React.useState<IContactFilter[] | undefined>([])
 
-const FlatListEmptyComponent = () => {
-  return (
-    <Box p={4}>
-      <Center>
-        <Text
-          _dark={{ color: "gray.500" }}
-          _light={{ color: "gray.400" }}
-          fontFamily="mono"
-          textTransform="uppercase"
-          fontWeight="bold"
-        >
-          No Data
-        </Text>
-      </Center>
-    </Box>
-  )
-}
+    const { contactsStore } = useStores()
+    const toast = useCustomToast()
 
-const Separator = () => <View style={styles.itemSeparator} />
+    const { navigation } = _props
 
-export const ContactsScreen: FC<IScreenProps> = observer(function ContactsScreen() {
-  const [viewLimit] = React.useState(25)
-  const [useFilters, setUseFilters] = React.useState<IContactFilter[] | undefined>([])
-  const [flatData, setFlatData] = React.useState<IContact[]>()
+    const statusBarColor = useColorModeValue("dark", "light")
 
-  const navigation = useNavigation()
+    const [contactsSearch, setContactsSearch] = React.useState("")
 
-  const toast = useCustomToast()
+    const [debouncedContactsSearch] = useDebounce(contactsSearch, 750)
 
-  const statusBarColor = useColorModeValue("dark", "light")
+    const {
+      data: dataContacts,
+      isFetching: isFetchingContacts,
+      isLoading: isLoadingContacts,
+      fetchNextPage,
+    } = useListContacts({
+      pageLimit: contactsStore.viewLimit,
+      filters: useFilters,
+    })
 
-  const {
-    data: dataContacts,
-    isError,
-    isLoading,
-    hasPrevious,
-    hasNext,
-    currentPage,
-    isFetching,
-    onRefresh,
-    refetch,
-    getNext,
-    getPrevious,
-  } = useListContacts(viewLimit, useFilters)
+    const handleLoadMore = () => {
+      if (!isFetchingContacts) {
+        if (dataContacts?.pages) {
+          const lastPage = dataContacts?.pages.length - 1
 
-  const { mutateAsync: mutateAsyncCreateBlockednumber, isLoading: isLoadingBlockednumber } =
-    useCreateBlockedNumber()
-
-  const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
-
-  const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } = usePostConversationStatus()
-
-  const setConversationUrl = () => {}
-
-  const handleOnPressSettings = () => {
-    navigation.dispatch(DrawerActions.toggleDrawer())
-  }
-
-  const handleRefresh = () => {
-    refetch()
-  }
-
-  const handleLoadMore = () => {
-    if (!isFetching && hasNext) {
-      getNext()
-    }
-  }
-
-  const handleOnViewContact = (contact: IContact) => {
-    alert(contact.FirstName)
-  }
-
-  const handleOnBlock = async (contact: IContact) => {
-    const contactNumber = contact?.Phone
-
-    const updates: IBlockedNumberCreate = {
-      Number: contactNumber,
-      Reason: "unsubscribed",
+          if (dataContacts?.pages[lastPage].meta.cursor) {
+            fetchNextPage()
+          }
+        }
+      }
     }
 
-    await mutateAsyncCreateBlockednumber(updates)
+    const handleOnEmail = React.useCallback(async (contactName: string, contactEmail: string) => {
+      if (!isEmailEnabled) {
+        // On iOS device without Mail app installed it is possible to show mail composer,
+        // but it isn't possible to send that email either way.
+        if (Platform.OS === "ios") {
+          toast.info({
+            title: "Email not configured.",
+            description: "Make sure you have the Apple Mail app installed",
+          })
+        } else {
+          toast.info({
+            title: "Email not configured.",
+            description: "Please let us know you want this features.",
+          })
+        }
+        return
+      }
 
-    toast.success({ title: "Blocked" })
-  }
+      try {
+        const { status } = await MailComposer.composeAsync({
+          subject: "Hello!",
+          body: `Hey, ${contactName}`,
+          recipients: [contactEmail],
+          // isHtml: true,
+        })
+        if (status === "sent") {
+          toast.success({
+            title: "Sent!",
+          })
+        } else {
+          toast.warning({
+            title: "Email didnt send",
+          })
+        }
+      } catch (e) {
+        toast.warning({
+          title: "Email failed",
+        })
+      }
+    }, [])
 
-  React.useEffect(() => {
-    if (dataContacts) {
-      const flatDataUpdate = dataContacts.records
+    const handleOnViewContact = React.useCallback(
+      ({ contactName, contactId }: { contactName: string; contactId: string }) => {
+        navigation.navigate("ContactDetail", {
+          contactName,
+          contactId,
+        })
+      },
+      [],
+    )
 
-      setFlatData(flatDataUpdate)
+    const handleOnText = React.useCallback((contactNumber: string) => {
+      let conversationId = "123"
+
+      // navigation.navigate("ConversationDetail", {
+      //   contactName,
+      //   conversationId,
+      // })
+    }, [])
+
+    const checkCapabilitiesAsync = async () => {
+      const isAvailable = await MailComposer.isAvailableAsync()
+      setIsEmailEnabled(isAvailable)
     }
-  }, [dataContacts])
 
-  return (
-    <Screen
-      preset="fixed"
-      safeAreaEdges={["top"]}
-      contentContainerStyle={{
-        paddingBottom: 0,
-        // paddingTop: headerHeight,
-      }}
-    >
-      <StatusBar style={statusBarColor} />
+    const extractContactId = React.useCallback((item: IContactListItem) => item.contactId, [])
 
-      <View h="full">
-        <FlatList
-          contentInsetAdjustmentBehavior="automatic"
-          ItemSeparatorComponent={() => <Divider bg="transparent" />}
-          // bg={bgColor}
-          data={flatData}
-          renderItem={({ item: contact }) => (
-            <PureContactListItem
-              key={contact.ContactId}
-              contact={contact}
-              onViewContact={() => handleOnViewContact(contact)}
-              onBlock={() => handleOnBlock(contact)}
-            ></PureContactListItem>
-          )}
-          // ListHeaderComponent={
-          //   <FlatListHeaderSearch
-          //     onSearch={handleOnSearch}
-          //   ></FlatListHeaderSearch>
-          // }
-          // ListFooterComponent={<Box h={tabBarHeight}></Box>}
-          ListEmptyComponent={<FlatListEmptyComponent></FlatListEmptyComponent>}
-          keyExtractor={(item) => item.ContactId.toString()}
-          refreshing={isLoading || isFetching}
-          // onRefresh={handleRefresh}
-          onEndReached={handleLoadMore}
-          onEndReachedThreshold={0.5}
-          initialNumToRender={10}
-          // ItemSeparatorComponent={FlatListItemSeparator}
-        />
-      </View>
-    </Screen>
-  )
-})
+    const renderItem = React.useCallback(({ item }: { item: IContactListItemData }) => {
+      return (
+        <PureContactListItem
+          key={item.contactId}
+          {...item}
+          onViewContact={handleOnViewContact}
+          onEmail={handleOnEmail}
+          onText={handleOnText}
+        ></PureContactListItem>
+      )
+    }, [])
 
-const $root: ViewStyle = {
-  flex: 1,
-}
+    React.useEffect(() => {
+      if (dataContacts) {
+        const flatDataUpdate: IContactListItemData[] = dataContacts.pages.flatMap((page, idx) =>
+          page.records.flatMap((contact, idx) => makeContactListItemData(contact)),
+        )
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+        setFlatData(flatDataUpdate)
+      }
+    }, [dataContacts])
+
+    React.useLayoutEffect(() => {
+      // https://reactnavigation.org/docs/native-stack-navigator/#headersearchbaroptions
+      navigation.setOptions({
+        headerSearchBarOptions: {
+          placeholder: "Search name...",
+          // hideNavigationBar: false,
+          onChangeText: (event) => {
+            setContactsSearch(event.nativeEvent.text)
+          },
+          onOpen: () => {
+            contactsStore.setIsHeaderSearchOpen(true)
+          },
+          onClose: () => {
+            contactsStore.setIsHeaderSearchOpen(false)
+          },
+        },
+      })
+    }, [navigation])
+
+    React.useEffect(() => {
+      let allFilters: IContactFilter[] = []
+
+      if (debouncedContactsSearch) {
+        if (debouncedContactsSearch) {
+          allFilters.push({
+            field: "Searchable",
+            operator: "like",
+            value: debouncedContactsSearch.toLowerCase(),
+          })
+        }
+        setUseFilters(allFilters)
+      }
+
+      setUseFilters(allFilters)
+    }, [debouncedContactsSearch])
+
+    React.useEffect(() => {
+      contactsStore.setContactsSearch(debouncedContactsSearch)
+    }, [debouncedContactsSearch])
+
+    React.useEffect(() => {
+      checkCapabilitiesAsync()
+    }, [])
+
+    return (
+      <Screen
+        preset="fixed"
+        safeAreaEdges={["top"]}
+        contentContainerStyle={{
+          paddingBottom: 0,
+          // paddingTop: headerHeight,
+        }}
+      >
+        <StatusBar style={statusBarColor} />
+
+        <View h="full">
+          <FlatList
+            contentInsetAdjustmentBehavior="automatic"
+            ItemSeparatorComponent={() => <Divider bg="transparent" />}
+            data={flatData}
+            renderItem={renderItem}
+            ListEmptyComponent={
+              isLoadingContacts ? (
+                <Box px={spacing.tiny} py={spacing.small} h="full">
+                  <Text textAlign={"center"} colorToken="text.softer" tx="common.loading"></Text>
+                </Box>
+              ) : (
+                <Box px={spacing.tiny} py={spacing.small} h="full">
+                  <DataStatus
+                    title={contactsStore.noDataTitleTx}
+                    description={contactsStore.noDataDescriptionTx}
+                    icon={contactsStore.noDataIcon}
+                    colorScheme={contactsStore.noDataColorScheme}
+                  />
+                </Box>
+              )
+            }
+            keyExtractor={extractContactId}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            initialNumToRender={10}
+          />
+        </View>
+      </Screen>
+    )
   },
-  itemSeparator: {
-    flex: 1,
-    height: 1,
-    backgroundColor: "#444",
-  },
-})
+)

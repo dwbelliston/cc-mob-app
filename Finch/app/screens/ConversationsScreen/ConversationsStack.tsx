@@ -9,11 +9,12 @@ import { UserAvatar } from "../../components/UserAvatar"
 import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import { colors } from "../../theme"
+import { ConversationDetailScreen } from "./ConversationDetailScreen"
 import { InboxScreen } from "./InboxScreen"
 
 export type ConversationsStackParamList = {
   Inbox: undefined
-  ConversationDetail: { username?: string; password?: string } | undefined
+  ConversationDetail: { contactName?: string; conversationId?: string } | undefined
 }
 
 export type ConversationStackScreenProps<T extends keyof ConversationsStackParamList> =
@@ -27,6 +28,7 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
     const { conversationStore } = useStores()
 
     const headerBg = useColorModeValue("white", colors.gray[900])
+    const headerDetailBg = useColorModeValue(colors.primary[700], colors.gray[900])
 
     return (
       <Stack.Navigator>
@@ -40,16 +42,33 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
             headerLargeStyle: {
               backgroundColor: headerBg,
             },
-            headerLeft: ({}) => {
-              const navigation = useNavigation()
-              const handleOnPressSettings = () => {
-                navigation.dispatch(DrawerActions.toggleDrawer())
-              }
+            headerLeft: conversationStore.isHeaderSearchOpen
+              ? null
+              : ({}) => {
+                  const navigation = useNavigation()
+                  const handleOnPressSettings = () => {
+                    navigation.dispatch(DrawerActions.toggleDrawer())
+                  }
 
-              return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
-            },
+                  return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
+                },
             headerRight: () => <ConversationInboxPicker />,
           }}
+        />
+        <Stack.Screen
+          name={"ConversationDetail"}
+          component={ConversationDetailScreen}
+          options={({ route }) => ({
+            headerTitle: route.params?.contactName,
+            // headerLargeTitle: true,
+            headerStyle: {
+              backgroundColor: headerDetailBg,
+            },
+            headerTitleStyle: {
+              color: "white",
+            },
+            headerBackVisible: true,
+          })}
         />
       </Stack.Navigator>
     )

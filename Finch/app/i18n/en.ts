@@ -6,6 +6,7 @@ const en = {
     myNumber: "My Number",
     mySubscription: "My Subscription",
     myCCNumber: "CurrentClient Number",
+    loading: "Loading...",
   },
   fieldLabels: {
     lastname: "Last Name",
@@ -20,6 +21,7 @@ const en = {
     activeHeader: "Inbox",
     unreadHeader: "Unread",
     completedHeader: "Completed",
+    selectFilter: "Select Inbox Filter",
     inbox: "Inbox",
     noUnreadTitle: "You are all caught up!",
     noUnreadDescription: "Change the inbox view on the top right to view Active or Completed conversations",
@@ -30,7 +32,12 @@ const en = {
     noCloseTitle: "No conversations",
     noCloseDescription: "When you are ready to mark a conversation complete swipe the conversation to change its status.",
     endOfConversations: "End of History",
-    loadingConversations: "Loading More...",
+  },
+  contacts: {
+    noDataTitle: "No contacts",
+    noDataDescription: "We didnt find any data for you. Please check it out.",
+    noSearchTitle: "Nothing found",
+    noSearchDescription: "Clear your search and try again",
   },
   loginScreen: {
     login: "Login",

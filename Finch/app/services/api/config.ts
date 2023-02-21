@@ -1,5 +1,3 @@
-import { IContactFilter } from "../../models/Contact";
-import { ConversationStatusEnum } from './../../models/Conversation';
 
 export enum APIEndpoints {
   authenticatedUsers = "authenticatedUsers",
@@ -13,57 +11,14 @@ export enum APIEndpoints {
 enum QueryKeysEnum {
   userprofile = "userprofile",
   blockednumbers = "blockednumbers",
-  conversations = "conversations",
   advocateprofile = "advocateprofile",
   consentFiles = "consentFiles",
-  contacts = "contacts",
-}
-
-
-export interface IConversationListFilterProps {
-  pageLimit: number
-  search: string | null
-  isUnread: boolean | null
-  fromFolderId: string | null
-  conversationStatus: ConversationStatusEnum | null
-}
-
-
-export const conversationKeys = {
-  all: [QueryKeysEnum.conversations] as const,
-  lists: () => [...conversationKeys.all, 'list'] as const,
-  list: (filters: IConversationListFilterProps) => [...conversationKeys.lists(), filters] as const,
-  getUnreadCount: () => [...conversationKeys.all, 'count-unread'] as const,
-  details: () => [...conversationKeys.all, 'detail'] as const,
-  detail: (id: string) => [...conversationKeys.details(), id] as const,
 }
 
 
 export class QueryKeys {
   static userprofile(): string[] {
     return [QueryKeysEnum.userprofile]
-  }
-
-  static conversations(): string[] {
-    return [QueryKeysEnum.conversations]
-  }
-
-  static conversationsList({
-    pageLimit,
-    search,
-    isUnread,
-    fromFolderId,
-    conversationStatus
-  }): string[] {
-    return [QueryKeysEnum.conversations, pageLimit, search, isUnread, fromFolderId,conversationStatus]
-  }
-
-
-  static conversationsDetailComplete(userconversationsId: string = ""): string[] {
-    return [QueryKeysEnum.conversations, userconversationsId, "complete"]
-  }
-  static conversationssDetail(conversationsId: string = ""): string[] {
-    return [QueryKeysEnum.conversations, conversationsId]
   }
 
   static blockednumbers(): string[] {
@@ -78,20 +33,4 @@ export class QueryKeys {
     return [QueryKeysEnum.blockednumbers, pageLimit, pageNumber, search]
   }
 
-  // contacts
-  static contacts(): string[] {
-    return [QueryKeysEnum.contacts]
-  }
-
-  static contactsList({
-    pageLimit,
-    pageNumber,
-    queryFilters,
-  }: {
-    pageLimit: number;
-    pageNumber: number;
-    queryFilters: IContactFilter[]
-  }) {
-    return [QueryKeysEnum.contacts, pageLimit, pageNumber, queryFilters]
-  }
 }

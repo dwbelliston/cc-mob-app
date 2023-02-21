@@ -10,6 +10,7 @@ export const ConversationStoreModel = types
   .props({
     inboxView: types.maybe(types.string),
     inboxSearch: types.maybe(types.string),
+    isHeaderSearchOpen: types.maybe(types.boolean),
   })
   .views((store) => ({
     get viewLimit() {
@@ -107,6 +108,9 @@ export const ConversationStoreModel = types
     },
     setInboxSearch(inboxSearch: string) {
       store.inboxSearch = inboxSearch
+    },
+    setIsHeaderSearchOpen(isOpen: boolean) {
+      store.isHeaderSearchOpen = isOpen
     },
   }))
 

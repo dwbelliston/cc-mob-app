@@ -1,20 +1,10 @@
-import { useNavigation } from "@react-navigation/native"
 import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
-import {
-  Box,
-  Center,
-  Divider,
-  FlatList,
-  Spinner,
-  Stack,
-  useColorModeValue,
-  View,
-} from "native-base"
+import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
-import { Icon, Screen, Text } from "../../components"
+import { Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IBlockedNumberCreate } from "../../models/BlockedNumber"
@@ -37,226 +27,198 @@ import {
 } from "./ConversationListItem"
 import { ConversationStackScreenProps } from "./ConversationsStack"
 
-// import { useNavigation } from "@react-navigation/native"
-// import { useStores } from "../models"
+export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(function InboxScreen(
+  _props,
+) {
+  const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
 
-const ListFooterComponent = ({ isLoading, isShowEnd }) => {
-  if (isLoading) {
-    return (
-      <Stack space={spacing.micro} px={spacing.tiny} py={spacing.small}>
-        <Center>
-          <Spinner></Spinner>
-        </Center>
-        <Text textAlign={"center"} colorToken="text.softer" tx="inbox.loadingConversations"></Text>
-      </Stack>
-    )
-  }
+  const { conversationStore } = useStores()
 
-  if (isShowEnd) {
-    return (
-      <Stack space={spacing.micro} px={spacing.tiny} py={spacing.small}>
-        <Center>
-          <Icon colorToken="text.softer" icon="inbox"></Icon>
-        </Center>
-        <Text textAlign={"center"} colorToken="text.softer" tx="inbox.endOfConversations"></Text>
-      </Stack>
-    )
-  }
+  const { navigation } = _props
 
-  return null
-}
+  const toast = useCustomToast()
 
-export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
-  function InboxScreen() {
-    const [viewLimit] = React.useState(15)
-    const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
+  const statusBarColor = useColorModeValue("dark", "light")
 
-    const { conversationStore } = useStores()
+  const [conversationSearch, setConversationSearch] = React.useState("")
 
-    const navigation = useNavigation()
+  const [debouncedConversationSearch] = useDebounce(conversationSearch, 750)
 
-    const toast = useCustomToast()
+  const {
+    data: dataConversations,
+    isFetching: isFetchingConversations,
+    isLoading: isLoadingConversations,
+    fetchNextPage,
+  } = useListConversations({
+    pageLimit: conversationStore.viewLimit,
+    search: debouncedConversationSearch,
+    isUnread: conversationStore.isViewingUnread,
+    fromFolderId: null,
+    conversationStatus: conversationStore.isViewingUnread ? null : conversationStore.inboxViewEnum,
+  })
 
-    const statusBarColor = useColorModeValue("dark", "light")
+  const { mutateAsync: mutateAsyncCreateBlockednumber, isLoading: isLoadingBlockednumber } =
+    useCreateBlockedNumber()
 
-    const [conversationSearch, setConversationSearch] = React.useState("")
+  const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
 
-    const [debouncedConversationSearch] = useDebounce(conversationSearch, 750)
+  const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } = usePostConversationStatus()
 
-    const {
-      data: dataConversations,
-      isFetching: isFetchingConversations,
-      isLoading: isLoadingConversations,
-      isFetchingNextPage,
-      fetchNextPage,
-      refetch,
-      hasNextPage,
-    } = useListConversations({
-      pageLimit: conversationStore.viewLimit,
-      search: debouncedConversationSearch,
-      isUnread: conversationStore.isViewingUnread,
-      fromFolderId: null,
-      conversationStatus: conversationStore.isViewingUnread
-        ? null
-        : conversationStore.inboxViewEnum,
-    })
+  const handleLoadMore = () => {
+    if (!isFetchingConversations) {
+      if (dataConversations?.pages) {
+        const lastPage = dataConversations?.pages.length - 1
 
-    const { mutateAsync: mutateAsyncCreateBlockednumber, isLoading: isLoadingBlockednumber } =
-      useCreateBlockedNumber()
-
-    const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
-
-    const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } =
-      usePostConversationStatus()
-
-    const handleRefresh = () => {
-      refetch()
-    }
-
-    const handleLoadMore = () => {
-      if (!isFetchingConversations) {
-        if (dataConversations?.pages) {
-          const lastPage = dataConversations?.pages.length - 1
-
-          if (dataConversations?.pages[lastPage].meta.cursor) {
-            fetchNextPage()
-          }
+        if (dataConversations?.pages[lastPage].meta.cursor) {
+          fetchNextPage()
         }
       }
     }
+  }
 
-    const handleOnViewContact = React.useCallback((contactId: string) => {
-      alert(contactId)
-    }, [])
+  const handleOnViewContact = React.useCallback((contactId: string) => {
+    alert(contactId)
+  }, [])
 
-    const handleOnBlock = React.useCallback(async (contactNumber: string) => {
-      const updates: IBlockedNumberCreate = {
-        Number: contactNumber,
-        Reason: "unsubscribed",
-      }
+  const handleOnBlock = React.useCallback(async (contactNumber: string) => {
+    const updates: IBlockedNumberCreate = {
+      Number: contactNumber,
+      Reason: "unsubscribed",
+    }
 
-      await mutateAsyncCreateBlockednumber(updates)
+    await mutateAsyncCreateBlockednumber(updates)
 
-      toast.success({ title: "Blocked", description: contactNumber })
-    }, [])
+    toast.success({ title: "Blocked", description: contactNumber })
+  }, [])
 
-    const handleOnMarkUnread = React.useCallback(async (conversationId: string) => {
-      const updates: IConversationUpdate = {
-        IsRead: false,
-      }
+  const handleOnMarkUnread = React.useCallback(async (conversationId: string) => {
+    const updates: IConversationUpdate = {
+      IsRead: false,
+    }
 
-      await mutateAsyncConversation({
-        conversationId: conversationId,
-        updates,
-      })
-    }, [])
+    await mutateAsyncConversation({
+      conversationId: conversationId,
+      updates,
+    })
+  }, [])
 
-    const handleOnMarkRead = React.useCallback(async (conversationId: string) => {
-      const updates: IConversationUpdate = {
-        IsRead: true,
-      }
+  const handleOnMarkRead = React.useCallback(async (conversationId: string) => {
+    const updates: IConversationUpdate = {
+      IsRead: true,
+    }
 
-      await mutateAsyncConversation({
-        conversationId: conversationId,
-        updates,
-      })
-    }, [])
+    await mutateAsyncConversation({
+      conversationId: conversationId,
+      updates,
+    })
+  }, [])
 
-    const handleOnMarkComplete = React.useCallback(async (conversationId: string) => {
-      const updates: IConversationStatusUpdate = {
-        conversationId: conversationId,
-        status: ConversationStatusEnum.CLOSED,
-      }
+  const handleOnMarkComplete = React.useCallback(async (conversationId: string) => {
+    const updates: IConversationStatusUpdate = {
+      conversationId: conversationId,
+      status: ConversationStatusEnum.CLOSED,
+    }
 
-      await mutateAsyncStatus(updates)
-    }, [])
+    await mutateAsyncStatus(updates)
+  }, [])
 
-    const handleOnMarkActive = React.useCallback(async (conversationId: string) => {
-      const updates: IConversationStatusUpdate = {
+  const handleOnMarkActive = React.useCallback(async (conversationId: string) => {
+    const updates: IConversationStatusUpdate = {
+      conversationId,
+      status: ConversationStatusEnum.OPEN,
+    }
+
+    await mutateAsyncStatus(updates)
+  }, [])
+
+  const handleViewConversation = React.useCallback(
+    ({ contactName, conversationId }: { contactName: string; conversationId: string }) => {
+      navigation.navigate("ConversationDetail", {
+        contactName,
         conversationId,
-        status: ConversationStatusEnum.OPEN,
-      }
-
-      await mutateAsyncStatus(updates)
-    }, [])
-
-    const extractConversationId = React.useCallback(
-      (item: IConversationListItem) => `${item.conversationId}-${item.createdTime}`,
-      [],
-    )
-
-    const renderItem = React.useCallback(({ item }: { item: IConversationListItemData }) => {
-      return (
-        <PureConversationListItem
-          key={item.conversationId}
-          {...item}
-          onMarkActive={handleOnMarkActive}
-          onMarkComplete={handleOnMarkComplete}
-          onBlock={handleOnBlock}
-          onViewContact={handleOnViewContact}
-          onMarkUnread={handleOnMarkUnread}
-          onMarkRead={handleOnMarkRead}
-        ></PureConversationListItem>
-      )
-    }, [])
-
-    React.useEffect(() => {
-      if (dataConversations) {
-        const flatDataUpdate: IConversationListItemData[] = dataConversations.pages.flatMap(
-          (page, idx) =>
-            page.records.flatMap((conversation, idx) => makeConversationListItemData(conversation)),
-        )
-
-        setFlatData(flatDataUpdate)
-      }
-    }, [dataConversations])
-
-    React.useLayoutEffect(() => {
-      // https://reactnavigation.org/docs/native-stack-navigator/#headersearchbaroptions
-      navigation.setOptions({
-        headerSearchBarOptions: {
-          // hideNavigationBar: false,
-          onChangeText: (event) => {
-            setConversationSearch(event.nativeEvent.text)
-          },
-        },
       })
-    }, [navigation])
+    },
+    [],
+  )
 
-    React.useEffect(() => {
-      conversationStore.setInboxSearch(debouncedConversationSearch)
-    }, [debouncedConversationSearch])
+  const extractConversationId = React.useCallback(
+    (item: IConversationListItem) => `${item.conversationId}-${item.createdTime}`,
+    [],
+  )
 
+  const renderItem = React.useCallback(({ item }: { item: IConversationListItemData }) => {
     return (
-      <Screen
-        preset="fixed"
-        safeAreaEdges={["top"]}
-        contentContainerStyle={{
-          paddingBottom: 0,
-          // paddingTop: headerHeight,
-        }}
-      >
-        <StatusBar style={statusBarColor} />
+      <PureConversationListItem
+        key={item.conversationId}
+        {...item}
+        onViewConversation={handleViewConversation}
+        onMarkActive={handleOnMarkActive}
+        onMarkComplete={handleOnMarkComplete}
+        onBlock={handleOnBlock}
+        onViewContact={handleOnViewContact}
+        onMarkUnread={handleOnMarkUnread}
+        onMarkRead={handleOnMarkRead}
+      ></PureConversationListItem>
+    )
+  }, [])
 
-        <View h="full">
-          <FlatList
-            contentInsetAdjustmentBehavior="automatic"
-            ItemSeparatorComponent={() => <Divider bg="transparent" />}
-            // bg={bgColor}
-            data={flatData}
-            renderItem={renderItem}
-            // ListHeaderComponent={
-            //   <FlatListHeaderSearch
-            //     onSearch={handleOnSearch}
-            //   ></FlatListHeaderSearch>
-            // }
-            // ListFooterComponent={
-            //   <ListFooterComponent
-            //     isLoading={isLoadingConversations || isFetchingConversations}
-            //     isShowEnd={flatData && flatData.length > viewLimit}
-            //   />
-            // }
-            ListEmptyComponent={
+  React.useEffect(() => {
+    if (dataConversations) {
+      const flatDataUpdate: IConversationListItemData[] = dataConversations.pages.flatMap(
+        (page, idx) =>
+          page.records.flatMap((conversation, idx) => makeConversationListItemData(conversation)),
+      )
+
+      setFlatData(flatDataUpdate)
+    }
+  }, [dataConversations])
+
+  React.useLayoutEffect(() => {
+    // https://reactnavigation.org/docs/native-stack-navigator/#headersearchbaroptions
+    navigation.setOptions({
+      headerSearchBarOptions: {
+        placeholder: "Search name or number...",
+        // hideNavigationBar: false,
+        onChangeText: (event) => {
+          setConversationSearch(event.nativeEvent.text)
+        },
+        onOpen: () => {
+          conversationStore.setIsHeaderSearchOpen(true)
+        },
+        onClose: () => {
+          conversationStore.setIsHeaderSearchOpen(false)
+        },
+      },
+    })
+  }, [navigation])
+
+  React.useEffect(() => {
+    conversationStore.setInboxSearch(debouncedConversationSearch)
+  }, [debouncedConversationSearch])
+
+  return (
+    <Screen
+      preset="fixed"
+      safeAreaEdges={["top"]}
+      contentContainerStyle={{
+        paddingBottom: 0,
+        // paddingTop: headerHeight,
+      }}
+    >
+      <StatusBar style={statusBarColor} />
+
+      <View h="full">
+        <FlatList
+          contentInsetAdjustmentBehavior="automatic"
+          ItemSeparatorComponent={() => <Divider bg="transparent" />}
+          data={flatData}
+          renderItem={renderItem}
+          ListEmptyComponent={
+            isLoadingConversations ? (
+              <Box px={spacing.tiny} py={spacing.small} h="full">
+                <Text textAlign={"center"} colorToken="text.softer" tx="common.loading"></Text>
+              </Box>
+            ) : (
               <Box px={spacing.tiny} py={spacing.small} h="full">
                 <DataStatus
                   title={conversationStore.noDataTitleTx}
@@ -265,17 +227,14 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(
                   colorScheme={conversationStore.noDataColorScheme}
                 />
               </Box>
-            }
-            keyExtractor={extractConversationId}
-            // refreshing={isLoadingConversations || isFetchingConversations}
-            // onRefresh={handleRefresh}
-            onEndReached={handleLoadMore}
-            onEndReachedThreshold={0.5}
-            initialNumToRender={10}
-            // ItemSeparatorComponent={FlatListItemSeparator}
-          />
-        </View>
-      </Screen>
-    )
-  },
-)
+            )
+          }
+          keyExtractor={extractConversationId}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          initialNumToRender={10}
+        />
+      </View>
+    </Screen>
+  )
+})

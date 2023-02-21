@@ -2,7 +2,8 @@ import { API } from "@aws-amplify/api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import { IConversation, IConversationUpdate } from "../../../../models/Conversation"
-import { APIEndpoints, conversationKeys } from "../../config"
+import { APIEndpoints } from "../../config"
+import { conversationKeys } from "../conversations"
 
 interface IPutProps {
   conversationId: string

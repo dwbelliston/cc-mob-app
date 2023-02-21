@@ -2,7 +2,8 @@ import { API } from "@aws-amplify/api"
 import { useQuery } from "@tanstack/react-query"
 
 import { AxiosError } from "axios"
-import { APIEndpoints, conversationKeys } from "../../config"
+import { APIEndpoints } from "../../config"
+import { conversationKeys } from "../conversations"
 
 const makeApiRequest = (): Promise<string> => {
   const qParams = {}

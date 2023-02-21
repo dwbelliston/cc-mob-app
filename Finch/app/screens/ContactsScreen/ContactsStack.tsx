@@ -4,13 +4,16 @@ import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navig
 import { useColorModeValue } from "native-base"
 import React, { FC } from "react"
 import { UserAvatar } from "../../components/UserAvatar"
+import { translate } from "../../i18n"
+import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import { colors } from "../../theme"
+import { ContactDetailScreen } from "./ContactDetailScreen"
 import { ContactsScreen } from "./ContactsScreen"
 
 export type ContactsStackParamList = {
   ContactsList: undefined
-  ContactDetail: { contactId: string } | undefined
+  ContactDetail: { contactName?: string; contactId?: string } | undefined
 }
 
 export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> =
@@ -18,8 +21,13 @@ export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> =
 
 const Stack = createNativeStackNavigator<ContactsStackParamList>()
 
-export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = () => {
+export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) => {
+  const { navigation } = _props
+
+  const { contactsStore } = useStores()
   const headerBg = useColorModeValue("white", colors.gray[900])
+
+  const headerDetailBg = useColorModeValue(colors.primary[700], colors.primary[900])
 
   return (
     <Stack.Navigator>
@@ -27,21 +35,39 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = () => {
         name={"ContactsList"}
         component={ContactsScreen}
         options={{
-          headerTitle: "Contacts",
+          headerTitle: translate("navigator.contactsTab"),
           headerLargeTitle: true,
           headerLargeTitleShadowVisible: false,
           headerLargeStyle: {
             backgroundColor: headerBg,
           },
-          headerLeft: ({}) => {
-            const navigation = useNavigation()
-            const handleOnPressSettings = () => {
-              navigation.dispatch(DrawerActions.toggleDrawer())
-            }
+          headerLeft: contactsStore.isHeaderSearchOpen
+            ? null
+            : ({}) => {
+                const navigation = useNavigation()
+                const handleOnPressSettings = () => {
+                  navigation.dispatch(DrawerActions.toggleDrawer())
+                }
 
-            return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
-          },
+                return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
+              },
         }}
+      />
+
+      <Stack.Screen
+        name={"ContactDetail"}
+        component={ContactDetailScreen}
+        options={({ route }) => ({
+          headerTitle: route.params?.contactName,
+          // headerLargeTitle: true,
+          headerStyle: {
+            backgroundColor: headerDetailBg,
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          headerBackVisible: true,
+        })}
       />
     </Stack.Navigator>
   )

@@ -37,7 +37,7 @@ export const AvatarRing = (props: IProps) => {
           {initials ? (
             <Avatar
               bg={avatarColor}
-              _text={{ color: "white", fontSize: "xs" }}
+              _text={{ color: "white", fontSize: "xs", allowFontScaling: false }}
               size="md"
               {...avatarProps}
             >

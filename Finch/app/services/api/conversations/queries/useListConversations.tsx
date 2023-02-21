@@ -3,7 +3,8 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 
 import { IPaginatedConversations } from "../../../../models/Conversation"
-import { APIEndpoints, conversationKeys, IConversationListFilterProps } from "../../config"
+import { APIEndpoints } from "../../config"
+import { conversationKeys, IConversationListFilterProps } from "../conversations"
 
 interface IProps extends IConversationListFilterProps {
   pageCursor?: any
