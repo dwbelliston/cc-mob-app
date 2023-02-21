@@ -10,6 +10,14 @@ export enum NumberCarrierTypeEnum {
   ERROR = "error",
 }
 
+export enum ContactSourceTypeEnum {
+  WEALTHBOX = "WEALTHBOX",
+  AGENTCORE = "AGENTCORE",
+  RADIUSBOB = "RADIUSBOB",
+  REDTAIL = "REDTAIL",
+  HUBSPOT = "HUBSPOT",
+}
+
 export interface IContactBase {
   FirstName: string
   LastName: string
@@ -24,7 +32,7 @@ export interface IContactBase {
   Tags?: string[]
   SourceId?: string
   SourceMeta?: any
-  SourceType?: string
+  SourceType?: ContactSourceTypeEnum
   LastSyncTime?: string
 }
 

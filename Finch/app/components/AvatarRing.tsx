@@ -3,7 +3,7 @@ import { ColorType } from "native-base/lib/typescript/components/types"
 import { useColor } from "../theme/useColor"
 import { GenericAvatarIcon } from "./GenericAvatar"
 
-interface IProps {
+export interface IAvatarRingProps {
   initials?: string
   outerRingColor?: ColorType
   innerRingColor?: ColorType
@@ -13,7 +13,7 @@ interface IProps {
   isLoading?: boolean
 }
 
-export const AvatarRing = (props: IProps) => {
+export const AvatarRing = (props: IAvatarRingProps) => {
   const {
     initials,
     outerRingColor = "transparent",

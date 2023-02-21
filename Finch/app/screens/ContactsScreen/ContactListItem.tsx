@@ -4,12 +4,12 @@ import React from "react"
 
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { Icon, Text } from "../../components"
-import { AvatarRing } from "../../components/AvatarRing"
 import { getAvatarColor, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { getInitials } from "../../utils/getInitials"
 
 import { useActionSheet } from "@expo/react-native-action-sheet"
+import { ContactAvatar } from "../../components/ContactAvatar"
 import { IContact } from "../../models/Contact"
 import { runFormatTimeFromNowSpecial } from "../../utils/useFormatDate"
 
@@ -20,6 +20,7 @@ export interface IContactListItemData {
   contactNumber: string
   avatarColor: string
   initials: string
+  contactSourceType?: IContact["SourceType"]
   lastContactTime: string
   sourceType: string
 }
@@ -45,6 +46,7 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
   const avatarColor = getAvatarColor(contactName)
   const initials = getInitials(contactName)
   const lastContactTime = contact.LastContactedTime
+  const contactSourceType = contact.SourceType
   const sourceType = contact.SourceType
 
   return {
@@ -55,6 +57,7 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
     avatarColor,
     initials,
     lastContactTime,
+    contactSourceType,
     sourceType,
   }
 }
@@ -132,6 +135,7 @@ const ContactListItem = ({
   contactNumber,
   avatarColor,
   initials,
+  contactSourceType,
   lastContactTime,
   sourceType,
   onEmail,
@@ -179,14 +183,13 @@ const ContactListItem = ({
     >
       <Pressable onPress={handleOnClickContact}>
         <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
-          <AvatarRing
-            outerRingColor={cardBg}
-            // outerRingColor={isIncoming ? errorColor : cardBg}
+          <ContactAvatar
             innerRingColor={cardBg}
             avatarColor={avatarColor}
             initials={initials}
             avatarProps={{ size: "sm" }}
-          ></AvatarRing>
+            contactSource={contactSourceType}
+          ></ContactAvatar>
 
           <Stack flex={1}>
             <HStack alignItems="center" justifyContent={"space-between"} space={spacing.micro}>
