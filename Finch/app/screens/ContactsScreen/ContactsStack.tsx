@@ -1,4 +1,4 @@
-import { DrawerActions, useNavigation } from "@react-navigation/native"
+import { DrawerActions } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 
 import { useColorModeValue } from "native-base"
@@ -8,6 +8,7 @@ import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import { colors } from "../../theme"
+import { useColor } from "../../theme/useColor"
 import { ContactDetailScreen } from "./ContactDetailScreen"
 import { ContactsScreen } from "./ContactsScreen"
 
@@ -25,7 +26,8 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
   const { navigation } = _props
 
   const { contactsStore } = useStores()
-  const headerBg = useColorModeValue("white", colors.gray[900])
+  const headerLargeBg = useColor("bg.largeHeader")
+  const headerBg = useColor("bg.header")
 
   const headerDetailBg = useColorModeValue(colors.primary[700], colors.primary[900])
 
@@ -35,16 +37,19 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
         name={"ContactsList"}
         component={ContactsScreen}
         options={{
+          headerShown: true,
           headerTitle: translate("navigator.contactsTab"),
           headerLargeTitle: true,
           headerLargeTitleShadowVisible: false,
           headerLargeStyle: {
+            backgroundColor: headerLargeBg,
+          },
+          headerStyle: {
             backgroundColor: headerBg,
           },
           headerLeft: contactsStore.isHeaderSearchOpen
             ? null
             : ({}) => {
-                const navigation = useNavigation()
                 const handleOnPressSettings = () => {
                   navigation.dispatch(DrawerActions.toggleDrawer())
                 }

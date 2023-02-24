@@ -1,3 +1,4 @@
+import { useHeaderHeight } from "@react-navigation/elements"
 import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
 import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
@@ -15,7 +16,6 @@ import { spacing } from "../../theme"
 import { Platform } from "react-native"
 import { useCustomToast } from "../../utils/useCustomToast"
 import {
-  IContactListItem,
   IContactListItemData,
   makeContactListItemData,
   PureContactListItem,
@@ -39,6 +39,8 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     const [contactsSearch, setContactsSearch] = React.useState("")
 
     const [debouncedContactsSearch] = useDebounce(contactsSearch, 750)
+
+    const headerHeight = useHeaderHeight()
 
     const {
       data: dataContacts,
@@ -127,7 +129,7 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
       setIsEmailEnabled(isAvailable)
     }
 
-    const extractContactId = React.useCallback((item: IContactListItem) => item.contactId, [])
+    const extractContactId = React.useCallback((item: IContactListItemData) => item.contactId, [])
 
     const renderItem = React.useCallback(({ item }: { item: IContactListItemData }) => {
       return (
@@ -201,7 +203,7 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
         safeAreaEdges={["top"]}
         contentContainerStyle={{
           paddingBottom: 0,
-          // paddingTop: headerHeight,
+          paddingTop: 8,
         }}
       >
         <StatusBar style={statusBarColor} />

@@ -296,6 +296,7 @@ const palette = {
 
 export const colors = {
   ...TAILDWIND_COLORS,
+  gray: TAILDWIND_COLORS.coolGray,
   primary: TAILDWIND_COLORS.blue,
   secondary: TAILDWIND_COLORS.indigo,
   /**
@@ -431,7 +432,6 @@ export const PRETTY_COLORS = [
   "#78350f",
   "#fb923c",
   "#f97316",
-  "#7c2d12",
 ]
 
 // https://github.com/chakra-ui/chakra-ui/blob/0969920c6b0d915b816708faef08cf9df48433de/packages/components/theme-tools/src/color.ts#L17

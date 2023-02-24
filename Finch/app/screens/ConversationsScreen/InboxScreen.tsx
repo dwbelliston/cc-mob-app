@@ -202,7 +202,7 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
       safeAreaEdges={["top"]}
       contentContainerStyle={{
         paddingBottom: 0,
-        // paddingTop: headerHeight,
+        paddingTop: 8,
       }}
     >
       <StatusBar style={statusBarColor} />

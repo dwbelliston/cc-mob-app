@@ -41,8 +41,8 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
 
   const unreadCountBadge = dataCountUnreadConversations
 
-  const tabBg = useColorModeValue(colors.white, colors.gray[900])
-  const tabBorder = useColorModeValue(colors.gray[50], colors.gray[700])
+  const tabBg = useColorModeValue(colors.gray[50], colors.gray[900])
+  const tabBorder = useColorModeValue(colors.gray[100], colors.gray[800])
 
   const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
   const tabIconColorInActive = useColorModeValue(colors.gray[400], colors.gray[600])
@@ -94,7 +94,7 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
         tabBarInactiveTintColor: tabIconColorInActive,
         tabBarStyle: {
           borderTopWidth: 2,
-          paddingTop: 0,
+          paddingTop: 2,
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
           height: bottom + 60,

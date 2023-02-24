@@ -34,8 +34,8 @@ const en = {
     endOfConversations: "End of History",
   },
   contacts: {
-    noDataTitle: "No contacts",
-    noDataDescription: "We didnt find any data for you. Please check it out.",
+    noDataTitle: "No contacts yet!",
+    noDataDescription: "Head over to the desktop app to run an import or sync with a CRM.",
     noSearchTitle: "Nothing found",
     noSearchDescription: "Clear your search and try again",
   },

@@ -1,4 +1,5 @@
 import { useColorMode } from "native-base"
+import { colors } from "./colors"
 
 interface IColorToken {
   light: string
@@ -18,6 +19,14 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
   "bg.higher": {
     light: "gray.100",
     dark: "gray.700",
+  },
+  "bg.header": {
+    light: "white",
+    dark: colors.gray[800],
+  },
+  "bg.largeHeader": {
+    light: "white",
+    dark: colors.gray[900],
   },
   // Text
   text: {

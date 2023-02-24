@@ -11,7 +11,7 @@ import { getInitials } from "../../utils/getInitials"
 import { useActionSheet } from "@expo/react-native-action-sheet"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { IContact } from "../../models/Contact"
-import { runFormatTimeFromNowSpecial } from "../../utils/useFormatDate"
+import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
 export interface IContactListItemData {
   contactId: string
@@ -187,7 +187,7 @@ const ContactListItem = ({
             innerRingColor={cardBg}
             avatarColor={avatarColor}
             initials={initials}
-            avatarProps={{ size: "sm" }}
+            avatarProps={{ size: "md" }}
             contactSource={contactSourceType}
           ></ContactAvatar>
 
@@ -201,11 +201,6 @@ const ContactListItem = ({
                 fontSize="md"
                 text={contactName}
               ></Text>
-              {lastContactTime && (
-                <Text textAlign={"right"} fontSize="xs" colorToken={"text.softer"}>
-                  {runFormatTimeFromNowSpecial(lastContactTime)}
-                </Text>
-              )}
             </HStack>
             <HStack alignItems="center" space={spacing.micro}>
               <Text
@@ -215,7 +210,7 @@ const ContactListItem = ({
                 fontSize="sm"
                 colorToken={"text.soft"}
                 fontWeight={"normal"}
-                text={contactEmail}
+                text={runFormatPhoneSimple(contactNumber)}
               ></Text>
             </HStack>
           </Stack>
