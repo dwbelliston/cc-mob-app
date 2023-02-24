@@ -15,7 +15,6 @@ import useGetCountUnreadConversations from "../services/api/conversations/querie
 import { colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
 import { AppHomeScreenProps } from "./AppHomeNavigator"
-import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type HomeTabParamList = {
   ConversationsStack: undefined
@@ -29,7 +28,7 @@ export type HomeTabParamList = {
  */
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, T>,
-  AppStackScreenProps<keyof AppStackParamList>
+  AppHomeScreenProps<"Home">
 >
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()

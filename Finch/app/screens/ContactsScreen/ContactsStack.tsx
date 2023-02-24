@@ -1,4 +1,4 @@
-import { DrawerActions } from "@react-navigation/native"
+import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 
 import React, { FC } from "react"
@@ -15,8 +15,10 @@ export type ContactsStackParamList = {
   ContactDetail: { contactName: string; contactId: string } | undefined
 }
 
-export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> =
-  NativeStackScreenProps<ContactsStackParamList, T>
+export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<ContactsStackParamList, T>,
+  HomeTabScreenProps<"ContactsStack">
+>
 
 const Stack = createNativeStackNavigator<ContactsStackParamList>()
 

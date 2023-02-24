@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { Box, Button as NBButton, HStack, Spinner, Stack, View } from "native-base"
+import { Box, Button as NBButton, HStack, Skeleton, Stack, View } from "native-base"
 import React, { FC } from "react"
 
 import { Button, Icon, IconButton, Screen, Text } from "../../components"
@@ -117,9 +117,10 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
                 </HStack>
 
                 {isLoadingContact && (
-                  <Box py={spacing.tiny}>
-                    <Spinner size="lg"></Spinner>
-                  </Box>
+                  <Stack space={spacing.tiny} py={spacing.tiny}>
+                    <Skeleton h="8" w="70%" rounded="sm" />
+                    <Skeleton h="6" w="20%" rounded="sm" />
+                  </Stack>
                 )}
 
                 {dataContact && (
@@ -152,6 +153,14 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
             pt={spacing.extraSmall}
             px={spacing.tiny}
           >
+            {isLoadingContact && (
+              <HStack flex={1} space={spacing.tiny} justifyContent="center">
+                <Skeleton h={12} w={12} rounded="full" />
+                <Skeleton h={12} w={12} rounded="full" />
+                <Skeleton h={12} w={12} rounded="full" />
+                <Skeleton h={12} w={12} rounded="full" />
+              </HStack>
+            )}
             {!isLoadingContact && dataContact && (
               <Stack space={spacing.small}>
                 <NBButton.Group size="lg" justifyContent={"center"} space={spacing.tiny}>
