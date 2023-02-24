@@ -1,4 +1,4 @@
-import { Box, Image, Pressable } from "native-base"
+import { Image, Pressable } from "native-base"
 import React from "react"
 
 import * as Haptics from "expo-haptics"
@@ -47,20 +47,15 @@ export const ContactAvatar = (props: IProps) => {
 
   return (
     <Pressable onPress={handleOnPress} _pressed={{ opacity: 60 }} position="relative">
-      <AvatarRing {...rest}></AvatarRing>
-      {contactSourceImg && (
-        <Box
-          position="absolute"
-          bottom={-3}
-          right={-3}
-          rounded="full"
-          overflow="hidden"
-          borderWidth={1}
-          borderColor={contactSourceColor}
-        >
-          <Image h={8} w={8} alt={`${contactSource} logo`} source={contactSourceImg}></Image>
-        </Box>
-      )}
+      <AvatarRing
+        sourceBadge={
+          contactSourceImg ? (
+            <Image h={8} w={8} alt={`${contactSource} logo`} source={contactSourceImg}></Image>
+          ) : null
+        }
+        sourceBadgeColor={contactSourceColor}
+        {...rest}
+      ></AvatarRing>
     </Pressable>
   )
 }

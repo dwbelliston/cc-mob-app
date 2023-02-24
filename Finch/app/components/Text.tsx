@@ -34,7 +34,7 @@ export interface TextProps extends NBITextProps {
 }
 
 export const Text = (props: TextProps) => {
-  const { size, tx, txOptions, text, color, colorToken, children, ...rest } = props
+  const { size, tx, txOptions, text, color, colorToken = "text", children, ...rest } = props
 
   const i18nText = tx && translate(tx, txOptions)
   const content = i18nText || text || children

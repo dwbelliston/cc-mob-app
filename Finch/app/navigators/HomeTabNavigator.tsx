@@ -35,22 +35,28 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScre
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
+  const { route } = _props
+
   const { bottom } = useSafeAreaInsets()
 
   const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
 
   const unreadCountBadge = dataCountUnreadConversations
 
-  const tabBg = useColorModeValue(colors.gray[50], colors.gray[900])
+  // const tabBg = useColorModeValue(colors.gray[50], colors.gray[900])
   const tabBorder = useColorModeValue(colors.gray[100], colors.gray[800])
 
   const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
   const tabIconColorInActive = useColorModeValue(colors.gray[400], colors.gray[600])
 
+  const tabBg = useColor("bg.main")
   const headerBg = useColor("bg.main")
+
+  // const hide = route.name != "Profile"
 
   return (
     <Tab.Navigator
+      id="HomeTabNavigator"
       screenOptions={{
         headerShown: false,
         headerLeftContainerStyle: { paddingLeft: spacing.large },
@@ -93,7 +99,8 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
         tabBarActiveTintColor: tabIconColorActive,
         tabBarInactiveTintColor: tabIconColorInActive,
         tabBarStyle: {
-          borderTopWidth: 2,
+          borderTopWidth: 0,
+          // borderTopWidth: 2,
           paddingTop: 2,
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
@@ -131,19 +138,21 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
       <Tab.Screen
         name="ContactsStack"
         component={ContactsStack}
-        options={{
-          headerShown: false,
-          title: "Inbox",
-          tabBarAccessibilityLabel: translate("navigator.contactsTab"),
-          tabBarLabel: translate("navigator.contactsTab"),
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              size={32}
-              color={focused ? tabIconColorActive : tabIconColorInActive}
-              icon="contacts"
-              isOutline={focused ? false : true}
-            />
-          ),
+        options={({ route: contactStackRoute }) => {
+          return {
+            headerShown: false,
+            title: "Inbox",
+            tabBarAccessibilityLabel: translate("navigator.contactsTab"),
+            tabBarLabel: translate("navigator.contactsTab"),
+            tabBarIcon: ({ focused }) => (
+              <Icon
+                size={32}
+                color={focused ? tabIconColorActive : tabIconColorInActive}
+                icon="contacts"
+                isOutline={focused ? false : true}
+              />
+            ),
+          }
         }}
       />
     </Tab.Navigator>

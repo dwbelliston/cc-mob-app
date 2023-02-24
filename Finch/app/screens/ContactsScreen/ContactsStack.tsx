@@ -1,20 +1,18 @@
 import { DrawerActions } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 
-import { useColorModeValue } from "native-base"
 import React, { FC } from "react"
 import { UserAvatar } from "../../components/UserAvatar"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
-import { colors } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { ContactDetailScreen } from "./ContactDetailScreen"
 import { ContactsScreen } from "./ContactsScreen"
 
 export type ContactsStackParamList = {
   ContactsList: undefined
-  ContactDetail: { contactName?: string; contactId?: string } | undefined
+  ContactDetail: { contactName: string; contactId: string } | undefined
 }
 
 export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> =
@@ -28,8 +26,6 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
   const { contactsStore } = useStores()
   const headerLargeBg = useColor("bg.largeHeader")
   const headerBg = useColor("bg.header")
-
-  const headerDetailBg = useColorModeValue(colors.primary[700], colors.primary[900])
 
   return (
     <Stack.Navigator>
@@ -63,15 +59,7 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
         name={"ContactDetail"}
         component={ContactDetailScreen}
         options={({ route }) => ({
-          headerTitle: route.params?.contactName,
-          // headerLargeTitle: true,
-          headerStyle: {
-            backgroundColor: headerDetailBg,
-          },
-          headerTitleStyle: {
-            color: "white",
-          },
-          headerBackVisible: true,
+          headerShown: false,
         })}
       />
     </Stack.Navigator>

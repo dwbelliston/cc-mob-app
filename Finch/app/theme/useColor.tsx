@@ -10,15 +10,15 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
   // Backgrounds
   "bg.main": {
     light: "white",
-    dark: "gray.900",
+    dark: colors.gray[900],
   },
   "bg.high": {
-    light: "gray.50",
-    dark: "gray.800",
+    light: colors.gray[50],
+    dark: colors.gray[800],
   },
   "bg.higher": {
-    light: "gray.100",
-    dark: "gray.700",
+    light: colors.gray[100],
+    dark: colors.gray[700],
   },
   "bg.header": {
     light: "white",
@@ -26,6 +26,10 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
   },
   "bg.largeHeader": {
     light: "white",
+    dark: colors.gray[900],
+  },
+  "bg.accent": {
+    light: colors.primary[700],
     dark: colors.gray[900],
   },
   // Text
@@ -44,6 +48,14 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
   "text.contrast": {
     light: "gray.100",
     dark: "gray.800",
+  },
+  "text.light": {
+    light: "white",
+    dark: "white",
+  },
+  "text.lighter": {
+    light: "gray.300",
+    dark: "gray.300",
   },
   "text.soft": {
     light: "gray.600",

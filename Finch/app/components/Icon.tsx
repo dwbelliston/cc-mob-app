@@ -12,6 +12,8 @@ import {
   Bars3Icon,
   BellAlertIcon,
   BellIcon,
+  CakeIcon,
+  ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftIcon,
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
@@ -19,6 +21,7 @@ import {
   Cog6ToothIcon,
   EllipsisHorizontalIcon,
   EllipsisVerticalIcon,
+  EnvelopeIcon,
   ExclamationTriangleIcon,
   EyeIcon,
   EyeSlashIcon,
@@ -34,7 +37,10 @@ import {
   LockClosedIcon,
   LockOpenIcon,
   MagnifyingGlassIcon,
+  MapPinIcon,
+  NoSymbolIcon,
   PhoneArrowDownLeftIcon,
+  PhoneArrowUpRightIcon,
   PhoneIcon,
   RocketLaunchIcon,
   SparklesIcon,
@@ -58,6 +64,8 @@ import {
   Bars3Icon as Bars3IconSolid,
   BellAlertIcon as BellAlertIconSolid,
   BellIcon as BellIconSolid,
+  CakeIcon as CakeIconSolid,
+  ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisIconSolid,
   ChatBubbleLeftIcon as ChatBubbleLeftIconSolid,
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
   CheckCircleIcon as CheckCircleIconSolid,
@@ -65,6 +73,7 @@ import {
   Cog6ToothIcon as Cog6ToothIconSolid,
   EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
   EllipsisVerticalIcon as EllipsisVerticalIconSolid,
+  EnvelopeIcon as EnvelopeIconSolid,
   ExclamationTriangleIcon as ExclamationTriangleIconSolid,
   EyeIcon as EyeIconSolid,
   EyeSlashIcon as EyeSlashIconSolid,
@@ -80,7 +89,10 @@ import {
   LockClosedIcon as LockClosedIconSolid,
   LockOpenIcon as LockOpenIconSolid,
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
+  MapPinIcon as MapPinIconSolid,
+  NoSymbolIcon as NoSymbolIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
+  PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
   PhoneIcon as PhoneIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
   SparklesIcon as SparklesIconSolid,
@@ -97,7 +109,7 @@ import { ColorTokenOption, useColor } from "../theme/useColor"
 
 export type IconTypes = keyof typeof iconRegistry
 
-interface IconProps extends INBIconProps {
+export interface IconProps extends INBIconProps {
   /**
    * The name of the icon
    */
@@ -157,6 +169,10 @@ export const iconRegistry = {
     outline: CheckIcon,
     solid: CheckIconSolid,
   },
+  cake: {
+    outline: CakeIcon,
+    solid: CakeIconSolid,
+  },
   checkCircle: {
     outline: CheckCircleIcon,
     solid: CheckCircleIconSolid,
@@ -189,6 +205,10 @@ export const iconRegistry = {
     outline: AtSymbolIcon,
     solid: AtSymbolIconSolid,
   },
+  noSymbol: {
+    outline: NoSymbolIcon,
+    solid: NoSymbolIconSolid,
+  },
   xMark: {
     outline: XMarkIcon,
     solid: XMarkIconSolid,
@@ -209,6 +229,10 @@ export const iconRegistry = {
     outline: ChatBubbleLeftIcon,
     solid: ChatBubbleLeftIconSolid,
   },
+  chatBubbleLeftEllipsis: {
+    outline: ChatBubbleLeftEllipsisIcon,
+    solid: ChatBubbleLeftEllipsisIconSolid,
+  },
   contacts: {
     outline: UserGroupIcon,
     solid: UserGroupIconSolid,
@@ -225,6 +249,10 @@ export const iconRegistry = {
     outline: InformationCircleIcon,
     solid: InformationCircleIconSolid,
   },
+  envelope: {
+    outline: EnvelopeIcon,
+    solid: EnvelopeIconSolid,
+  },
   arrowDownRight: {
     outline: ArrowDownRightIcon,
     solid: ArrowDownRightIconSolid,
@@ -237,7 +265,6 @@ export const iconRegistry = {
     outline: ArrowUpRightIcon,
     solid: ArrowUpRightIconSolid,
   },
-
   "arrow-top-right-on-square": {
     outline: ArrowTopRightOnSquareIcon,
     solid: ArrowTopRightOnSquareIconSolid,
@@ -257,6 +284,10 @@ export const iconRegistry = {
   phoneArrowDownLeft: {
     outline: PhoneArrowDownLeftIcon,
     solid: PhoneArrowDownLeftIconSolid,
+  },
+  phoneArrowUpRight: {
+    outline: PhoneArrowUpRightIcon,
+    solid: PhoneArrowUpRightIconSolid,
   },
   bell: {
     outline: BellIcon,
@@ -301,5 +332,9 @@ export const iconRegistry = {
   inbox: {
     outline: InboxIcon,
     solid: InboxIconSolid,
+  },
+  mapPin: {
+    outline: MapPinIcon,
+    solid: MapPinIconSolid,
   },
 }

@@ -2,10 +2,8 @@ import { colors } from "./colors"
 import {
   Badge,
   Button,
-  FormControlErrorMessage,
-  Input,
-  Menu,
-  MenuGroup,
+  FormControlErrorMessage, IconButton, Input,
+  Menu, MenuGroup,
   MenuItem
 } from "./nb-components"
 import { typography } from "./typography"
@@ -21,7 +19,7 @@ export const finchTheme = {
     Input,
     FormControlErrorMessage,
     Menu,
-    MenuItem,
+    MenuItem,IconButton,
     MenuGroup,
   },
   colors,

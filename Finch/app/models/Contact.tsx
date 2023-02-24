@@ -109,3 +109,7 @@ export const intialFormContact: IContactForm = {
 export interface IPaginatedContacts extends IPaginatedResponse {
   records: IContact[]
 }
+
+export const getContactName = (contact: IContact) => {
+  return `${contact.FirstName} ${contact.LastName}`
+}

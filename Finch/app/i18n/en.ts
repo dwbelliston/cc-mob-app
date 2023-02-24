@@ -7,6 +7,8 @@ const en = {
     mySubscription: "My Subscription",
     myCCNumber: "CurrentClient Number",
     loading: "Loading...",
+    oneMoment: "One moment...",
+    reset: "Reset",
   },
   fieldLabels: {
     lastname: "Last Name",
@@ -33,11 +35,24 @@ const en = {
     noCloseDescription: "When you are ready to mark a conversation complete swipe the conversation to change its status.",
     endOfConversations: "End of History",
   },
+  phone: {
+    landline: "Landline",
+    mobile: "Mobile",
+    voip: "Voip",
+    invalid: "Invalid number",
+    unknown: "Unknown phone type",
+  },
+  contact: {
+    information: "Information",
+    address: "Address"
+  },
   contacts: {
     noDataTitle: "No contacts yet!",
     noDataDescription: "Head over to the desktop app to run an import or sync with a CRM.",
     noSearchTitle: "Nothing found",
     noSearchDescription: "Clear your search and try again",
+    loadingContacts: "Getting contacts...",
+    backToContacts: "Back to contacts",
   },
   loginScreen: {
     login: "Login",
@@ -45,7 +60,9 @@ const en = {
     enterAlt: "Alt Login",
     enterAltDescription: "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
     createAccount: "Create Account",
+    forgotPassword: "Forgot password?",
     resetPassword: "Reset Password",
+    resetPasswordDescription: "Enter your email and we will send you a verification code you can use to reset your password.",
     altLogin: "Alt Login",
     backToLogin: "Back to primary login",
   },

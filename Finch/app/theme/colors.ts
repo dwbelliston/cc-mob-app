@@ -358,12 +358,8 @@ interface RandomColorOptions {
 
 // All 400 and up expect the grays
 export const PRETTY_COLORS = [
-  "#f472b6",
-  "#ec4899",
   "#db2777",
   "#be185d",
-  "#e879f9",
-  "#d946ef",
   "#c026d3",
   "#a21caf",
   "#86198f",
@@ -398,7 +394,6 @@ export const PRETTY_COLORS = [
   "#0369a1",
   "#075985",
   "#0c4a6e",
-  "#22d3ee",
   "#06b6d4",
   "#0891b2",
   "#0e7490",
@@ -430,8 +425,6 @@ export const PRETTY_COLORS = [
   "#b45309",
   "#92400e",
   "#78350f",
-  "#fb923c",
-  "#f97316",
 ]
 
 // https://github.com/chakra-ui/chakra-ui/blob/0969920c6b0d915b816708faef08cf9df48433de/packages/components/theme-tools/src/color.ts#L17

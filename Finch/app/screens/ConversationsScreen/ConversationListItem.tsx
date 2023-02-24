@@ -314,7 +314,14 @@ const ConversationListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickConversation}>
-        <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
+        <HStack
+          bg={cardBg}
+          py={spacing.tiny}
+          px={spacing.tiny}
+          space={4}
+          alignItems="center"
+          rounded="lg"
+        >
           <AvatarRing
             outerRingColor={cardBg}
             // outerRingColor={isIncoming ? errorColor : cardBg}
@@ -357,7 +364,7 @@ const ConversationListItem = ({
                 text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
               ></Text>
               {!isRead && <Dot.Error size="sm" />}
-              {isRead && isClosed && <Dot.Success size="sm" />}
+              {isRead && isClosed && <Dot.Neutral size="sm" />}
             </HStack>
           </Stack>
 

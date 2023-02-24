@@ -86,7 +86,7 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
           </Menu.Item>
           <Menu.Item onPress={handleOnClosed}>
             <HStack space={spacing.micro} alignItems="center">
-              <Dot.Success size="sm" />
+              <Dot.Neutral size="sm" />
               <Text flex={1} colorToken={"text"} tx="inbox.completed"></Text>
               <Icon size={24} colorToken={"text"} icon="checkCircle"></Icon>
             </HStack>

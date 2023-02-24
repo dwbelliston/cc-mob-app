@@ -10,6 +10,7 @@ export const AuthenticationStoreModel = types
     loginError: types.maybe(types.string),
     registerError: types.maybe(types.string),
     validateError: types.maybe(types.string),
+    resetPasswordError: types.maybe(types.string),
   })
   .views((store) => ({
     get isAuthenticated() {
@@ -58,6 +59,17 @@ export const AuthenticationStoreModel = types
         }
 
         store.setProp("loginError", errorMessage);
+      }
+    },
+    async resetPassword(username: string) {
+      try {
+
+        const user = await Auth.forgotPassword(username);
+
+      } catch (error: any) {
+        let errorMessage = "Reset failed";
+        store.setProp("resetPasswordError", errorMessage);
+        throw error
       }
     },
     async resetRegister() {

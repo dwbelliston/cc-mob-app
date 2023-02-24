@@ -1,5 +1,4 @@
 import { useHeaderHeight } from "@react-navigation/elements"
-import { StatusBar } from "expo-status-bar"
 import { observer } from "mobx-react-lite"
 import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
@@ -117,7 +116,6 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
 
     const handleOnText = React.useCallback((contactNumber: string) => {
       let conversationId = "123"
-
       // navigation.navigate("ConversationDetail", {
       //   contactName,
       //   conversationId,
@@ -201,13 +199,12 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
       <Screen
         preset="fixed"
         safeAreaEdges={["top"]}
+        statusBarStyle={statusBarColor}
         contentContainerStyle={{
           paddingBottom: 0,
-          paddingTop: 8,
+          paddingTop: 0,
         }}
       >
-        <StatusBar style={statusBarColor} />
-
         <View h="full">
           <FlatList
             contentInsetAdjustmentBehavior="automatic"
@@ -217,7 +214,11 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
             ListEmptyComponent={
               isLoadingContacts ? (
                 <Box px={spacing.tiny} py={spacing.small} h="full">
-                  <Text textAlign={"center"} colorToken="text.softer" tx="common.loading"></Text>
+                  <Text
+                    textAlign={"center"}
+                    colorToken="text.softer"
+                    tx="contacts.loadingContacts"
+                  ></Text>
                 </Box>
               ) : (
                 <Box px={spacing.tiny} py={spacing.small} h="full">

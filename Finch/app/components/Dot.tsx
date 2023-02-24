@@ -20,13 +20,18 @@ const DotInfo = (props: IDotProps) => {
   return <DotBase status="info" {...rest}></DotBase>
 }
 
+const DotNeutral = (props: IDotProps) => {
+  const { ...rest } = props
+  return <DotBase status="neutral" {...rest}></DotBase>
+}
+
 const DotWarning = (props: IDotProps) => {
   const { ...rest } = props
   return <DotBase status="warning" {...rest}></DotBase>
 }
 
-export type DotStatuses = "info" | "success" | "error" | "warning"
-export type DotSizes = "sm" | "md" | "lg"
+export type DotStatuses = "info" | "success" | "error" | "warning" | "neutral"
+export type DotSizes = "xs" | "sm" | "md" | "lg"
 
 export interface IDotBaseProps extends IDotProps {
   status?: DotStatuses
@@ -66,6 +71,12 @@ const STATUSES: Record<DotStatuses, StatusConfig> = {
     },
     _dark: { bg: "amber.400" },
   },
+  neutral: {
+    _light: {
+      bg: "gray.400",
+    },
+    _dark: { bg: "gray.400" },
+  },
 }
 
 function getStatus(status: DotStatuses) {
@@ -73,6 +84,10 @@ function getStatus(status: DotStatuses) {
 }
 
 const SIZES = {
+  xs: {
+    h: 1,
+    w: 1,
+  },
   sm: {
     h: 2,
     w: 2,
@@ -101,6 +116,7 @@ export const Dot = {
   Base: DotBase,
   Success: DotSuccess,
   Info: DotInfo,
+  Neutral: DotNeutral,
   Error: DotError,
   Warning: DotWarning,
 }
