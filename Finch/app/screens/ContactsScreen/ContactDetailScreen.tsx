@@ -1,40 +1,42 @@
+import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Box, Button as NBButton, HStack, Skeleton, Stack, View } from "native-base"
+import { Box, Button as NBButton, HStack, Skeleton, Stack } from "native-base"
 import React, { FC } from "react"
 
-import { Button, Icon, IconButton, Screen, Text } from "../../components"
-import { ContactAvatar } from "../../components/ContactAvatar"
+import { Icon, IconButton, Screen } from "../../components"
 import { getContactName } from "../../models/Contact"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
-import { getAvatarColor, spacing } from "../../theme"
+import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
-import { getInitials } from "../../utils/getInitials"
 import { runFormatPhone } from "../../utils/useFormatPhone"
 import { ContactsStackScreenProps } from "./ContactsStack"
 
-const imgSrc = require("../../../assets/images/img-lines-header-light.png")
+import { Linking, Platform } from "react-native"
 
-import { ImageBackground, Linking, Platform } from "react-native"
+import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { IconValuePill } from "../../components/IconValuePill"
-import { Phone } from "../../components/Phone"
+import { DynamicContactHeader } from "./DynamicContactHeader"
 
 export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> = observer(
   function ContactDetailScreen(_props) {
     const { navigation, route } = _props
 
-    const [contactInitials, setContactInitials] = React.useState("")
-    const [contactName, setContactName] = React.useState("")
-    const [contactNumber, setContactNumber] = React.useState("")
-    const [contactColor, setContactColor] = React.useState("")
-    const [viewPane, setViewPane] = React.useState(false)
+    const scrollY = useSharedValue(0)
+
+    const scrollHandler = useAnimatedScrollHandler({
+      onScroll: (e) => {
+        scrollY.value = e.contentOffset.y
+      },
+    })
 
     const statusBarColor = "light"
 
+    const [contactName, setContactName] = React.useState("")
+    const [contactNumber, setContactNumber] = React.useState("")
+    const [contactColor] = React.useState(route.params.contactColor)
+
     const bgMain = useColor("bg.main")
-    const bgHeader = useColor("bg.accent")
-    const bgColor = useColor("bg.higher")
-    const lightText = useColor("text.light")
 
     const { top: topInset } = useSafeAreaInsets()
 
@@ -45,9 +47,20 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
     } = useReadContact(route.params.contactId)
 
     const handleOnBack = () => {
+      Haptics.selectionAsync()
       navigation.goBack()
     }
 
+    React.useEffect(() => {
+      if (dataContact) {
+        const contactName = getContactName(dataContact)
+
+        setContactName(contactName)
+        setContactNumber(runFormatPhone(dataContact.Phone))
+      }
+    }, [dataContact])
+
+    // variables
     const openMap = async (address, city, zipCode) => {
       const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`)
       const provider = Platform.OS === "ios" ? "apple" : "google"
@@ -62,107 +75,47 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
       }
     }
 
-    React.useEffect(() => {
-      if (dataContact) {
-        const contactName = getContactName(dataContact)
-        const intitials = getInitials(contactName)
-        const avatarColor = getAvatarColor(contactName)
-
-        setContactColor(avatarColor)
-        setContactInitials(intitials)
-        setContactName(contactName)
-        setContactNumber(runFormatPhone(dataContact.Phone))
-      }
-    }, [dataContact])
-
     return (
-      <Screen
-        preset="scroll"
-        safeAreaEdges={[]}
-        statusBarStyle={statusBarColor}
-        contentContainerStyle={{
-          paddingBottom: 0,
-          paddingTop: 0,
-        }}
-      >
-        <View h="full">
-          {/* Contact Header */}
+      <Screen preset="fixed" safeAreaEdges={[]} statusBarStyle={statusBarColor}>
+        <Animated.ScrollView
+          scrollEventThrottle={1}
+          onScroll={scrollHandler}
+          stickyHeaderIndices={[1]}
+        >
+          {/* Header */}
+          <DynamicContactHeader
+            handleOnBack={handleOnBack}
+            topInset={topInset}
+            scrollY={scrollY}
+            isLoadingContact={isLoadingContact}
+            dataContact={dataContact}
+            contactColor={contactColor}
+            contactName={contactName}
+            contactNumber={contactNumber}
+          />
+
+          {/* Actions */}
           <Box bg={contactColor}>
-            <ImageBackground source={imgSrc} resizeMode="cover">
-              <Stack
-                style={{
-                  paddingTop: topInset,
-                }}
-                space={spacing.extraSmall}
-                px={spacing.tiny}
-                pb={spacing.medium}
-              >
-                <HStack justifyContent={"space-between"} alignItems="center">
-                  <Box>
-                    <Button
-                      onPress={handleOnBack}
-                      variant="solid"
-                      leftIcon={<Icon size={20} icon="arrowLeftLong" />}
-                      size="sm"
-                      tx="common.back"
-                    ></Button>
-                  </Box>
-                  <ContactAvatar
-                    outerRingColor={"transparent"}
-                    innerRingColor={"transparent"}
-                    avatarColor={lightText}
-                    avatarProps={{ size: "md" }}
-                    contactSource={dataContact?.SourceType}
-                  ></ContactAvatar>
+            <Box
+              bg={bgMain}
+              roundedTopLeft="2xl"
+              roundedTopRight="2xl"
+              style={{
+                // keep it from getting close to notches
+                paddingTop: topInset,
+              }}
+              pb={spacing.extraSmall}
+            >
+              {isLoadingContact && (
+                <HStack flex={1} space={spacing.tiny} justifyContent="center">
+                  <Skeleton h={12} w={12} rounded="full" />
+                  <Skeleton h={12} w={12} rounded="full" />
+                  <Skeleton h={12} w={12} rounded="full" />
+                  <Skeleton h={12} w={12} rounded="full" />
                 </HStack>
+              )}
 
-                {isLoadingContact && (
-                  <Stack space={spacing.tiny} py={spacing.tiny}>
-                    <Skeleton h="8" w="70%" rounded="sm" />
-                    <Skeleton h="6" w="20%" rounded="sm" />
-                  </Stack>
-                )}
-
-                {dataContact && (
-                  <Stack>
-                    <Text
-                      colorToken={"text.light"}
-                      fontSize="3xl"
-                      preset="subheading"
-                      text={contactName}
-                    ></Text>
-                    <Text colorToken={"text.light"} fontSize="md" text={contactNumber}></Text>
-
-                    <Phone.Type
-                      colorToken={"text.light"}
-                      fontSize="sm"
-                      numberCarrierType={dataContact?.NumberCarrierType}
-                    />
-                  </Stack>
-                )}
-              </Stack>
-            </ImageBackground>
-          </Box>
-
-          {/* Contact details, pulled up */}
-          <Box
-            bg={bgMain}
-            roundedTopLeft="2xl"
-            roundedTopRight="2xl"
-            mt={-spacing.tiny}
-            pt={spacing.extraSmall}
-            px={spacing.tiny}
-          >
-            {isLoadingContact && (
-              <HStack flex={1} space={spacing.tiny} justifyContent="center">
-                <Skeleton h={12} w={12} rounded="full" />
-                <Skeleton h={12} w={12} rounded="full" />
-                <Skeleton h={12} w={12} rounded="full" />
-                <Skeleton h={12} w={12} rounded="full" />
-              </HStack>
-            )}
-            {!isLoadingContact && dataContact && (
-              <Stack space={spacing.small}>
+              {!isLoadingContact && dataContact && (
                 <NBButton.Group size="lg" justifyContent={"center"} space={spacing.tiny}>
                   <IconButton
                     rounded="full"
@@ -178,39 +131,37 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
                     icon={<Icon colorToken="text" icon="ellipsisHorizontal" />}
                   />
                 </NBButton.Group>
+              )}
+            </Box>
+          </Box>
 
-                <Stack space={spacing.tiny}>
-                  <Text preset="subheading" tx="contact.information"></Text>
-                  <Stack space={4}>
-                    <IconValuePill icon="phone" text={contactNumber} />
-                    <IconValuePill icon="envelope" text={dataContact?.Email} />
-                    <IconValuePill icon="cake" text={dataContact?.BirthDate} />
-                  </Stack>
-                </Stack>
-
-                <Phone.Pill
-                  phone={dataContact?.Phone}
-                  numberCarrierType={dataContact?.NumberCarrierType}
-                  numberCarrierName={dataContact?.NumberCarrierName}
-                />
-
-                <Stack space={spacing.tiny}>
-                  <Stack space={spacing.tiny}>
-                    <Text preset="subheading" tx="contact.address"></Text>
-
-                    <Stack space={1}>
-                      <IconValuePill icon="mapPin" text={dataContact?.Address1} />
-                      <IconValuePill icon="mapPin" text={dataContact?.Address2} />
-                      <IconValuePill icon="mapPin" text={dataContact?.City} />
-                      <IconValuePill icon="mapPin" text={dataContact?.State} />
-                      <IconValuePill icon="mapPin" text={dataContact?.Zip} />
-                    </Stack>
-                  </Stack>
+          {/* Content */}
+          <Stack px={spacing.tiny} bg={bgMain} flex={1} pt={spacing.tiny} pb={spacing.small}>
+            {!isLoadingContact && dataContact && (
+              <Stack space={spacing.small}>
+                <Stack space={spacing.extraSmall}>
+                  <IconValuePill label="fieldLabels.name" icon="phone" text={contactName} />
+                  <IconValuePill label="fieldLabels.phone" icon="phone" text={contactNumber} />
+                  <IconValuePill
+                    label="fieldLabels.email"
+                    icon="envelope"
+                    text={dataContact?.Email}
+                  />
+                  <IconValuePill
+                    label="fieldLabels.birthdate"
+                    icon="cake"
+                    text={dataContact?.BirthDate}
+                  />
+                  <IconValuePill
+                    label="fieldLabels.address"
+                    icon="cake"
+                    text={dataContact?.Address1}
+                  />
                 </Stack>
               </Stack>
             )}
-          </Box>
-        </View>
+          </Stack>
+        </Animated.ScrollView>
       </Screen>
     )
   },

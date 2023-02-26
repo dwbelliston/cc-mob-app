@@ -18,6 +18,7 @@ import {
   ChatBubbleLeftRightIcon,
   CheckCircleIcon,
   CheckIcon,
+  ClockIcon,
   Cog6ToothIcon,
   EllipsisHorizontalIcon,
   EllipsisVerticalIcon,
@@ -39,6 +40,7 @@ import {
   MagnifyingGlassIcon,
   MapPinIcon,
   NoSymbolIcon,
+  PencilIcon,
   PhoneArrowDownLeftIcon,
   PhoneArrowUpRightIcon,
   PhoneIcon,
@@ -70,6 +72,7 @@ import {
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
   CheckCircleIcon as CheckCircleIconSolid,
   CheckIcon as CheckIconSolid,
+  ClockIcon as ClockIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
   EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
   EllipsisVerticalIcon as EllipsisVerticalIconSolid,
@@ -91,6 +94,7 @@ import {
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   MapPinIcon as MapPinIconSolid,
   NoSymbolIcon as NoSymbolIconSolid,
+  PencilIcon as PencilIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
   PhoneIcon as PhoneIconSolid,
@@ -168,6 +172,10 @@ export const iconRegistry = {
   check: {
     outline: CheckIcon,
     solid: CheckIconSolid,
+  },
+  clock: {
+    outline: ClockIcon,
+    solid: ClockIconSolid,
   },
   cake: {
     outline: CakeIcon,
@@ -336,5 +344,9 @@ export const iconRegistry = {
   mapPin: {
     outline: MapPinIcon,
     solid: MapPinIconSolid,
+  },
+  pencil: {
+    outline: PencilIcon,
+    solid: PencilIconSolid,
   },
 }

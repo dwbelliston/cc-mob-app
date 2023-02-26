@@ -12,7 +12,6 @@ export interface IAvatarRingProps {
   avatarProps?: IAvatarProps
   isLoading?: boolean
   sourceBadge?: React.ReactElement
-  sourceBadgeColor?: ColorType
 }
 
 export const AvatarRing = (props: IAvatarRingProps) => {
@@ -25,7 +24,6 @@ export const AvatarRing = (props: IAvatarRingProps) => {
     avatarProps,
     isLoading,
     sourceBadge,
-    sourceBadgeColor,
   } = props
 
   const bgLoading = useColor("bg.main")
@@ -70,8 +68,6 @@ export const AvatarRing = (props: IAvatarRingProps) => {
           right={avatarProps.size === "md" ? -4 : 0}
           rounded="full"
           overflow="hidden"
-          borderWidth={1}
-          borderColor={sourceBadgeColor}
         >
           {sourceBadge}
         </Box>

@@ -12,7 +12,7 @@ import { ContactsScreen } from "./ContactsScreen"
 
 export type ContactsStackParamList = {
   ContactsList: undefined
-  ContactDetail: { contactName: string; contactId: string } | undefined
+  ContactDetail: { contactName: string; contactId: string; contactColor: string } | undefined
 }
 
 export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> = CompositeScreenProps<
@@ -62,6 +62,12 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
         component={ContactDetailScreen}
         options={({ route }) => ({
           headerShown: false,
+          headerTitle: "Contact",
+          headerBackVisible: true,
+          headerStyle: {
+            // backgroundColor: headerBg,
+            backgroundColor: route.params.contactColor,
+          },
         })}
       />
     </Stack.Navigator>

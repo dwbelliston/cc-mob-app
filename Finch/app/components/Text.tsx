@@ -3,6 +3,7 @@
  */
 import i18n from "i18n-js"
 import { ITextProps as NBITextProps, Text as NBText } from "native-base"
+import { ColorType } from "native-base/lib/typescript/components/types"
 import React from "react"
 import { translate, TxKeyPath } from "../i18n"
 import { ColorTokenOption, useColor } from "../theme/useColor"
@@ -42,7 +43,11 @@ export const Text = (props: TextProps) => {
   const presetStyles =
     rest.preset && $presets[rest.preset] ? $presets[rest.preset] : $presets["default"]
 
-  const _color = colorToken ? useColor(colorToken) : color
+  let _color = useColor(colorToken) as ColorType
+
+  if (color) {
+    _color = color
+  }
 
   return (
     <NBText color={_color} {...presetStyles} {...rest}>
@@ -71,5 +76,9 @@ const $presets = {
   legal: {
     fontSize: "xs",
     fontWeight: "normal",
+  },
+  label: {
+    fontSize: "sm",
+    fontWeight: "semibold",
   },
 }

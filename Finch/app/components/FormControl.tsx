@@ -133,6 +133,7 @@ export const FormControl = forwardRef(function FormControl(props: FormControlPro
                 InputRightElement={
                   type === "password" ? (
                     <IconButton
+                      variant={"ghost"}
                       onPress={togglePassword}
                       icon={
                         <Icon

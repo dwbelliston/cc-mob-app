@@ -12,6 +12,7 @@ import { useActionSheet } from "@expo/react-native-action-sheet"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { getContactName, IContact } from "../../models/Contact"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
+import { ContactsStackParamList } from "./ContactsStack"
 
 export interface IContactListItemData {
   contactId: string
@@ -28,7 +29,11 @@ export interface IContactListItemData {
 export interface IContactListItem extends IContactListItemData {
   onEmail: (contactName: string, contactEmail: string) => void
   onText: (contactNumber: string) => void
-  onViewContact: ({ contactName, contactId }: { contactName: string; contactId: string }) => void
+  onViewContact: ({
+    contactName,
+    contactId,
+    contactColor,
+  }: ContactsStackParamList["ContactDetail"]) => void
 }
 
 interface IRightActions {
@@ -164,13 +169,13 @@ const ContactListItem = ({
 
   const handleOnClickContact = () => {
     closeSwipeable()
-    onViewContact({ contactName, contactId })
+    onViewContact({ contactName, contactId, contactColor: avatarColor })
   }
 
   const handleOnClickContactAvatar = () => {
     // haptic on the avatar already
     swipeableRef.current.close()
-    onViewContact({ contactName, contactId })
+    onViewContact({ contactName, contactId, contactColor: avatarColor })
   }
 
   return (
@@ -188,14 +193,7 @@ const ContactListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickContact}>
-        <HStack
-          bg={cardBg}
-          py={spacing.tiny}
-          px={spacing.tiny}
-          space={4}
-          alignItems="center"
-          rounded="lg"
-        >
+        <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
           <ContactAvatar
             innerRingColor={cardBg}
             avatarColor={avatarColor}

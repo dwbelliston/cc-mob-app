@@ -19,7 +19,7 @@ import {
   makeContactListItemData,
   PureContactListItem,
 } from "./ContactListItem"
-import { ContactsStackScreenProps } from "./ContactsStack"
+import { ContactsStackParamList, ContactsStackScreenProps } from "./ContactsStack"
 
 export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = observer(
   function ContactsScreen(_props) {
@@ -105,10 +105,11 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     }, [])
 
     const handleOnViewContact = React.useCallback(
-      ({ contactName, contactId }: { contactName: string; contactId: string }) => {
+      ({ contactName, contactId, contactColor }: ContactsStackParamList["ContactDetail"]) => {
         navigation.navigate("ContactDetail", {
           contactName,
           contactId,
+          contactColor,
         })
       },
       [],

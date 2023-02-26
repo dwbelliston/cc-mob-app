@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as LocalAuthentication from "expo-local-authentication"
 import { observer } from "mobx-react-lite"
-import { Box, HStack, Image, Stack } from "native-base"
+import { Box, Image, Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
@@ -221,10 +221,8 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
               rightIcon={<Icon icon="arrowRightLong" />}
             ></Button>
 
-            <HStack space={spacing.tiny}>
-              <Button flex={1} onPress={handleOnAltLogin} tx="loginScreen.altLogin"></Button>
-              <Button flex={1} onPress={handleOnReset} tx="loginScreen.forgotPassword"></Button>
-            </HStack>
+            <Button onPress={handleOnAltLogin} tx="loginScreen.altLogin"></Button>
+            <Button onPress={handleOnReset} tx="loginScreen.forgotPassword"></Button>
           </Stack>
 
           <Text

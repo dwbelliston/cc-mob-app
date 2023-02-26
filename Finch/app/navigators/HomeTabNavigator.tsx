@@ -98,12 +98,11 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
         tabBarActiveTintColor: tabIconColorActive,
         tabBarInactiveTintColor: tabIconColorInActive,
         tabBarStyle: {
-          borderTopWidth: 0,
-          // borderTopWidth: 2,
-          paddingTop: 2,
+          borderTopWidth: 2,
+          paddingTop: 4,
           borderTopColor: tabBorder,
           backgroundColor: tabBg,
-          height: bottom + 60,
+          height: bottom + 64,
         },
         tabBarLabelPosition: "below-icon",
         tabBarIconStyle: {

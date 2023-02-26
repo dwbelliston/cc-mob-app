@@ -11,10 +11,15 @@ const en = {
     reset: "Reset",
   },
   fieldLabels: {
+    name: "Name",
+    firstName: "First Name",
     lastname: "Last Name",
     email: "Email",
     password: "Password",
-    rememberDevice: "Remember login"
+    rememberDevice: "Remember login",
+    phone: "Phone",
+    birthdate: "Birthdate",
+    address: "Address",
   },
   inbox: {
     unread: "Unread",

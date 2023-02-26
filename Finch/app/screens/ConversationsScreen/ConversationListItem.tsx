@@ -314,14 +314,7 @@ const ConversationListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickConversation}>
-        <HStack
-          bg={cardBg}
-          py={spacing.tiny}
-          px={spacing.tiny}
-          space={4}
-          alignItems="center"
-          rounded="lg"
-        >
+        <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
           <AvatarRing
             outerRingColor={cardBg}
             // outerRingColor={isIncoming ? errorColor : cardBg}
