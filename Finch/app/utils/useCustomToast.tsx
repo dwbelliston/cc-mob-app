@@ -12,6 +12,7 @@ const ToastAlert = ({ id, title, description, status, onClose, ...rest }: IButte
     <Butter.Base title={title} description={description} status={status}>
       <Box>
         <IconButton
+          variant={"ghost"}
           onPress={onClose}
           icon={<Icon colorToken={"text.soft"} icon="xMark" size={24} />}
         />

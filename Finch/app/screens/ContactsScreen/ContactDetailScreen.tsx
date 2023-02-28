@@ -1,9 +1,9 @@
 import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Box, Button as NBButton, HStack, Skeleton, Stack } from "native-base"
+import { Stack } from "native-base"
 import React, { FC } from "react"
 
-import { Icon, IconButton, Screen } from "../../components"
+import { Screen } from "../../components"
 import { getContactName } from "../../models/Contact"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
 import { spacing } from "../../theme"
@@ -11,11 +11,13 @@ import { useColor } from "../../theme/useColor"
 import { runFormatPhone } from "../../utils/useFormatPhone"
 import { ContactsStackScreenProps } from "./ContactsStack"
 
-import { Linking, Platform } from "react-native"
-
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { IconValuePill } from "../../components/IconValuePill"
+import { LabelValuePill } from "../../components/LabelValuePill"
+import { ITag } from "../../models/Tag"
+import useListTags from "../../services/api/tags/queries/useListTags"
+import { runFormatDate } from "../../utils/useFormatDate"
+import { DynamicContactActions } from "./DynamicContactActions"
 import { DynamicContactHeader } from "./DynamicContactHeader"
 
 export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> = observer(
@@ -46,6 +48,10 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
       isError: isErrorContact,
     } = useReadContact(route.params.contactId)
 
+    const [contactsTags, setContactsTags] = React.useState<ITag[]>([])
+
+    const { data: tagList } = useListTags()
+
     const handleOnBack = () => {
       Haptics.selectionAsync()
       navigation.goBack()
@@ -60,29 +66,33 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
       }
     }, [dataContact])
 
-    // variables
-    const openMap = async (address, city, zipCode) => {
-      const destination = encodeURIComponent(`${address} ${zipCode}, ${city}`)
-      const provider = Platform.OS === "ios" ? "apple" : "google"
-      const link = `http://maps.${provider}.com/?address=${address}`
+    React.useEffect(() => {
+      let activeTags: ITag[] = []
 
-      try {
-        const supported = await Linking.canOpenURL(link)
+      if (dataContact && dataContact.Tags && tagList && tagList.records.length) {
+        // TODO: move this to reuse
+        // Reduce contact tags to only active tags, map color and title
+        activeTags = dataContact.Tags.reduce<ITag[]>((memo: any, contactTagId) => {
+          const foundTag = tagList.records.find((listTag) => listTag.TagId === contactTagId)
 
-        if (supported) Linking.openURL(link)
-      } catch (error) {
-        console.log(error)
+          if (foundTag) {
+            // what happens inside the filter is the map
+            memo.push(foundTag)
+          }
+          return memo
+        }, [])
       }
-    }
+
+      setContactsTags(activeTags)
+    }, [tagList, dataContact, setContactsTags])
 
     return (
       <Screen preset="fixed" safeAreaEdges={[]} statusBarStyle={statusBarColor}>
         <Animated.ScrollView
-          scrollEventThrottle={1}
+          scrollEventThrottle={0}
           onScroll={scrollHandler}
           stickyHeaderIndices={[1]}
         >
-          {/* Header */}
           <DynamicContactHeader
             handleOnBack={handleOnBack}
             topInset={topInset}
@@ -94,68 +104,53 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
             contactNumber={contactNumber}
           />
 
-          {/* Actions */}
-          <Box bg={contactColor}>
-            <Box
-              bg={bgMain}
-              roundedTopLeft="2xl"
-              roundedTopRight="2xl"
-              style={{
-                // keep it from getting close to notches
-                paddingTop: topInset,
-              }}
-              pb={spacing.extraSmall}
-            >
-              {isLoadingContact && (
-                <HStack flex={1} space={spacing.tiny} justifyContent="center">
-                  <Skeleton h={12} w={12} rounded="full" />
-                  <Skeleton h={12} w={12} rounded="full" />
-                  <Skeleton h={12} w={12} rounded="full" />
-                  <Skeleton h={12} w={12} rounded="full" />
-                </HStack>
-              )}
-
-              {!isLoadingContact && dataContact && (
-                <NBButton.Group size="lg" justifyContent={"center"} space={spacing.tiny}>
-                  <IconButton
-                    rounded="full"
-                    icon={<Icon colorToken="text" icon="phoneArrowUpRight" />}
-                  />
-                  <IconButton
-                    rounded="full"
-                    icon={<Icon colorToken="text" icon="chatBubbleLeftEllipsis" />}
-                  />
-                  <IconButton rounded="full" icon={<Icon colorToken="text" icon="envelope" />} />
-                  <IconButton
-                    rounded="full"
-                    icon={<Icon colorToken="text" icon="ellipsisHorizontal" />}
-                  />
-                </NBButton.Group>
-              )}
-            </Box>
-          </Box>
+          <DynamicContactActions
+            scrollY={scrollY}
+            contactColor={contactColor}
+            contactId={route.params.contactId}
+          />
 
           {/* Content */}
           <Stack px={spacing.tiny} bg={bgMain} flex={1} pt={spacing.tiny} pb={spacing.small}>
             {!isLoadingContact && dataContact && (
               <Stack space={spacing.small}>
                 <Stack space={spacing.extraSmall}>
-                  <IconValuePill label="fieldLabels.name" icon="phone" text={contactName} />
-                  <IconValuePill label="fieldLabels.phone" icon="phone" text={contactNumber} />
-                  <IconValuePill
+                  <LabelValuePill.Tags label="fieldLabels.tags" icon="tag" tags={contactsTags} />
+                  <LabelValuePill.Text
+                    label="fieldLabels.name"
+                    icon="userCircle"
+                    text={contactName}
+                    isShare={false}
+                  />
+                  <LabelValuePill.Text
+                    label="fieldLabels.phone"
+                    icon="phone"
+                    text={contactNumber}
+                  />
+                  <LabelValuePill.Text
                     label="fieldLabels.email"
                     icon="envelope"
                     text={dataContact?.Email}
                   />
-                  <IconValuePill
+                  <LabelValuePill.Text
                     label="fieldLabels.birthdate"
                     icon="cake"
-                    text={dataContact?.BirthDate}
+                    text={runFormatDate(dataContact?.BirthDate)}
+                    isShare={false}
                   />
-                  <IconValuePill
+                  <LabelValuePill.Address
                     label="fieldLabels.address"
-                    icon="cake"
-                    text={dataContact?.Address1}
+                    icon="mapPin"
+                    address1={dataContact?.Address1}
+                    address2={dataContact?.Address2}
+                    city={dataContact?.City}
+                    state={dataContact?.State}
+                    zip={dataContact?.Zip}
+                  />
+                  <LabelValuePill.ContactSource
+                    label="fieldLabels.sourceType"
+                    icon="cloudArrowDown"
+                    contactSource={dataContact.SourceType}
                   />
                 </Stack>
               </Stack>

@@ -19,7 +19,9 @@ import {
   CheckCircleIcon,
   CheckIcon,
   ClockIcon,
+  CloudArrowDownIcon,
   Cog6ToothIcon,
+  DocumentDuplicateIcon,
   EllipsisHorizontalIcon,
   EllipsisVerticalIcon,
   EnvelopeIcon,
@@ -45,8 +47,10 @@ import {
   PhoneArrowUpRightIcon,
   PhoneIcon,
   RocketLaunchIcon,
+  ShareIcon,
   SparklesIcon,
   StarIcon,
+  TagIcon,
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
@@ -73,7 +77,9 @@ import {
   CheckCircleIcon as CheckCircleIconSolid,
   CheckIcon as CheckIconSolid,
   ClockIcon as ClockIconSolid,
+  CloudArrowDownIcon as CloudArrowDownIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
+  DocumentDuplicateIcon as DocumentDuplicateIconSolid,
   EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
   EllipsisVerticalIcon as EllipsisVerticalIconSolid,
   EnvelopeIcon as EnvelopeIconSolid,
@@ -99,8 +105,10 @@ import {
   PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
   PhoneIcon as PhoneIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
+  ShareIcon as ShareIconSolid,
   SparklesIcon as SparklesIconSolid,
   StarIcon as StarIconSolid,
+  TagIcon as TagIconSolid,
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
@@ -181,6 +189,10 @@ export const iconRegistry = {
     outline: CakeIcon,
     solid: CakeIconSolid,
   },
+  cloudArrowDown: {
+    outline: CloudArrowDownIcon,
+    solid: CloudArrowDownIconSolid,
+  },
   checkCircle: {
     outline: CheckCircleIcon,
     solid: CheckCircleIconSolid,
@@ -220,6 +232,10 @@ export const iconRegistry = {
   xMark: {
     outline: XMarkIcon,
     solid: XMarkIconSolid,
+  },
+  tag: {
+    outline: TagIcon,
+    solid: TagIconSolid,
   },
   key: {
     outline: KeyIcon,
@@ -297,6 +313,10 @@ export const iconRegistry = {
     outline: PhoneArrowUpRightIcon,
     solid: PhoneArrowUpRightIconSolid,
   },
+  documentDuplicate: {
+    outline: DocumentDuplicateIcon,
+    solid: DocumentDuplicateIconSolid,
+  },
   bell: {
     outline: BellIcon,
     solid: BellIconSolid,
@@ -304,6 +324,10 @@ export const iconRegistry = {
   bellAlert: {
     outline: BellAlertIcon,
     solid: BellAlertIconSolid,
+  },
+  share: {
+    outline: ShareIcon,
+    solid: ShareIconSolid,
   },
   user: {
     outline: UserIcon,

@@ -40,12 +40,12 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
 
   const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
 
-  const unreadCountBadge = dataCountUnreadConversations
+  const unreadCountBadge = parseInt(dataCountUnreadConversations)
 
   // const tabBg = useColorModeValue(colors.gray[50], colors.gray[900])
   const tabBorder = useColorModeValue(colors.gray[100], colors.gray[800])
 
-  const tabIconColorActive = useColorModeValue(colors.primary[600], colors.primary[200])
+  const tabIconColorActive = useColorModeValue(colors.gray[900], colors.white)
   const tabIconColorInActive = useColorModeValue(colors.gray[400], colors.gray[600])
 
   const tabBg = useColor("bg.main")
@@ -109,7 +109,7 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
           flex: 1,
         },
         tabBarBadgeStyle: {
-          top: 2,
+          // top: 2,
         },
       }}
     >
@@ -121,10 +121,10 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
           title: "Inbox",
           tabBarAccessibilityLabel: translate("navigator.inboxTab"),
           tabBarLabel: translate("navigator.inboxTab"),
-          tabBarBadge: unreadCountBadge,
+          tabBarBadge: unreadCountBadge ? unreadCountBadge : null,
           tabBarIcon: ({ focused }) => (
             <Icon
-              size={32}
+              size={24}
               color={focused ? tabIconColorActive : tabIconColorInActive}
               icon="chat"
               isOutline={focused ? false : true}
@@ -144,7 +144,7 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
             tabBarLabel: translate("navigator.contactsTab"),
             tabBarIcon: ({ focused }) => (
               <Icon
-                size={32}
+                size={24}
                 color={focused ? tabIconColorActive : tabIconColorInActive}
                 icon="contacts"
                 isOutline={focused ? false : true}

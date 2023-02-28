@@ -113,3 +113,21 @@ export interface IPaginatedContacts extends IPaginatedResponse {
 export const getContactName = (contact: IContact) => {
   return `${contact.FirstName} ${contact.LastName}`
 }
+
+export const runFormatSourceDisplay = (contactSource: IContact["SourceType"]): string => {
+  let sourceType = ""
+
+  if (contactSource === ContactSourceTypeEnum.HUBSPOT) {
+    sourceType = "HubSpot"
+  } else if (contactSource === ContactSourceTypeEnum.WEALTHBOX) {
+    sourceType = "WealthBox"
+  } else if (contactSource === ContactSourceTypeEnum.AGENTCORE) {
+    sourceType = "AgentCore"
+  } else if (contactSource === ContactSourceTypeEnum.RADIUSBOB) {
+    sourceType = "RadiusBob"
+  } else if (contactSource === ContactSourceTypeEnum.REDTAIL) {
+    sourceType = "Redtail"
+  }
+
+  return sourceType
+}

@@ -18,6 +18,8 @@ PODS:
     - ExpoModulesCore
   - Expo (47.0.13):
     - ExpoModulesCore
+  - ExpoClipboard (4.0.2):
+    - ExpoModulesCore
   - ExpoHaptics (12.0.1):
     - ExpoModulesCore
   - ExpoKeepAwake (11.0.1):
@@ -30,6 +32,8 @@ PODS:
     - React-Core
     - ReactCommon/turbomodule/core
   - EXSecureStore (12.0.0):
+    - ExpoModulesCore
+  - EXSharing (11.0.1):
     - ExpoModulesCore
   - EXSplashScreen (0.17.5):
     - ExpoModulesCore
@@ -466,12 +470,14 @@ DEPENDENCIES:
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - Expo (from `../node_modules/expo`)
+  - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLocalization (from `../node_modules/expo-localization/ios`)
   - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
+  - EXSharing (from `../node_modules/expo-sharing/ios`)
   - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
@@ -580,6 +586,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-local-authentication/ios"
   Expo:
     :path: "../node_modules/expo"
+  ExpoClipboard:
+    :path: "../node_modules/expo-clipboard/ios"
   ExpoHaptics:
     :path: "../node_modules/expo-haptics/ios"
   ExpoKeepAwake:
@@ -592,6 +600,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
+  EXSharing:
+    :path: "../node_modules/expo-sharing/ios"
   EXSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
@@ -691,12 +701,14 @@ SPEC CHECKSUMS:
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
   EXLocalAuthentication: 78cc5a00b13745b41d16d189ab332b61a01299f9
   Expo: b9fa98bf260992312ee3c424400819fb9beadafe
+  ExpoClipboard: dc3c9469926884bfe1af886c9243de69bebf6363
   ExpoHaptics: 5a56d30a87ea213dd00b09566dc4b441a4dff97f
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
   ExpoLocalization: e202d1e2a4950df17ac8d0889d65a1ffd7532d7e
   ExpoMailComposer: 5bd9a732104eb1721a5aa4744903673787d1410c
   ExpoModulesCore: 485dff3a59b036a33b6050c0a5aea3cf1037fdd1
   EXSecureStore: daec0117c922a67c658cb229152a9e252e5c1750
+  EXSharing: e4c5ebc5b36828f1e0dff1415b2b28b23dc770b8
   EXSplashScreen: 3e989924f61a8dd07ee4ea584c6ba14be9b51949
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745

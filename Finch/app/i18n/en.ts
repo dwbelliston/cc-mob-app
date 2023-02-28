@@ -9,6 +9,7 @@ const en = {
     loading: "Loading...",
     oneMoment: "One moment...",
     reset: "Reset",
+    noValue: "No value",
   },
   fieldLabels: {
     name: "Name",
@@ -20,6 +21,8 @@ const en = {
     phone: "Phone",
     birthdate: "Birthdate",
     address: "Address",
+    tags: "Tags",
+    sourceType: "Source Type",
   },
   inbox: {
     unread: "Unread",

@@ -79,6 +79,6 @@ const $presets = {
   },
   label: {
     fontSize: "sm",
-    fontWeight: "semibold",
+    fontWeight: "normal",
   },
 }

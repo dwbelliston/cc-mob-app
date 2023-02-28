@@ -26,19 +26,16 @@ export const DynamicContactHeader = ({
 }) => {
   const textColor = useColor("text.light")
 
+  const animateStartOffset = 100
+
   const animatedFontStyles = useAnimatedStyle(() => {
-    const fontSize = interpolate(
-      scrollY.value, // goes negative
-      [0, 1], // more negative
-      [32, 24],
-      {
-        extrapolateLeft: Extrapolation.CLAMP,
-        extrapolateRight: Extrapolation.CLAMP,
-      },
-    )
+    const opacity = interpolate(scrollY.value, [0, animateStartOffset], [1, 0.25], {
+      extrapolateLeft: Extrapolation.CLAMP,
+      extrapolateRight: Extrapolation.CLAMP,
+    })
 
     return {
-      fontSize: withSpring(fontSize, {
+      opacity: withSpring(opacity, {
         overshootClamping: true,
       }),
     }
@@ -50,6 +47,7 @@ export const DynamicContactHeader = ({
         {
           flex: 1,
           backgroundColor: contactColor,
+          // minHeight: 280,
         },
       ]}
     >
@@ -81,7 +79,7 @@ export const DynamicContactHeader = ({
           </HStack>
 
           {isLoadingContact && (
-            <Stack space={spacing.tiny} py={spacing.micro}>
+            <Stack space={spacing.tiny} py={spacing.tiny}>
               <Skeleton h="8" w="70%" rounded="sm" />
               <Skeleton h="6" w="20%" rounded="sm" />
             </Stack>
@@ -90,7 +88,10 @@ export const DynamicContactHeader = ({
           {dataContact && (
             <Stack space={spacing.micro}>
               <Animated.Text
-                style={[{ color: textColor, fontWeight: "bold" }, [animatedFontStyles]]}
+                style={[
+                  { fontSize: 30, color: textColor, fontWeight: "bold" },
+                  [animatedFontStyles],
+                ]}
               >
                 {contactName}
               </Animated.Text>

@@ -45,7 +45,7 @@ export const ContactSourceAvatar = (props: IProps) => {
           allowFontScaling: false,
         }}
         borderColor={"#2563eb"}
-        borderWidth={3}
+        borderWidth={1}
         size="md"
         source={logoSrcCc}
         {...rest}
@@ -62,7 +62,7 @@ export const ContactSourceAvatar = (props: IProps) => {
       }}
       // borderColor={"#2563eb"}
       borderColor={contactSourceColor}
-      borderWidth={3}
+      borderWidth={1}
       size="md"
       source={contactSourceImg}
       {...rest}
