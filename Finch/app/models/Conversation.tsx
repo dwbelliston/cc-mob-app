@@ -1,4 +1,5 @@
 import { getCallStatusDescription } from "../components/CallStatus"
+import { runFormatPhoneDigitsLegal } from "../utils/useFormatPhone"
 import { CallDirectionEnum, ICall } from "./Call"
 import { IMessage, MessageDirectionEnum } from "./Message"
 import { IPaginatedResponse } from "./PaginatedResponse"
@@ -110,4 +111,8 @@ export const getConversationIsLastAMessage = (conversation: IConversation): bool
 
 export const getConversationIsLastACall = (conversation: IConversation): boolean => {
   return !!conversation?.LatestCall
+}
+
+export const getConversationId = (userNumber: string, contactNumber: string): string => {
+  return `${userNumber}TO${runFormatPhoneDigitsLegal(contactNumber)}`
 }
