@@ -25,7 +25,12 @@ export const ContactAvatar = (props: IProps) => {
     <Pressable onPress={handleOnPress} _pressed={{ opacity: 60 }} position="relative">
       <AvatarRing
         sourceBadge={
-          contactSource ? <ContactSourceAvatar size="sm" contactSource={contactSource} /> : null
+          contactSource ? (
+            <ContactSourceAvatar
+              size={rest.avatarProps?.size === "sm" ? "xs" : "sm"}
+              contactSource={contactSource}
+            />
+          ) : null
         }
         {...rest}
       ></AvatarRing>

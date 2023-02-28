@@ -47,7 +47,7 @@ export interface IConversationListItem extends IConversationListItemData {
   onMarkUnread: (conversationId: string) => void
   onMarkRead: (conversationId: string) => void
   onBlock: (conversationNumber: string) => void
-  onViewContact: (contactId: string) => void
+  onViewContact: (contactName: string, contactColor: string, contactId: string) => void
   onViewConversation: ({
     contactName,
     conversationId,
@@ -272,7 +272,7 @@ const ConversationListItem = ({
 
   const handleOnViewContact = () => {
     closeSwipeable()
-    onViewContact(contactId)
+    onViewContact(contactId, contactName, avatarColor)
   }
 
   const handleOnMarkActive = () => {

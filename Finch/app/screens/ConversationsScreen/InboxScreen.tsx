@@ -1,3 +1,4 @@
+import { NavigationProp } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
 import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
@@ -75,9 +76,21 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
     }
   }
 
-  const handleOnViewContact = React.useCallback((contactId: string) => {
-    alert(contactId)
-  }, [])
+  const handleOnViewContact = React.useCallback(
+    (contactId: string, contactName: string, contactColor: string) => {
+      const nav = navigation.getParent<NavigationProp<any>>()
+
+      nav.navigate("ContactsStack", {
+        screen: "ContactDetail",
+        params: {
+          contactName,
+          contactId,
+          contactColor,
+        },
+      })
+    },
+    [],
+  )
 
   const handleOnBlock = React.useCallback(async (contactNumber: string) => {
     const updates: IBlockedNumberCreate = {
