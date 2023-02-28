@@ -114,6 +114,36 @@ export const getContactName = (contact: IContact) => {
   return `${contact.FirstName} ${contact.LastName}`
 }
 
+export const getContactAddress = (contact?: IContact): string | null => {
+  if (!contact) {
+    return null
+  }
+
+  const line1 = contact.Address2 ? `${contact.Address1} ${contact.Address2}` : contact.Address1
+
+  let line2 = ""
+
+  if (contact.City) {
+    line2 = contact.City
+  }
+
+  if (contact.State) {
+    line2 = line2 ? `${line2}, ${contact.State}` : contact.State
+  }
+
+  if (contact.Zip) {
+    line2 = line2 ? `${line2} ${contact.Zip}` : contact.Zip
+  }
+
+  if (line1 && !line2) {
+    return line1
+  } else if (line2 && !line1) {
+    return line2
+  }
+
+  return `${line1}\n${line2}`
+}
+
 export const runFormatSourceDisplay = (contactSource: IContact["SourceType"]): string => {
   let sourceType = ""
 

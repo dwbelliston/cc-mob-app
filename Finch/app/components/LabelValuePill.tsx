@@ -123,7 +123,7 @@ export const ValueAddress = ({
       pb={spacing.tiny}
       px={spacing.tiny}
     >
-      <HStack space={4} alignItems={"flex-end"} justifyContent={"space-between"} {...rest}>
+      <HStack space={4} justifyContent={"space-between"} {...rest}>
         <Label icon={icon} label={label} />
         <Button.Group size="md" variant="ghost" justifyContent={"flex-end"}>
           <CopyButton isDisabled={!singleVal} text={singleVal} />
@@ -158,7 +158,7 @@ export const ValueTags = ({ label, icon, tags, ...rest }: ILabelValuePillTagsPro
       pb={spacing.tiny}
       px={spacing.tiny}
     >
-      <HStack space={4} alignItems={"flex-end"} justifyContent={"space-between"} {...rest}>
+      <HStack space={4} justifyContent={"space-between"} {...rest}>
         <Label icon={icon} label={label} />
       </HStack>
 
@@ -195,7 +195,7 @@ export const ValueContactSource = ({
       pb={spacing.tiny}
       px={spacing.tiny}
     >
-      <HStack space={4} alignItems={"flex-end"} justifyContent={"space-between"} {...rest}>
+      <HStack space={4} justifyContent={"space-between"} {...rest}>
         <Label icon={icon} label={label} />
       </HStack>
 
