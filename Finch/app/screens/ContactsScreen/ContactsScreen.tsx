@@ -13,6 +13,9 @@ import useListContacts from "../../services/api/contacts/queries/useListContacts
 import { spacing } from "../../theme"
 
 import { Platform } from "react-native"
+import { getConversationId } from "../../models/Conversation"
+import { useUserPhone } from "../../models/UserProfile"
+import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { useCustomToast } from "../../utils/useCustomToast"
 import {
   IContactListItemData,
@@ -27,6 +30,10 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     const [flatData, setFlatData] = React.useState<IContactListItemData[]>()
 
     const [useFilters, setUseFilters] = React.useState<IContactFilter[] | undefined>([])
+
+    const { data: userProfile } = useReadUserProfile()
+
+    const userNumber = useUserPhone(userProfile)
 
     const { contactsStore } = useStores()
     const toast = useCustomToast()
@@ -115,13 +122,17 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
       [],
     )
 
-    const handleOnText = React.useCallback((contactNumber: string) => {
-      let conversationId = "123"
-      // navigation.navigate("ConversationDetail", {
-      //   contactName,
-      //   conversationId,
-      // })
-    }, [])
+    const handleOnText = React.useCallback(
+      (contactName: string, contactNumber: string) => {
+        const conversationId = getConversationId(userNumber, contactNumber)
+
+        navigation.getParent()?.navigate("ConversationDetail", {
+          contactName,
+          conversationId,
+        })
+      },
+      [userNumber],
+    )
 
     const checkCapabilitiesAsync = async () => {
       const isAvailable = await MailComposer.isAvailableAsync()

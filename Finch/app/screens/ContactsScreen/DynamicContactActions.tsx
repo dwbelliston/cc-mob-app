@@ -55,7 +55,7 @@ export const DynamicContactActions = ({ scrollY, contactColor, contactId }: IPro
   const handleViewConversation = () => {
     const contactName = getContactName(dataContact)
 
-    const conversationId = getConversationId(userNumber, contactName)
+    const conversationId = getConversationId(userNumber, dataContact?.Phone)
 
     navigation.navigate("ConversationDetail", {
       contactName,

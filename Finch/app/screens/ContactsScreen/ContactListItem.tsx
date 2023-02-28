@@ -28,7 +28,7 @@ export interface IContactListItemData {
 
 export interface IContactListItem extends IContactListItemData {
   onEmail: (contactName: string, contactEmail: string) => void
-  onText: (contactNumber: string) => void
+  onText: (contactName: string, contactNumber: string) => void
   onViewContact: ({
     contactName,
     contactId,
@@ -164,7 +164,7 @@ const ContactListItem = ({
 
   const handleOnText = () => {
     closeSwipeable()
-    onText(contactNumber)
+    onText(contactName, contactNumber)
   }
 
   const handleOnClickContact = () => {
