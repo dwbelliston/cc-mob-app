@@ -57,7 +57,7 @@ export const DynamicContactActions = ({ scrollY, contactColor, contactId }: IPro
 
     const conversationId = getConversationId(userNumber, dataContact?.Phone)
 
-    navigation.navigate("ConversationDetail", {
+    navigation.navigate("ConversationStream", {
       contactName,
       conversationId,
     })

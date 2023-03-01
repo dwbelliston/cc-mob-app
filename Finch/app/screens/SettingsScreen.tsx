@@ -2,11 +2,11 @@ import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
 import { ViewStyle } from "react-native"
 import { Screen, Text } from "../components"
-import { AppHomeScreenProps } from "../navigators"
+import { AppDrawerScreenProps } from "../navigators"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
-export const SettingsScreen: FC<AppHomeScreenProps<"Settings">> = observer(
+export const SettingsScreen: FC<AppDrawerScreenProps<"Settings">> = observer(
   function SettingsScreen() {
     // Pull in one of our MST stores
     // const { someStore, anotherStore } = useStores()

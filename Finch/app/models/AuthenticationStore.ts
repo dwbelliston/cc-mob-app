@@ -58,6 +58,8 @@ export const AuthenticationStoreModel = types
           errorMessage = "Please enter your username";
         }
 
+        console.log(error)
+
         store.setProp("loginError", errorMessage);
       }
     },

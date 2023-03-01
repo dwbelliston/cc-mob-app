@@ -6,7 +6,7 @@ import React, { FC } from "react"
 import { Screen } from "../../components"
 import { getContactName } from "../../models/Contact"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
-import { spacing } from "../../theme"
+import { colors, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { runFormatPhone } from "../../utils/useFormatPhone"
 import { ContactsStackScreenProps } from "./ContactsStack"
@@ -36,7 +36,7 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
 
     const [contactName, setContactName] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
-    const [contactColor] = React.useState(route.params.contactColor)
+    const [contactColor] = React.useState(colors.primary[700])
 
     const bgMain = useColor("bg.main")
 

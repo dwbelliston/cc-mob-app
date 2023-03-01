@@ -7,6 +7,7 @@ import {
   ArrowLongRightIcon,
   ArrowRightIcon,
   ArrowTopRightOnSquareIcon,
+  ArrowUpIcon,
   ArrowUpRightIcon,
   AtSymbolIcon,
   Bars3Icon,
@@ -16,6 +17,7 @@ import {
   ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftIcon,
   ChatBubbleLeftRightIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
   CheckCircleIcon,
   CheckIcon,
   ClockIcon,
@@ -42,6 +44,7 @@ import {
   MagnifyingGlassIcon,
   MapPinIcon,
   NoSymbolIcon,
+  PaperClipIcon,
   PencilIcon,
   PhoneArrowDownLeftIcon,
   PhoneArrowUpRightIcon,
@@ -65,6 +68,7 @@ import {
   ArrowLongRightIcon as ArrowLongRightIconSolid,
   ArrowRightIcon as ArrowRightIconSolid,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid,
+  ArrowUpIcon as ArrowUpIconSolid,
   ArrowUpRightIcon as ArrowUpRightIconSolid,
   AtSymbolIcon as AtSymbolIconSolid,
   Bars3Icon as Bars3IconSolid,
@@ -100,6 +104,7 @@ import {
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   MapPinIcon as MapPinIconSolid,
   NoSymbolIcon as NoSymbolIconSolid,
+  PaperClipIcon as PaperClipIconSolid,
   PencilIcon as PencilIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
@@ -257,6 +262,10 @@ export const iconRegistry = {
     outline: ChatBubbleLeftEllipsisIcon,
     solid: ChatBubbleLeftEllipsisIconSolid,
   },
+  chatBubbleOvalLeftEllipsis: {
+    outline: ChatBubbleOvalLeftEllipsisIcon,
+    solid: ChatBubbleLeftEllipsisIconSolid,
+  },
   contacts: {
     outline: UserGroupIcon,
     solid: UserGroupIconSolid,
@@ -289,6 +298,10 @@ export const iconRegistry = {
     outline: ArrowUpRightIcon,
     solid: ArrowUpRightIconSolid,
   },
+  arrowUp: {
+    outline: ArrowUpIcon,
+    solid: ArrowUpIconSolid,
+  },
   "arrow-top-right-on-square": {
     outline: ArrowTopRightOnSquareIcon,
     solid: ArrowTopRightOnSquareIconSolid,
@@ -316,6 +329,10 @@ export const iconRegistry = {
   documentDuplicate: {
     outline: DocumentDuplicateIcon,
     solid: DocumentDuplicateIconSolid,
+  },
+  paperClip: {
+    outline: PaperClipIcon,
+    solid: PaperClipIconSolid,
   },
   bell: {
     outline: BellIcon,

@@ -210,7 +210,8 @@ export function Screen(props: ScreenProps) {
       <StatusBar style={statusBarStyle} {...StatusBarProps} />
 
       <KeyboardAvoidingView
-        behavior={isIos ? "padding" : undefined}
+        behavior={isIos ? "padding" : "height"}
+        // behavior={isIos ? "padding" : undefined}
         keyboardVerticalOffset={keyboardOffset}
         {...KeyboardAvoidingViewProps}
         style={[$keyboardAvoidingViewStyle, KeyboardAvoidingViewProps?.style]}

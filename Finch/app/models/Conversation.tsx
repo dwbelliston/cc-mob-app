@@ -42,6 +42,12 @@ export interface IPaginatedConversationStream extends IPaginatedResponse {
   records: (IMessage | ICall)[]
 }
 
+export interface IConversationItem {
+  id?: string
+  message?: IMessage
+  call?: ICall
+}
+
 export const getConversationCreatedTime = (conversation: IConversation) => {
   let createdTime: string
 

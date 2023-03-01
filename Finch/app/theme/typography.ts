@@ -10,6 +10,17 @@ import {
   Inter_800ExtraBold,
   Inter_900Black
 } from "@expo-google-fonts/inter";
+import {
+  Poppins_100Thin,
+  Poppins_200ExtraLight,
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+  Poppins_900Black
+} from "@expo-google-fonts/poppins";
 
 import {
   SourceCodePro_200ExtraLight,
@@ -53,6 +64,15 @@ export const customFontsToLoad = {
   SourceCodePro_700Bold_Italic,
   SourceCodePro_900Black,
   SourceCodePro_900Black_Italic,
+  Poppins_100Thin,
+  Poppins_200ExtraLight,
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+  Poppins_800ExtraBold,
+  Poppins_900Black
 }
 
 
@@ -84,6 +104,35 @@ export const typography = {
     },
     900: {
       normal: "Inter_900Black",
+    },
+  },
+  Poppins: {
+    100: {
+      normal: "Poppins_100Thin",
+    },
+    200: {
+      normal: "Poppins_200ExtraLight",
+    },
+    300: {
+      normal: "Poppins_300Light",
+    },
+    400: {
+      normal: "Poppins_400Regular",
+    },
+    500: {
+      normal: "Poppins_500Medium",
+    },
+    600: {
+      normal: "Poppins_600SemiBold",
+    },
+    700: {
+      normal: "Poppins_700Bold",
+    },
+    800: {
+      normal: "Poppins_800ExtraBold",
+    },
+    900: {
+      normal: "Poppins_900Black",
     },
   },
   SourecCodePro: {

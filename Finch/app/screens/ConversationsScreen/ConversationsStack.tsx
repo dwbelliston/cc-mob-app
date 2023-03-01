@@ -10,12 +10,10 @@ import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import { colors } from "../../theme"
 import { useColor } from "../../theme/useColor"
-import { ConversationDetailScreen } from "./ConversationDetailScreen"
 import { InboxScreen } from "./InboxScreen"
 
 export type ConversationsStackParamList = {
   Inbox: undefined
-  ConversationDetail: { contactName?: string; conversationId?: string } | undefined
 }
 
 export type ConversationStackScreenProps<T extends keyof ConversationsStackParamList> =
@@ -45,8 +43,11 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
             headerLargeStyle: {
               backgroundColor: headerLargeBg,
             },
+            contentStyle: {
+              backgroundColor: "red",
+            },
             headerStyle: {
-              backgroundColor: headerBg,
+              backgroundColor: headerLargeBg,
             },
             headerLeft: conversationStore.isHeaderSearchOpen
               ? null
@@ -59,21 +60,6 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
                 },
             headerRight: () => <ConversationInboxPicker />,
           }}
-        />
-        <Stack.Screen
-          name={"ConversationDetail"}
-          component={ConversationDetailScreen}
-          options={({ route }) => ({
-            headerTitle: route.params?.contactName,
-            // headerLargeTitle: true,
-            headerStyle: {
-              backgroundColor: headerDetailBg,
-            },
-            headerTitleStyle: {
-              color: "white",
-            },
-            headerBackVisible: true,
-          })}
         />
       </Stack.Navigator>
     )

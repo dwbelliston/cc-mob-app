@@ -25,6 +25,31 @@ import { useActionSheet } from "@expo/react-native-action-sheet"
 import { Dot } from "../../components/Dot"
 import { getInitials } from "../../utils/getInitials"
 
+const CARD_MARGIN = spacing.tiny
+
+const ACTION_LEFT = {
+  roundedTopLeft: "lg",
+  roundedBottomLeft: "lg",
+  w: 32,
+  marginRight: -spacing.extraSmall,
+  pl: spacing.tiny,
+  pr: spacing.extraSmall,
+}
+
+const ACTION_RIGHT_INNER = {
+  w: 24,
+  marginLeft: -spacing.tiny,
+  pl: spacing.tiny,
+  pr: spacing.micro,
+}
+
+const ACTION_RIGHT = {
+  roundedTopRight: "lg",
+  roundedBottomRight: "lg",
+  w: 24,
+  px: spacing.micro,
+}
+
 export interface IConversationListItemData {
   conversationId: string
   isRead: boolean
@@ -116,9 +141,9 @@ const LeftSwipeActions = ({ isRead, onMarkRead, onMarkUnread }: ILeftActions) =>
   const statusBg = isRead ? unreadBg : readBg
 
   return (
-    <View bg={statusBg}>
+    <View marginLeft={CARD_MARGIN}>
       {isRead ? (
-        <Pressable onPress={onMarkUnread} w={24} px={spacing.tiny}>
+        <Pressable bg={statusBg} onPress={onMarkUnread} {...ACTION_LEFT}>
           <Stack h="full" alignItems={"center"} justifyContent="center">
             <Icon color={unreadColor} icon="bellAlert"></Icon>
             <Text fontSize="xs" fontFamily={"mono"} color={unreadColor} fontWeight="semibold">
@@ -127,7 +152,7 @@ const LeftSwipeActions = ({ isRead, onMarkRead, onMarkUnread }: ILeftActions) =>
           </Stack>
         </Pressable>
       ) : (
-        <Pressable onPress={onMarkRead} w={24} px={spacing.tiny}>
+        <Pressable bg={statusBg} onPress={onMarkRead} {...ACTION_LEFT}>
           <Stack h="full" alignItems={"center"} justifyContent="center">
             <Icon color={readColor} icon="check"></Icon>
             <Text fontSize="xs" fontFamily={"mono"} color={readColor} fontWeight="semibold">
@@ -149,7 +174,7 @@ const RightSwipeActions = ({
   onMarkActive,
   onMarkComplete,
 }: IRightActions) => {
-  const moreBg = useColorModeValue("gray.100", "gray.800")
+  const moreBg = useColorModeValue("gray.200", "gray.800")
   const activeBg = useColorModeValue("primary.600", "primary.800")
   const completeBg = useColorModeValue("success.600", "success.800")
 
@@ -189,9 +214,9 @@ const RightSwipeActions = ({
   }
 
   return (
-    <View bg={moreBg}>
+    <View marginRight={CARD_MARGIN}>
       <HStack h={"full"}>
-        <Pressable onPress={handleOnMore} bg={moreBg} w={24} px={spacing.micro}>
+        <Pressable onPress={handleOnMore} bg={moreBg} {...ACTION_RIGHT_INNER}>
           <Stack h="full" alignItems={"center"} justifyContent="center">
             <Icon colorToken="text.soft" icon="ellipsisHorizontal"></Icon>
             <Text fontSize="xs" fontFamily={"mono"} colorToken="text.soft" fontWeight="semibold">
@@ -201,7 +226,7 @@ const RightSwipeActions = ({
         </Pressable>
 
         {isClosed ? (
-          <Pressable onPress={onMarkActive} bg={activeBg} w={24} px={spacing.micro}>
+          <Pressable onPress={onMarkActive} bg={activeBg} {...ACTION_RIGHT}>
             <Stack h="full" alignItems={"center"} justifyContent="center">
               <Icon color="white" icon="fire"></Icon>
               <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
@@ -210,7 +235,7 @@ const RightSwipeActions = ({
             </Stack>
           </Pressable>
         ) : (
-          <Pressable onPress={onMarkComplete} bg={completeBg} w={24} px={spacing.micro}>
+          <Pressable onPress={onMarkComplete} bg={completeBg} {...ACTION_RIGHT}>
             <Stack h="full" alignItems={"center"} justifyContent="center">
               <Icon color="white" icon="checkCircle"></Icon>
               <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
@@ -249,7 +274,8 @@ const ConversationListItem = ({
   const swipeableRef = React.useRef(null)
 
   const errorColor = useColorModeValue("error.300", "error.400")
-  const cardBg = useColor("bg.main")
+  const cardBg = useColor("bg.high")
+  const cardBorder = useColor("bg.higher")
 
   const closeSwipeable = () => {
     Haptics.selectionAsync()
@@ -291,6 +317,10 @@ const ConversationListItem = ({
 
   return (
     <Swipeable
+      containerStyle={{
+        paddingLeft: spacing.small,
+        paddingRight: spacing.small,
+      }}
       ref={swipeableRef}
       renderLeftActions={() => (
         <LeftSwipeActions
@@ -314,14 +344,23 @@ const ConversationListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickConversation}>
-        <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
+        <HStack
+          bg={cardBg}
+          borderColor={cardBorder}
+          borderWidth={1}
+          rounded="lg"
+          py={spacing.tiny}
+          px={spacing.micro}
+          space={2}
+          alignItems="center"
+        >
           <AvatarRing
             outerRingColor={cardBg}
             // outerRingColor={isIncoming ? errorColor : cardBg}
             innerRingColor={cardBg}
             avatarColor={avatarColor}
             initials={initials}
-            avatarProps={{ size: "md" }}
+            avatarProps={{ size: "sm" }}
           ></AvatarRing>
 
           <Stack flex={1}>

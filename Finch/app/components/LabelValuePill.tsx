@@ -204,6 +204,7 @@ export const ValueContactSource = ({
           <HStack alignItems={"center"} space={spacing.micro}>
             <ContactSourceAvatar size={"xs"} contactSource={contactSource} />
             <Text
+              flex={1}
               fontSize="md"
               text={`Contact is synced with ${runFormatSourceDisplay(contactSource)}`}
             ></Text>

@@ -11,10 +11,19 @@ import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
-import { AltLoginScreen, LoginScreen, ResetPasswordScreen, WelcomeScreen } from "../screens"
-import AppHomeNavigator from "./AppHomeNavigator"
+import {
+  AltLoginScreen,
+  ConversationStreamScreen,
+  LoginScreen,
+  ResetPasswordScreen,
+  WelcomeScreen,
+} from "../screens"
+import { useColor } from "../theme/useColor"
+import AppDrawerNavigator from "./AppDrawerNavigator"
 
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
+
+const imgSrc = require("../../assets/images/img-lines-header-light.png")
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -31,7 +40,8 @@ import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
  */
 export type AppStackParamList = {
   Welcome: undefined
-  AppHome: undefined
+  AppDrawer: undefined
+  ConversationStream: { contactName?: string; conversationId?: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
   ResetPassword: undefined
@@ -56,14 +66,30 @@ const AppStack = observer(function AppStack() {
     authenticationStore: { isAuthenticated },
   } = useStores()
 
+  const headerLargeBg = useColor("bg.largeHeader")
+  const headerDetailBg = useColor("bg.header")
+
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false }}
-      initialRouteName={isAuthenticated ? "AppHome" : "Login"}
+      initialRouteName={isAuthenticated ? "AppDrawer" : "Login"}
     >
       {isAuthenticated ? (
         <Stack.Group>
-          <Stack.Screen name="AppHome" component={AppHomeNavigator} />
+          <Stack.Screen name="AppDrawer" component={AppDrawerNavigator} />
+          <Stack.Screen
+            name={"ConversationStream"}
+            component={ConversationStreamScreen}
+            options={({ route }) => ({
+              headerShown: true,
+              headerTitle: route.params?.contactName || "Conversation",
+              // headerLargeTitle: true,
+              headerStyle: {
+                backgroundColor: headerDetailBg,
+              },
+              headerBackVisible: true,
+            })}
+          />
           <Stack.Screen name="Welcome" component={WelcomeScreen} />
         </Stack.Group>
       ) : (

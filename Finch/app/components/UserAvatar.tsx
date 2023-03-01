@@ -7,10 +7,11 @@ import * as Haptics from "expo-haptics"
 import { AvatarRing } from "./AvatarRing"
 
 interface IProps extends IAvatarProps {
+  isShowLoading?: boolean
   onPress?: () => void
 }
 export const UserAvatar = (props: IProps) => {
-  const { onPress, ...rest } = props
+  const { onPress, isShowLoading = true, ...rest } = props
 
   const isQFetching = useIsFetching()
 
@@ -25,7 +26,7 @@ export const UserAvatar = (props: IProps) => {
     }
   }
 
-  const isLoading = isQFetching > 0 || isLoadingProfile
+  const isLoading = isShowLoading && (isQFetching > 0 || isLoadingProfile)
 
   return (
     <Pressable onPress={handleOnPress} _pressed={{ opacity: 60 }}>

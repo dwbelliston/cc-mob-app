@@ -17,8 +17,6 @@ import { useStores } from "../models"
 import { SettingsScreen } from "../screens/SettingsScreen"
 import { colors, spacing } from "../theme"
 
-const concentricSrc = require("../../assets/images/img-concentric-bl.png")
-
 import { Dot } from "../components/Dot"
 import { UserAvatar } from "../components/UserAvatar"
 import { useUserName, useUserPhone } from "../models/UserProfile"
@@ -26,17 +24,17 @@ import useReadUserProfile from "../services/api/userprofile/queries/useReadUserP
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
 
-export type AppHomeParamList = {
+export type AppDrawerParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   Settings: undefined
 }
 
-export type AppHomeScreenProps<T extends keyof AppHomeParamList> = DrawerScreenProps<
-  AppHomeParamList,
+export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
+  AppDrawerParamList,
   T
 >
 
-const Drawer = createDrawerNavigator<AppHomeParamList>()
+const Drawer = createDrawerNavigator<AppDrawerParamList>()
 
 const CustomDrawerContent = (props: any) => {
   const {
@@ -116,7 +114,7 @@ const CustomDrawerContent = (props: any) => {
   )
 }
 
-const AppHomeNavigator = () => {
+const AppDrawerNavigator = () => {
   const drawerBg = useColorModeValue(colors.white, colors.gray[900])
 
   const activeBg = useColorModeValue(colors.gray[100], colors.gray[800])
@@ -205,4 +203,4 @@ const AppHomeNavigator = () => {
   )
 }
 
-export default AppHomeNavigator
+export default AppDrawerNavigator

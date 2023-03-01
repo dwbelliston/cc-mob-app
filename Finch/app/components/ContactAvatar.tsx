@@ -7,7 +7,7 @@ import { AvatarRing, IAvatarRingProps } from "./AvatarRing"
 import { ContactSourceAvatar } from "./ContactSourceAvatar"
 
 interface IProps extends IAvatarRingProps {
-  contactSource: IContact["SourceType"]
+  contactSource?: IContact["SourceType"]
   onPress?: () => void
 }
 

@@ -128,3 +128,8 @@ Read [Detox setup instructions](./detox/README.md).
 - [2017 aka Andross](https://github.com/infinitered/ignite-andross)
 - [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
 
+
+
+## Misc
+https://github.com/react-navigation/react-navigation/issues/3971
+https://medium.com/@nickopops/keyboardavoidingview-not-working-properly-c413c0a200d4

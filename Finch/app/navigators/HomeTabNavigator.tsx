@@ -14,7 +14,7 @@ import { ConversationsStack } from "../screens/ConversationsScreen/Conversations
 import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
 import { colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
-import { AppHomeScreenProps } from "./AppHomeNavigator"
+import { AppDrawerScreenProps } from "./AppDrawerNavigator"
 
 export type HomeTabParamList = {
   ConversationsStack: undefined
@@ -28,12 +28,12 @@ export type HomeTabParamList = {
  */
 export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScreenProps<
   BottomTabScreenProps<HomeTabParamList, T>,
-  AppHomeScreenProps<"Home">
+  AppDrawerScreenProps<"Home">
 >
 
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
-export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
+export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
   const { route } = _props
 
   const { bottom } = useSafeAreaInsets()
@@ -110,6 +110,7 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
         },
         tabBarBadgeStyle: {
           // top: 2,
+          // fontSize: 14,
         },
       }}
     >
@@ -124,7 +125,7 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
           tabBarBadge: unreadCountBadge ? unreadCountBadge : null,
           tabBarIcon: ({ focused }) => (
             <Icon
-              size={24}
+              size={28}
               color={focused ? tabIconColorActive : tabIconColorInActive}
               icon="chat"
               isOutline={focused ? false : true}
@@ -144,7 +145,7 @@ export const HomeTabNavigator: FC<AppHomeScreenProps<"Home">> = (_props) => {
             tabBarLabel: translate("navigator.contactsTab"),
             tabBarIcon: ({ focused }) => (
               <Icon
-                size={24}
+                size={28}
                 color={focused ? tabIconColorActive : tabIconColorInActive}
                 icon="contacts"
                 isOutline={focused ? false : true}

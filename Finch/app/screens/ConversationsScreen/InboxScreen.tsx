@@ -1,10 +1,10 @@
 import { NavigationProp } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
+import { Box, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
-import { Screen, Text } from "../../components"
+import { Icon, Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IBlockedNumberCreate } from "../../models/BlockedNumber"
@@ -145,7 +145,7 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
 
   const handleViewConversation = React.useCallback(
     ({ contactName, conversationId }: { contactName: string; conversationId: string }) => {
-      navigation.navigate("ConversationDetail", {
+      navigation.getParent().navigate("ConversationStream", {
         contactName,
         conversationId,
       })
@@ -220,8 +220,11 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
     >
       <View h="full">
         <FlatList
+          contentContainerStyle={{
+            paddingBottom: 16,
+          }}
           contentInsetAdjustmentBehavior="automatic"
-          ItemSeparatorComponent={() => <Divider bg="transparent" />}
+          ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}
           data={flatData}
           renderItem={renderItem}
           ListEmptyComponent={
@@ -246,6 +249,13 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
           initialNumToRender={10}
         />
       </View>
+      <Fab
+        renderInPortal={false}
+        shadow={0}
+        p={3}
+        rounded="full"
+        icon={<Icon color="white" size={28} icon="chatBubbleOvalLeftEllipsis" />}
+      />
     </Screen>
   )
 })

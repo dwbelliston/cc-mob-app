@@ -42,6 +42,11 @@ const en = {
     noCloseTitle: "No conversations",
     noCloseDescription: "When you are ready to mark a conversation complete swipe the conversation to change its status.",
     endOfConversations: "End of History",
+    enterMessage: "Enter message...",
+  },
+  stream: {
+    noMessages: "No Messages",
+    noMessagesDescription: "Send a message to start the converstion",
   },
   phone: {
     landline: "Landline",
