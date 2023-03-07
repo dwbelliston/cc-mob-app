@@ -9,10 +9,15 @@ import { DataStatus } from "../../components/DataStatus"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { ICall } from "../../models/Call"
-import { getConversationContactNumber, IConversationItem } from "../../models/Conversation"
+import {
+  getConversationContactNumber,
+  IConversationItem,
+  IConversationUpdate,
+} from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
+import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversationStream from "../../services/api/conversations/queries/useListConversationStream"
 import { useReadConversation } from "../../services/api/conversations/queries/useReadConversation"
 import { colors, spacing } from "../../theme"
@@ -73,6 +78,8 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
       // debouncedStreamSearch
     )
 
+    const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
+
     const handleLoadMore = () => {
       if (!isFetchingStream) {
         if (dataStreamItems?.pages) {
@@ -106,6 +113,17 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
 
     const renderSectionHeader = React.useCallback(({ section: { title } }) => {
       return <ConversationDivider label={title} />
+    }, [])
+
+    const handleOnMarkRead = React.useCallback(async (conversationId: string) => {
+      const updates: IConversationUpdate = {
+        IsRead: true,
+      }
+
+      await mutateAsyncConversation({
+        conversationId: conversationId,
+        updates,
+      })
     }, [])
 
     React.useEffect(() => {
@@ -173,6 +191,14 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
       if (dataConversation) {
         const contactNumber = getConversationContactNumber(dataConversation)
         setContactNumber(contactNumber)
+      }
+    }, [dataConversation])
+
+    React.useEffect(() => {
+      if (dataConversation) {
+        if (!dataConversation.IsRead) {
+          handleOnMarkRead(dataConversation.ConversationId)
+        }
       }
     }, [dataConversation])
 
