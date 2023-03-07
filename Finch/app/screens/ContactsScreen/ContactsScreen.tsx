@@ -218,8 +218,11 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
       >
         <View h="full">
           <FlatList
+            contentContainerStyle={{
+              paddingBottom: 16,
+            }}
             contentInsetAdjustmentBehavior="automatic"
-            ItemSeparatorComponent={() => <Divider bg="transparent" />}
+            ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}
             data={flatData}
             renderItem={renderItem}
             ListEmptyComponent={

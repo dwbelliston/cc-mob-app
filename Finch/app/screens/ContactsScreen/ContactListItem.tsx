@@ -14,6 +14,22 @@ import { getContactName, IContact } from "../../models/Contact"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 import { ContactsStackParamList } from "./ContactsStack"
 
+const CARD_MARGIN = spacing.tiny
+
+const ACTION_RIGHT_INNER = {
+  w: 24,
+  marginLeft: -spacing.tiny - 2,
+  pl: spacing.tiny,
+  pr: spacing.micro,
+}
+
+const ACTION_RIGHT = {
+  roundedTopRight: "lg",
+  roundedBottomRight: "lg",
+  w: 24,
+  px: spacing.micro,
+}
+
 export interface IContactListItemData {
   contactId: string
   contactName: string
@@ -70,7 +86,7 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
 }
 
 const RightSwipeActions = ({ contactName, onEmail, onText, onViewContact }: IRightActions) => {
-  const moreBg = useColorModeValue("gray.50", "gray.800")
+  const moreBg = useColorModeValue("gray.100", "gray.800")
   const activeBg = useColorModeValue("primary.600", "primary.800")
 
   const { showActionSheetWithOptions } = useActionSheet()
@@ -112,9 +128,9 @@ const RightSwipeActions = ({ contactName, onEmail, onText, onViewContact }: IRig
   }
 
   return (
-    <View bg={moreBg}>
+    <View marginRight={CARD_MARGIN}>
       <HStack h={"full"}>
-        <Pressable onPress={handleOnMore} bg={moreBg} w={24} px={spacing.micro}>
+        <Pressable onPress={handleOnMore} bg={moreBg} {...ACTION_RIGHT_INNER}>
           <Stack h="full" alignItems={"center"} justifyContent="center">
             <Icon colorToken="text.soft" icon="ellipsisHorizontal"></Icon>
             <Text fontSize="xs" fontFamily={"mono"} colorToken="text.soft" fontWeight="semibold">
@@ -122,7 +138,7 @@ const RightSwipeActions = ({ contactName, onEmail, onText, onViewContact }: IRig
             </Text>
           </Stack>
         </Pressable>
-        <Pressable onPress={onText} bg={activeBg} w={24} px={spacing.micro}>
+        <Pressable onPress={onText} bg={activeBg} {...ACTION_RIGHT}>
           <Stack h="full" alignItems={"center"} justifyContent="center">
             <Icon color="white" icon="chatBubbleLeft"></Icon>
             <Text fontSize="xs" fontFamily={"mono"} color="white" fontWeight="semibold">
@@ -155,6 +171,7 @@ const ContactListItem = ({
 
   const errorColor = useColorModeValue("error.300", "error.400")
   const cardBg = useColor("bg.main")
+  const cardBorder = useColorModeValue("gray.200", "gray.700")
 
   const closeSwipeable = () => {
     Haptics.selectionAsync()
@@ -184,6 +201,10 @@ const ContactListItem = ({
 
   return (
     <Swipeable
+      containerStyle={{
+        paddingLeft: spacing.medium,
+        paddingRight: spacing.medium,
+      }}
       ref={swipeableRef}
       renderRightActions={() => (
         <RightSwipeActions
@@ -197,7 +218,16 @@ const ContactListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickContact}>
-        <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
+        <HStack
+          bg={cardBg}
+          borderColor={cardBorder}
+          borderWidth={1}
+          rounded="lg"
+          py={spacing.tiny}
+          px={spacing.micro}
+          space={2}
+          alignItems="center"
+        >
           <ContactAvatar
             innerRingColor={cardBg}
             initials={initials}
