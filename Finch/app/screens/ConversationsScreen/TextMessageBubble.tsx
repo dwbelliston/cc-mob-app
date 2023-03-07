@@ -97,6 +97,7 @@ const TextMessageBubble = (props: IProps) => {
               color={isMessageError ? colorError : isUserMessage ? colorRight : colorLeft}
               {...textProps}
               key={idx}
+              fontFamily="plain"
             >
               {part.message}
             </Text>

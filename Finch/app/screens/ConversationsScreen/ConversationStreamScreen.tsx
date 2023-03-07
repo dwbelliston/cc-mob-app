@@ -36,7 +36,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const { conversationStore } = useStores()
 
     const headerHeight = useHeaderHeight()
-    const bgStream = useColorModeValue(colors.gray[100], colors.gray[900])
+    const bgStream = useColorModeValue(colors.gray[50], colors.gray[900])
 
     const viewLimit = 15
 

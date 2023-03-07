@@ -140,28 +140,20 @@ const ConversationMessage = ({
                 {messageCampaignId && (
                   <Button
                     size="xs"
+                    variant={"link"}
                     // onClick={handleViewCampaign}
                     aria-label="View campaign"
-                    leftIcon={
-                      <Icon colorToken={"text.softer"} icon="arrowUpRight" size={12}></Icon>
-                    }
                     tx="campaigns.viewCampaign"
-                  >
-                    View Campaign
-                  </Button>
+                  ></Button>
                 )}
 
                 {messageBroadcastId && (
                   <Button
                     size="xs"
+                    variant={"subtle"}
                     // onClick={handleViewBroadcast}
                     tx="broadcasts.viewBroadcast"
-                    leftIcon={
-                      <Icon colorToken={"text.softer"} icon="arrowUpRight" size={12}></Icon>
-                    }
-                  >
-                    View Broadcast
-                  </Button>
+                  ></Button>
                 )}
               </Box>
 

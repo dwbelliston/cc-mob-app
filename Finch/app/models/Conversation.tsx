@@ -99,13 +99,13 @@ export const getConversationIsIncoming = (conversation: IConversation): boolean 
 
   if (conversation?.LatestMessage) {
     if (conversation.LatestMessage?.Direction) {
-      isIncoming = conversation.LatestMessage.Direction === MessageDirectionEnum.SENT
+      isIncoming = conversation.LatestMessage.Direction === MessageDirectionEnum.RECEIVED
     }
   }
 
   if (conversation?.LatestCall) {
     if (conversation.LatestCall?.Direction) {
-      isIncoming = conversation.LatestCall.Direction === CallDirectionEnum.OUTBOUND
+      isIncoming = conversation.LatestCall.Direction === CallDirectionEnum.INBOUND
     }
   }
 

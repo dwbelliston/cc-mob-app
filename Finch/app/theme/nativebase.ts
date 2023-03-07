@@ -27,11 +27,13 @@ export const finchTheme = {
     body: typography.Cereal,
     mono: typography.SourecCodePro,
     heading: typography.Cereal,
+    plain: typography.Inter,
   },
   fonts: {
     heading: "heading",
     body: "body",
     mono: "mono",
+    plain: "plain",
   },
   shadows: {
     "1": {

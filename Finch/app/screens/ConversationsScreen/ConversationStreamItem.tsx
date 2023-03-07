@@ -133,7 +133,7 @@ IConversationStreamItem) => {
   const contactName = "dustin belliston"
 
   return (
-    <View py={spacing.tiny}>
+    <View py={spacing.tiny} px={spacing.tiny}>
       <React.Fragment>
         {conversationItem.message && (
           <ConversationMessage {...conversationItem.message}></ConversationMessage>

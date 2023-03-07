@@ -3,7 +3,7 @@ SendMessageFloaterInput
 */
 
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Box, Button as NBButton, HStack, Stack } from "native-base"
+import { Box, Button as NBButton, HStack, Spinner, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { Keyboard } from "react-native"
@@ -21,6 +21,7 @@ import useCreateSendMessage from "../../services/api/conversations/mutations/use
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { useCustomToast } from "../../utils/useCustomToast"
 
 interface IProps {
   contactName: string
@@ -40,7 +41,9 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const bgMain = useColor("bg.main")
-  const borderColor = useColor("bg.high")
+  const borderColor = useColorModeValue("gray.300", "gray.700")
+
+  const toast = useCustomToast()
 
   const { data: userProfile } = useReadUserProfile()
 
@@ -165,7 +168,13 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
             icon={<Icon colorToken={"text"} icon="paperClip" size={16} />}
           />
         </NBButton.Group>
-        <Box>
+        <HStack space={spacing.micro} alignItems="center">
+          {isLoadingSend && (
+            <Box>
+              <Spinner />
+            </Box>
+          )}
+
           <IconButton
             onPress={handleSubmit(handleOnSend)}
             rounded="full"
@@ -174,7 +183,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
             colorScheme={"primary"}
             icon={<Icon icon="arrowUp" size={16} />}
           />
-        </Box>
+        </HStack>
       </HStack>
     </Stack>
   )
