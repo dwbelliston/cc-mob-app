@@ -1,5 +1,6 @@
 import { getCallStatusDescription } from "../components/CallStatus"
-import { runFormatPhoneDigitsLegal } from "../utils/useFormatPhone"
+import { IConversationMessageProps } from "../screens/ConversationsScreen/ConversationMessage"
+import { runFormatPhoneDigitsStripTo10 } from "../utils/useFormatPhone"
 import { CallDirectionEnum, ICall } from "./Call"
 import { IMessage, MessageDirectionEnum } from "./Message"
 import { IPaginatedResponse } from "./PaginatedResponse"
@@ -44,7 +45,7 @@ export interface IPaginatedConversationStream extends IPaginatedResponse {
 
 export interface IConversationItem {
   id?: string
-  message?: IMessage
+  message?: IConversationMessageProps
   call?: ICall
 }
 
@@ -120,5 +121,8 @@ export const getConversationIsLastACall = (conversation: IConversation): boolean
 }
 
 export const getConversationId = (userNumber: string, contactNumber: string): string => {
-  return `${userNumber}TO${runFormatPhoneDigitsLegal(contactNumber)}`
+  const uNumber = runFormatPhoneDigitsStripTo10(userNumber)
+  const cNumber = runFormatPhoneDigitsStripTo10(contactNumber)
+
+  return `1${uNumber}TO1${cNumber}`
 }

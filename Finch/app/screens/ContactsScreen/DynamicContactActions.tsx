@@ -17,11 +17,11 @@ import { useCustomToast } from "../../utils/useCustomToast"
 
 interface IProps {
   scrollY: SharedValue<number>
-  contactColor: string
+  bgColor: string
   contactId: string
 }
 
-export const DynamicContactActions = ({ scrollY, contactColor, contactId }: IProps) => {
+export const DynamicContactActions = ({ scrollY, bgColor, contactId }: IProps) => {
   const textColor = useColor("text.light")
   const toast = useCustomToast()
 
@@ -68,8 +68,8 @@ export const DynamicContactActions = ({ scrollY, contactColor, contactId }: IPro
       style={[
         {
           flex: 1,
-          backgroundColor: contactColor,
-          borderBottomWidth: 3,
+          backgroundColor: bgColor,
+          borderBottomWidth: 1,
         },
         [animatedBorderStyles],
       ]}
@@ -82,7 +82,7 @@ export const DynamicContactActions = ({ scrollY, contactColor, contactId }: IPro
         style={[
           {
             // keep it from getting close to notches
-            paddingTop: topInset,
+            paddingTop: topInset + spacing.extraSmall,
           },
         ]}
       >

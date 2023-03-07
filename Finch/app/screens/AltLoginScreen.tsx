@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup"
+import * as Haptics from "expo-haptics"
 import * as LocalAuthentication from "expo-local-authentication"
 import { observer } from "mobx-react-lite"
-import { Stack } from "native-base"
+import { HStack, Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
-import { Button, Icon, Screen, Text } from "../components"
+import { Button, Icon, IconButton, Screen, Text } from "../components"
 import { Butter } from "../components/Butter"
 import { FormControl } from "../components/FormControl"
 import { FormSingleCheckbox } from "../components/FormSingleCheckbox"
@@ -71,6 +72,12 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
     },
   })
 
+  const handleOnBack = () => {
+    setLoginError("")
+    Haptics.selectionAsync()
+    navigation.goBack()
+  }
+
   const onSubmit = async (data: IFormInputs) => {
     setLoginError("")
 
@@ -91,11 +98,6 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
       await login(data.email, data.password)
     } catch (e) {}
     setIsSubmitting(false)
-  }
-
-  const handleOnBack = () => {
-    setLoginError("")
-    navigation.navigate("Login")
   }
 
   const handleFillInWithBio = async () => {
@@ -144,6 +146,15 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
       <Stack space={4} py={spacing.extraSmall}>
         <Stack space={12} px={spacing.extraSmall}>
           <Stack space={4}>
+            <HStack>
+              <IconButton
+                size="xs"
+                onPress={handleOnBack}
+                rounded="full"
+                // variant={"subtle"}
+                icon={<Icon size={20} colorToken="text" icon="arrowLeftLong" />}
+              />
+            </HStack>
             <Text
               colorToken="text"
               textAlign={"center"}
@@ -208,8 +219,6 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
               onPress={handleSubmit(onSubmit)}
               rightIcon={<Icon icon="arrowRightLong" />}
             ></Button>
-
-            <Button onPress={handleOnBack} tx="loginScreen.backToLogin"></Button>
           </Stack>
 
           <Text

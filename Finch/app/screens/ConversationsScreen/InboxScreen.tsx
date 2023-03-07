@@ -76,21 +76,17 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
     }
   }
 
-  const handleOnViewContact = React.useCallback(
-    (contactId: string, contactName: string, contactColor: string) => {
-      const nav = navigation.getParent<NavigationProp<any>>()
+  const handleOnViewContact = React.useCallback((contactId: string, contactName: string) => {
+    const nav = navigation.getParent<NavigationProp<any>>()
 
-      nav.navigate("ContactsStack", {
-        screen: "ContactDetail",
-        params: {
-          contactName,
-          contactId,
-          contactColor,
-        },
-      })
-    },
-    [],
-  )
+    nav.navigate("ContactsStack", {
+      screen: "ContactDetail",
+      params: {
+        contactName,
+        contactId,
+      },
+    })
+  }, [])
 
   const handleOnBlock = React.useCallback(async (contactNumber: string) => {
     const updates: IBlockedNumberCreate = {

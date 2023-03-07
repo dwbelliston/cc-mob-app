@@ -38,7 +38,7 @@ const ACTION_LEFT = {
 
 const ACTION_RIGHT_INNER = {
   w: 24,
-  marginLeft: -spacing.tiny,
+  marginLeft: -spacing.tiny - 2,
   pl: spacing.tiny,
   pr: spacing.micro,
 }
@@ -72,7 +72,7 @@ export interface IConversationListItem extends IConversationListItemData {
   onMarkUnread: (conversationId: string) => void
   onMarkRead: (conversationId: string) => void
   onBlock: (conversationNumber: string) => void
-  onViewContact: (contactName: string, contactColor: string, contactId: string) => void
+  onViewContact: (contactName: string, contactId: string) => void
   onViewConversation: ({
     contactName,
     conversationId,
@@ -174,7 +174,7 @@ const RightSwipeActions = ({
   onMarkActive,
   onMarkComplete,
 }: IRightActions) => {
-  const moreBg = useColorModeValue("gray.200", "gray.800")
+  const moreBg = useColorModeValue("gray.100", "gray.800")
   const activeBg = useColorModeValue("primary.600", "primary.800")
   const completeBg = useColorModeValue("success.600", "success.800")
 
@@ -274,8 +274,8 @@ const ConversationListItem = ({
   const swipeableRef = React.useRef(null)
 
   const errorColor = useColorModeValue("error.300", "error.400")
-  const cardBg = useColor("bg.high")
-  const cardBorder = useColor("bg.higher")
+  const cardBg = useColor("bg.main")
+  const cardBorder = useColorModeValue("gray.200", "gray.700")
 
   const closeSwipeable = () => {
     Haptics.selectionAsync()
@@ -298,7 +298,7 @@ const ConversationListItem = ({
 
   const handleOnViewContact = () => {
     closeSwipeable()
-    onViewContact(contactId, contactName, avatarColor)
+    onViewContact(contactId, contactName)
   }
 
   const handleOnMarkActive = () => {
@@ -318,8 +318,8 @@ const ConversationListItem = ({
   return (
     <Swipeable
       containerStyle={{
-        paddingLeft: spacing.small,
-        paddingRight: spacing.small,
+        paddingLeft: spacing.medium,
+        paddingRight: spacing.medium,
       }}
       ref={swipeableRef}
       renderLeftActions={() => (
@@ -355,12 +355,11 @@ const ConversationListItem = ({
           alignItems="center"
         >
           <AvatarRing
-            outerRingColor={cardBg}
-            // outerRingColor={isIncoming ? errorColor : cardBg}
+            // outerRingColor={!isRead ? errorColor : cardBg}
             innerRingColor={cardBg}
-            avatarColor={avatarColor}
             initials={initials}
             avatarProps={{ size: "sm" }}
+            sourceBadge={!isRead ? <Dot.Error size="md" /> : null}
           ></AvatarRing>
 
           <Stack flex={1}>
@@ -395,7 +394,6 @@ const ConversationListItem = ({
                 fontWeight={!isRead ? "medium" : "normal"}
                 text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
               ></Text>
-              {!isRead && <Dot.Error size="sm" />}
               {isRead && isClosed && <Dot.Neutral size="sm" />}
             </HStack>
           </Stack>

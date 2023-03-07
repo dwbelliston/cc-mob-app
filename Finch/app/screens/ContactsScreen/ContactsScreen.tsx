@@ -112,11 +112,10 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     }, [])
 
     const handleOnViewContact = React.useCallback(
-      ({ contactName, contactId, contactColor }: ContactsStackParamList["ContactDetail"]) => {
+      ({ contactName, contactId }: ContactsStackParamList["ContactDetail"]) => {
         navigation.navigate("ContactDetail", {
           contactName,
           contactId,
-          contactColor,
         })
       },
       [],

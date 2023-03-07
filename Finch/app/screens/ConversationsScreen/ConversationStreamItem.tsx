@@ -1,10 +1,23 @@
 // https://beta.reactjs.org/reference/react/memo#minimizing-props-changes
 
-import { HStack, useColorModeValue } from "native-base"
+import { useColorModeValue, View } from "native-base"
 import React from "react"
 import { IConversationItem } from "../../models/Conversation"
-import { spacing } from "../../theme"
+import {
+  getIsAutoReply,
+  getIsCompliance,
+  getIsMessageBlocked,
+  getIsMessageError,
+  getIsMessageSending,
+  getIsUserMessage,
+  getMessageBroadcastId,
+  getMessageDispatchId,
+  getMessageStatusDisplay,
+  IMessage,
+} from "../../models/Message"
+import { getAvatarColor, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { getInitials } from "../../utils/getInitials"
 
 import ConversationCall from "./ConversationCall"
 import ConversationMessage from "./ConversationMessage"
@@ -42,39 +55,27 @@ export interface IConversationStreamItem extends IConversationStreamItemData {
   //   }) => void
 }
 
-// export const makeConversationStreamItemData = (
-//   conversation: IConversation,
-// ): IConversationStreamItemData => {
-//   const conversationId = conversation.ConversationId
-//   const avatarColor = getAvatarColor(conversation.ContactName)
-//   const initials = getInitials(conversation.ContactName)
-//   const createdTime = getConversationCreatedTime(conversation)
-//   const conversationNumber = getConversationContactNumber(conversation)
-//   const conversationMessage = getConversationLastMessage(conversation)
-//   const isIncoming = getConversationIsIncoming(conversation)
-//   const isMessage = getConversationIsLastAMessage(conversation)
-//   const isCall = getConversationIsLastACall(conversation)
-//   const isRead = conversation.IsRead
-//   const isClosed = conversation.Status === ConversationStatusEnum.CLOSED
-//   const contactName = conversation.ContactName
-//   const contactId = conversation.ContactId
-
-//   return {
-//     conversationId,
-//     contactId,
-//     isRead,
-//     isClosed,
-//     avatarColor,
-//     initials,
-//     createdTime,
-//     contactName,
-//     conversationNumber,
-//     conversationMessage,
-//     isIncoming,
-//     isMessage,
-//     isCall,
-//   }
-// }
+export const makeConversationStreamItemMessage = (
+  message: IMessage,
+  contactName: string,
+): IConversationItem["message"] => {
+  return {
+    mediaItems: message.MessageMediaItems,
+    message: message.Message,
+    createdTime: message.CreatedTime,
+    isMessageError: getIsMessageError(message),
+    isMessageBlocked: getIsMessageBlocked(message),
+    isMessageSending: getIsMessageSending(message),
+    isAutoReply: getIsAutoReply(message),
+    isCompliance: getIsCompliance(message),
+    isUserMessage: getIsUserMessage(message),
+    contactInitials: getInitials(contactName),
+    contactColor: getAvatarColor(contactName),
+    messageBroadcastId: getMessageBroadcastId(message),
+    messageCampaignId: getMessageDispatchId(message),
+    messageStatus: getMessageStatusDisplay(message.Status),
+  }
+}
 
 const ConversationStreamItem = ({
   conversationItem,
@@ -132,14 +133,10 @@ IConversationStreamItem) => {
   const contactName = "dustin belliston"
 
   return (
-    <HStack py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
+    <View py={spacing.tiny}>
       <React.Fragment>
         {conversationItem.message && (
-          <ConversationMessage
-            key={conversationItem.message.MessageId}
-            contactName={contactName}
-            message={conversationItem.message}
-          ></ConversationMessage>
+          <ConversationMessage {...conversationItem.message}></ConversationMessage>
         )}
         {conversationItem.call && (
           <ConversationCall
@@ -149,7 +146,7 @@ IConversationStreamItem) => {
           ></ConversationCall>
         )}
       </React.Fragment>
-    </HStack>
+    </View>
   )
 }
 

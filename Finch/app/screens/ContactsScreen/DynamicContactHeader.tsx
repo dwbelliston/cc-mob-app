@@ -16,7 +16,7 @@ const imgSrc = require("../../../assets/images/img-lines-header-light.png")
 
 export const DynamicContactHeader = ({
   scrollY,
-  contactColor,
+  bgColor,
   topInset,
   handleOnBack,
   dataContact,
@@ -46,7 +46,7 @@ export const DynamicContactHeader = ({
       style={[
         {
           flex: 1,
-          backgroundColor: contactColor,
+          backgroundColor: bgColor,
           // minHeight: 280,
         },
       ]}

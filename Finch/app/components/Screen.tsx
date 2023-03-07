@@ -1,6 +1,6 @@
 import { useScrollToTop } from "@react-navigation/native"
 import { StatusBar, StatusBarProps } from "expo-status-bar"
-import { View as NBView } from "native-base"
+import { useColorModeValue, View as NBView } from "native-base"
 import React, { useRef, useState } from "react"
 import {
   KeyboardAvoidingView,
@@ -195,7 +195,7 @@ export function Screen(props: ScreenProps) {
     keyboardOffset = 0,
     safeAreaEdges,
     StatusBarProps,
-    statusBarStyle = "dark",
+    statusBarStyle,
   } = props
 
   let bgColor = backgroundColor
@@ -203,11 +203,14 @@ export function Screen(props: ScreenProps) {
     bgColor = useColor("bg.main")
   }
 
+  const _statusBarColor = useColorModeValue("dark", "light")
+  const statusBarColor = statusBarStyle || _statusBarColor
+
   const $containerInsets = useSafeAreaInsetsStyle(safeAreaEdges)
 
   return (
     <NBView style={[$containerStyle, $containerInsets]} backgroundColor={bgColor}>
-      <StatusBar style={statusBarStyle} {...StatusBarProps} />
+      <StatusBar style={statusBarColor} {...StatusBarProps} />
 
       <KeyboardAvoidingView
         behavior={isIos ? "padding" : "height"}

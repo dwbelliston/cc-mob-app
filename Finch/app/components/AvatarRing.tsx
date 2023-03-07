@@ -1,4 +1,12 @@
-import { Avatar, Box, Circle, IAvatarProps, ICircleProps, Spinner } from "native-base"
+import {
+  Avatar,
+  Box,
+  Circle,
+  IAvatarProps,
+  ICircleProps,
+  Spinner,
+  useColorModeValue,
+} from "native-base"
 import { ColorType } from "native-base/lib/typescript/components/types"
 import { useColor } from "../theme/useColor"
 import { GenericAvatarIcon } from "./GenericAvatar"
@@ -28,13 +36,20 @@ export const AvatarRing = (props: IAvatarRingProps) => {
 
   const bgLoading = useColor("bg.main")
 
+  const _bgAvatar = useColorModeValue("gray.100", "gray.800")
+  const _colorAvatar = useColorModeValue("gray.500", "gray.500")
+  const _borderAvatar = useColorModeValue("gray.200", "gray.700")
+  const bgAvatar = avatarColor || _bgAvatar
+  const colorAvatar = avatarColor ? "white" : _colorAvatar
+  const borderAvatar = avatarColor || _borderAvatar
+
   return (
     <Circle
       mx="auto"
       display="inline"
       bg={innerRingColor}
-      p={1}
-      borderWidth={2}
+      p={0.5}
+      borderWidth={1}
       borderColor={outerRingColor}
       {...ringProps}
     >
@@ -46,9 +61,11 @@ export const AvatarRing = (props: IAvatarRingProps) => {
         <>
           {initials ? (
             <Avatar
-              bg={avatarColor}
+              borderWidth={1}
+              borderColor={borderAvatar}
+              bg={bgAvatar}
               _text={{
-                color: "white",
+                color: colorAvatar,
                 allowFontScaling: false,
               }}
               size="md"

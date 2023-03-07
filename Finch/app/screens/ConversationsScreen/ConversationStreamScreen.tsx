@@ -9,7 +9,7 @@ import { DataStatus } from "../../components/DataStatus"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { ICall } from "../../models/Call"
-import { IConversationItem } from "../../models/Conversation"
+import { getConversationContactNumber, IConversationItem } from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
@@ -18,7 +18,10 @@ import { useReadConversation } from "../../services/api/conversations/queries/us
 import { colors, spacing } from "../../theme"
 import { runFormatLongTime } from "../../utils/useFormatDate"
 import ConversationDivider from "./ConversationDivider"
-import { PureConversationStreamItem } from "./ConversationStreamItem"
+import {
+  makeConversationStreamItemMessage,
+  PureConversationStreamItem,
+} from "./ConversationStreamItem"
 import SendMessageFloaterInput from "./SendMessageFloaterInput"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
@@ -26,12 +29,12 @@ import SendMessageFloaterInput from "./SendMessageFloaterInput"
 export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStream">> = observer(
   function ConversationStreamScreen(_props) {
     const [sectionConversationItems, setSectionConversationItems] = React.useState<any>([])
+    const [contactNumber, setContactNumber] = React.useState("")
     // React.useState<SectionListProps<any, any>>()
     // React.useState<SectionBase<IConversationItem[]>>()
 
     const { conversationStore } = useStores()
 
-    const statusBarColor = useColorModeValue("dark", "light")
     const headerHeight = useHeaderHeight()
     const bgStream = useColorModeValue(colors.gray[100], colors.gray[900])
 
@@ -43,11 +46,13 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const { data: dataConversation, isLoading: isLoadingStream } =
       useReadConversation(conversationId)
 
+    const contactId = dataConversation?.ContactId
+
     const {
       data: dataContact,
       isError: isErrorContact,
       isLoading: isLoadingContact,
-    } = useReadContact(dataConversation?.ContactId)
+    } = useReadContact(contactId)
 
     const {
       status,
@@ -64,6 +69,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     } = useListConversationStream(
       viewLimit,
       conversationId,
+      null,
       // debouncedStreamSearch
     )
 
@@ -133,7 +139,12 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
               conversationItemObj.call = streamItem as ICall
               conversationItemObj.id = `call-${streamItem.CreatedTime}`
             } else {
-              conversationItemObj.message = streamItem as IMessage
+              // Build conversation item from message
+              const messageIn = streamItem as IMessage
+              conversationItemObj.message = makeConversationStreamItemMessage(
+                messageIn,
+                contactName,
+              )
               conversationItemObj.id = `message-${streamItem.CreatedTime}`
             }
 
@@ -158,11 +169,17 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
       // scrollToMyRef();
     }, [dataStreamItems])
 
+    React.useEffect(() => {
+      if (dataConversation) {
+        const contactNumber = getConversationContactNumber(dataConversation)
+        setContactNumber(contactNumber)
+      }
+    }, [dataConversation])
+
     return (
       <Screen
         preset="fixed"
         safeAreaEdges={["bottom"]}
-        statusBarStyle={statusBarColor}
         style={{
           backgroundColor: bgStream,
         }}
@@ -200,7 +217,11 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           onEndReachedThreshold={0.5}
           initialNumToRender={10}
         />
-        <SendMessageFloaterInput contactName={contactName} />
+        <SendMessageFloaterInput
+          contactName={contactName}
+          contactId={contactId}
+          contactNumber={contactNumber}
+        />
       </Screen>
     )
   },

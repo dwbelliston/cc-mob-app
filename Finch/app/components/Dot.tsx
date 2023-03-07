@@ -31,7 +31,7 @@ const DotWarning = (props: IDotProps) => {
 }
 
 export type DotStatuses = "info" | "success" | "error" | "warning" | "neutral"
-export type DotSizes = "xs" | "sm" | "md" | "lg"
+export type DotSizes = "xs" | "sm" | "md" | "lg" | "xl"
 
 export interface IDotBaseProps extends IDotProps {
   status?: DotStatuses
@@ -93,10 +93,14 @@ const SIZES = {
     w: 2,
   },
   md: {
+    h: 3,
+    w: 3,
+  },
+  lg: {
     h: 4,
     w: 4,
   },
-  lg: {
+  xl: {
     h: 8,
     w: 8,
   },

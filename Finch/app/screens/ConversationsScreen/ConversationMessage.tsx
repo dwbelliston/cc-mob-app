@@ -2,245 +2,200 @@
 // ConversationMessage
 // */
 
-import { Box, HStack, Stack, View } from "native-base"
+import { Box, Center, HStack, Stack, View } from "native-base"
+import { ColorType } from "native-base/lib/typescript/components/types"
 import React from "react"
-import { Text } from "../../components"
+import { Button, Icon, Text } from "../../components"
 import { ContactAvatar } from "../../components/ContactAvatar"
+import { CurrentClientAvatar } from "../../components/CurrentClientAvatar"
 import { UserAvatar } from "../../components/UserAvatar"
-import { IMessage, MessageDirectionEnum } from "../../models/Message"
-import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
+import { IMessage } from "../../models/Message"
 import { spacing } from "../../theme"
-import { getInitials } from "../../utils/getInitials"
 import { runFormatMinuteTime } from "../../utils/useFormatDate"
+import MessageMediaItemsPreview from "./MessageMediaItemsPreview"
 import TextMessageBubble from "./TextMessageBubble"
 
-interface IProps {
-  message: IMessage
-  contactName: string
+export interface IConversationMessageProps {
+  mediaItems?: IMessage["MessageMediaItems"]
+  message?: IMessage["Message"]
+  createdTime?: IMessage["CreatedTime"]
+  isMessageError?: boolean
+  isMessageBlocked?: boolean
+  isMessageSending?: boolean
+  isAutoReply?: boolean
+  isUserMessage?: boolean
+  isCompliance?: boolean
+  messageBroadcastId?: string
+  messageCampaignId?: string
+  contactColor?: ColorType
+  contactInitials?: string
+  messageStatus?: string
 }
 
-const ConversationMessage = ({ message, contactName }: IProps) => {
-  const { data: userProfile } = useReadUserProfile()
+const ConversationMessage = ({
+  mediaItems,
+  message,
+  createdTime,
+  isMessageError,
+  isMessageSending,
+  isUserMessage,
+  isMessageBlocked,
+  isAutoReply,
+  isCompliance,
+  messageBroadcastId,
+  messageCampaignId,
+  contactColor,
+  contactInitials,
+  messageStatus,
+}: IConversationMessageProps) => {
+  const isRobot = isAutoReply || isCompliance || !!messageBroadcastId || messageCampaignId
 
-  const [isUserMessage, set_isUserMessage] = React.useState(
-    message.Direction === MessageDirectionEnum.SENT,
-  )
-
-  const initials = getInitials(contactName)
+  const isError = isMessageError || isMessageBlocked
 
   return (
-    <View w="full">
-      <HStack
-        space={spacing.micro}
-        direction={isUserMessage ? "row-reverse" : "row"}
-        alignItems="flex-end"
-      >
+    <View
+      w="full"
+      // Put some contraint on it
+      pl={isUserMessage ? spacing.extraSmall : 0}
+      pr={!isUserMessage ? spacing.extraSmall : 0}
+    >
+      <HStack direction={isUserMessage ? "row-reverse" : "row"} alignItems="flex-end" w="full">
         {/* Gutter */}
-        <Box>
+
+        <Box ml={isUserMessage ? 1 : 0} mr={!isUserMessage ? 1 : 0}>
           {isUserMessage ? (
-            <UserAvatar isShowLoading={false} size="sm"></UserAvatar>
+            <>
+              {isRobot ? (
+                <Box p={1}>
+                  <CurrentClientAvatar size="sm" />
+                </Box>
+              ) : (
+                <UserAvatar isShowLoading={false} size="sm"></UserAvatar>
+              )}
+            </>
           ) : (
             <ContactAvatar
-              // innerRingColor={cardBg}
-              // avatarColor={avatarColor}
-              initials={initials}
+              // innerRingColor={"red.400"}
+              avatarColor={contactColor}
+              initials={contactInitials}
               avatarProps={{ size: "sm" }}
-              // contactSource={contactSourceType}
-              // onPress={handleOnClickContactAvatar}
             ></ContactAvatar>
           )}
         </Box>
-        {/* Body */}
-        <Stack
-          flex={1}
-          maxW={"80%"}
-          space={1}
-          alignItems={isUserMessage ? "flex-end" : "flex-start"}
-        >
-          <HStack flex={1}>
-            <TextMessageBubble isUserMessage={isUserMessage} message={message.Message} />
-          </HStack>
 
-          <Text colorToken={"text.softer"} text={runFormatMinuteTime(message.CreatedTime)}></Text>
+        {/* Body */}
+        <Stack flex={1} space={1} alignItems={isUserMessage ? "flex-end" : "flex-start"}>
+          {/* Media */}
+          {mediaItems && (
+            <MessageMediaItemsPreview
+              isUserMessage={isUserMessage}
+              isMessageError={isError}
+              isDownloadable={true}
+              mediaItems={mediaItems}
+            ></MessageMediaItemsPreview>
+          )}
+
+          {/* Message */}
+          {message ? (
+            <TextMessageBubble
+              isMessageError={isError}
+              isUserMessage={isUserMessage}
+              message={message}
+            />
+          ) : null}
+
+          {/* Meta */}
+          {isMessageSending ? (
+            <HStack
+              alignItems={"center"}
+              space={spacing.micro}
+              pr={isUserMessage ? 2 : 0}
+              pl={isUserMessage ? 0 : 2}
+            >
+              <Icon colorToken={"text.softer"} icon="paperAirplane" size={12}></Icon>
+              <Text colorToken={"text.softer"} fontSize="xs" tx={"message.sending"}></Text>
+            </HStack>
+          ) : (
+            <HStack
+              color="gray.400"
+              alignItems={"center"}
+              direction={isUserMessage ? "row" : "row-reverse"}
+            >
+              {/* Message Types */}
+              <Box pr={isUserMessage ? 2 : 0} pl={isUserMessage ? 0 : 2}>
+                {isCompliance && (
+                  <HStack alignItems={"center"} space={spacing.micro}>
+                    <Icon colorToken={"text.softer"} icon="scale" size={12}></Icon>
+                    <Text colorToken={"text.softer"} fontSize="xs" tx={"message.compliance"}></Text>
+                  </HStack>
+                )}
+
+                {isAutoReply && (
+                  <HStack alignItems={"center"} space={spacing.micro}>
+                    <Icon colorToken={"text.softer"} icon="bolt" size={12}></Icon>
+                    <Text colorToken={"text.softer"} fontSize="xs" tx="message.autoreply"></Text>
+                  </HStack>
+                )}
+
+                {messageCampaignId && (
+                  <Button
+                    size="xs"
+                    // onClick={handleViewCampaign}
+                    aria-label="View campaign"
+                    leftIcon={
+                      <Icon colorToken={"text.softer"} icon="arrowUpRight" size={12}></Icon>
+                    }
+                    tx="campaigns.viewCampaign"
+                  >
+                    View Campaign
+                  </Button>
+                )}
+
+                {messageBroadcastId && (
+                  <Button
+                    size="xs"
+                    // onClick={handleViewBroadcast}
+                    tx="broadcasts.viewBroadcast"
+                    leftIcon={
+                      <Icon colorToken={"text.softer"} icon="arrowUpRight" size={12}></Icon>
+                    }
+                  >
+                    View Broadcast
+                  </Button>
+                )}
+              </Box>
+
+              {/* Message status */}
+              <HStack space={2}>
+                {isError && messageStatus ? (
+                  <Text colorToken={"error"} fontSize="xs" text={messageStatus}></Text>
+                ) : null}
+
+                {isMessageError ? (
+                  <Center>
+                    <Icon size={16} icon="exclamation-triangle" colorToken={"error"}></Icon>
+                  </Center>
+                ) : null}
+
+                {isMessageBlocked ? (
+                  <Center>
+                    <Icon size={16} icon="noSymbol" colorToken={"error"}></Icon>
+                  </Center>
+                ) : null}
+
+                <Text
+                  fontSize="xs"
+                  fontWeight={isError ? "semibold" : "normal"}
+                  colorToken={isError ? "error" : "text.softer"}
+                  text={runFormatMinuteTime(createdTime)}
+                ></Text>
+              </HStack>
+            </HStack>
+          )}
         </Stack>
       </HStack>
     </View>
   )
 }
-//   const [messageDispatchId, set_messageDispatchId] = React.useState<
-//     string | null
-//   >(null);
-//   const [messageCampaignId, set_messageCampaignId] = React.useState<
-//     string | null
-//   >(null);
-//   const [messageBroadcastId, set_messageBroadcastId] = React.useState<
-//     string | null
-//   >(null);
-//   const [messageType, set_messageType] = React.useState<string | null>(null);
-
-//   );
-//   const [isMessageError, set_isMessageError] = React.useState<boolean>(false);
-//   const [isMessageDelivered, set_isMessageDelivered] =
-//     React.useState<boolean>(false);
-//   const [isMessageBlocked, set_isMessageBlocked] =
-//     React.useState<boolean>(false);
-//   const [isMessageSending, set_isMessageSending] =
-//     React.useState<boolean>(false);
-//   const { userProfile } = useAuth();
-
-//   const handleViewCampaign = () => {
-//     navigate(
-//       `/app/relays/campaigns/${messageCampaignId}/dispatches/${messageDispatchId}`
-//     );
-//   };
-
-//   const handleViewBroadcast = () => {
-//     navigate(`/app/relays/broadcasts/${messageBroadcastId}/contacts`);
-//   };
-
-//   React.useEffect(() => {
-//     set_messageDispatchId(getMessageDispatchId(message));
-//     set_messageBroadcastId(getMessageBroadcastId(message));
-//     set_messageCampaignId(getMessageCampaignId(message));
-//     set_messageType(getMessageType(message));
-
-//     set_isMessageError(getIsMessageError(message));
-//     set_isMessageDelivered(getIsMessageDelivered(message));
-//     set_isMessageBlocked(getIsMessageBlocked(message));
-//     set_isMessageSending(getIsMessageSending(message));
-
-//     set_isUserMessage(message.Direction === MessageDirectionEnum.SENT);
-//   }, [message]);
-
-//   return (
-//     <>
-//       <Stack
-//         spacing={2}
-//         alignItems="flex-start"
-//         direction={isUserMessage ? "row-reverse" : "row"}
-//       >
-//         {/* Gutter */}
-//         <HStack mt={1}>
-//           {isUserMessage ? (
-//             <Avatar
-//               src={`${userProfile?.BrandImageUrl}`}
-//               name={`${userProfile.FirstName} ${userProfile.LastName}`}
-//               size="md"
-//             ></Avatar>
-//           ) : (
-//             <Avatar name={contactName} size="md"></Avatar>
-//           )}
-//           {isMessageError && (
-//             <Tooltip label={message.Status}>
-//               <Box color="white">
-//                 <Icon
-//                   h="6"
-//                   w="6"
-//                   as={ExclamationCircleIcon}
-//                   color="red.700"
-//                 ></Icon>
-//               </Box>
-//             </Tooltip>
-//           )}
-//           {isMessageBlocked && (
-//             <Tooltip label={message.Status}>
-//               <Box color="white">
-//                 <Icon h="6" w="6" as={NoSymbolIcon} color="red.700"></Icon>
-//               </Box>
-//             </Tooltip>
-//           )}
-//           {isMessageSending && (
-//             <Tooltip label={"sending"}>
-//               <Box color="white">
-//                 <Icon
-//                   h="6"
-//                   w="6"
-//                   as={PaperAirplaneIcon}
-//                   color="blue.400"
-//                   style={{
-//                     animation: "pulse 2s infinite linear",
-//                   }}
-//                 ></Icon>
-//               </Box>
-//             </Tooltip>
-//           )}
-//         </HStack>
-
-//         {/* Container */}
-//         <Stack
-//           alignItems={isUserMessage ? "flex-end" : "flex-start"}
-//           spacing={2}
-//         >
-//           {/* Media */}
-//           {message.MessageMediaItems && (
-//             <MessageMediaItemsPreview
-//               w={"md"}
-//               isUserMessage={isUserMessage}
-//               isMessageError={isMessageError || isMessageBlocked}
-//               isDownloadable={true}
-//               mediaItems={message.MessageMediaItems}
-//             ></MessageMediaItemsPreview>
-//           )}
-
-//           {/* Message */}
-//           {message.Message && (
-//             <TextMessageBubble
-//               maxW={"md"}
-//               message={message.Message}
-//               isUserMessage={isUserMessage}
-//               isClientMessage={!isUserMessage}
-//               isMessageError={isMessageError || isMessageBlocked}
-//             ></TextMessageBubble>
-//           )}
-
-//           {/* Meta */}
-//           <HStack justifyContent="center" alignItems="center">
-//             {messageType && messageType === "compliance" && (
-//               <HStack color="gray.400">
-//                 <Icon as={ScaleIcon}></Icon>
-//                 <Text fontSize="sm">Compliance</Text>
-//               </HStack>
-//             )}
-//             {messageType && messageType === "autoreply" && (
-//               <HStack color="gray.400">
-//                 <Icon as={BoltIcon}></Icon>
-//                 <Text fontSize="sm">Auto Reply</Text>
-//               </HStack>
-//             )}
-//             {messageCampaignId && messageDispatchId && (
-//               <Button
-//                 size="xs"
-//                 onClick={handleViewCampaign}
-//                 variant="outline"
-//                 bg="white"
-//                 aria-label="View campaign"
-//                 leftIcon={<Icon as={ArrowUpRightIcon}></Icon>}
-//               >
-//                 View Dispatch
-//               </Button>
-//             )}
-//             {messageBroadcastId && (
-//               <Button
-//                 size="xs"
-//                 onClick={handleViewBroadcast}
-//                 variant="outline"
-//                 bg="white"
-//                 aria-label="View broadcast"
-//                 leftIcon={<Icon as={ArrowUpRightIcon}></Icon>}
-//               >
-//                 View Broadcast
-//               </Button>
-//             )}
-
-//             <HStack fontSize="md" color="gray.400">
-//               {isMessageBlocked && <Text>Number is unsubscribed</Text>}
-//               <Text>{runFormatMinuteTime(message.CreatedTime)}</Text>
-//             </HStack>
-//           </HStack>
-//         </Stack>
-//       </Stack>
-//     </>
-//   );
-// };
 
 export default ConversationMessage

@@ -10,6 +10,8 @@ const en = {
     oneMoment: "One moment...",
     reset: "Reset",
     noValue: "No value",
+    downloadMedia: "Download Media",
+    compliance: "Compliance",
   },
   fieldLabels: {
     name: "Name",
@@ -47,6 +49,17 @@ const en = {
   stream: {
     noMessages: "No Messages",
     noMessagesDescription: "Send a message to start the converstion",
+  },
+  broadcasts: {
+    viewBroadcast: "View Broadcast",
+  },
+  campaigns: {
+    viewCampaign: "View Campaign",
+  },
+  message: {
+    sending: "Sending...",
+    compliance: "Compliance",
+    autoreply: "Auto Reply",
   },
   phone: {
     landline: "Landline",

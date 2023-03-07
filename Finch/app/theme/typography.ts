@@ -40,7 +40,14 @@ import {
 } from "@expo-google-fonts/source-code-pro";
 
 
+
 export const customFontsToLoad = {
+  'AirbnbCerealBlack': require("../../assets/fonts/cereal/AirbnbCerealBlack.ttf"),
+  'AirbnbCerealBold': require("../../assets/fonts/cereal/AirbnbCerealBold.ttf"),
+  'AirbnbCerealBook': require("../../assets/fonts/cereal/AirbnbCerealBook.ttf"),
+  'AirbnbCerealExtraBold': require("../../assets/fonts/cereal/AirbnbCerealExtraBold.ttf"),
+  'AirbnbCerealLight': require("../../assets/fonts/cereal/AirbnbCerealLight.ttf"),
+  'AirbnbCerealMedium': require("../../assets/fonts/cereal/AirbnbCerealMedium.ttf"),
   Inter_100Thin,
   Inter_200ExtraLight,
   Inter_300Light,
@@ -104,6 +111,35 @@ export const typography = {
     },
     900: {
       normal: "Inter_900Black",
+    },
+  },
+  Cereal: {
+    100: {
+      normal: "AirbnbCerealLight",
+    },
+    200: {
+      normal: "AirbnbCerealLight",
+    },
+    300: {
+      normal: "AirbnbCerealBook",
+    },
+    400: {
+      normal: "AirbnbCerealBook",
+    },
+    500: {
+      normal: "AirbnbCerealMedium",
+    },
+    600: {
+      normal: "AirbnbCerealMedium",
+    },
+    700: {
+      normal: "AirbnbCerealBold",
+    },
+    800: {
+      normal: "AirbnbCerealExtraBold",
+    },
+    900: {
+      normal: "AirbnbCerealBlack",
     },
   },
   Poppins: {

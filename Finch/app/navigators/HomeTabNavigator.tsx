@@ -98,7 +98,7 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
         tabBarActiveTintColor: tabIconColorActive,
         tabBarInactiveTintColor: tabIconColorInActive,
         tabBarStyle: {
-          borderTopWidth: 2,
+          borderTopWidth: 1,
           paddingTop: 4,
           borderTopColor: tabBorder,
           backgroundColor: tabBg,

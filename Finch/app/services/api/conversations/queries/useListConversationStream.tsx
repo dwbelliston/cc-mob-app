@@ -33,10 +33,7 @@ const useListConversationStream = (
   search: string | null = null,
 ) => {
   return useInfiniteQuery<IPaginatedConversationStream>(
-    conversationKeys.stream(conversationId, {
-      pageLimit: pageLimit,
-      search: search,
-    }),
+    conversationKeys.stream(conversationId, search),
     (props) => {
       return makeApiRequest({
         conversationId,

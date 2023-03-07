@@ -1,10 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup"
+import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Stack } from "native-base"
+import { HStack, Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
-import { Button, Icon, Screen, Text } from "../components"
+import { Button, Icon, IconButton, Screen, Text } from "../components"
 import { Butter } from "../components/Butter"
 import { FormControl } from "../components/FormControl"
 import { useStores } from "../models"
@@ -64,7 +65,8 @@ export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = obs
 
     const handleOnBack = () => {
       setLoginError("")
-      navigation.navigate("Login")
+      Haptics.selectionAsync()
+      navigation.goBack()
     }
 
     return (
@@ -72,6 +74,15 @@ export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = obs
         <Stack space={4} py={spacing.extraSmall}>
           <Stack space={12} px={spacing.extraSmall}>
             <Stack space={4}>
+              <HStack>
+                <IconButton
+                  size="xs"
+                  onPress={handleOnBack}
+                  rounded="full"
+                  // variant={"subtle"}
+                  icon={<Icon size={20} colorToken="text" icon="arrowLeftLong" />}
+                />
+              </HStack>
               <Text
                 colorToken="text"
                 textAlign={"center"}
@@ -111,8 +122,6 @@ export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = obs
                 onPress={handleSubmit(onSubmit)}
                 rightIcon={<Icon icon="arrowRightLong" />}
               ></Button>
-
-              <Button onPress={handleOnBack} tx="loginScreen.backToLogin"></Button>
             </Stack>
 
             <Text

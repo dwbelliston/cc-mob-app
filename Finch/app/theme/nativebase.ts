@@ -24,11 +24,12 @@ export const finchTheme = {
   },
   colors,
   fontConfig: {
-    body: typography.Inter,
+    body: typography.Cereal,
     mono: typography.SourecCodePro,
+    accent: typography.Poppins,
   },
   fonts: {
-    heading: "body",
+    heading: "accent",
     body: "body",
     mono: "mono",
   },

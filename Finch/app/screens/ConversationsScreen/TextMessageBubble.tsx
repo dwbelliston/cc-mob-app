@@ -23,7 +23,7 @@ const TextMessageBubble = (props: IProps) => {
 
   const [messageParts, set_messageParts] = React.useState<IMessagePart[]>([])
 
-  const bgError = useColorModeValue(colors.error[200], colors.error[900])
+  const bgError = useColorModeValue(colors.error[100], colors.error[900])
   const borderError = useColorModeValue(colors.error[300], colors.error[600])
   const colorError = useColorModeValue(colors.gray[800], colors.error[200])
 
@@ -79,8 +79,11 @@ const TextMessageBubble = (props: IProps) => {
               <Box key={idx}>
                 <Link
                   textDecoration={"underline"}
-                  _hover={{ color: "blue.600" }}
+                  _hover={{ color: "blue.200" }}
                   isExternal
+                  _text={{
+                    color: "blue.500",
+                  }}
                   href={part.message}
                 >
                   {part.message}

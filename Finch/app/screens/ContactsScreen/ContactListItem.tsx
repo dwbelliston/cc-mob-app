@@ -17,6 +17,8 @@ import { ContactsStackParamList } from "./ContactsStack"
 export interface IContactListItemData {
   contactId: string
   contactName: string
+  firstName: string
+  lastName: string
   contactEmail: string
   contactNumber: string
   avatarColor: string
@@ -29,11 +31,7 @@ export interface IContactListItemData {
 export interface IContactListItem extends IContactListItemData {
   onEmail: (contactName: string, contactEmail: string) => void
   onText: (contactName: string, contactNumber: string) => void
-  onViewContact: ({
-    contactName,
-    contactId,
-    contactColor,
-  }: ContactsStackParamList["ContactDetail"]) => void
+  onViewContact: ({ contactName, contactId }: ContactsStackParamList["ContactDetail"]) => void
 }
 
 interface IRightActions {
@@ -46,6 +44,8 @@ interface IRightActions {
 export const makeContactListItemData = (contact: IContact): IContactListItemData => {
   const contactId = contact.ContactId
   const contactName = getContactName(contact)
+  const firstName = contact.FirstName
+  const lastName = contact.LastName
   const contactEmail = contact.Email
   const contactNumber = contact.Phone
   const avatarColor = getAvatarColor(contactName)
@@ -57,6 +57,8 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
   return {
     contactId,
     contactName,
+    firstName,
+    lastName,
     contactEmail,
     contactNumber,
     avatarColor,
@@ -68,7 +70,7 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
 }
 
 const RightSwipeActions = ({ contactName, onEmail, onText, onViewContact }: IRightActions) => {
-  const moreBg = useColorModeValue("gray.100", "gray.800")
+  const moreBg = useColorModeValue("gray.50", "gray.800")
   const activeBg = useColorModeValue("primary.600", "primary.800")
 
   const { showActionSheetWithOptions } = useActionSheet()
@@ -136,6 +138,8 @@ const RightSwipeActions = ({ contactName, onEmail, onText, onViewContact }: IRig
 const ContactListItem = ({
   contactId,
   contactName,
+  firstName,
+  lastName,
   contactEmail,
   contactNumber,
   avatarColor,
@@ -169,13 +173,13 @@ const ContactListItem = ({
 
   const handleOnClickContact = () => {
     closeSwipeable()
-    onViewContact({ contactName, contactId, contactColor: avatarColor })
+    onViewContact({ contactName, contactId })
   }
 
   const handleOnClickContactAvatar = () => {
     // haptic on the avatar already
     swipeableRef.current.close()
-    onViewContact({ contactName, contactId, contactColor: avatarColor })
+    onViewContact({ contactName, contactId })
   }
 
   return (
@@ -196,7 +200,6 @@ const ContactListItem = ({
         <HStack bg={cardBg} py={spacing.tiny} px={spacing.tiny} space={4} alignItems="center">
           <ContactAvatar
             innerRingColor={cardBg}
-            avatarColor={avatarColor}
             initials={initials}
             avatarProps={{ size: "sm" }}
             contactSource={contactSourceType}
@@ -204,14 +207,14 @@ const ContactListItem = ({
           ></ContactAvatar>
 
           <Stack flex={1}>
-            <HStack alignItems="center" justifyContent={"space-between"} space={spacing.micro}>
+            <HStack alignItems="center" justifyContent={"flex-start"} space={1}>
+              <Text numberOfLines={1} colorToken={"text"} fontSize="md" text={firstName}></Text>
               <Text
-                flex={1}
                 numberOfLines={1}
                 colorToken={"text"}
-                fontWeight="semibold"
+                fontWeight="bold"
                 fontSize="md"
-                text={contactName}
+                text={lastName}
               ></Text>
             </HStack>
             <HStack alignItems="center" space={spacing.micro}>

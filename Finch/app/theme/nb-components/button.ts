@@ -7,7 +7,7 @@ export default {
       shadow: 1,
       // fontFamily: "mono",
       _text: {
-        fontWeight: 500,
+        fontWeight: 400,
       },
     }
   },
@@ -248,6 +248,11 @@ export default {
       }
     },
     ghost: ({ colorScheme }: { colorScheme: string }) => {
+      return {
+        shadow: "unset",
+      }
+    },
+    link: ({ colorScheme }: { colorScheme: string }) => {
       return {
         shadow: "unset",
       }

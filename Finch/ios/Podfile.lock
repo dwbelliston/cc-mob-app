@@ -16,6 +16,9 @@ PODS:
     - ExpoModulesCore
   - EXLocalAuthentication (13.0.2):
     - ExpoModulesCore
+  - EXMediaLibrary (15.0.0):
+    - ExpoModulesCore
+    - React-Core
   - Expo (47.0.13):
     - ExpoModulesCore
   - ExpoClipboard (4.0.2):
@@ -469,6 +472,7 @@ DEPENDENCIES:
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
   - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
+  - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
@@ -584,6 +588,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-font/ios"
   EXLocalAuthentication:
     :path: "../node_modules/expo-local-authentication/ios"
+  EXMediaLibrary:
+    :path: "../node_modules/expo-media-library/ios"
   Expo:
     :path: "../node_modules/expo"
   ExpoClipboard:
@@ -700,6 +706,7 @@ SPEC CHECKSUMS:
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
   EXLocalAuthentication: 78cc5a00b13745b41d16d189ab332b61a01299f9
+  EXMediaLibrary: b1c4f78878e45f6a359aff3a059e1660c41b73ab
   Expo: b9fa98bf260992312ee3c424400819fb9beadafe
   ExpoClipboard: dc3c9469926884bfe1af886c9243de69bebf6363
   ExpoHaptics: 5a56d30a87ea213dd00b09566dc4b441a4dff97f

@@ -13,6 +13,11 @@ export enum MessageDirectionEnum {
   SENT = "SENT",
   RECEIVED = "RECEIVED",
 }
+export enum MessageTypeEnum {
+  CONVERSATION = "conversation",
+  AUTOREPLY = "autoreply",
+  COMPLIANCE = "compliance",
+}
 
 export interface IMessageMediaItem {
   MediaUrl: string
@@ -203,4 +208,46 @@ export const getIsMessageError = (message: IMessage): boolean => {
   }
 
   return isMessageError
+}
+
+export const getIsAutoReply = (message: IMessage): boolean => {
+  let isAutoReply = false
+
+  const mType = getMessageType(message)
+
+  if (mType === MessageTypeEnum.AUTOREPLY) {
+    isAutoReply = true
+  }
+
+  return isAutoReply
+}
+
+export const getIsCompliance = (message: IMessage): boolean => {
+  let isCompliance = false
+
+  const mType = getMessageType(message)
+
+  if (mType === MessageTypeEnum.COMPLIANCE) {
+    isCompliance = true
+  }
+
+  return isCompliance
+}
+export const getIsUserMessage = (message: IMessage): boolean => {
+  let isUserMessage = false
+
+  if (message.Direction === MessageDirectionEnum.SENT) {
+    isUserMessage = true
+  }
+
+  return isUserMessage
+}
+export const getMessageStatusDisplay = (status: IMessage["Status"]): string => {
+  let statusDisplay: string = status
+
+  if (status === MessageStatusEnum.BLOCKEDNUMBER) {
+    statusDisplay = "Unsubscribed"
+  }
+
+  return statusDisplay
 }

@@ -8,7 +8,66 @@ export const INDUSTRY_FIELDS: Array<string> = [
   "Multiline Insurance",
   "Real Estate",
   "Lending",
-  "Other  ",
+  "Other",
+]
+
+export const INDUSTRY_FIELDS_READYMADE_OPTIONS = [
+  {
+    label: "General",
+    value: "General",
+    colorScheme: "gray",
+  },
+  {
+    label: "Financial Services",
+    value: "FinancialServices",
+    colorScheme: "teal",
+  },
+  {
+    label: "Tax Planning",
+    value: "TaxPlanning",
+    colorScheme: "fuchsia",
+  },
+  {
+    label: "Estate Planning",
+    value: "EstatePlanning",
+    colorScheme: "cyan",
+  },
+  {
+    label: "Health Insurance/Medicare",
+    value: "HealthInsurance/Medicare",
+    colorScheme: "indigo",
+  },
+  {
+    label: "Multiline Insurance",
+    value: "MultilineInsurance",
+    colorScheme: "amber",
+  },
+  // {
+  //   label: "Real Estate",
+  //   value: "RealEstate",
+  // },
+  // {
+  //   label: "Lending",
+  //   value: "Lending",
+  // },
+]
+export const CRM_FIELDS: Array<string> = [
+  "Active Campaign",
+  "AdvisorBranch",
+  "AgencyBloc",
+  "AgentCRM",
+  "AgentCore",
+  "AirTable",
+  "Excel",
+  "EzLynx",
+  "HubSpot",
+  "Keap",
+  "RadiusBob",
+  "Redtail",
+  "SalesForce",
+  "Simplii",
+  "WealthBox",
+  "Other",
 ]
 
 export interface IRegisteredNumberCapabilities {
@@ -50,6 +109,7 @@ export interface IActiveSubscriptionFeatures {
   IsTextConversationActive: boolean
   IsTextBroadcastActive: boolean
   IsVoicemailDropActive: boolean
+  IsVoiceActive?: boolean
 }
 
 export interface ICallForwarding {
@@ -71,7 +131,12 @@ export interface IUserProfileBase {
   FirstName: string
   LastName: string
   CompanyName: string
+  PrimaryOrganizationId?: string
+  PrimaryOrganizationName: string
+  SecondaryOrganizationId?: string
+  SecondaryOrganizationName?: string
   Industry: string
+  Crm?: string
   Email: string
   Phone: string
   // Address
@@ -94,34 +159,10 @@ export interface IUserProfile extends IUserProfileBase {
   // Number
   IsPhoneRegistered: boolean
   RegisteredNumber?: IRegisteredNumber
+  MessagingServiceId?: string
   CallForwarding?: ICallForwarding
   Milestones?: IMilestones
-}
-
-export interface IUserProfileForm {
-  firstName: string
-  lastName: string
-  phone: string
-  email: string
-  companyName: string
-  industry: string
-  address1: string
-  city: string
-  state: string
-  zip: string
-}
-
-export const intialFormUserProfile: IUserProfileForm = {
-  firstName: "",
-  lastName: "",
-  phone: "",
-  companyName: "",
-  industry: "",
-  email: "",
-  address1: "",
-  city: "",
-  state: "",
-  zip: "",
+  // Governance?: { [organizationId: string]: IUserGovernance }
 }
 
 export interface IUserProfileCallForwardingForm {
@@ -134,58 +175,6 @@ export const initialFormUserProfileCallForwarding: IUserProfileCallForwardingFor
   NumberForwardTo: "",
   IsOnboardingConfirm: true,
   IsEnabled: true,
-}
-
-export const transformToApi = ({
-  firstName,
-  lastName,
-  phone,
-  email,
-  companyName,
-  industry,
-  address1,
-  city,
-  state,
-  zip,
-}: IUserProfileForm): IUserProfileBase => {
-  return {
-    FirstName: firstName,
-    LastName: lastName,
-    Phone: phone,
-    CompanyName: companyName,
-    Industry: industry,
-    Email: email,
-    Address1: address1,
-    City: city,
-    State: state,
-    Zip: zip,
-  }
-}
-
-export const transformFromApi = ({
-  FirstName,
-  LastName,
-  Email,
-  CompanyName,
-  Industry,
-  Phone = "",
-  Address1 = "",
-  City = "",
-  State = "",
-  Zip = "",
-}: IUserProfileBase) => {
-  return {
-    firstName: FirstName,
-    lastName: LastName,
-    phone: Phone || "",
-    companyName: CompanyName || "",
-    industry: Industry || "",
-    email: Email || "",
-    address1: Address1 || "",
-    city: City || "",
-    state: State || "",
-    zip: Zip || "",
-  }
 }
 
 // Maybe add a class in the future? Cant think of a need now

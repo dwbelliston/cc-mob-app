@@ -13,6 +13,7 @@ import {
   Bars3Icon,
   BellAlertIcon,
   BellIcon,
+  BoltIcon,
   CakeIcon,
   ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftIcon,
@@ -44,12 +45,14 @@ import {
   MagnifyingGlassIcon,
   MapPinIcon,
   NoSymbolIcon,
+  PaperAirplaneIcon,
   PaperClipIcon,
   PencilIcon,
   PhoneArrowDownLeftIcon,
   PhoneArrowUpRightIcon,
   PhoneIcon,
   RocketLaunchIcon,
+  ScaleIcon,
   ShareIcon,
   SparklesIcon,
   StarIcon,
@@ -74,6 +77,7 @@ import {
   Bars3Icon as Bars3IconSolid,
   BellAlertIcon as BellAlertIconSolid,
   BellIcon as BellIconSolid,
+  BoltIcon as BoltIconSolid,
   CakeIcon as CakeIconSolid,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisIconSolid,
   ChatBubbleLeftIcon as ChatBubbleLeftIconSolid,
@@ -104,12 +108,14 @@ import {
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   MapPinIcon as MapPinIconSolid,
   NoSymbolIcon as NoSymbolIconSolid,
+  PaperAirplaneIcon as PaperAirplaneIconSolid,
   PaperClipIcon as PaperClipIconSolid,
   PencilIcon as PencilIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
   PhoneIcon as PhoneIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
+  ScaleIcon as ScaleIconSolid,
   ShareIcon as ShareIconSolid,
   SparklesIcon as SparklesIconSolid,
   StarIcon as StarIconSolid,
@@ -154,6 +160,10 @@ export const Icon = (props: IconProps) => {
 }
 
 export const iconRegistry = {
+  bolt: {
+    outline: BoltIcon,
+    solid: BoltIconSolid,
+  },
   eye: {
     outline: EyeIcon,
     solid: EyeIconSolid,
@@ -270,6 +280,10 @@ export const iconRegistry = {
     outline: UserGroupIcon,
     solid: UserGroupIconSolid,
   },
+  scale: {
+    outline: ScaleIcon,
+    solid: ScaleIconSolid,
+  },
   "arrow-left-on-rectangle": {
     outline: ArrowLeftOnRectangleIcon,
     solid: ArrowLeftOnRectangleIconSolid,
@@ -325,6 +339,10 @@ export const iconRegistry = {
   phoneArrowUpRight: {
     outline: PhoneArrowUpRightIcon,
     solid: PhoneArrowUpRightIconSolid,
+  },
+  paperAirplane: {
+    outline: PaperAirplaneIcon,
+    solid: PaperAirplaneIconSolid,
   },
   documentDuplicate: {
     outline: DocumentDuplicateIcon,

@@ -1,6 +1,6 @@
 import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Stack } from "native-base"
+import { Stack, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 
 import { Screen } from "../../components"
@@ -36,8 +36,8 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
 
     const [contactName, setContactName] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
-    const [contactColor] = React.useState(colors.primary[700])
 
+    const bgColor = useColorModeValue(colors.primary[700], colors.primary[800])
     const bgMain = useColor("bg.main")
 
     const { top: topInset } = useSafeAreaInsets()
@@ -99,14 +99,14 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
             scrollY={scrollY}
             isLoadingContact={isLoadingContact}
             dataContact={dataContact}
-            contactColor={contactColor}
+            bgColor={bgColor}
             contactName={contactName}
             contactNumber={contactNumber}
           />
 
           <DynamicContactActions
             scrollY={scrollY}
-            contactColor={contactColor}
+            bgColor={bgColor}
             contactId={route.params.contactId}
           />
 
