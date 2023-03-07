@@ -1,4 +1,3 @@
-
 import {
   Inter_100Thin,
   Inter_200ExtraLight,
@@ -9,7 +8,7 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold,
   Inter_900Black
-} from "@expo-google-fonts/inter";
+} from "@expo-google-fonts/inter"
 import {
   Poppins_100Thin,
   Poppins_200ExtraLight,
@@ -20,7 +19,7 @@ import {
   Poppins_700Bold,
   Poppins_800ExtraBold,
   Poppins_900Black
-} from "@expo-google-fonts/poppins";
+} from "@expo-google-fonts/poppins"
 
 import {
   SourceCodePro_200ExtraLight,
@@ -37,17 +36,15 @@ import {
   SourceCodePro_700Bold_Italic,
   SourceCodePro_900Black,
   SourceCodePro_900Black_Italic
-} from "@expo-google-fonts/source-code-pro";
-
-
+} from "@expo-google-fonts/source-code-pro"
 
 export const customFontsToLoad = {
-  'AirbnbCerealBlack': require("../../assets/fonts/cereal/AirbnbCerealBlack.ttf"),
-  'AirbnbCerealBold': require("../../assets/fonts/cereal/AirbnbCerealBold.ttf"),
-  'AirbnbCerealBook': require("../../assets/fonts/cereal/AirbnbCerealBook.ttf"),
-  'AirbnbCerealExtraBold': require("../../assets/fonts/cereal/AirbnbCerealExtraBold.ttf"),
-  'AirbnbCerealLight': require("../../assets/fonts/cereal/AirbnbCerealLight.ttf"),
-  'AirbnbCerealMedium': require("../../assets/fonts/cereal/AirbnbCerealMedium.ttf"),
+  AirbnbCerealBlack: require("../../assets/fonts/cereal/AirbnbCerealBlack.ttf"),
+  AirbnbCerealBold: require("../../assets/fonts/cereal/AirbnbCerealBold.ttf"),
+  AirbnbCerealBook: require("../../assets/fonts/cereal/AirbnbCerealBook.ttf"),
+  AirbnbCerealExtraBold: require("../../assets/fonts/cereal/AirbnbCerealExtraBold.ttf"),
+  AirbnbCerealLight: require("../../assets/fonts/cereal/AirbnbCerealLight.ttf"),
+  AirbnbCerealMedium: require("../../assets/fonts/cereal/AirbnbCerealMedium.ttf"),
   Inter_100Thin,
   Inter_200ExtraLight,
   Inter_300Light,
@@ -79,9 +76,8 @@ export const customFontsToLoad = {
   Poppins_600SemiBold,
   Poppins_700Bold,
   Poppins_800ExtraBold,
-  Poppins_900Black
+  Poppins_900Black,
 }
-
 
 export const typography = {
   Inter: {
@@ -201,4 +197,14 @@ export const typography = {
       italic: "SourceCodePro_900Black_Italic",
     },
   },
+}
+
+export const HEADER_TITLE_STYLES = {
+  fontFamily: "AirbnbCerealBold",
+  fontWeight: undefined,
+}
+
+export const BUTTON_TEXT_STYLES = {
+  fontFamily: "Inter_600SemiBold",
+  fontWeight: undefined,
 }

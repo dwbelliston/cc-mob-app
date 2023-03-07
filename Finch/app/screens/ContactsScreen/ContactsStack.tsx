@@ -6,6 +6,7 @@ import { UserAvatar } from "../../components/UserAvatar"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
+import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { ContactDetailScreen } from "./ContactDetailScreen"
 import { ContactsScreen } from "./ContactsScreen"
@@ -44,6 +45,12 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
           },
           headerStyle: {
             backgroundColor: headerBg,
+          },
+          headerLargeTitleStyle: {
+            ...HEADER_TITLE_STYLES,
+          },
+          headerTitleStyle: {
+            ...HEADER_TITLE_STYLES,
           },
           headerLeft: contactsStore.isHeaderSearchOpen
             ? null

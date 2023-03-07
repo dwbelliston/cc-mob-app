@@ -18,6 +18,7 @@ import {
   ResetPasswordScreen,
   WelcomeScreen,
 } from "../screens"
+import { HEADER_TITLE_STYLES } from "../theme"
 import { useColor } from "../theme/useColor"
 import AppDrawerNavigator from "./AppDrawerNavigator"
 
@@ -86,6 +87,9 @@ const AppStack = observer(function AppStack() {
               // headerLargeTitle: true,
               headerStyle: {
                 backgroundColor: headerDetailBg,
+              },
+              headerTitleStyle: {
+                ...HEADER_TITLE_STYLES,
               },
               headerBackVisible: true,
             })}

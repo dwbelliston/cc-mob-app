@@ -8,7 +8,7 @@ import { ConversationInboxPicker } from "../../components"
 import { UserAvatar } from "../../components/UserAvatar"
 import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
-import { colors } from "../../theme"
+import { colors, HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { InboxScreen } from "./InboxScreen"
 
@@ -48,6 +48,12 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
             },
             headerStyle: {
               backgroundColor: headerLargeBg,
+            },
+            headerLargeTitleStyle: {
+              ...HEADER_TITLE_STYLES,
+            },
+            headerTitleStyle: {
+              ...HEADER_TITLE_STYLES,
             },
             headerLeft: conversationStore.isHeaderSearchOpen
               ? null

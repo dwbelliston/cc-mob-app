@@ -1,13 +1,15 @@
 // https://github.com/GeekyAnts/NativeBase/blob/master/src/theme/components/button.ts
 
+import { BUTTON_TEXT_STYLES } from "../typography"
+
 export default {
   baseStyle: () => {
     return {
       borderRadius: "md",
       shadow: 1,
-      // fontFamily: "mono",
       _text: {
-        fontWeight: 400,
+        // fontFamily: "mono",
+        ...BUTTON_TEXT_STYLES
       },
     }
   },

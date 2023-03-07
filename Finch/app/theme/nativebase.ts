@@ -26,10 +26,10 @@ export const finchTheme = {
   fontConfig: {
     body: typography.Cereal,
     mono: typography.SourecCodePro,
-    accent: typography.Poppins,
+    heading: typography.Cereal,
   },
   fonts: {
-    heading: "accent",
+    heading: "heading",
     body: "body",
     mono: "mono",
   },

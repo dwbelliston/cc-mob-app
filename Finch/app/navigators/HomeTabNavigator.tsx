@@ -1,10 +1,10 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 
-import { Box, IconButton, useColorModeValue } from "native-base"
+import { IconButton, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { Icon, Text } from "../components"
+import { Icon } from "../components"
 
 import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
@@ -12,7 +12,7 @@ import { translate } from "../i18n"
 import { ContactsStack } from "../screens/ContactsScreen/ContactsStack"
 import { ConversationsStack } from "../screens/ConversationsScreen/ConversationsStack"
 import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
-import { colors, spacing } from "../theme"
+import { colors, HEADER_TITLE_STYLES, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
 import { AppDrawerScreenProps } from "./AppDrawerNavigator"
 
@@ -69,20 +69,16 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
         headerRightContainerStyle: { paddingRight: spacing.large },
         headerTransparent: true,
         headerTitleAlign: "center",
-
-        headerTitle: ({ children }) => {
-          return (
-            <Box w="full">
-              <Text
-                textAlign={"center"}
-                colorToken="text.soft"
-                preset="heading"
-                fontSize="lg"
-                text={children}
-              />
-            </Box>
-          )
+        headerTitleStyle: {
+          ...HEADER_TITLE_STYLES,
         },
+        // headerTitle: ({ children }) => {
+        //   return (
+        //     <Box w="full">
+        //       <Text textAlign={"center"} preset="heading" fontSize="lg" text={children} />
+        //     </Box>
+        //   )
+        // },
         headerLeft: (props) => {
           const navigation = useNavigation()
           return (
