@@ -1,9 +1,9 @@
-import { Locale, format, parseISO } from "date-fns"
+import { format, Locale, parseISO } from "date-fns"
 import I18n from "i18n-js"
 
 import ar from "date-fns/locale/ar-SA"
-import ko from "date-fns/locale/ko"
 import en from "date-fns/locale/en-US"
+import ko from "date-fns/locale/ko"
 
 type Options = Parameters<typeof format>[2]
 
@@ -19,4 +19,11 @@ export const formatDate = (date: string, dateFormat?: string, options?: Options)
     locale,
   }
   return format(parseISO(date), dateFormat ?? "MMM dd, yyyy", dateOptions)
+}
+
+
+export const millisToMinutesAndSeconds = (millis: number) => {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return minutes + ":" + (parseInt(seconds) < 10 ? '0' : '') + seconds;
 }

@@ -45,6 +45,9 @@ const en = {
     noCloseDescription: "When you are ready to mark a conversation complete swipe the conversation to change its status.",
     endOfConversations: "End of History",
     enterMessage: "Enter message...",
+    voicemail: "Voicemail",
+    recording: "Recording",
+    transcript: "Transcript",
   },
   stream: {
     noMessages: "No Messages",

@@ -2,28 +2,29 @@
 CallStatusBadge
 */
 
-import { Badge, Circle, Icon, ITextProps } from "native-base"
+import { Badge, Circle } from "native-base"
 import React from "react"
-import {
-  PhoneArrowDownLeftIcon,
-  PhoneArrowUpRightIcon,
-  PhoneXMarkIcon,
-} from "react-native-heroicons/outline"
+
 import { CallDirectionEnum, CallStatusEnum, ICall } from "../models/Call"
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
-import { Text } from "./Text"
+import { Icon, IconProps } from "./Icon"
+import { Text, TextProps } from "./Text"
 
 interface IProps {
   status?: CallStatusEnum
 }
 
-interface IForwardedProps extends ITextProps {
-  call?: ICall
+interface IForwardedProps extends TextProps {
+  callIsForwarded: ICall["IsForwarded"]
+  callNumberForwardedTo: ICall["NumberForwardedTo"]
+}
+interface IOutsideHours extends TextProps {
+  callIsOutsideHours: ICall["IsForwarded"]
 }
 
-interface IDescriptionProps extends ITextProps, IProps {}
+interface IDescriptionProps extends TextProps, IProps {}
 
-interface IIconProps extends ITextProps, IProps {
+interface IIconProps extends TextProps, IProps {
   direction?: CallDirectionEnum
 }
 
@@ -34,11 +35,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "green.500",
-        icon: PhoneArrowDownLeftIcon,
+        icon: "phoneArrowDownLeft",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "amber.500",
-        icon: PhoneArrowUpRightIcon,
+        icon: "phoneArrowUpRight",
       },
     },
   },
@@ -49,11 +50,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "green.500",
-        icon: PhoneArrowDownLeftIcon,
+        icon: "phoneArrowDownLeft",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "amber.500",
-        icon: PhoneArrowUpRightIcon,
+        icon: "phoneArrowUpRight",
       },
     },
   },
@@ -64,11 +65,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "green.500",
-        icon: PhoneArrowDownLeftIcon,
+        icon: "phoneArrowDownLeft",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "amber.500",
-        icon: PhoneArrowUpRightIcon,
+        icon: "phoneArrowUpRight",
       },
     },
   },
@@ -79,11 +80,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "amber.500",
-        icon: PhoneArrowDownLeftIcon,
+        icon: "phoneArrowDownLeft",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "amber.500",
-        icon: PhoneArrowUpRightIcon,
+        icon: "phoneArrowUpRight",
       },
     },
   },
@@ -93,11 +94,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "primary.700",
-        icon: PhoneArrowDownLeftIcon,
+        icon: "phoneArrowDownLeft",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "primary.700",
-        icon: PhoneArrowUpRightIcon,
+        icon: "phoneArrowUpRight",
       },
     },
   },
@@ -107,11 +108,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "red.600",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "red.600",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
     },
   },
@@ -121,11 +122,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "red.600",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "red.600",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
     },
   },
@@ -135,11 +136,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "red.600",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "red.600",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
     },
   },
@@ -149,11 +150,11 @@ const STYLE_MAPPING = {
     icon: {
       [CallDirectionEnum.INBOUND]: {
         bg: "gray.700",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
       [CallDirectionEnum.OUTBOUND]: {
         bg: "gray.700",
-        icon: PhoneXMarkIcon,
+        icon: "phoneXMark",
       },
     },
   },
@@ -219,16 +220,20 @@ const CallStatusDescription = ({ status, ...rest }: IDescriptionProps) => {
   return <Text text={description} {...rest}></Text>
 }
 
-const CallStatusForwarded = ({ call, ...rest }: IForwardedProps) => {
-  if (!call?.IsForwarded) {
+const CallStatusForwarded = ({
+  callIsForwarded,
+  callNumberForwardedTo,
+  ...rest
+}: IForwardedProps) => {
+  if (!callIsForwarded) {
     return <></>
   }
 
-  return <Text {...rest}>Forward to {runFormatPhoneSimple(call?.NumberForwardedTo)}</Text>
+  return <Text {...rest}>Forward to {runFormatPhoneSimple(callNumberForwardedTo)}</Text>
 }
 
-const CallStatusOutsideHours = ({ call, ...rest }: IForwardedProps) => {
-  if (!call?.IsOutsideHours) {
+const CallStatusOutsideHours = ({ callIsOutsideHours, ...rest }: IOutsideHours) => {
+  if (!callIsOutsideHours) {
     return <></>
   }
 
@@ -237,7 +242,7 @@ const CallStatusOutsideHours = ({ call, ...rest }: IForwardedProps) => {
 
 const CallStatusIcon = ({ status, direction, ...rest }: IIconProps) => {
   const [bg, set_bg] = React.useState()
-  const [icon, set_icon] = React.useState()
+  const [icon, set_icon] = React.useState<IconProps["icon"]>("phone")
   const [isPulse, set_isPulse] = React.useState<boolean>()
 
   React.useEffect(() => {
@@ -266,7 +271,7 @@ const CallStatusIcon = ({ status, direction, ...rest }: IIconProps) => {
       //   animation: isPulse ? "pulse 2s infinite linear" : "",
       // }}
     >
-      <Icon color="white" as={icon}></Icon>
+      <Icon color="white" size={16} icon={icon}></Icon>
     </Circle>
   )
 }

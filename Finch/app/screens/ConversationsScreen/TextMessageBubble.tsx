@@ -64,7 +64,7 @@ const TextMessageBubble = (props: IProps) => {
       rounded="xl"
       roundedBottomLeft={isUserMessage ? "xl" : "2"}
       roundedBottomRight={isUserMessage ? "2" : "xl"}
-      shadow={0}
+      // shadow={0}
       py={3}
       px={4}
       bg={isMessageError ? bgError : isUserMessage ? bgRight : bgLeft}

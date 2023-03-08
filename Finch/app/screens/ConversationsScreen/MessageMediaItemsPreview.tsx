@@ -1,10 +1,11 @@
-import { Box, HStack, IStackProps, Spinner, Stack } from "native-base"
+import { Box, HStack, IStackProps, Spinner, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { AutoImage, Icon, IconButton } from "../../components"
 import { IMessageMediaItem } from "../../models/Message"
 
 import * as FileSystem from "expo-file-system"
 import * as MediaLibrary from "expo-media-library"
+import { colors } from "../../theme"
 import { useCustomToast } from "../../utils/useCustomToast"
 
 interface IProps extends IStackProps {
@@ -23,6 +24,8 @@ const MessageMediaItemsPreview = ({
 }: IProps) => {
   const [isDownloading, setIsDownloading] = React.useState(false)
   const toast = useCustomToast()
+
+  const borderError = useColorModeValue(colors.error[300], colors.error[600])
 
   const handleDownload = async (mediaUrl: string, mediaType: string) => {
     const fileName = mediaUrl.split("/").pop()
@@ -73,8 +76,8 @@ const MessageMediaItemsPreview = ({
             <HStack direction={isUserMessage ? "row-reverse" : "row"} alignItems="center" w="full">
               {/* Image */}
               <Box
-                borderWidth={isMessageError ? 2 : 0}
-                borderColor={isMessageError ? "red.200" : "transparent"}
+                borderWidth={isMessageError ? 1 : 0}
+                borderColor={isMessageError ? borderError : "transparent"}
                 rounded="lg"
                 overflow={"hidden"}
               >
