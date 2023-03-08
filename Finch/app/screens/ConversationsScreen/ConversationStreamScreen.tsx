@@ -49,7 +49,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const contactName = _props.route.params.contactName
     const conversationId = _props.route.params.conversationId
 
-    const { data: dataConversation, isLoading: isLoadingStream } =
+    const { data: dataConversation, isLoading: isLoadingConversation } =
       useReadConversation(conversationId)
 
     const contactId = dataConversation?.ContactId
@@ -65,6 +65,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
       data: dataStreamItems,
       error,
       isError,
+      isLoading: isLoadingStream,
       isFetching: isFetchingStream,
       isFetchingNextPage,
       isFetchingPreviousPage,
@@ -239,6 +240,25 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
                   colorScheme={"gray"}
                 />
               </Box>
+            )
+          }
+          ListFooterComponent={
+            !isLoadingStream ? (
+              <>
+                <Box py={spacing.tiny}>
+                  {hasNextPage || isFetchingNextPage ? (
+                    <Text textAlign={"center"} colorToken="text.soft" tx="common.loading"></Text>
+                  ) : (
+                    <Text
+                      textAlign={"center"}
+                      colorToken="text.soft"
+                      tx="inbox.startOfConversation"
+                    ></Text>
+                  )}
+                </Box>
+              </>
+            ) : (
+              <></>
             )
           }
           keyExtractor={extractConversationId}

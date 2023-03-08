@@ -48,6 +48,8 @@ const en = {
     voicemail: "Voicemail",
     recording: "Recording",
     transcript: "Transcript",
+    contactCard: "Contact Card",
+    startOfConversation: "Start of Conversation",
   },
   stream: {
     noMessages: "No Messages",

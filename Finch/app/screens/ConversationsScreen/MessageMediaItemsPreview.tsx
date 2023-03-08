@@ -7,6 +7,7 @@ import * as FileSystem from "expo-file-system"
 import * as MediaLibrary from "expo-media-library"
 import { colors } from "../../theme"
 import { useCustomToast } from "../../utils/useCustomToast"
+import VCardMediaDisplay from "./VCardMediaDisplay"
 
 interface IProps extends IStackProps {
   mediaItems: IMessageMediaItem[]
@@ -58,71 +59,65 @@ const MessageMediaItemsPreview = ({
   }
 
   return (
-    <Stack {...stackProps}>
+    <Stack space={1} {...stackProps}>
       {mediaItems.map((mediaItem, idx) => {
         const isPdfFile = mediaItem?.MediaType?.includes("pdf") ? true : false
         const isVCard = mediaItem?.MediaType?.toLowerCase().includes("vcard") ? true : false
 
         return (
-          <Stack key={`${idx}-${mediaItem.MediaUrl}`} position="relative" space={0}>
-            {/* {isVCard ? (
+          <Box key={`${idx}-${mediaItem.MediaUrl}`} position="relative">
+            {isVCard ? (
               <VCardMediaDisplay
                 isMessageError={isMessageError}
                 isUserMessage={isUserMessage}
                 mediaItem={mediaItem}
               ></VCardMediaDisplay>
-            ) : ( */}
-
-            <HStack direction={isUserMessage ? "row-reverse" : "row"} alignItems="center" w="full">
-              {/* Image */}
-              <Box
-                borderWidth={isMessageError ? 1 : 0}
-                borderColor={isMessageError ? borderError : "transparent"}
-                rounded="lg"
-                overflow={"hidden"}
+            ) : (
+              <HStack
+                direction={isUserMessage ? "row-reverse" : "row"}
+                alignItems="center"
+                w="full"
               >
-                {/* <Image
-                resizeMode="contain"
-                alt="media file"
-                source={{
-                  uri: isPdfFile
-                    ? "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/pdf-file.png"
-                    : mediaItem.MediaUrl,
-                }}
-                maxWidth={300}
-                maxHeight={300}
-              /> */}
-                <AutoImage
-                  resizeMode="cover"
-                  source={{
-                    uri: isPdfFile
-                      ? "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/pdf-file.png"
-                      : mediaItem.MediaUrl,
-                  }}
-                  maxWidth={200}
-                />
-              </Box>
-              {/* Download button */}
-              <Box ml={isUserMessage ? 0 : 2} mr={!isUserMessage ? 0 : 2}>
-                {isDownloading ? (
-                  <Box p={2}>
-                    <Spinner />
+                {/* Image */}
+                <Box
+                  borderWidth={isMessageError ? 1 : 0}
+                  borderColor={isMessageError ? borderError : "transparent"}
+                  rounded="lg"
+                  overflow={"hidden"}
+                >
+                  <AutoImage
+                    resizeMode="cover"
+                    source={{
+                      uri: isPdfFile
+                        ? "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/pdf-file.png"
+                        : mediaItem.MediaUrl,
+                    }}
+                    maxWidth={200}
+                  />
+                </Box>
+                {/* Download button */}
+                {isDownloadable ? (
+                  <Box ml={isUserMessage ? 0 : 2} mr={!isUserMessage ? 0 : 2}>
+                    {isDownloading ? (
+                      <Box p={2}>
+                        <Spinner />
+                      </Box>
+                    ) : (
+                      <IconButton
+                        rounded="full"
+                        size="md"
+                        onPress={() => handleDownload(mediaItem.MediaUrl, mediaItem.MediaType)}
+                        variant={"ghost"}
+                        aria-label="Download Media"
+                        icon={<Icon colorToken="text.soft" size={20} icon="cloudArrowDown"></Icon>}
+                        tx="common.downloadMedia"
+                      ></IconButton>
+                    )}
                   </Box>
-                ) : (
-                  <IconButton
-                    rounded="full"
-                    // href={mediaItem.MediaUrl}
-                    size="md"
-                    onPress={() => handleDownload(mediaItem.MediaUrl, mediaItem.MediaType)}
-                    variant={"ghost"}
-                    aria-label="Download Media"
-                    icon={<Icon colorToken="text.soft" size={20} icon="cloudArrowDown"></Icon>}
-                    tx="common.downloadMedia"
-                  ></IconButton>
-                )}
-              </Box>
-            </HStack>
-          </Stack>
+                ) : null}
+              </HStack>
+            )}
+          </Box>
         )
       })}
     </Stack>

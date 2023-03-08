@@ -35,6 +35,7 @@ import {
   HandThumbUpIcon,
   HashtagIcon,
   HomeIcon,
+  IdentificationIcon,
   InboxArrowDownIcon,
   InboxIcon,
   InboxStackIcon,
@@ -102,6 +103,7 @@ import {
   HandThumbUpIcon as HandThumbUpIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
+  IdentificationIcon as IdentificationIconSolid,
   InboxArrowDownIcon as InboxArrowDownIconSolid,
   InboxIcon as InboxIconSolid,
   InboxStackIcon as InboxStackIconSolid,
@@ -371,6 +373,10 @@ export const iconRegistry = {
   stop: {
     outline: StopIcon,
     solid: StopIconSolid,
+  },
+  identification: {
+    outline: IdentificationIcon,
+    solid: IdentificationIconSolid,
   },
   bell: {
     outline: BellIcon,
