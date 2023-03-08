@@ -126,7 +126,7 @@ const ConversationMessage = ({
               {messageBroadcastId && (
                 <Button
                   size="xs"
-                  variant={"subtle"}
+                  variant={"link"}
                   // onClick={handleViewBroadcast}
                   tx="broadcasts.viewBroadcast"
                 ></Button>
@@ -153,8 +153,8 @@ const ConversationMessage = ({
 
               <Text
                 fontSize="xs"
-                fontWeight={isError ? "semibold" : "normal"}
-                colorToken={isError ? "error" : "text.softer"}
+                fontWeight={"normal"}
+                colorToken={"text.softer"}
                 text={runFormatMinuteTime(createdTime)}
               ></Text>
             </HStack>

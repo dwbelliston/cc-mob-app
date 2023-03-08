@@ -2,34 +2,33 @@
 CallBubble
 */
 
-import { Box, HStack, IBoxProps, ITextProps, Stack, useColorModeValue } from "native-base"
+import { Box, HStack, IBoxProps, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { Text } from "../../components"
 import { AudioRecording } from "../../components/AudioRecording"
 import { CallDuration } from "../../components/CallDuration"
 import CallStatus from "../../components/CallStatus"
-import { CallDirectionEnum, CallStatusEnum, ICall } from "../../models/Call"
+import { ICall } from "../../models/Call"
 import { colors, spacing } from "../../theme"
 
 interface IProps extends IBoxProps {
-  isUserCall?: boolean
-  isMessageError?: boolean
-  textProps?: ITextProps
-  // set
-  callIsForwarded: ICall["IsForwarded"]
-  callNumberForwardedTo: ICall["NumberForwardedTo"]
-  callIsOutsideHours: ICall["IsOutsideHours"]
-  callDurationTime: ICall["CallDurationTime"]
-  callRecordingUrl: ICall["RecordingUrl"]
-  callTranscriptionText: ICall["TranscriptionText"]
+  isUserCall: boolean
+  callStatus: ICall["Status"]
+  callDirection: ICall["Direction"]
+  callIsForwarded?: ICall["IsForwarded"]
+  callNumberForwardedTo?: ICall["NumberForwardedTo"]
+  callIsOutsideHours?: ICall["IsOutsideHours"]
+  callDurationTime?: ICall["CallDurationTime"]
+  callRecordingUrl?: ICall["RecordingUrl"]
+  callTranscriptionText?: ICall["TranscriptionText"]
 }
 
 const CallBubble = (props: IProps) => {
   const {
-    textProps,
-    isUserCall = false,
-    isMessageError = false,
-    callIsForwarded,
+    isUserCall,
+    callStatus,
+    callDirection,
+    callIsForwarded = false,
     callDurationTime,
     callNumberForwardedTo,
     callIsOutsideHours,
@@ -38,20 +37,14 @@ const CallBubble = (props: IProps) => {
     ...rest
   } = props
 
-  const callStatus = CallStatusEnum.COMPLETED
-  const callDirection = CallDirectionEnum.INBOUND
-
   const bgError = useColorModeValue(colors.error[100], colors.error[900])
   const borderError = useColorModeValue(colors.error[300], colors.error[600])
-  const colorError = useColorModeValue(colors.gray[800], colors.error[200])
 
   const bgRight = useColorModeValue(colors.blue[50], colors.blue[800])
   const borderRight = useColorModeValue(colors.blue[200], colors.blue[600])
-  const colorRight = useColorModeValue(colors.gray[800], colors.white)
 
   const bgLeft = useColorModeValue(colors.white, colors.gray[800])
   const borderLeft = useColorModeValue(colors.gray[200], colors.gray[700])
-  const colorLeft = useColorModeValue(colors.gray[800], colors.white)
 
   return (
     <Box
@@ -63,8 +56,8 @@ const CallBubble = (props: IProps) => {
       // shadow={0}
       py={3}
       px={4}
-      bg={isMessageError ? bgError : isUserCall ? bgRight : bgLeft}
-      borderColor={isMessageError ? borderError : isUserCall ? borderRight : borderLeft}
+      bg={isUserCall ? bgRight : bgLeft}
+      borderColor={isUserCall ? borderRight : borderLeft}
       borderWidth={1}
       {...rest}
     >
@@ -94,7 +87,7 @@ const CallBubble = (props: IProps) => {
               <CallDuration
                 fontSize="xs"
                 colorToken={"text.soft"}
-                duration={callDurationTime + 100}
+                duration={callDurationTime}
               ></CallDuration>
             )}
           </Stack>

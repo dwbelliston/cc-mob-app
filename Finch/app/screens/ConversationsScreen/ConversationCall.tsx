@@ -8,29 +8,40 @@ import React from "react"
 import { Text } from "../../components"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { UserAvatar } from "../../components/UserAvatar"
-import { CallDirectionEnum, ICall } from "../../models/Call"
-import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
+import { ICall } from "../../models/Call"
 import { spacing } from "../../theme"
 import { runFormatMinuteTime } from "../../utils/useFormatDate"
 import CallBubble from "./CallBubble"
 
-interface IProps {
-  call: ICall
-  contactName: string
-
+export interface IConversationCallProps {
+  callCreatedTime: ICall["CreatedTime"]
   contactColor?: ColorType
+  callStatus: ICall["Status"]
+  callDirection: ICall["Direction"]
   contactInitials?: string
+  isUserCall?: boolean
+  callIsForwarded?: ICall["IsForwarded"]
+  callNumberForwardedTo?: ICall["NumberForwardedTo"]
+  callIsOutsideHours?: ICall["IsOutsideHours"]
+  callDurationTime?: ICall["CallDurationTime"]
+  callRecordingUrl?: ICall["RecordingUrl"]
+  callTranscriptionText?: ICall["TranscriptionText"]
 }
 
-const ConversationCall = ({ call, contactName, contactColor, contactInitials }: IProps) => {
-  const [isUserCall, setIsUserCall] = React.useState(call.Direction === CallDirectionEnum.OUTBOUND)
-
-  const { data: userProfile } = useReadUserProfile()
-
-  React.useEffect(() => {
-    setIsUserCall(call.Direction === CallDirectionEnum.OUTBOUND)
-  }, [call])
-
+const ConversationCall = ({
+  callCreatedTime,
+  contactColor,
+  contactInitials,
+  callStatus,
+  callDirection,
+  isUserCall,
+  callIsForwarded,
+  callNumberForwardedTo,
+  callIsOutsideHours,
+  callDurationTime,
+  callRecordingUrl,
+  callTranscriptionText,
+}: IConversationCallProps) => {
   return (
     <View
       w="full"
@@ -42,35 +53,30 @@ const ConversationCall = ({ call, contactName, contactColor, contactInitials }: 
       <Stack flex={1} space={1} alignItems={isUserCall ? "flex-end" : "flex-start"}>
         <CallBubble
           isUserCall={isUserCall}
-          isMessageError={false}
-          callIsForwarded={call.IsForwarded}
-          callNumberForwardedTo={call.NumberForwardedTo}
-          callIsOutsideHours={call.IsOutsideHours}
-          callDurationTime={call.CallDurationTime}
-          callRecordingUrl={call.RecordingUrl}
-          callTranscriptionText={call.TranscriptionText}
+          callStatus={callStatus}
+          callDirection={callDirection}
+          callIsForwarded={callIsForwarded}
+          callNumberForwardedTo={callNumberForwardedTo}
+          callIsOutsideHours={callIsOutsideHours}
+          callDurationTime={callDurationTime}
+          callRecordingUrl={callRecordingUrl}
+          callTranscriptionText={callTranscriptionText}
         />
         {/* Meta */}
-        <HStack
-          color="gray.400"
-          alignItems={"center"}
-          direction={isUserCall ? "row" : "row-reverse"}
-        >
+        <HStack alignItems={"center"} direction={isUserCall ? "row" : "row-reverse"}>
           <HStack alignItems={"center"} space={spacing.micro}>
             <Text
               colorToken={"text.softer"}
               fontSize="xs"
-              text={runFormatMinuteTime(call.CreatedTime)}
+              text={runFormatMinuteTime(callCreatedTime)}
             ></Text>
           </HStack>
 
-          {/* Gutter */}
           <Box ml={isUserCall ? 1 : 0} mr={!isUserCall ? 1 : 0}>
             {isUserCall ? (
               <UserAvatar isShowLoading={false} size="sm"></UserAvatar>
             ) : (
               <ContactAvatar
-                // innerRingColor={"red.400"}
                 avatarColor={contactColor}
                 initials={contactInitials}
                 avatarProps={{ size: "sm" }}

@@ -23,8 +23,8 @@ const TextMessageBubble = (props: IProps) => {
 
   const [messageParts, set_messageParts] = React.useState<IMessagePart[]>([])
 
-  const bgError = useColorModeValue(colors.error[100], colors.error[900])
-  const borderError = useColorModeValue(colors.error[300], colors.error[600])
+  const bgError = useColorModeValue(colors.error[50], colors.error[900])
+  const borderError = useColorModeValue(colors.error[200], colors.error[600])
   const colorError = useColorModeValue(colors.gray[800], colors.error[200])
 
   const bgRight = useColorModeValue(colors.blue[50], colors.blue[800])
@@ -42,12 +42,13 @@ const TextMessageBubble = (props: IProps) => {
       const messagePartsStrings = message.split(/\r?\n/)
 
       messagePartsStrings.forEach((messagePart, index) => {
+        const trimmed = messagePart.trim()
         const messagePartItem = {
-          message: messagePart,
+          message: trimmed,
           isLink: false,
         }
 
-        if (messagePart.trim().startsWith("https://")) {
+        if (trimmed.startsWith("https://")) {
           messagePartItem.isLink = true
         }
 

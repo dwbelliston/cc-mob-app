@@ -24,6 +24,7 @@ import { colors, spacing } from "../../theme"
 import { runFormatLongTime } from "../../utils/useFormatDate"
 import ConversationDivider from "./ConversationDivider"
 import {
+  makeConversationStreamItemCall,
   makeConversationStreamItemMessage,
   PureConversationStreamItem,
 } from "./ConversationStreamItem"
@@ -154,7 +155,9 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
 
             // Add to this data
             if (streamItem.hasOwnProperty("CallId")) {
-              conversationItemObj.call = streamItem as ICall
+              // Build conversation item from message
+              const callIn = streamItem as ICall
+              conversationItemObj.call = makeConversationStreamItemCall(callIn, contactName)
               conversationItemObj.id = `call-${streamItem.CreatedTime}`
             } else {
               // Build conversation item from message

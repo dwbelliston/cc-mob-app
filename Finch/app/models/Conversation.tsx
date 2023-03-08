@@ -1,4 +1,5 @@
 import { getCallStatusDescription } from "../components/CallStatus"
+import { IConversationCallProps } from "../screens/ConversationsScreen/ConversationCall"
 import { IConversationMessageProps } from "../screens/ConversationsScreen/ConversationMessage"
 import { runFormatPhoneDigitsStripTo10 } from "../utils/useFormatPhone"
 import { CallDirectionEnum, ICall } from "./Call"
@@ -46,7 +47,7 @@ export interface IPaginatedConversationStream extends IPaginatedResponse {
 export interface IConversationItem {
   id?: string
   message?: IConversationMessageProps
-  call?: ICall
+  call?: IConversationCallProps
 }
 
 export const getConversationCreatedTime = (conversation: IConversation) => {

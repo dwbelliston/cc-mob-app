@@ -1,7 +1,8 @@
 // https://beta.reactjs.org/reference/react/memo#minimizing-props-changes
 
-import { useColorModeValue, View } from "native-base"
+import { View } from "native-base"
 import React from "react"
+import { getIsUserCall, ICall } from "../../models/Call"
 import { IConversationItem } from "../../models/Conversation"
 import {
   getIsAutoReply,
@@ -16,7 +17,6 @@ import {
   IMessage,
 } from "../../models/Message"
 import { getAvatarColor, spacing } from "../../theme"
-import { useColor } from "../../theme/useColor"
 import { getInitials } from "../../utils/getInitials"
 
 import ConversationCall from "./ConversationCall"
@@ -76,75 +76,34 @@ export const makeConversationStreamItemMessage = (
     messageStatus: getMessageStatusDisplay(message.Status),
   }
 }
+export const makeConversationStreamItemCall = (
+  call: ICall,
+  contactName: string,
+): IConversationItem["call"] => {
+  return {
+    callCreatedTime: call.CreatedTime,
+    callStatus: call.Status,
+    callDirection: call.Direction,
+    contactColor: getAvatarColor(contactName),
+    contactInitials: getInitials(contactName),
+    isUserCall: getIsUserCall(call),
+    callIsForwarded: call.IsForwarded,
+    callNumberForwardedTo: call.NumberForwardedTo,
+    callIsOutsideHours: call.IsOutsideHours,
+    callDurationTime: call.CallDurationTime,
+    callRecordingUrl: call.RecordingUrl,
+    callTranscriptionText: call.TranscriptionText,
+  }
+}
 
-const ConversationStreamItem = ({
-  conversationItem,
-}: //   isRead,
-//   isClosed,
-//   avatarColor,
-//   initials,
-//   createdTime,
-//   contactName,
-//   contactId,
-//   conversationNumber,
-//   conversationMessage,
-//   isIncoming,
-//   isMessage,
-//   isCall,
-//   onViewConversation,
-//   onBlock,
-//   onViewContact,
-//   onMarkUnread,
-//   onMarkRead,
-//   onMarkComplete,
-//   onMarkActive,
-IConversationStreamItem) => {
-  const swipeableRef = React.useRef(null)
-
-  const errorColor = useColorModeValue("error.300", "error.400")
-  const cardBg = useColor("bg.main")
-
-  //   const handleOnMarkRead = () => {
-  //     onMarkRead(conversationId)
-  //   }
-
-  //   const handleOnMarkUnread = () => {
-  //     onMarkUnread(conversationId)
-  //   }
-  //   const handleOnBlock = () => {
-  //     onBlock(conversationNumber)
-  //   }
-
-  //   const handleOnViewContact = () => {
-  //     onViewContact(contactId, contactName, avatarColor)
-  //   }
-
-  //   const handleOnMarkActive = () => {
-  //     onMarkActive(conversationId)
-  //   }
-  //   const handleOnMarkComplete = () => {
-  //     onMarkComplete(conversationId)
-  //   }
-
-  //   const handleOnClickConversation = () => {
-  //     onViewConversation({ contactName, conversationId })
-  //   }
-
-  const contactName = "dustin belliston"
-
+const ConversationStreamItem = ({ conversationItem }: IConversationStreamItem) => {
   return (
     <View py={spacing.tiny} px={spacing.tiny}>
       <React.Fragment>
         {conversationItem.message && (
           <ConversationMessage {...conversationItem.message}></ConversationMessage>
         )}
-        {conversationItem.call && (
-          <ConversationCall
-            contactName={contactName}
-            key={conversationItem.call.CallId}
-            call={conversationItem.call}
-          ></ConversationCall>
-        )}
+        {conversationItem.call && <ConversationCall {...conversationItem.call}></ConversationCall>}
       </React.Fragment>
     </View>
   )

@@ -50,3 +50,13 @@ export interface ICall {
 export interface IPaginatedCalls extends IPaginatedResponse {
   records: ICall[]
 }
+
+export const getIsUserCall = (call: ICall): boolean => {
+  let isUserCall = false
+
+  if (call.Direction === CallDirectionEnum.OUTBOUND) {
+    isUserCall = true
+  }
+
+  return isUserCall
+}
