@@ -142,8 +142,13 @@ export const runFormatDateWithAt = (dateString: string = ""): string => {
 export const runFormatTodayShort = (): string => {
   return format(new Date(), "MMM do")
 }
+
 export const runFormatTodayPretty = (): string => {
   return format(new Date(), "EEEE, MMMM d")
+}
+
+export const runTodayTimestamp = (): number => {
+  return Date.now()
 }
 
 export const runFormatLongDateWithAt = (dateString: string = ""): string => {

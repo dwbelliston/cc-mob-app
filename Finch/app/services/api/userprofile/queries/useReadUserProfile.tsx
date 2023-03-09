@@ -1,5 +1,5 @@
+import { API } from "@aws-amplify/api"
 import { useQuery } from "@tanstack/react-query"
-import { API } from "aws-amplify"
 import { IUserProfile } from "../../../../models/UserProfile"
 
 import { AxiosError } from "axios"

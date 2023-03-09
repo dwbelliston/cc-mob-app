@@ -6,6 +6,7 @@ import { Box, HStack, IBoxProps, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { Text } from "../../components"
 import { AudioRecording } from "../../components/AudioRecording"
+import CallDirection from "../../components/CallDirection"
 import { CallDuration } from "../../components/CallDuration"
 import CallStatus from "../../components/CallStatus"
 import { ICall } from "../../models/Call"
@@ -83,6 +84,11 @@ const CallBubble = (props: IProps) => {
               ></CallStatus.OutideHours>
             </HStack>
 
+            <CallDirection.Description
+              fontSize="xs"
+              colorToken={"text.soft"}
+              status={callDirection}
+            ></CallDirection.Description>
             {callDurationTime && callDurationTime !== "0" && (
               <CallDuration
                 fontSize="xs"

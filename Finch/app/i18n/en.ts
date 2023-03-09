@@ -10,6 +10,7 @@ const en = {
     oneMoment: "One moment...",
     reset: "Reset",
     noValue: "No value",
+    removeMedia: "Remove Media",
     downloadMedia: "Download Media",
     compliance: "Compliance",
   },

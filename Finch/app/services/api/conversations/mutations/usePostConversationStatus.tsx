@@ -1,5 +1,5 @@
+import { API } from "@aws-amplify/api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { API } from "aws-amplify"
 import { AxiosError } from "axios"
 import { ConversationStatusEnum, IConversation } from "../../../../models/Conversation"
 import { APIEndpoints } from "../../config"

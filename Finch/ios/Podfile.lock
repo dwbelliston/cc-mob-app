@@ -11,12 +11,17 @@ PODS:
     - ExpoModulesCore
   - EXDevice (5.0.0):
     - ExpoModulesCore
+  - EXDocumentPicker (11.0.1):
+    - ExpoModulesCore
   - EXErrorRecovery (4.0.1):
     - ExpoModulesCore
   - EXFileSystem (15.1.1):
     - ExpoModulesCore
   - EXFont (11.0.1):
     - ExpoModulesCore
+  - EXImageLoader (4.0.0):
+    - ExpoModulesCore
+    - React-Core
   - EXLocalAuthentication (13.0.2):
     - ExpoModulesCore
   - EXMediaLibrary (15.0.0):
@@ -27,6 +32,8 @@ PODS:
   - ExpoClipboard (4.0.2):
     - ExpoModulesCore
   - ExpoHaptics (12.0.1):
+    - ExpoModulesCore
+  - ExpoImagePicker (14.0.3):
     - ExpoModulesCore
   - ExpoKeepAwake (11.0.1):
     - ExpoModulesCore
@@ -344,6 +351,8 @@ PODS:
   - React-jsinspector (0.70.5)
   - React-logger (0.70.5):
     - glog
+  - react-native-blob-util (0.17.2):
+    - React-Core
   - react-native-netinfo (9.3.5):
     - React-Core
   - react-native-pager-view (6.0.1):
@@ -472,14 +481,17 @@ DEPENDENCIES:
   - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXDevice (from `../node_modules/expo-device/ios`)
+  - EXDocumentPicker (from `../node_modules/expo-document-picker/ios`)
   - EXErrorRecovery (from `../node_modules/expo-error-recovery/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
+  - EXImageLoader (from `../node_modules/expo-image-loader/ios`)
   - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - EXMediaLibrary (from `../node_modules/expo-media-library/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoHaptics (from `../node_modules/expo-haptics/ios`)
+  - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
   - ExpoLocalization (from `../node_modules/expo-localization/ios`)
   - ExpoMailComposer (from `../node_modules/expo-mail-composer/ios`)
@@ -531,6 +543,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-blob-util (from `../node_modules/react-native-blob-util`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -586,12 +599,16 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-constants/ios"
   EXDevice:
     :path: "../node_modules/expo-device/ios"
+  EXDocumentPicker:
+    :path: "../node_modules/expo-document-picker/ios"
   EXErrorRecovery:
     :path: "../node_modules/expo-error-recovery/ios"
   EXFileSystem:
     :path: "../node_modules/expo-file-system/ios"
   EXFont:
     :path: "../node_modules/expo-font/ios"
+  EXImageLoader:
+    :path: "../node_modules/expo-image-loader/ios"
   EXLocalAuthentication:
     :path: "../node_modules/expo-local-authentication/ios"
   EXMediaLibrary:
@@ -602,6 +619,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-clipboard/ios"
   ExpoHaptics:
     :path: "../node_modules/expo-haptics/ios"
+  ExpoImagePicker:
+    :path: "../node_modules/expo-image-picker/ios"
   ExpoKeepAwake:
     :path: "../node_modules/expo-keep-awake/ios"
   ExpoLocalization:
@@ -654,6 +673,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-blob-util:
+    :path: "../node_modules/react-native-blob-util"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-pager-view:
@@ -709,14 +730,17 @@ SPEC CHECKSUMS:
   EXAV: 8e4e12377926c071843498d19adfa27802695385
   EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
   EXDevice: 734a55d8935ea8e075d12df1919a0497153bf55c
+  EXDocumentPicker: 067af3535841bd1298d772c0eaa6d262ba9d38a4
   EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
   EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
   EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
+  EXImageLoader: 84b65e6bd9d3345d6fbb3ab936a546c54496a64d
   EXLocalAuthentication: 78cc5a00b13745b41d16d189ab332b61a01299f9
   EXMediaLibrary: b1c4f78878e45f6a359aff3a059e1660c41b73ab
   Expo: b9fa98bf260992312ee3c424400819fb9beadafe
   ExpoClipboard: dc3c9469926884bfe1af886c9243de69bebf6363
   ExpoHaptics: 5a56d30a87ea213dd00b09566dc4b441a4dff97f
+  ExpoImagePicker: ce37302446e70145bb413f0f74886441abdae022
   ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
   ExpoLocalization: e202d1e2a4950df17ac8d0889d65a1ffd7532d7e
   ExpoMailComposer: 5bd9a732104eb1721a5aa4744903673787d1410c
@@ -755,6 +779,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 31564fa6912459921568e8b0e49024285a4d584b
   React-jsinspector: badd81696361249893a80477983e697aab3c1a34
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
+  react-native-blob-util: 31b9463ef2efe90e841e7525d687ec69b1d71157
   react-native-netinfo: 85b2a435c4d3705c08b0c42ff2d6ef6b9622ea0a
   react-native-pager-view: 3051346698a0ba0c4e13e40097cc11b00ee03cca
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a

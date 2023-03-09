@@ -1,11 +1,14 @@
-import Auth from '@aws-amplify/auth';
+import Auth from "@aws-amplify/auth"
 
 import {
-  REACT_APP_API_CONTACTS_HOST, REACT_APP_API_OUTBOUNDS_HOST, REACT_APP_API_USERS_HOST, REACT_APP_USERPOOL_CLIENT, REACT_APP_USERPOOL_ID,
+  REACT_APP_API_CONTACTS_HOST,
+  REACT_APP_API_OUTBOUNDS_HOST,
+  REACT_APP_API_USERS_HOST,
+  REACT_APP_USERPOOL_CLIENT,
+  REACT_APP_USERPOOL_ID,
   REACT_APP_USERPOOL_REGION
-} from "@env";
-import { APIEndpoints } from "./app/services/api/config";
-
+} from "@env"
+import { APIEndpoints } from "./app/services/api/config"
 
 const appConfig = {
   version: "1.0.0",
@@ -23,10 +26,8 @@ const appConfig = {
         endpoint: REACT_APP_API_USERS_HOST,
         custom_header: async () => {
           return {
-            Authorization: `Bearer ${(await Auth.currentSession())
-              .getAccessToken()
-              .getJwtToken()}`,
-          };
+            Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+          }
         },
       },
       {
@@ -35,10 +36,8 @@ const appConfig = {
         endpoint: REACT_APP_API_OUTBOUNDS_HOST,
         custom_header: async () => {
           return {
-            Authorization: `Bearer ${(await Auth.currentSession())
-              .getAccessToken()
-              .getJwtToken()}`,
-          };
+            Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+          }
         },
       },
       {
@@ -47,10 +46,8 @@ const appConfig = {
         endpoint: REACT_APP_API_CONTACTS_HOST,
         custom_header: async () => {
           return {
-            Authorization: `Bearer ${(await Auth.currentSession())
-              .getAccessToken()
-              .getJwtToken()}`,
-          };
+            Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+          }
         },
       },
       {
@@ -60,6 +57,6 @@ const appConfig = {
       },
     ],
   },
-};
+}
 
-export default appConfig;
+export default appConfig

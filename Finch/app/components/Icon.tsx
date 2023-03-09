@@ -21,6 +21,7 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
   CheckCircleIcon,
   CheckIcon,
+  ClipboardDocumentCheckIcon,
   ClockIcon,
   CloudArrowDownIcon,
   Cog6ToothIcon,
@@ -54,6 +55,7 @@ import {
   PhoneArrowUpRightIcon,
   PhoneIcon,
   PhoneXMarkIcon,
+  PhotoIcon,
   PlayIcon,
   RocketLaunchIcon,
   ScaleIcon,
@@ -89,6 +91,7 @@ import {
   ChatBubbleLeftRightIcon as ChatBubbleLeftRightIconSolid,
   CheckCircleIcon as CheckCircleIconSolid,
   CheckIcon as CheckIconSolid,
+  ClipboardDocumentCheckIcon as ClipboardDocumentCheckIconSolid,
   ClockIcon as ClockIconSolid,
   CloudArrowDownIcon as CloudArrowDownIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
@@ -122,6 +125,7 @@ import {
   PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
   PhoneIcon as PhoneIconSolid,
   PhoneXMarkIcon as PhoneXMarkIconSolid,
+  PhotoIcon as PhotoIconSolid,
   PlayIcon as PlayIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
   ScaleIcon as ScaleIconSolid,
@@ -377,6 +381,14 @@ export const iconRegistry = {
   identification: {
     outline: IdentificationIcon,
     solid: IdentificationIconSolid,
+  },
+  photo: {
+    outline: PhotoIcon,
+    solid: PhotoIconSolid,
+  },
+  clipboardDocumentCheck: {
+    outline: ClipboardDocumentCheckIcon,
+    solid: ClipboardDocumentCheckIconSolid,
   },
   bell: {
     outline: BellIcon,

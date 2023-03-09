@@ -32,20 +32,20 @@ const MessageMediaItemsPreview = ({
     const fileName = mediaUrl.split("/").pop()
     const ext = `.${mediaType.split("/").pop()}`
 
+    setIsDownloading(true)
+
     const isAvailable = await MediaLibrary.isAvailableAsync()
 
     if (isAvailable) {
-      setIsDownloading(true)
       try {
         const localFileUrl = `${FileSystem.documentDirectory}${fileName}${ext}`
 
         await FileSystem.downloadAsync(mediaUrl, localFileUrl)
-        console.log("save to lib")
         await MediaLibrary.saveToLibraryAsync(localFileUrl)
+        // const asset = await MediaLibrary.createAssetAsync(localFileUrl)
 
         toast.success({ title: "Download complete" })
       } catch (error) {
-        console.log("error", error)
         toast.error({ title: "Download failed" })
       }
     } else {
