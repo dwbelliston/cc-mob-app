@@ -99,7 +99,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
         dataContact.FirstName,
         dataContact.LastName,
       )
-      setValue("message", messageBodyUpdate)
+      setValue("message", messageBodyUpdate, { shouldValidate: true })
     }
   }
 
