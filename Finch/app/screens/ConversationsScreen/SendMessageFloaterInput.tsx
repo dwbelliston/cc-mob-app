@@ -18,15 +18,19 @@ import {
   IMessageMediaItem,
   MessageTypeEnum,
 } from "../../models/Message"
+import { ISmsTemplate } from "../../models/SmsTemplate"
 import { IUserMediaItem } from "../../models/UserMediaItem"
 import { useUserPhone } from "../../models/UserProfile"
+import useReadContact from "../../services/api/contacts/queries/useReadContact"
 import useCreateSendMessage from "../../services/api/conversations/mutations/useCreateSendMessage"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
+import { renderMessageWithContact } from "../../utils/useFormatMessage"
 import { AttachFileButton } from "./AttachFileButton"
 import MessageMediaItemsThumbnails from "./MessageMediaItemsThumbnails"
+import { SelectTemplateButton } from "./SelectTemplateButton"
 
 interface IProps {
   contactName: string
@@ -61,6 +65,8 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
 
   const { data: userProfile } = useReadUserProfile()
 
+  const { data: dataContact } = useReadContact(contactId)
+
   const userNumber = useUserPhone(userProfile)
 
   const { mutateAsync: mutateAsyncSend, isLoading: isLoadingSend } = useCreateSendMessage()
@@ -82,6 +88,19 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
     reset()
     setMessageMediaItems([])
     Keyboard.dismiss()
+  }
+
+  const handleOnTemplateSelected = (smsTemplate: ISmsTemplate) => {
+    let messageBodyUpdate = smsTemplate.Message
+
+    if (dataContact) {
+      messageBodyUpdate = renderMessageWithContact(
+        messageBodyUpdate,
+        dataContact.FirstName,
+        dataContact.LastName,
+      )
+      setValue("message", messageBodyUpdate)
+    }
   }
 
   const handleOnFileSelected = (newMediaItem: IUserMediaItem) => {
@@ -175,12 +194,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
       </Box>
       <HStack justifyContent={"space-between"}>
         <NBButton.Group space={spacing.micro}>
-          <IconButton
-            rounded="full"
-            size="sm"
-            icon={<Icon colorToken={"text"} icon="clipboardDocumentCheck" size={16} />}
-          />
-
+          <SelectTemplateButton onTemplateSelect={handleOnTemplateSelected} />
           <AttachFileButton onFileSelect={handleOnFileSelected} />
         </NBButton.Group>
         <HStack space={spacing.micro} alignItems="center">

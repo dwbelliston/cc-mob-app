@@ -27,6 +27,10 @@ const en = {
     tags: "Tags",
     sourceType: "Source Type",
   },
+  templates: {
+    smstemplates: "Templates",
+    select: "Select",
+  },
   inbox: {
     unread: "Unread",
     active: "Active",

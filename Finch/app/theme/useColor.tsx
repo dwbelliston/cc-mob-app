@@ -58,8 +58,8 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     dark: "gray.300",
   },
   "text.soft": {
-    light: "gray.600",
-    dark: "gray.300",
+    light: colors.gray[600],
+    dark: colors.gray[300],
   },
   "text.softer": {
     light: "gray.400",
