@@ -1,38 +1,69 @@
 import { Box, Circle, HStack, Stack } from "native-base"
 import React from "react"
 import { Icon, IconTypes } from "./Icon"
-import { Text } from "./Text"
+import { Text, TextProps } from "./Text"
 
 export interface IButterProps {
   title?: string
+  titleText?: TextProps
   description?: string
+  descriptionText?: TextProps
   children?: React.ReactNode
 }
 
 const ButterError = (props: IButterProps) => {
   const { title = "Error", ...rest } = props
-  return <ButterBase title={title} status="error" {...rest}></ButterBase>
+  return (
+    <ButterBase
+      titleText={{ text: title, ...rest.titleText }}
+      descriptionText={{ text: rest.description, ...rest.descriptionText }}
+      status="error"
+      {...rest}
+    ></ButterBase>
+  )
 }
 
 const ButterSuccess = (props: IButterProps) => {
   const { title = "Success", ...rest } = props
-  return <ButterBase title={title} status="success" {...rest}></ButterBase>
+  return (
+    <ButterBase
+      titleText={{ text: title, ...rest.titleText }}
+      descriptionText={{ text: rest.description, ...rest.descriptionText }}
+      status="success"
+      {...rest}
+    ></ButterBase>
+  )
 }
 
 const ButterInfo = (props: IButterProps) => {
   const { title = "Notice", ...rest } = props
-  return <ButterBase title={title} status="info" {...rest}></ButterBase>
+  return (
+    <ButterBase
+      titleText={{ text: title, ...rest.titleText }}
+      descriptionText={{ text: rest.description, ...rest.descriptionText }}
+      status="info"
+      {...rest}
+    ></ButterBase>
+  )
 }
 
 const ButterWarning = (props: IButterProps) => {
   const { title = "Notice", ...rest } = props
-  return <ButterBase title={title} status="warning" {...rest}></ButterBase>
+  return (
+    <ButterBase
+      titleText={{ text: title, ...rest.titleText }}
+      descriptionText={{ text: rest.description, ...rest.descriptionText }}
+      status="warning"
+      {...rest}
+    ></ButterBase>
+  )
 }
 
 export type ButterStatuses = "info" | "success" | "error" | "warning"
 
 export interface IButterBaseProps extends IButterProps {
-  title: string
+  titleText: TextProps
+  descriptionText?: TextProps
   status?: ButterStatuses
   children?: React.ReactNode
 }
@@ -52,7 +83,13 @@ function getStatusIcon(status: ButterStatuses) {
   return STATUSES[status].icon
 }
 
-const ButterBase = ({ title, status, description, children }: IButterBaseProps) => {
+const ButterBase = ({
+  titleText,
+  descriptionText,
+  status,
+  description,
+  children,
+}: IButterBaseProps) => {
   const statusIconName = getStatusIcon(status)
 
   return (
@@ -106,10 +143,10 @@ const ButterBase = ({ title, status, description, children }: IButterBaseProps) 
             _dark={{
               color: `${status}.200`,
             }}
-            text={title}
             fontWeight={"semibold"}
+            {...titleText}
           ></Text>
-          {description && <Text colorToken="text" text={description}></Text>}
+          {descriptionText && <Text colorToken="text" {...descriptionText}></Text>}
         </Stack>
         {children && <Box>{children}</Box>}
       </HStack>

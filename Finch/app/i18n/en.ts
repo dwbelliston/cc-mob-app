@@ -157,6 +157,10 @@ const en = {
     smsTemplates: "SMS Templates",
     savedMedia: "Saved Media",
     shortUrls: "Shortened Urls",
+    noBlockedNumbers: "Blocked Numbers",
+    noBlockedNumbersDescription: "Nice! You don't have any blocked numbers.",
+    blockedNumbersReachOut: "It's not personal",
+    blockedNumbersReachOutMore: "Often clients just didnt recognize the number.",
   }
 }
 

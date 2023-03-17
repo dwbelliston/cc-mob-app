@@ -4,7 +4,9 @@ import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
 import { Icon, Screen, Text } from "../../components"
+import { Butter } from "../../components/Butter"
 import { DataStatus } from "../../components/DataStatus"
+import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { IBlockedNumber } from "../../models/BlockedNumber"
 import useListBlockedNumbers from "../../services/api/blockednumbers/queries/useListBlockedNumbers"
@@ -132,24 +134,27 @@ export const BlockedScreen: FC<SettingsStackScreenProps<"Blocked">> = observer(
     }, [debouncedblockedSearch])
 
     return (
-      <Screen
-        preset="fixed"
-        safeAreaEdges={["top"]}
-        statusBarStyle={statusBarColor}
-        contentContainerStyle={{
-          paddingBottom: 0,
-          paddingTop: 0,
-        }}
-      >
+      <Screen preset="fixed" safeAreaEdges={["top"]} statusBarStyle={statusBarColor}>
         <View h="full">
           <FlatList
             contentContainerStyle={{
+              paddingTop: 16,
               paddingBottom: 16,
             }}
             contentInsetAdjustmentBehavior="automatic"
             ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}
             data={flatData}
             renderItem={renderItem}
+            ListHeaderComponent={
+              !isLoadingNumbers && flatData?.length ? (
+                <Box px={spacing.tiny} pb={spacing.tiny}>
+                  <Butter.Info
+                    titleText={{ tx: "settings.blockedNumbersReachOut" }}
+                    descriptionText={{ tx: "settings.blockedNumbersReachOutMore", fontSize: "xs" }}
+                  ></Butter.Info>
+                </Box>
+              ) : null
+            }
             ListEmptyComponent={
               isLoadingNumbers ? (
                 <Box px={spacing.tiny} py={spacing.small} h="full">
@@ -158,10 +163,10 @@ export const BlockedScreen: FC<SettingsStackScreenProps<"Blocked">> = observer(
               ) : (
                 <Box px={spacing.tiny} py={spacing.small} h="full">
                   <DataStatus
-                    title={conversationStore.noDataTitleTx}
-                    description={conversationStore.noDataDescriptionTx}
-                    icon={conversationStore.noDataIcon}
-                    colorScheme={conversationStore.noDataColorScheme}
+                    title={translate("settings.noBlockedNumbers")}
+                    description={translate("settings.noBlockedNumbersDescription")}
+                    icon={"noSymbol"}
+                    colorScheme={"gray"}
                   />
                 </Box>
               )
