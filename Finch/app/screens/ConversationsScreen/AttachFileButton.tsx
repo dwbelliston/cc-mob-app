@@ -6,12 +6,14 @@ import { useActionSheet } from "@expo/react-native-action-sheet"
 import * as DocumentPicker from "expo-document-picker"
 import * as Haptics from "expo-haptics"
 import * as ImagePicker from "expo-image-picker"
+import { Box, HStack, Spinner } from "native-base"
 import React from "react"
 import { Platform } from "react-native"
 
 import { Icon, IconButton, IconButtonProps } from "../../components"
 import { IUserMediaItem } from "../../models/UserMediaItem"
 import useUploadUserMedia from "../../services/api/usermedia/mutations/useUploadUserMedia"
+import { spacing } from "../../theme"
 import { useCustomToast } from "../../utils/useCustomToast"
 import { runTodayTimestamp } from "../../utils/useFormatDate"
 
@@ -197,13 +199,20 @@ export const AttachFileButton = ({
   }
 
   return (
-    <IconButton
-      isDisabled={isLoadingUpload}
-      onPress={handleOnAttach}
-      rounded="full"
-      size="sm"
-      icon={<Icon colorToken={"text"} icon="paperClip" size={16} />}
-      {...rest}
-    ></IconButton>
+    <HStack space={spacing.micro} alignItems="center">
+      <IconButton
+        isDisabled={isLoadingUpload}
+        onPress={handleOnAttach}
+        rounded="full"
+        size="sm"
+        icon={<Icon colorToken={"text"} icon="paperClip" size={16} />}
+        {...rest}
+      ></IconButton>
+      {isLoadingUpload && (
+        <Box>
+          <Spinner />
+        </Box>
+      )}
+    </HStack>
   )
 }

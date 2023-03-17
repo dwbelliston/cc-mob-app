@@ -37,16 +37,26 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
   }
 
   const handleSelected = (smsTemplate: ISmsTemplate) => {
+    Haptics.selectionAsync()
     bottomSheetModalRef.current?.close()
     onTemplateSelect(smsTemplate)
   }
 
   const renderItem = React.useCallback(
     ({ item }: { item: ISmsTemplate }) => (
-      <Pressable onPress={() => handleSelected(item)}>
-        <Stack flex={1} py={spacing.tiny} px={spacing.tiny} space={2}>
+      <Pressable onPress={() => handleSelected(item)} px={spacing.tiny}>
+        <Stack
+          flex={1}
+          bg={bgColor}
+          borderColor={borderColor}
+          borderWidth={1}
+          rounded="lg"
+          py={spacing.tiny}
+          px={spacing.micro}
+          space={2}
+        >
           <HStack space={2} alignItems="center">
-            <Text flex={1} fontWeight={"semibold"} fontSize="md">
+            <Text flex={1} fontWeight={"semibold"} fontSize="sm">
               {item.Title}
             </Text>
           </HStack>
@@ -54,7 +64,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
         </Stack>
       </Pressable>
     ),
-    [],
+    [bgColor, borderColor],
   )
 
   React.useEffect(() => {
@@ -82,23 +92,42 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
         index={1}
         snapPoints={snapPoints}
         style={{
-          borderTopWidth: 2,
+          borderTopWidth: 1,
           borderTopColor: borderColor,
+        }}
+        handleStyle={{
+          backgroundColor: bgColor,
+        }}
+        handleIndicatorStyle={{
+          backgroundColor: borderColor,
         }}
       >
         <View
           style={{
             flex: 1,
-            paddingBottom: 48,
             backgroundColor: bgColor,
           }}
         >
-          <Box py={spacing.tiny} px={spacing.tiny}>
-            <Text preset="heading" fontSize="xl" tx="templates.smstemplates"></Text>
+          <Box
+            pb={spacing.micro}
+            px={spacing.tiny}
+            borderBottomWidth={1}
+            borderBottomColor={borderColor}
+          >
+            <Text
+              preset="heading"
+              textAlign={"center"}
+              fontSize="xl"
+              tx="templates.smstemplates"
+            ></Text>
           </Box>
 
           <BottomSheetFlatList
             data={flatData}
+            style={{
+              paddingTop: spacing.small,
+              paddingBottom: 0,
+            }}
             keyExtractor={(i) => i.SmsTemplateId}
             renderItem={renderItem}
             ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}

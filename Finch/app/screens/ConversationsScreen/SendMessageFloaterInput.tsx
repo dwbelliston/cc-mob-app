@@ -43,7 +43,8 @@ type IFormInputs = {
 }
 
 const schema = yup.object({
-  message: yup.string().required("Required"),
+  message: yup.string(),
+  // .required("Required"),
 })
 
 export interface ISelectedFile {
@@ -75,6 +76,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
     control,
     handleSubmit,
     setValue,
+    setError,
     reset,
     formState: { errors, isValid },
   } = useForm<IFormInputs>({
@@ -115,11 +117,13 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
     Haptics.selectionAsync()
 
     const messageValue = data.message
-    if (
-      contactNumber &&
-      // (data.message || messageMediaItems || vcardItems) &&
-      userNumber
-    ) {
+
+    if (!messageValue || !messageMediaItems.length) {
+      setError("message", { message: "Add message" })
+      return
+    }
+
+    if (contactNumber && userNumber) {
       setIsSubmitting(true)
 
       try {
@@ -208,7 +212,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
             onPress={handleSubmit(handleOnSend)}
             rounded="full"
             size="sm"
-            isDisabled={!isValid || isLoadingSend}
+            isDisabled={(!isValid && !messageMediaItems?.length) || isLoadingSend}
             colorScheme={"primary"}
             icon={<Icon icon="arrowUp" size={16} />}
           />

@@ -37,7 +37,7 @@ export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> 
     const [contactName, setContactName] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
 
-    const bgColor = useColorModeValue(colors.primary[700], colors.primary[800])
+    const bgColor = useColorModeValue(colors.primary[600], colors.primary[600])
     const bgMain = useColor("bg.main")
 
     const { top: topInset } = useSafeAreaInsets()
