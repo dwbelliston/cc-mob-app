@@ -386,15 +386,29 @@ const ConversationListItem = ({
               {isIncoming && isCall ? (
                 <Icon size={16} color={errorColor} icon="phoneArrowDownLeft"></Icon>
               ) : null}
-              <Text
-                flex={1}
-                numberOfLines={1}
-                maxH={12}
-                fontSize="sm"
-                colorToken={!isRead ? "text" : "text.soft"}
-                fontWeight={!isRead ? "medium" : "normal"}
-                text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
-              ></Text>
+              {conversationMessage === "MEDIA" ? (
+                <HStack alignItems={"center"} flex={1} space={spacing.micro}>
+                  <Text
+                    numberOfLines={1}
+                    maxH={12}
+                    fontSize="sm"
+                    colorToken={!isRead ? "text" : "text.soft"}
+                    fontWeight={!isRead ? "medium" : "normal"}
+                    text={isIncoming ? "" : `You:`}
+                  ></Text>
+                  <Icon size={20} icon="photo"></Icon>
+                </HStack>
+              ) : (
+                <Text
+                  flex={1}
+                  numberOfLines={1}
+                  maxH={12}
+                  fontSize="sm"
+                  colorToken={!isRead ? "text" : "text.soft"}
+                  fontWeight={!isRead ? "medium" : "normal"}
+                  text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
+                ></Text>
+              )}
               {isRead && isClosed && <Dot.Neutral size="sm" />}
             </HStack>
           </Stack>

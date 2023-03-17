@@ -11,7 +11,7 @@ import {
 import { APIEndpoints } from "./app/services/api/config"
 
 const appConfig = {
-  version: "1.0.0",
+  version: "0.0.12",
   Auth: {
     region: REACT_APP_USERPOOL_REGION,
     userPoolId: REACT_APP_USERPOOL_ID,

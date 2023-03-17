@@ -84,6 +84,9 @@ export const getConversationLastMessage = (conversation: IConversation) => {
   // Has message
   if (conversation?.LatestMessage) {
     message = conversation.LatestMessage.Message
+    if (!message) {
+      message = "MEDIA"
+    }
   } else {
     // Has Call
     const callStatus = getCallStatusDescription(conversation?.LatestCall?.Status)

@@ -14,7 +14,7 @@ export interface IBlockedNumber {
   BlockedNumberId: string
   Reason: string
   Number: string
-  CreatedAt: string
+  CreatedTime: string
 }
 
 export interface IPaginatedBlockedNumbers extends IPaginatedResponse {

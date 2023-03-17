@@ -3,7 +3,6 @@
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItem,
   DrawerItemList,
   DrawerScreenProps,
 } from "@react-navigation/drawer"
@@ -12,21 +11,20 @@ import React from "react"
 import { DrawerActions, NavigatorScreenParams, useNavigation } from "@react-navigation/native"
 
 import { Box, HStack, IconButton, Stack, useColorModeValue } from "native-base"
-import { Button, Icon, Text } from "../components"
-import { useStores } from "../models"
-import { SettingsScreen } from "../screens/SettingsScreen"
+import { Icon, Text } from "../components"
 import { colors, spacing } from "../theme"
 
 import { Dot } from "../components/Dot"
 import { UserAvatar } from "../components/UserAvatar"
 import { useUserName, useUserPhone } from "../models/UserProfile"
+import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
 
 export type AppDrawerParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
-  Settings: undefined
+  SettingsStack: NavigatorScreenParams<SettingsStackParamList>
 }
 
 export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
@@ -37,10 +35,6 @@ export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScr
 const Drawer = createDrawerNavigator<AppDrawerParamList>()
 
 const CustomDrawerContent = (props: any) => {
-  const {
-    authenticationStore: { logout },
-  } = useStores()
-
   const navigation = useNavigation()
 
   const { data: userProfile } = useReadUserProfile()
@@ -90,25 +84,6 @@ const CustomDrawerContent = (props: any) => {
         </Stack>
 
         <DrawerItemList {...props} />
-
-        <DrawerItem
-          style={{
-            marginTop: 24,
-            paddingLeft: 12,
-            width: "100%",
-          }}
-          onPress={() => {}}
-          label={() => (
-            <Button
-              size="sm"
-              onPress={logout}
-              leftIcon={<Icon icon="arrow-left-on-rectangle"></Icon>}
-              tx="navigator.signout"
-              variant="subtle"
-              colorScheme={"error"}
-            ></Button>
-          )}
-        />
       </Stack>
     </DrawerContentScrollView>
   )
@@ -189,10 +164,9 @@ const AppDrawerNavigator = () => {
       />
 
       <Drawer.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="SettingsStack"
+        component={SettingsStack}
         options={{
-          headerShown: true,
           drawerIcon: ({ color }) => <Icon icon="settings" size={20} color={color} />,
           drawerLabel: ({ color }) => (
             <Text color={color} fontSize="sm" tx="navigator.settings"></Text>

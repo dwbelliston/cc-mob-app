@@ -126,7 +126,7 @@ const en = {
   },
   navigator: {
     homeTab: "Home",
-    profileTab: "Profile",
+    profile: "Profile",
     contactsTab: "Contacts",
     inboxTab: "Inbox",
     campaigns: "Campaigns",
@@ -136,6 +136,28 @@ const en = {
     signout: "Sign out",
     settings: "Settings",
   },
+  settings: {
+    myProfile: "My Profile",
+    myPhone: "My Phone",
+    mySubcription: "My Subscription",
+    helpCenter: "Help Center",
+    business: "REsources",
+    privacy: "Privacy",
+    leaveReview: "Leave a review",
+    account: "Account",
+    currentClient: "CurrentClient",
+    logOut: "Log out",
+    contacts: "Contacts",
+    tags: "Tags",
+    segments: "Segments",
+    uploads: "Uploads",
+    blocked: "Blocked numbers",
+    history: "History",
+    library: "Library",
+    smsTemplates: "SMS Templates",
+    savedMedia: "Saved Media",
+    shortUrls: "Shortened Urls",
+  }
 }
 
 export default en
