@@ -92,19 +92,6 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
     Keyboard.dismiss()
   }
 
-  const handleOnTemplateSelected = (smsTemplate: ISmsTemplate) => {
-    let messageBodyUpdate = smsTemplate.Message
-
-    if (dataContact) {
-      messageBodyUpdate = renderMessageWithContact(
-        messageBodyUpdate,
-        dataContact.FirstName,
-        dataContact.LastName,
-      )
-      setValue("message", messageBodyUpdate, { shouldValidate: true })
-    }
-  }
-
   const handleOnFileSelected = (newMediaItem: IUserMediaItem) => {
     const messageMediaItemsUpdate = messageMediaItems.map((mediaItem) => mediaItem)
 
@@ -118,7 +105,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
 
     const messageValue = data.message
 
-    if (!messageValue || !messageMediaItems.length) {
+    if (!messageValue && !messageMediaItems.length) {
       setError("message", { message: "Add message" })
       return
     }
@@ -167,6 +154,22 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
       setIsSubmitting(false)
     }
   }
+
+  const handleOnTemplateSelected = React.useCallback(
+    (smsTemplate: ISmsTemplate) => {
+      let messageBodyUpdate = smsTemplate.Message
+
+      if (dataContact) {
+        messageBodyUpdate = renderMessageWithContact(
+          messageBodyUpdate,
+          dataContact.FirstName,
+          dataContact.LastName,
+        )
+        setValue("message", messageBodyUpdate, { shouldValidate: true })
+      }
+    },
+    [dataContact],
+  )
 
   return (
     <Stack

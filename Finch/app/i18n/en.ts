@@ -59,6 +59,8 @@ const en = {
   stream: {
     noMessages: "No Messages",
     noMessagesDescription: "Send a message to start the converstion",
+    noTemplates: "No Templates",
+    noTemplatesDescription: "Create templates in desktop app",
   },
   broadcasts: {
     viewBroadcast: "View Broadcast",

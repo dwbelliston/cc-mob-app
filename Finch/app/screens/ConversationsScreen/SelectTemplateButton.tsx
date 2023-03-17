@@ -9,6 +9,8 @@ import React from "react"
 import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet"
 import { Keyboard } from "react-native"
 import { Icon, IconButton, IconButtonProps, Text } from "../../components"
+import { DataStatus } from "../../components/DataStatus"
+import { translate } from "../../i18n"
 import { ISmsTemplate } from "../../models/SmsTemplate"
 import useListSmsTemplates from "../../services/api/smstemplates/queries/useListSmsTemplates"
 import { colors, spacing } from "../../theme"
@@ -25,6 +27,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
 
   const { data: dataTemplates, isLoading: isLoadingTemplates } = useListSmsTemplates()
 
+  const bgHighColor = useColor("bg.high")
   const bgColor = useColor("bg.main")
   const borderColor = useColorModeValue(colors.gray[200], colors.gray[700])
 
@@ -38,8 +41,8 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
 
   const handleSelected = (smsTemplate: ISmsTemplate) => {
     Haptics.selectionAsync()
-    bottomSheetModalRef.current?.close()
     onTemplateSelect(smsTemplate)
+    bottomSheetModalRef.current?.close()
   }
 
   const renderItem = React.useCallback(
@@ -96,7 +99,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
           borderTopColor: borderColor,
         }}
         handleStyle={{
-          backgroundColor: bgColor,
+          backgroundColor: bgHighColor,
         }}
         handleIndicatorStyle={{
           backgroundColor: borderColor,
@@ -109,10 +112,11 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
           }}
         >
           <Box
-            pb={spacing.micro}
+            pb={spacing.tiny}
             px={spacing.tiny}
             borderBottomWidth={1}
             borderBottomColor={borderColor}
+            bg={bgHighColor}
           >
             <Text
               preset="heading"
@@ -126,11 +130,26 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
             data={flatData}
             style={{
               paddingTop: spacing.small,
-              paddingBottom: 0,
             }}
+            ListEmptyComponent={
+              isLoadingTemplates ? (
+                <Box px={spacing.tiny} py={spacing.small} h="full">
+                  <Text textAlign={"center"} colorToken="text.softer" tx="common.oneMoment"></Text>
+                </Box>
+              ) : (
+                <Box px={spacing.tiny} py={spacing.small} h="full">
+                  <DataStatus
+                    title={translate("stream.noTemplates")}
+                    description={translate("stream.noTemplatesDescription")}
+                    icon={"clipboardDocumentCheck"}
+                    colorScheme={"gray"}
+                  />
+                </Box>
+              )
+            }
             keyExtractor={(i) => i.SmsTemplateId}
             renderItem={renderItem}
-            ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}
+            ItemSeparatorComponent={() => <Divider py={spacing.micro} bg="transparent" />}
           />
         </View>
       </BottomSheetModal>
