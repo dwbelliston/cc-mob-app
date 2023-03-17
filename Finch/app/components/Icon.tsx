@@ -14,6 +14,7 @@ import {
   BellAlertIcon,
   BellIcon,
   BoltIcon,
+  BriefcaseIcon,
   CakeIcon,
   ChatBubbleBottomCenterTextIcon,
   ChatBubbleLeftEllipsisIcon,
@@ -57,6 +58,7 @@ import {
   PaperClipIcon,
   PauseIcon,
   PencilIcon,
+  PencilSquareIcon,
   PhoneArrowDownLeftIcon,
   PhoneArrowUpRightIcon,
   PhoneIcon,
@@ -92,6 +94,7 @@ import {
   BellAlertIcon as BellAlertIconSolid,
   BellIcon as BellIconSolid,
   BoltIcon as BoltIconSolid,
+  BriefcaseIcon as BriefcaseIconSolid,
   CakeIcon as CakeIconSolid,
   ChatBubbleBottomCenterTextIcon as ChatBubbleBottomCenterTextIconSolid,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisIconSolid,
@@ -134,6 +137,7 @@ import {
   PaperClipIcon as PaperClipIconSolid,
   PauseIcon as PauseIconSolid,
   PencilIcon as PencilIconSolid,
+  PencilSquareIcon as PencilSquareIconSolid,
   PhoneArrowDownLeftIcon as PhoneArrowDownLeftIconSolid,
   PhoneArrowUpRightIcon as PhoneArrowUpRightIconSolid,
   PhoneIcon as PhoneIconSolid,
@@ -495,5 +499,13 @@ export const iconRegistry = {
   pencil: {
     outline: PencilIcon,
     solid: PencilIconSolid,
+  },
+  pencilSquare: {
+    outline: PencilSquareIcon,
+    solid: PencilSquareIconSolid,
+  },
+  briefcase: {
+    outline: BriefcaseIcon,
+    solid: BriefcaseIconSolid,
   },
 }

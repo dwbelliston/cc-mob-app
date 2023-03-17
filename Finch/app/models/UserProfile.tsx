@@ -76,6 +76,19 @@ export interface IRegisteredNumberCapabilities {
   IsVoiceEnabled: boolean
 }
 
+export interface IUserProfileUpdateForm {
+  FirstName?: string
+  LastName?: string
+  Phone?: string
+  CompanyName?: string
+  Address1?: string
+  Address2?: string
+  City?: string
+  State?: string
+  Zip?: string
+  BrandImageUrl?: string
+}
+
 export interface IRegisteredNumber {
   Description: string
   FriendlyName: string

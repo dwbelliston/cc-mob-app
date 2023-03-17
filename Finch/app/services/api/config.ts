@@ -9,7 +9,6 @@ export enum APIEndpoints {
 }
 
 enum QueryKeysEnum {
-  userprofile = "userprofile",
   blockednumbers = "blockednumbers",
   advocateprofile = "advocateprofile",
   consentFiles = "consentFiles",
@@ -17,10 +16,6 @@ enum QueryKeysEnum {
 
 
 export class QueryKeys {
-  static userprofile(): string[] {
-    return [QueryKeysEnum.userprofile]
-  }
-
   static blockednumbers(): string[] {
     return [QueryKeysEnum.blockednumbers]
   }

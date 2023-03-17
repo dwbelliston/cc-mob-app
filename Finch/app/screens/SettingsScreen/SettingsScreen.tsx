@@ -16,7 +16,6 @@ import { SettingsStackParamList, SettingsStackScreenProps } from "./SettingsStac
 interface ISectionDataItem {
   icon: IconProps["icon"]
   tx: TextProps["tx"]
-  action: string
   navigateScreen?: keyof SettingsStackParamList
   colorToken?: TextProps["colorToken"]
 }
@@ -32,17 +31,15 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "userCircle",
         tx: "settings.myProfile",
-        action: "",
+        navigateScreen: "Profile",
       },
       {
         icon: "phone",
         tx: "settings.myPhone",
-        action: "",
       },
       {
         icon: "creditCard",
         tx: "settings.mySubcription",
-        action: "",
       },
     ],
   },
@@ -52,28 +49,25 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "tag",
         tx: "settings.tags",
-        action: "",
       },
       {
         icon: "funnel",
         tx: "settings.segments",
-        action: "",
       },
       {
         icon: "cloudArrowUp",
         tx: "settings.uploads",
-        action: "",
       },
       {
         icon: "noSymbol",
         tx: "settings.blocked",
-        action: "",
+
         navigateScreen: "Blocked",
+        colorToken: "success",
       },
       {
         icon: "clock",
         tx: "settings.history",
-        action: "",
       },
     ],
   },
@@ -83,17 +77,14 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "chatBubbleBottomCenterText",
         tx: "settings.smsTemplates",
-        action: "",
       },
       {
         icon: "photo",
         tx: "settings.savedMedia",
-        action: "",
       },
       {
         icon: "link",
         tx: "settings.shortUrls",
-        action: "",
       },
     ],
   },
@@ -103,22 +94,18 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "lifebuoy",
         tx: "settings.helpCenter",
-        action: "",
       },
       {
         icon: "shieldCheck",
         tx: "settings.privacy",
-        action: "",
       },
       {
         icon: "star",
         tx: "settings.leaveReview",
-        action: "",
       },
       {
         icon: "arrow-left-on-rectangle",
         tx: "settings.logOut",
-        action: "",
         colorToken: "error",
       },
     ],

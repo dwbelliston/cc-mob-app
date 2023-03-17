@@ -4,12 +4,17 @@ import { Butter, IButterBaseProps } from "../components/Butter"
 
 interface IButterToastProps extends IButterBaseProps {
   id: string
+  description?: string
   onClose: () => void
 }
 
 const ToastAlert = ({ id, title, description, status, onClose, ...rest }: IButterToastProps) => (
   <Box w={{ base: "xs", lg: "md" }}>
-    <Butter.Base title={title} description={description} status={status}>
+    <Butter.Base
+      titleText={{ text: title }}
+      descriptionText={description ? { text: description } : null}
+      status={status}
+    >
       <Box>
         <IconButton
           variant={"ghost"}

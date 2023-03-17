@@ -1,4 +1,4 @@
-import { Button, HStack, IStackProps, Stack } from "native-base"
+import { Box, Button, HStack, IStackProps, Pressable, Stack } from "native-base"
 import React from "react"
 import { IContact, runFormatSourceDisplay } from "../models/Contact"
 import { ITag } from "../models/Tag"
@@ -17,6 +17,12 @@ export interface ILabelProps extends IStackProps {
   label: TextProps["tx"]
 }
 
+const PILL_STYLES = {
+  rounded: "lg",
+  py: spacing.tiny,
+  px: spacing.tiny,
+}
+
 const Label = ({ icon, label, ...rest }: ILabelProps) => {
   return (
     <HStack alignItems={"center"} space={spacing.micro} {...rest}>
@@ -32,6 +38,7 @@ export interface ILabelValuePillTextProps extends IStackProps {
   text: TextProps["text"]
   isCopy?: boolean
   isShare?: boolean
+  onEdit?: () => void
 }
 
 export const ValueText = ({
@@ -39,38 +46,48 @@ export const ValueText = ({
   icon,
   text,
   children,
-  isCopy = true,
-  isShare = true,
+  isCopy = false,
+  isShare = false,
+  onEdit,
   ...rest
 }: ILabelValuePillTextProps) => {
   const bgPill = useColor("bg.high")
 
   return (
-    <Stack
-      space={1}
-      bg={bgPill}
-      rounded="lg"
-      pt={spacing.micro}
-      pb={spacing.tiny}
-      px={spacing.tiny}
-    >
-      <HStack space={4} alignItems={"center"} justifyContent={"space-between"} {...rest}>
-        <Label icon={icon} label={label} />
-        {text ? (
-          <Button.Group size="md" variant="ghost" justifyContent={"flex-end"}>
-            {isCopy ? <CopyButton text={text} /> : null}
-            {isShare ? <ShareButton text={text} /> : null}
-          </Button.Group>
-        ) : null}
-      </HStack>
-      {text ? (
-        <>
-          <Text flex={1} fontSize="md" text={text}></Text>
-        </>
-      ) : (
-        <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
-      )}
-    </Stack>
+    <Pressable onPress={onEdit}>
+      <Stack space={1}>
+        <HStack
+          space={4}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          px={spacing.micro}
+          {...rest}
+        >
+          <Label icon={icon} label={label} />
+          {text ? (
+            <Button.Group size="md" variant="ghost" justifyContent={"flex-end"}>
+              {isCopy ? <CopyButton text={text} /> : null}
+              {isShare ? <ShareButton text={text} /> : null}
+            </Button.Group>
+          ) : null}
+        </HStack>
+        <HStack bg={bgPill} {...PILL_STYLES} alignItems={"center"} justifyContent={"space-between"}>
+          {text ? (
+            <>
+              <Text flex={1} fontSize="md" text={text}></Text>
+            </>
+          ) : (
+            <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
+          )}
+
+          {onEdit ? (
+            <Box>
+              <Icon size={16} icon="pencilSquare" />
+            </Box>
+          ) : null}
+        </HStack>
+      </Stack>
+    </Pressable>
   )
 }
 export interface ILabelValuePillAddressProps extends IStackProps {
@@ -81,6 +98,10 @@ export interface ILabelValuePillAddressProps extends IStackProps {
   city?: string
   state?: string
   zip?: string
+  onEdit?: () => void
+  isCopy?: boolean
+  isShare?: boolean
+  isOpen?: boolean
 }
 
 export const ValueAddress = ({
@@ -92,6 +113,10 @@ export const ValueAddress = ({
   state,
   zip,
   children,
+  isCopy = false,
+  isShare = false,
+  isOpen = false,
+  onEdit,
   ...rest
 }: ILabelValuePillAddressProps) => {
   const bgPill = useColor("bg.high")
@@ -115,28 +140,30 @@ export const ValueAddress = ({
   const singleVal = `${line1}\n${line2}`
 
   return (
-    <Stack
-      space={3}
-      bg={bgPill}
-      rounded="lg"
-      pt={spacing.micro}
-      pb={spacing.tiny}
-      px={spacing.tiny}
-    >
-      <HStack space={4} justifyContent={"space-between"} {...rest}>
-        <Label icon={icon} label={label} />
-        <Button.Group size="md" variant="ghost" justifyContent={"flex-end"}>
-          <CopyButton isDisabled={!singleVal} text={singleVal} />
-          <ShareButton isDisabled={!singleVal} text={singleVal} />
-          <OpenMapButton isDisabled={!singleVal} text={singleVal} />
-        </Button.Group>
-      </HStack>
+    <Pressable onPress={onEdit}>
+      <Stack space={1}>
+        <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
+          <Label icon={icon} label={label} />
+          <Button.Group size="md" variant="ghost" justifyContent={"flex-end"}>
+            {isCopy ? <CopyButton isDisabled={!singleVal} text={singleVal} /> : null}
+            {isShare ? <ShareButton isDisabled={!singleVal} text={singleVal} /> : null}
+            {isOpen ? <OpenMapButton isDisabled={!singleVal} text={singleVal} /> : null}
+          </Button.Group>
+        </HStack>
 
-      <Stack space={0} flex={1}>
-        <Text flex={1} fontSize="md" text={line1}></Text>
-        <Text flex={1} fontSize="md" text={line2}></Text>
+        <HStack bg={bgPill} {...PILL_STYLES} alignItems={"center"} justifyContent={"space-between"}>
+          <Stack space={0} flex={1}>
+            <Text flex={1} fontSize="md" text={line1}></Text>
+            <Text flex={1} fontSize="md" text={line2}></Text>
+          </Stack>
+          {onEdit ? (
+            <Box>
+              <Icon size={16} icon="pencilSquare" />
+            </Box>
+          ) : null}
+        </HStack>
       </Stack>
-    </Stack>
+    </Pressable>
   )
 }
 
@@ -150,19 +177,12 @@ export const ValueTags = ({ label, icon, tags, ...rest }: ILabelValuePillTagsPro
   const bgPill = useColor("bg.high")
 
   return (
-    <Stack
-      space={3}
-      bg={bgPill}
-      rounded="lg"
-      pt={spacing.micro}
-      pb={spacing.tiny}
-      px={spacing.tiny}
-    >
-      <HStack space={4} justifyContent={"space-between"} {...rest}>
+    <Stack space={1}>
+      <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
         <Label icon={icon} label={label} />
       </HStack>
 
-      <Stack space={0} flex={1}>
+      <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
         {tags && tags?.length ? (
           <TagPill.Group tags={tags} />
         ) : (
@@ -187,19 +207,12 @@ export const ValueContactSource = ({
   const bgPill = useColor("bg.high")
 
   return (
-    <Stack
-      space={3}
-      bg={bgPill}
-      rounded="lg"
-      pt={spacing.micro}
-      pb={spacing.tiny}
-      px={spacing.tiny}
-    >
-      <HStack space={4} justifyContent={"space-between"} {...rest}>
+    <Stack space={1}>
+      <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
         <Label icon={icon} label={label} />
       </HStack>
 
-      <Stack space={0} flex={1}>
+      <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
         {contactSource ? (
           <HStack alignItems={"center"} space={spacing.micro}>
             <ContactSourceAvatar size={"xs"} contactSource={contactSource} />

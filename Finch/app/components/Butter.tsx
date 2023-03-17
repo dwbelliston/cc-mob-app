@@ -62,7 +62,7 @@ const ButterWarning = (props: IButterProps) => {
 export type ButterStatuses = "info" | "success" | "error" | "warning"
 
 export interface IButterBaseProps extends IButterProps {
-  titleText: TextProps
+  titleText?: TextProps
   descriptionText?: TextProps
   status?: ButterStatuses
   children?: React.ReactNode

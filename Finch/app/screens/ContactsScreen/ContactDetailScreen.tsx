@@ -120,23 +120,23 @@ export const ContactDetailScreen: FC<AppStackScreenProps<"ContactDetail">> = obs
                     label="fieldLabels.name"
                     icon="userCircle"
                     text={contactName}
-                    isShare={false}
                   />
                   <LabelValuePill.Text
                     label="fieldLabels.phone"
                     icon="phone"
                     text={contactNumber}
+                    isCopy={true}
                   />
                   <LabelValuePill.Text
                     label="fieldLabels.email"
                     icon="envelope"
                     text={dataContact?.Email}
+                    isShare={true}
                   />
                   <LabelValuePill.Text
                     label="fieldLabels.birthdate"
                     icon="cake"
                     text={runFormatDate(dataContact?.BirthDate)}
-                    isShare={false}
                   />
                   <LabelValuePill.Address
                     label="fieldLabels.address"
@@ -146,6 +146,8 @@ export const ContactDetailScreen: FC<AppStackScreenProps<"ContactDetail">> = obs
                     city={dataContact?.City}
                     state={dataContact?.State}
                     zip={dataContact?.Zip}
+                    isOpen={true}
+                    isShare={true}
                   />
                   <LabelValuePill.ContactSource
                     label="fieldLabels.sourceType"

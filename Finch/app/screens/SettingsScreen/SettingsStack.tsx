@@ -10,10 +10,12 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
+import { ProfileScreen } from "./ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
 
 export type SettingsStackParamList = {
   Settings: undefined
+  Profile: undefined
   Blocked: undefined
 }
 
@@ -68,10 +70,23 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         }}
       />
       <Stack.Screen
+        name={"Profile"}
+        component={ProfileScreen}
+        options={{
+          headerTitle: translate("settings.myProfile"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
         name={"Blocked"}
         component={BlockedScreen}
         options={{
           headerTitle: translate("settings.blocked"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
         }}
       />
     </Stack.Navigator>
