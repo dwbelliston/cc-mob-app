@@ -31,3 +31,5 @@ export const Button = (props: ButtonProps) => {
 
   return <NBButton {...rest}>{content}</NBButton>
 }
+
+export const ButtonGroup = NBButton.Group

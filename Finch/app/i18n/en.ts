@@ -13,6 +13,7 @@ const en = {
     removeMedia: "Remove Media",
     downloadMedia: "Download Media",
     compliance: "Compliance",
+    areYouSure: "Are you sure?",
   },
   fieldLabels: {
     name: "Name",

@@ -1,10 +1,11 @@
 import { NavigationProp } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { Box, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
+import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
-import { Icon, Screen, Text } from "../../components"
+import { AlertDialog, useDisclose } from "native-base"
+import { Button, ButtonGroup, Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IBlockedNumberCreate } from "../../models/BlockedNumber"
@@ -32,6 +33,8 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
   _props,
 ) {
   const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
+  const [blockCreate, setBlockCreate] = React.useState<IBlockedNumberCreate>()
+  const cancelRef = React.useRef<any>(null)
 
   const { conversationStore } = useStores()
 
@@ -44,6 +47,11 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
   const [conversationSearch, setConversationSearch] = React.useState("")
 
   const [debouncedConversationSearch] = useDebounce(conversationSearch, 750)
+  const {
+    isOpen: isOpenConfirmBlock,
+    onOpen: onOpenConfirmBlock,
+    onClose: onCloseConfirmBlock,
+  } = useDisclose()
 
   const {
     data: dataConversations,
@@ -95,12 +103,27 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
       Reason: "unsubscribed",
     }
 
-    // Confirm action
-
-    await mutateAsyncCreateBlockednumber(updates)
-
-    toast.success({ title: "Blocked", description: contactNumber })
+    setBlockCreate(updates)
+    onOpenConfirmBlock()
   }, [])
+
+  const handleOnCancelBlock = async () => {
+    setBlockCreate(undefined)
+    onCloseConfirmBlock()
+  }
+
+  const handleOnConfirmBlock = async () => {
+    if (blockCreate) {
+      try {
+        await mutateAsyncCreateBlockednumber(blockCreate)
+        toast.success({ title: "Blocked", description: blockCreate.Number })
+      } catch (e) {
+        toast.error({ title: "Failed to block" })
+      }
+    }
+
+    onCloseConfirmBlock()
+  }
 
   const handleOnMarkUnread = React.useCallback(async (conversationId: string) => {
     const updates: IConversationUpdate = {
@@ -248,13 +271,34 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
           initialNumToRender={10}
         />
       </View>
-      <Fab
+      {/* <Fab
         renderInPortal={false}
         shadow={0}
         p={3}
         rounded="full"
         icon={<Icon color="white" size={28} icon="chatBubbleOvalLeftEllipsis" />}
-      />
+      /> */}
+      <AlertDialog
+        leastDestructiveRef={cancelRef}
+        isOpen={isOpenConfirmBlock}
+        onClose={onCloseConfirmBlock}
+      >
+        <AlertDialog.Content>
+          <AlertDialog.Header borderBottomWidth={0}>
+            <Box>
+              <Text preset="subheading" textAlign="center" tx="common.areYouSure"></Text>
+            </Box>
+          </AlertDialog.Header>
+          <AlertDialog.Footer>
+            <ButtonGroup size="sm" space={2} justifyContent="space-between" flex={1}>
+              <Button onPress={handleOnCancelBlock}>Cancel</Button>
+              <Button colorScheme="danger" onPress={handleOnConfirmBlock}>
+                Yes, block
+              </Button>
+            </ButtonGroup>
+          </AlertDialog.Footer>
+        </AlertDialog.Content>
+      </AlertDialog>
     </Screen>
   )
 })
