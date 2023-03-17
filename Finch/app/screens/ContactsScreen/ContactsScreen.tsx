@@ -15,6 +15,7 @@ import { spacing } from "../../theme"
 import { Platform } from "react-native"
 import { getConversationId } from "../../models/Conversation"
 import { useUserPhone } from "../../models/UserProfile"
+import { AppStackParamList } from "../../navigators"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { useCustomToast } from "../../utils/useCustomToast"
 import {
@@ -22,7 +23,7 @@ import {
   makeContactListItemData,
   PureContactListItem,
 } from "./ContactListItem"
-import { ContactsStackParamList, ContactsStackScreenProps } from "./ContactsStack"
+import { ContactsStackScreenProps } from "./ContactsStack"
 
 export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = observer(
   function ContactsScreen(_props) {
@@ -112,8 +113,8 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     }, [])
 
     const handleOnViewContact = React.useCallback(
-      ({ contactName, contactId }: ContactsStackParamList["ContactDetail"]) => {
-        navigation.navigate("ContactDetail", {
+      ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => {
+        navigation.getParent().navigate("ContactDetail", {
           contactName,
           contactId,
         })

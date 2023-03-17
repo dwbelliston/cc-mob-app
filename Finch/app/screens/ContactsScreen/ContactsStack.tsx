@@ -8,12 +8,10 @@ import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
-import { ContactDetailScreen } from "./ContactDetailScreen"
 import { ContactsScreen } from "./ContactsScreen"
 
 export type ContactsStackParamList = {
   ContactsList: undefined
-  ContactDetail: { contactName: string; contactId: string } | undefined
 }
 
 export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> = CompositeScreenProps<
@@ -62,15 +60,6 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
                 return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
               },
         }}
-      />
-
-      <Stack.Screen
-        name={"ContactDetail"}
-        component={ContactDetailScreen}
-        options={({ route }) => ({
-          headerShown: false,
-          headerTitle: "Contact",
-        })}
       />
     </Stack.Navigator>
   )

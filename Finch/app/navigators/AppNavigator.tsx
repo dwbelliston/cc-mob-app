@@ -7,18 +7,20 @@
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
+import { useColorModeValue } from "native-base"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
 import { useStores } from "../models"
 import {
   AltLoginScreen,
+  ContactDetailScreen,
   ConversationStreamScreen,
   LoginScreen,
   ResetPasswordScreen,
   WelcomeScreen,
 } from "../screens"
-import { HEADER_TITLE_STYLES } from "../theme"
+import { colors, HEADER_TITLE_STYLES } from "../theme"
 import { useColor } from "../theme/useColor"
 import AppDrawerNavigator from "./AppDrawerNavigator"
 
@@ -43,6 +45,7 @@ export type AppStackParamList = {
   Welcome: undefined
   AppDrawer: undefined
   ConversationStream: { contactName?: string; conversationId?: string } | undefined
+  ContactDetail: { contactName: string; contactId: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
   ResetPassword: undefined
@@ -69,6 +72,7 @@ const AppStack = observer(function AppStack() {
 
   const headerLargeBg = useColor("bg.largeHeader")
   const headerDetailBg = useColor("bg.header")
+  const contactBgColor = useColorModeValue(colors.primary[600], colors.primary[600])
 
   return (
     <Stack.Navigator
@@ -89,6 +93,24 @@ const AppStack = observer(function AppStack() {
                 backgroundColor: headerDetailBg,
               },
               headerTitleStyle: {
+                ...HEADER_TITLE_STYLES,
+              },
+              headerBackVisible: true,
+            })}
+          />
+
+          <Stack.Screen
+            name={"ContactDetail"}
+            component={ContactDetailScreen}
+            options={({ route }) => ({
+              headerShown: false,
+              headerTitle: route.params?.contactName || "Contact",
+              // headerLargeTitle: true,
+              headerStyle: {
+                backgroundColor: contactBgColor,
+              },
+              headerTitleStyle: {
+                color: "white",
                 ...HEADER_TITLE_STYLES,
               },
               headerBackVisible: true,

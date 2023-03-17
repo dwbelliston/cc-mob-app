@@ -9,18 +9,18 @@ import useReadContact from "../../services/api/contacts/queries/useReadContact"
 import { colors, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { runFormatPhone } from "../../utils/useFormatPhone"
-import { ContactsStackScreenProps } from "./ContactsStack"
 
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { LabelValuePill } from "../../components/LabelValuePill"
 import { ITag } from "../../models/Tag"
+import { AppStackScreenProps } from "../../navigators"
 import useListTags from "../../services/api/tags/queries/useListTags"
 import { runFormatDate } from "../../utils/useFormatDate"
 import { DynamicContactActions } from "./DynamicContactActions"
 import { DynamicContactHeader } from "./DynamicContactHeader"
 
-export const ContactDetailScreen: FC<ContactsStackScreenProps<"ContactDetail">> = observer(
+export const ContactDetailScreen: FC<AppStackScreenProps<"ContactDetail">> = observer(
   function ContactDetailScreen(_props) {
     const { navigation, route } = _props
 

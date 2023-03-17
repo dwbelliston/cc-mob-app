@@ -23,6 +23,7 @@ import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
 import { useActionSheet } from "@expo/react-native-action-sheet"
 import { Dot } from "../../components/Dot"
+import { AppStackParamList } from "../../navigators"
 import { getInitials } from "../../utils/getInitials"
 
 const CARD_MARGIN = spacing.tiny
@@ -72,7 +73,7 @@ export interface IConversationListItem extends IConversationListItemData {
   onMarkUnread: (conversationId: string) => void
   onMarkRead: (conversationId: string) => void
   onBlock: (conversationNumber: string) => void
-  onViewContact: (contactName: string, contactId: string) => void
+  onViewContact: ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => void
   onViewConversation: ({
     contactName,
     conversationId,
@@ -298,7 +299,7 @@ const ConversationListItem = ({
 
   const handleOnViewContact = () => {
     closeSwipeable()
-    onViewContact(contactId, contactName)
+    onViewContact({ contactId, contactName })
   }
 
   const handleOnMarkActive = () => {

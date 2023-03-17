@@ -13,6 +13,7 @@ import {
   IConversationStatusUpdate,
   IConversationUpdate,
 } from "../../models/Conversation"
+import { AppStackParamList } from "../../navigators"
 import useCreateBlockedNumber from "../../services/api/blockednumbers/mutations/useCreateBlockedNumber"
 import usePostConversationStatus from "../../services/api/conversations/mutations/usePostConversationStatus"
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
@@ -76,23 +77,25 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
     }
   }
 
-  const handleOnViewContact = React.useCallback((contactId: string, contactName: string) => {
-    const nav = navigation.getParent<NavigationProp<any>>()
+  const handleOnViewContact = React.useCallback(
+    ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => {
+      const nav = navigation.getParent<NavigationProp<any>>()
 
-    nav.navigate("ContactsStack", {
-      screen: "ContactDetail",
-      params: {
+      nav.navigate("ContactDetail", {
         contactName,
         contactId,
-      },
-    })
-  }, [])
+      })
+    },
+    [],
+  )
 
   const handleOnBlock = React.useCallback(async (contactNumber: string) => {
     const updates: IBlockedNumberCreate = {
       Number: contactNumber,
       Reason: "unsubscribed",
     }
+
+    // Confirm action
 
     await mutateAsyncCreateBlockednumber(updates)
 
