@@ -20,6 +20,7 @@ import usePostConversationStatus from "../../services/api/conversations/mutation
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversations from "../../services/api/conversations/queries/useListConversations"
 import { spacing } from "../../theme"
+import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
 import {
   IConversationListItem,
@@ -42,6 +43,7 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
 
   const toast = useCustomToast()
 
+  const bgColor = useColor("bg.high")
   const statusBarColor = useColorModeValue("dark", "light")
 
   const [conversationSearch, setConversationSearch] = React.useState("")
@@ -283,13 +285,13 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
         isOpen={isOpenConfirmBlock}
         onClose={onCloseConfirmBlock}
       >
-        <AlertDialog.Content>
-          <AlertDialog.Header borderBottomWidth={0}>
+        <AlertDialog.Content bg={bgColor}>
+          <AlertDialog.Header borderBottomWidth={0} bg={bgColor}>
             <Box>
               <Text preset="subheading" textAlign="center" tx="common.areYouSure"></Text>
             </Box>
           </AlertDialog.Header>
-          <AlertDialog.Footer>
+          <AlertDialog.Footer bg={bgColor}>
             <ButtonGroup size="sm" space={2} justifyContent="space-between" flex={1}>
               <Button onPress={handleOnCancelBlock}>Cancel</Button>
               <Button colorScheme="danger" onPress={handleOnConfirmBlock}>
