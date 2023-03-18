@@ -11,6 +11,7 @@ import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
+import { MyPhoneScreen } from "./MyPhoneScreen"
 import { ProfileScreen } from "./ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
 
@@ -19,6 +20,7 @@ export type SettingsStackParamList = {
   Profile: undefined
   DeleteAccount: undefined
   Blocked: undefined
+  MyPhone: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -96,6 +98,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={BlockedScreen}
         options={{
           headerTitle: translate("settings.blocked"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"MyPhone"}
+        component={MyPhoneScreen}
+        options={{
+          headerTitle: translate("settings.myPhone"),
           headerStyle: {
             backgroundColor: headerBg,
           },

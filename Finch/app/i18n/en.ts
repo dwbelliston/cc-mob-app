@@ -17,6 +17,11 @@ const en = {
     save: "Save",
     "saved!": "Saved!",
     tapToEdit: "Tap to edit",
+    complete: "Complete",
+    inProgress: "In Progess",
+    supported: "Supported",
+    notSupported: "Not Supported",
+
 
   },
   fieldLabels: {
@@ -36,6 +41,10 @@ const en = {
     tags: "Tags",
     sourceType: "Source Type",
     companyName: "Company Name",
+    createdAt: "Assigned At",
+    registrationStatus: "Registration Status",
+    supportsMMS: "MMS messages",
+    supportsVoice: "Voice features",
   },
   templates: {
     smstemplates: "Templates",
@@ -177,6 +186,8 @@ const en = {
     deleteAccountExplain: "We understand that sometimes things just dont work out. We wish you the very best success in everything you do! If you would like to proceed in deleting your account then you can start the process by confirming below.\n\nOnce you submit, your account will begin to be deleted and you will receive a confirmation from the CurrentClient support team that the deletion is complete.\n\nIf you would like to keep your phone number and port it to another service, please let us know and we are happy to assist you in that!\n\nThe process will take up to 2 weeks to complete.",
     requestComplete: "Request complete",
     deleteRequestedHelp: "Please reach out to us if you have any questions at admin@currentclient.com",
+    numberDetails: "Details about your number",
+    numberDetailsInfo: "If you would like to change your number, please reach out to us:\nadmin@currentclient.com",
   }
 }
 

@@ -36,6 +36,7 @@ import {
   ExclamationTriangleIcon,
   EyeIcon,
   EyeSlashIcon,
+  FingerPrintIcon,
   FireIcon,
   FunnelIcon,
   HandThumbUpIcon,
@@ -116,6 +117,7 @@ import {
   ExclamationTriangleIcon as ExclamationTriangleIconSolid,
   EyeIcon as EyeIconSolid,
   EyeSlashIcon as EyeSlashIconSolid,
+  FingerPrintIcon as FingerPrintIconSolid,
   FireIcon as FireIconSolid,
   FunnelIcon as FunnelIconSolid,
   HandThumbUpIcon as HandThumbUpIconSolid,
@@ -513,5 +515,9 @@ export const iconRegistry = {
   trash: {
     outline: TrashIcon,
     solid: TrashIconSolid,
+  },
+  fingerPrint: {
+    outline: FingerPrintIcon,
+    solid: FingerPrintIconSolid,
   },
 }

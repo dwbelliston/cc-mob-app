@@ -18,6 +18,7 @@ interface ISectionDataItem {
   tx: TextProps["tx"]
   navigateScreen?: keyof SettingsStackParamList
   colorToken?: TextProps["colorToken"]
+  isLogout?: boolean
 }
 interface ISectionData {
   titleTx: TextProps["tx"]
@@ -37,6 +38,8 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "phone",
         tx: "settings.myPhone",
+        navigateScreen: "MyPhone",
+        colorToken: "success",
       },
       {
         icon: "creditCard",
@@ -108,6 +111,7 @@ const SETTINGS_LINKS: ISectionData[] = [
         icon: "arrow-left-on-rectangle",
         tx: "settings.logOut",
         colorToken: "error",
+        isLogout: true,
       },
     ],
   },
@@ -139,9 +143,10 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
 
     const handleOnItemPress = (item: ISectionDataItem) => {
       Haptics.selectionAsync()
-      console.log("item", item)
       if (item.navigateScreen) {
         navigation.navigate(item.navigateScreen)
+      } else if (item.isLogout) {
+        logout()
       }
     }
 
@@ -187,9 +192,6 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
       <Screen
         preset="fixed"
         safeAreaEdges={["bottom"]}
-        // style={{
-        //   backgroundColor: bgStream,
-        // }}
         contentContainerStyle={{
           flex: 1,
         }}
@@ -204,7 +206,6 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
             sections={SETTINGS_LINKS}
             stickySectionHeadersEnabled={true}
             contentInsetAdjustmentBehavior="automatic"
-            // ItemSeparatorComponent={() => <Divider bg="transparent" />}
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
             ListFooterComponent={renderFooter}
