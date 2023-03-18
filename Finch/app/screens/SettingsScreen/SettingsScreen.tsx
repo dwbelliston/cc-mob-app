@@ -75,6 +75,7 @@ const SETTINGS_LINKS: ISectionData[] = [
         icon: "arrowLeftRight",
         tx: "settings.crmSync",
         navigateScreen: "CrmSync",
+        colorToken: "success",
       },
       {
         icon: "clock",

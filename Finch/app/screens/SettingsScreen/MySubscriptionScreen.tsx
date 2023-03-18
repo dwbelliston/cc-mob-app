@@ -107,14 +107,14 @@ export const MySubscriptionScreen: FC<SettingsStackScreenProps<"MySubscription">
                   text={runFormatTimeWithAt(userProfile?.Billing.CurrentPeriodEndTime)}
                 />
 
-                {!userProfile?.Billing?.CancelAtTime ? (
+                {userProfile?.Billing?.CancelAtTime ? (
                   <LabelValuePill.Text
                     label="billing.willCancelAt"
                     icon="clock"
                     text={runFormatTimeWithAt(userProfile?.Billing.CancelAtTime)}
                   />
                 ) : null}
-                {!userProfile?.Billing?.CanceledAtTime ? (
+                {userProfile?.Billing?.CanceledAtTime ? (
                   <LabelValuePill.Text
                     label="billing.canceledAt"
                     icon="clock"
