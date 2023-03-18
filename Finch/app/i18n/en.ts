@@ -29,6 +29,7 @@ const en = {
     create: "Create",
     new: "New",
     edit: "Edit",
+    supportedSoon: "Support Coming Soon",
   },
   fieldLabels: {
     name: "Name",

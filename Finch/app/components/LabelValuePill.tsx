@@ -273,13 +273,7 @@ export const ValueSourceCrm = ({
 
       <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
         {sourceCrm ? (
-          <HStack
-            bg="white"
-            rounded="lg"
-            py={spacing.tiny}
-            overflow={"hidden"}
-            justifyContent="center"
-          >
+          <HStack rounded="lg" py={spacing.tiny} overflow={"hidden"} justifyContent="center">
             <AutoImage
               resizeMode="cover"
               source={{

@@ -6,9 +6,11 @@ import React, { FC } from "react"
 import appConfig from "../../../app-config"
 import { IconProps, Screen, Text, TextProps } from "../../components"
 import { PressableActionRow } from "../../components/PressableActionRow"
+import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { useCustomToast } from "../../utils/useCustomToast"
 
 import { SettingsStackParamList, SettingsStackScreenProps } from "./SettingsStack"
 
@@ -18,6 +20,7 @@ interface ISectionDataItem {
   navigateScreen?: keyof SettingsStackParamList
   colorToken?: TextProps["colorToken"]
   isLogout?: boolean
+  isSoon?: boolean
 }
 interface ISectionData {
   titleTx: TextProps["tx"]
@@ -32,20 +35,16 @@ const SETTINGS_LINKS: ISectionData[] = [
         icon: "userCircle",
         tx: "settings.myProfile",
         navigateScreen: "Profile",
-        colorToken: "success",
       },
       {
         icon: "phone",
         tx: "settings.myPhone",
         navigateScreen: "MyPhone",
-        colorToken: "success",
       },
       {
         icon: "creditCard",
         tx: "settings.mySubscription",
         navigateScreen: "MySubscription",
-
-        colorToken: "success",
       },
     ],
   },
@@ -55,33 +54,37 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "tag",
         tx: "settings.tags",
+        colorToken: "text.softer",
+        isSoon: true,
       },
       {
         icon: "funnel",
         tx: "settings.segments",
+        colorToken: "text.softer",
+        isSoon: true,
       },
       {
         icon: "cloudArrowUp",
         tx: "settings.uploads",
-        colorToken: "warning",
+        colorToken: "text.softer",
+        isSoon: true,
       },
       {
         icon: "noSymbol",
         tx: "settings.blocked",
 
         navigateScreen: "Blocked",
-        colorToken: "success",
       },
       {
         icon: "arrowLeftRight",
         tx: "settings.crmSync",
         navigateScreen: "CrmSync",
-        colorToken: "success",
       },
       {
         icon: "clock",
         tx: "settings.history",
-        colorToken: "warning",
+        colorToken: "text.softer",
+        isSoon: true,
       },
     ],
   },
@@ -96,10 +99,14 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "photo",
         tx: "settings.savedMedia",
+        colorToken: "text.softer",
+        isSoon: true,
       },
       {
         icon: "link",
         tx: "settings.shortUrls",
+        colorToken: "text.softer",
+        isSoon: true,
       },
     ],
   },
@@ -135,6 +142,8 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
       authenticationStore: { logout },
     } = useStores()
 
+    const toast = useCustomToast()
+
     const bgSectionTitle = useColor("bg.main")
 
     const appVersion = `App version: ${appConfig.version}`
@@ -146,6 +155,8 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
         navigation.navigate(item.navigateScreen)
       } else if (item.isLogout) {
         logout()
+      } else if (item.isSoon) {
+        toast.info({ title: translate("common.supportedSoon") })
       }
     }
 
