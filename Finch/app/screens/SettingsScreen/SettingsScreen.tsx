@@ -49,6 +49,36 @@ const SETTINGS_LINKS: ISectionData[] = [
     ],
   },
   {
+    titleTx: "settings.phone",
+    data: [
+      {
+        icon: "scale",
+        tx: "settings.compliance",
+        navigateScreen: "Compliance",
+      },
+      {
+        icon: "phoneArrowUpRight",
+        tx: "settings.callForwarding",
+        navigateScreen: "Compliance",
+      },
+      {
+        icon: "clock",
+        tx: "settings.businessHours",
+        navigateScreen: "Compliance",
+      },
+      {
+        icon: "bolt",
+        tx: "settings.autoReplies",
+        navigateScreen: "Compliance",
+      },
+      {
+        icon: "inbox",
+        tx: "settings.voicemail",
+        navigateScreen: "Compliance",
+      },
+    ],
+  },
+  {
     titleTx: "settings.contacts",
     data: [
       {

@@ -57,6 +57,7 @@ import {
   LockOpenIcon,
   MagnifyingGlassIcon,
   MapPinIcon,
+  NewspaperIcon,
   NoSymbolIcon,
   PaperAirplaneIcon,
   PaperClipIcon,
@@ -143,6 +144,7 @@ import {
   LockOpenIcon as LockOpenIconSolid,
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   MapPinIcon as MapPinIconSolid,
+  NewspaperIcon as NewspaperIconSolid,
   NoSymbolIcon as NoSymbolIconSolid,
   PaperAirplaneIcon as PaperAirplaneIconSolid,
   PaperClipIcon as PaperClipIconSolid,
@@ -253,6 +255,10 @@ export const iconRegistry = {
   noSymbol: {
     outline: NoSymbolIcon,
     solid: NoSymbolIconSolid,
+  },
+  newspaper: {
+    outline: NewspaperIcon,
+    solid: NewspaperIconSolid,
   },
   funnel: {
     outline: FunnelIcon,

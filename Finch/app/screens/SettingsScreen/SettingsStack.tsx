@@ -10,6 +10,7 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
+import { ComplianceScreen } from "./compliance/ComplianceScreen"
 import { CrmSyncScreen } from "./crmsync/CrmSync"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MyPhoneScreen } from "./MyPhoneScreen"
@@ -27,6 +28,7 @@ export type SettingsStackParamList = {
   MySubscription: undefined
   CrmSync: undefined
   SmsTemplates: undefined
+  Compliance: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -144,6 +146,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={SmsTemplatesScreen}
         options={{
           headerTitle: translate("settings.smsTemplates"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"Compliance"}
+        component={ComplianceScreen}
+        options={{
+          headerTitle: translate("settings.compliance"),
           headerStyle: {
             backgroundColor: headerBg,
           },
