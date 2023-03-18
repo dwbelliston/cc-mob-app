@@ -2,12 +2,11 @@ import { Stack } from "native-base"
 import React from "react"
 import * as yup from "yup"
 
-import { BottomSheetFormControl } from "../../components/FormControl"
-import { spacing } from "../../theme"
-
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-import { REGEX_PHONE } from "../../utils/constants"
+import { BottomSheetFormControl } from "../../../components/FormControl"
+import { spacing } from "../../../theme"
+import { REGEX_PHONE } from "../../../utils/constants"
 import { FormHandle } from "./ProfileScreen"
 
 export interface IEditProfilePhoneFormInput {

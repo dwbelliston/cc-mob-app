@@ -6,13 +6,14 @@ import { Text, TextProps } from "./Text"
 
 interface IProps {
   icon: IconProps
-  tx: TextProps["tx"]
+  tx?: TextProps["tx"]
+  text?: TextProps["text"]
   colorToken?: TextProps["colorToken"]
   onPress: () => void
 }
 
 export const PressableActionRow = (props: IProps) => {
-  const { colorToken, tx, icon, onPress, ...rest } = props
+  const { colorToken, tx, text, icon, onPress, ...rest } = props
 
   const handleOnPress = () => {
     if (onPress) {
@@ -34,7 +35,7 @@ export const PressableActionRow = (props: IProps) => {
           {/* Icon */}
           <HStack flex={1} space={spacing.tiny} alignItems="center">
             <Icon colorToken={colorToken} size={20} {...icon}></Icon>
-            <Text colorToken={colorToken} tx={tx}></Text>
+            <Text colorToken={colorToken} tx={tx} text={text}></Text>
           </HStack>
           <Icon colorToken={"text.softer"} size={20} icon="chevronRight"></Icon>
         </HStack>

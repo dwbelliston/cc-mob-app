@@ -69,6 +69,7 @@ import {
   PhoneXMarkIcon,
   PhotoIcon,
   PlayIcon,
+  PlusIcon,
   PuzzlePieceIcon,
   RocketLaunchIcon,
   ScaleIcon,
@@ -154,6 +155,7 @@ import {
   PhoneXMarkIcon as PhoneXMarkIconSolid,
   PhotoIcon as PhotoIconSolid,
   PlayIcon as PlayIconSolid,
+  PlusIcon as PlusIconSolid,
   PuzzlePieceIcon as PuzzlePieceIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
   ScaleIcon as ScaleIconSolid,
@@ -287,6 +289,10 @@ export const iconRegistry = {
   creditCard: {
     outline: CreditCardIcon,
     solid: CreditCardIconSolid,
+  },
+  plus: {
+    outline: PlusIcon,
+    solid: PlusIconSolid,
   },
   cube: {
     outline: CubeIcon,

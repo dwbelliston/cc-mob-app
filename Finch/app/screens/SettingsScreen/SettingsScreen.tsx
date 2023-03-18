@@ -63,6 +63,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "cloudArrowUp",
         tx: "settings.uploads",
+        colorToken: "warning",
       },
       {
         icon: "noSymbol",
@@ -80,6 +81,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "clock",
         tx: "settings.history",
+        colorToken: "warning",
       },
     ],
   },
@@ -89,6 +91,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "chatBubbleBottomCenterText",
         tx: "settings.smsTemplates",
+        navigateScreen: "SmsTemplates",
       },
       {
         icon: "photo",

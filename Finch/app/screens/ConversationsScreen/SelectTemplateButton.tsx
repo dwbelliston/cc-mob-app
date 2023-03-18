@@ -8,6 +8,7 @@ import React from "react"
 
 import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet"
 import { Keyboard } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, IconButton, IconButtonProps, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { translate } from "../../i18n"
@@ -24,6 +25,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
   const [flatData, setFlatData] = React.useState<ISmsTemplate[]>()
 
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
+  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
 
   const { data: dataTemplates, isLoading: isLoadingTemplates } = useListSmsTemplates()
 
@@ -41,6 +43,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
 
   const handleSelected = (smsTemplate: ISmsTemplate) => {
     Haptics.selectionAsync()
+    console.log("smsTemplate", smsTemplate.Message)
     onTemplateSelect(smsTemplate)
     bottomSheetModalRef.current?.close()
   }
@@ -122,7 +125,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
               preset="heading"
               textAlign={"center"}
               fontSize="xl"
-              tx="templates.smstemplates"
+              tx="smsTemplates.templates"
             ></Text>
           </Box>
 
@@ -130,6 +133,9 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
             data={flatData}
             style={{
               paddingTop: spacing.small,
+            }}
+            contentContainerStyle={{
+              paddingBottom: bottomInset,
             }}
             ListEmptyComponent={
               isLoadingTemplates ? (
@@ -139,8 +145,8 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
               ) : (
                 <Box px={spacing.tiny} py={spacing.small} h="full">
                   <DataStatus
-                    title={translate("stream.noTemplates")}
-                    description={translate("stream.noTemplatesDescription")}
+                    title={translate("smsTemplates.noTemplates")}
+                    description={translate("smsTemplates.noTemplatesDescription")}
                     icon={"clipboardDocumentCheck"}
                     colorScheme={"gray"}
                   />

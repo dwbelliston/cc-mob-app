@@ -16,6 +16,7 @@ const en = {
     areYouSure: "Are you sure?",
     save: "Save",
     "saved!": "Saved!",
+    "created!": "Created!",
     tapToEdit: "Tap to edit",
     complete: "Complete",
     inProgress: "In Progess",
@@ -23,7 +24,11 @@ const en = {
     notSupported: "Not Supported",
     active: "Active",
     inActive: "Inactive",
-
+    delete: "Delete",
+    deleted: "Deleted",
+    create: "Create",
+    new: "New",
+    edit: "Edit",
   },
   fieldLabels: {
     name: "Name",
@@ -47,11 +52,10 @@ const en = {
     supportsMMS: "MMS messages",
     supportsVoice: "Voice features",
     assignedOn: "Assigned On",
+    title: "Title",
+    template: "Template",
   },
-  templates: {
-    smstemplates: "Templates",
-    select: "Select",
-  },
+
   inbox: {
     unread: "Unread",
     active: "Active",
@@ -80,8 +84,6 @@ const en = {
   stream: {
     noMessages: "No Messages",
     noMessagesDescription: "Send a message to start the converstion",
-    noTemplates: "No Templates",
-    noTemplatesDescription: "Create templates in desktop app",
   },
   broadcasts: {
     viewBroadcast: "View Broadcast",
@@ -220,6 +222,13 @@ const en = {
     isAllowNotes: "Add conversations as notes to CRM",
     edit: "Edit",
     enabled: "Enabled",
+  },
+  smsTemplates: {
+    templates: "Templates",
+    noTemplates: "No Templates",
+    noTemplatesDescription: "Create templates in desktop app",
+    editInfo:  "Save a message that can be reused from the inbox",
+    editHint:  "You can use ${FirstName} in the template. When the template gets used, it will auto replace the first name of the contact if available.",
   }
 }
 

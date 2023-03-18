@@ -12,12 +12,12 @@ import { Box, Spinner, Stack } from "native-base"
 import React from "react"
 import { Platform } from "react-native"
 
-import { IconButtonProps, Text } from "../../components"
-import { UserAvatar } from "../../components/UserAvatar"
-import useUploadUserAvatar from "../../services/api/userprofile/mutations/useUploadUserAvatar"
-import { spacing } from "../../theme"
-import { useCustomToast } from "../../utils/useCustomToast"
-import { runTodayTimestamp } from "../../utils/useFormatDate"
+import { IconButtonProps, Text } from "../../../components"
+import { UserAvatar } from "../../../components/UserAvatar"
+import useUploadUserAvatar from "../../../services/api/userprofile/mutations/useUploadUserAvatar"
+import { spacing } from "../../../theme"
+import { useCustomToast } from "../../../utils/useCustomToast"
+import { runTodayTimestamp } from "../../../utils/useFormatDate"
 
 export interface IChangeAvatarButtonProps extends IconButtonProps {
   onFileSelect: (brandUrl: string) => void

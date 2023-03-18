@@ -66,8 +66,8 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     dark: "gray.500",
   },
   "text.softest": {
-    light: "gray.200",
-    dark: "gray.500",
+    light: colors.gray[200],
+    dark: colors.gray[700],
   },
   error: {
     light: "error.600",

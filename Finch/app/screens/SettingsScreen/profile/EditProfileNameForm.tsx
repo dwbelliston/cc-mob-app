@@ -2,8 +2,8 @@ import { Stack } from "native-base"
 import React from "react"
 import * as yup from "yup"
 
-import { BottomSheetFormControl } from "../../components/FormControl"
-import { spacing } from "../../theme"
+import { BottomSheetFormControl } from "../../../components/FormControl"
+import { spacing } from "../../../theme"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"

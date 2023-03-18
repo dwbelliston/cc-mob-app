@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { Box, Divider, FlatList, HStack, Pressable, useColorModeValue, View } from "native-base"
+import { Box, Divider, FlatList, HStack, Pressable, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
@@ -28,7 +28,6 @@ export const BlockedScreen: FC<SettingsStackScreenProps<"Blocked">> = observer(
       authenticationStore: { logout },
     } = useStores()
 
-    const statusBarColor = useColorModeValue("dark", "light")
     const [flatData, setFlatData] = React.useState<IBlockedNumberDataItem[]>()
 
     const { conversationStore } = useStores()
@@ -134,7 +133,7 @@ export const BlockedScreen: FC<SettingsStackScreenProps<"Blocked">> = observer(
     }, [debouncedblockedSearch])
 
     return (
-      <Screen preset="fixed" safeAreaEdges={["top"]} statusBarStyle={statusBarColor}>
+      <Screen preset="fixed" safeAreaEdges={["top"]}>
         <View h="full">
           <FlatList
             contentContainerStyle={{

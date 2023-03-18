@@ -2,13 +2,13 @@ import { Stack } from "native-base"
 import React from "react"
 import * as yup from "yup"
 
-import { spacing } from "../../theme"
+import { spacing } from "../../../theme"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-import { FormSingleSwitch } from "../../components/FormSingleSwitch"
-import { ICrmSync } from "../../models/CrmSync"
-import { FormHandle } from "./ProfileScreen"
+import { FormSingleSwitch } from "../../../components/FormSingleSwitch"
+import { ICrmSync } from "../../../models/CrmSync"
+import { FormHandle } from "../profile/ProfileScreen"
 
 export interface IEditCRMSyncEnabledFormInput {
   IsEnabled: ICrmSync["IsEnabled"]
