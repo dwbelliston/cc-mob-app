@@ -12,6 +12,7 @@ import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MyPhoneScreen } from "./MyPhoneScreen"
+import { MySubscriptionScreen } from "./MySubscriptionScreen"
 import { ProfileScreen } from "./ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
 
@@ -21,6 +22,7 @@ export type SettingsStackParamList = {
   DeleteAccount: undefined
   Blocked: undefined
   MyPhone: undefined
+  MySubscription: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -108,6 +110,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={MyPhoneScreen}
         options={{
           headerTitle: translate("settings.myPhone"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"MySubscription"}
+        component={MySubscriptionScreen}
+        options={{
+          headerTitle: translate("settings.mySubscription"),
           headerStyle: {
             backgroundColor: headerBg,
           },

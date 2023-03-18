@@ -43,7 +43,8 @@ const SETTINGS_LINKS: ISectionData[] = [
       },
       {
         icon: "creditCard",
-        tx: "settings.mySubcription",
+        tx: "settings.mySubscription",
+        navigateScreen: "MySubscription",
       },
     ],
   },
@@ -68,6 +69,10 @@ const SETTINGS_LINKS: ISectionData[] = [
 
         navigateScreen: "Blocked",
         colorToken: "success",
+      },
+      {
+        icon: "arrowLeftRight",
+        tx: "settings.crmSync",
       },
       {
         icon: "clock",

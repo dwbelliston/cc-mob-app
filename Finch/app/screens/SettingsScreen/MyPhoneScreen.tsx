@@ -27,7 +27,7 @@ export const MyPhoneScreen: FC<SettingsStackScreenProps<"MyPhone">> = observer(
         }}
         style={{}}
       >
-        <Box py={spacing.tiny}>
+        <Box py={spacing.extraSmall}>
           {isLoadingProfile ? (
             <Spinner></Spinner>
           ) : (

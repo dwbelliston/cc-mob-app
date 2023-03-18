@@ -5,7 +5,9 @@ import {
   ArrowLeftOnRectangleIcon,
   ArrowLongLeftIcon,
   ArrowLongRightIcon,
+  ArrowPathIcon,
   ArrowRightIcon,
+  ArrowsRightLeftIcon,
   ArrowTopRightOnSquareIcon,
   ArrowUpIcon,
   ArrowUpRightIcon,
@@ -29,6 +31,7 @@ import {
   CloudArrowDownIcon,
   Cog6ToothIcon,
   CreditCardIcon,
+  CubeIcon,
   DocumentDuplicateIcon,
   EllipsisHorizontalIcon,
   EllipsisVerticalIcon,
@@ -87,7 +90,9 @@ import {
   ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconSolid,
   ArrowLongLeftIcon as ArrowLongLeftIconSolid,
   ArrowLongRightIcon as ArrowLongRightIconSolid,
+  ArrowPathIcon as ArrowPathIconSolid,
   ArrowRightIcon as ArrowRightIconSolid,
+  ArrowsRightLeftIcon as ArrowsRightLeftIconSolid,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid,
   ArrowUpIcon as ArrowUpIconSolid,
   ArrowUpRightIcon as ArrowUpRightIconSolid,
@@ -110,6 +115,7 @@ import {
   CloudArrowDownIcon as CloudArrowDownIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
   CreditCardIcon as CreditCardIconSolid,
+  CubeIcon as CubeIconSolid,
   DocumentDuplicateIcon as DocumentDuplicateIconSolid,
   EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
   EllipsisVerticalIcon as EllipsisVerticalIconSolid,
@@ -224,6 +230,10 @@ export const iconRegistry = {
     outline: LockOpenIcon,
     solid: LockOpenIconSolid,
   },
+  arrowPath: {
+    outline: ArrowPathIcon,
+    solid: ArrowPathIconSolid,
+  },
   lockClosed: {
     outline: LockClosedIcon,
     solid: LockClosedIconSolid,
@@ -276,6 +286,10 @@ export const iconRegistry = {
     outline: CreditCardIcon,
     solid: CreditCardIconSolid,
   },
+  cube: {
+    outline: CubeIcon,
+    solid: CubeIconSolid,
+  },
   shieldCheck: {
     outline: ShieldCheckIcon,
     solid: ShieldCheckIconSolid,
@@ -287,6 +301,10 @@ export const iconRegistry = {
   handThumbUp: {
     outline: HandThumbUpIcon,
     solid: HandThumbUpIconSolid,
+  },
+  arrowLeftRight: {
+    outline: ArrowsRightLeftIcon,
+    solid: ArrowsRightLeftIconSolid,
   },
   arrowRightLong: {
     outline: ArrowLongRightIcon,

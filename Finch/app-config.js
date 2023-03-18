@@ -3,8 +3,7 @@ import Auth from "@aws-amplify/auth"
 import {
   REACT_APP_API_CONTACTS_HOST,
   REACT_APP_API_OUTBOUNDS_HOST,
-  REACT_APP_API_USERS_HOST,
-  REACT_APP_USERPOOL_CLIENT,
+  REACT_APP_API_USERS_HOST, REACT_APP_STRIPE_RETURN_URL, REACT_APP_USERPOOL_CLIENT,
   REACT_APP_USERPOOL_ID,
   REACT_APP_USERPOOL_REGION
 } from "@env"
@@ -17,6 +16,9 @@ const appConfig = {
     userPoolId: REACT_APP_USERPOOL_ID,
     userPoolWebClientId: REACT_APP_USERPOOL_CLIENT,
     authenticationFlowType: "USER_SRP_AUTH",
+  },
+  Stripe: {
+    billingPortalReturnUrl: REACT_APP_STRIPE_RETURN_URL,
   },
   API: {
     endpoints: [

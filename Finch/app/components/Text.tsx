@@ -71,7 +71,6 @@ const $presets = {
   subheading: {
     fontSize: "lg",
     fontWeight: "semibold",
-    maxFontSizeMultiplier: 1,
   },
   legal: {
     fontSize: "xs",
