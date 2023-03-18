@@ -10,6 +10,7 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
+import { CrmSyncScreen } from "./CrmSync"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MyPhoneScreen } from "./MyPhoneScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
@@ -23,6 +24,7 @@ export type SettingsStackParamList = {
   Blocked: undefined
   MyPhone: undefined
   MySubscription: undefined
+  CrmSync: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -120,6 +122,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={MySubscriptionScreen}
         options={{
           headerTitle: translate("settings.mySubscription"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"CrmSync"}
+        component={CrmSyncScreen}
+        options={{
+          headerTitle: translate("settings.crmSync"),
           headerStyle: {
             backgroundColor: headerBg,
           },

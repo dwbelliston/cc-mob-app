@@ -1,7 +1,6 @@
 import { useHeaderHeight } from "@react-navigation/elements"
-import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Box, SectionList, useColorModeValue, View } from "native-base"
+import { Box, SectionList, View } from "native-base"
 import React, { FC } from "react"
 
 import appConfig from "../../../app-config"
@@ -45,6 +44,8 @@ const SETTINGS_LINKS: ISectionData[] = [
         icon: "creditCard",
         tx: "settings.mySubscription",
         navigateScreen: "MySubscription",
+
+        colorToken: "success",
       },
     ],
   },
@@ -73,6 +74,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "arrowLeftRight",
         tx: "settings.crmSync",
+        navigateScreen: "CrmSync",
       },
       {
         icon: "clock",
@@ -129,25 +131,13 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
       authenticationStore: { logout },
     } = useStores()
 
-    const statusBarColor = useColorModeValue("dark", "light")
     const bgSectionTitle = useColor("bg.main")
 
     const appVersion = `App version: ${appConfig.version}`
 
     const headerHeight = useHeaderHeight()
 
-    // const handleOnViewContact = React.useCallback(
-    //   ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => {
-    //     navigation.getParent().navigate("ContactDetail", {
-    //       contactName,
-    //       contactId,
-    //     })
-    //   },
-    //   [],
-    // )
-
     const handleOnItemPress = (item: ISectionDataItem) => {
-      Haptics.selectionAsync()
       if (item.navigateScreen) {
         navigation.navigate(item.navigateScreen)
       } else if (item.isLogout) {

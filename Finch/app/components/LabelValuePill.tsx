@@ -1,11 +1,15 @@
+import * as Haptics from "expo-haptics"
 import { Box, Button, HStack, IStackProps, Pressable, Stack } from "native-base"
 import React from "react"
+import { IConnector, SUPPORTED_CRM_URLS } from "../models/Connector"
 import { IContact, runFormatSourceDisplay } from "../models/Contact"
 import { ITag } from "../models/Tag"
 import { spacing } from "../theme"
 import { useColor } from "../theme/useColor"
+import { AutoImage } from "./AutoImage"
 import { ContactSourceAvatar } from "./ContactSourceAvatar"
 import { CopyButton } from "./CopyButton"
+import { Dot, IDotProps } from "./Dot"
 import { Icon, IconProps } from "./Icon"
 import { OpenMapButton } from "./OpenMapButton"
 import { ShareButton } from "./ShareButton"
@@ -53,8 +57,15 @@ export const ValueText = ({
 }: ILabelValuePillTextProps) => {
   const bgPill = useColor("bg.high")
 
+  const handleOnPress = () => {
+    if (onEdit) {
+      Haptics.selectionAsync()
+      onEdit()
+    }
+  }
+
   return (
-    <Pressable onPress={onEdit}>
+    <Pressable onPress={handleOnPress}>
       <Stack space={1}>
         <HStack
           space={4}
@@ -139,8 +150,15 @@ export const ValueAddress = ({
 
   const singleVal = `${line1}\n${line2}`
 
+  const handleOnPress = () => {
+    if (onEdit) {
+      Haptics.selectionAsync()
+      onEdit()
+    }
+  }
+
   return (
-    <Pressable onPress={onEdit}>
+    <Pressable onPress={handleOnPress}>
       <Stack space={1}>
         <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
           <Label icon={icon} label={label} />
@@ -233,9 +251,127 @@ export const ValueContactSource = ({
   )
 }
 
+export interface ILabelValuePillSourceCrmProps extends IStackProps {
+  icon?: IconProps["icon"]
+  label: TextProps["tx"]
+  sourceCrm: IConnector["ConnectorType"]
+}
+
+export const ValueSourceCrm = ({
+  label,
+  icon,
+  sourceCrm,
+  ...rest
+}: ILabelValuePillSourceCrmProps) => {
+  const bgPill = useColor("bg.high")
+
+  return (
+    <Stack space={1}>
+      <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
+        <Label icon={icon} label={label} />
+      </HStack>
+
+      <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
+        {sourceCrm ? (
+          <HStack
+            bg="white"
+            rounded="lg"
+            py={spacing.tiny}
+            overflow={"hidden"}
+            justifyContent="center"
+          >
+            <AutoImage
+              resizeMode="cover"
+              source={{
+                uri: SUPPORTED_CRM_URLS[sourceCrm],
+              }}
+              maxHeight={48}
+            />
+          </HStack>
+        ) : (
+          <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
+        )}
+      </Stack>
+    </Stack>
+  )
+}
+export interface ILabelValuePillBooleanProps extends IStackProps {
+  icon?: IconProps["icon"]
+  label: TextProps["tx"]
+  trueTx?: TextProps["tx"]
+  trueText?: TextProps["text"]
+  falseTx?: TextProps["tx"]
+  falseText?: TextProps["text"]
+  value: boolean
+  dotProps?: IDotProps
+  onEdit?: () => void
+}
+
+export const ValueBoolean = ({
+  label,
+  icon,
+  value,
+  dotProps,
+  onEdit,
+  trueTx,
+  falseTx,
+  trueText,
+  falseText,
+  ...rest
+}: ILabelValuePillBooleanProps) => {
+  const bgPill = useColor("bg.high")
+
+  const handleOnPress = () => {
+    if (onEdit) {
+      Haptics.selectionAsync()
+      onEdit()
+    }
+  }
+
+  return (
+    <Pressable onPress={handleOnPress}>
+      <Stack space={1}>
+        <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
+          <Label icon={icon} label={label} />
+        </HStack>
+
+        <HStack
+          space={0}
+          flex={1}
+          bg={bgPill}
+          {...PILL_STYLES}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <HStack alignItems={"center"} space={spacing.tiny}>
+            {value ? (
+              <>
+                <Dot.Success {...dotProps} />
+                <Text tx={trueTx ? trueTx : "common.active"} text={trueText}></Text>
+              </>
+            ) : (
+              <>
+                <Dot.Warning {...dotProps} />
+                <Text tx={falseTx ? falseTx : "common.inActive"} text={falseText}></Text>
+              </>
+            )}
+          </HStack>
+          {onEdit ? (
+            <Box>
+              <Icon size={16} icon="pencilSquare" />
+            </Box>
+          ) : null}
+        </HStack>
+      </Stack>
+    </Pressable>
+  )
+}
+
 export const LabelValuePill = {
   Text: ValueText,
   Address: ValueAddress,
   Tags: ValueTags,
   ContactSource: ValueContactSource,
+  SourceCrm: ValueSourceCrm,
+  Boolean: ValueBoolean,
 }

@@ -1,3 +1,4 @@
+import * as Haptics from "expo-haptics"
 import { HStack, Pressable, View } from "native-base"
 import { spacing } from "../theme"
 import { Icon, IconProps } from "./Icon"
@@ -13,8 +14,15 @@ interface IProps {
 export const PressableActionRow = (props: IProps) => {
   const { colorToken, tx, icon, onPress, ...rest } = props
 
+  const handleOnPress = () => {
+    if (onPress) {
+      Haptics.selectionAsync()
+      onPress()
+    }
+  }
+
   return (
-    <Pressable onPress={onPress}>
+    <Pressable onPress={handleOnPress}>
       <View w="full">
         <HStack
           flex={1}

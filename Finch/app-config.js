@@ -5,7 +5,8 @@ import {
   REACT_APP_API_OUTBOUNDS_HOST,
   REACT_APP_API_USERS_HOST, REACT_APP_STRIPE_RETURN_URL, REACT_APP_USERPOOL_CLIENT,
   REACT_APP_USERPOOL_ID,
-  REACT_APP_USERPOOL_REGION
+  REACT_APP_USERPOOL_REGION,
+  REACT_APP_WEB_HOST
 } from "@env"
 import { APIEndpoints } from "./app/services/api/config"
 
@@ -16,6 +17,9 @@ const appConfig = {
     userPoolId: REACT_APP_USERPOOL_ID,
     userPoolWebClientId: REACT_APP_USERPOOL_CLIENT,
     authenticationFlowType: "USER_SRP_AUTH",
+  },
+  Web: {
+    hostname: REACT_APP_WEB_HOST
   },
   Stripe: {
     billingPortalReturnUrl: REACT_APP_STRIPE_RETURN_URL,

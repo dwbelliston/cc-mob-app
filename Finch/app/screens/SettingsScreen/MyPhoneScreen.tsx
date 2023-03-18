@@ -8,8 +8,7 @@ import useReadUserProfile from "../../services/api/userprofile/queries/useReadUs
 import { spacing } from "../../theme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { translate } from "../../i18n"
-import { runFormatDate } from "../../utils/useFormatDate"
+import { runFormatDateWithAt } from "../../utils/useFormatDate"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 import { SettingsStackScreenProps } from "./SettingsStack"
 
@@ -42,36 +41,31 @@ export const MyPhoneScreen: FC<SettingsStackScreenProps<"MyPhone">> = observer(
                 text={runFormatPhoneSimple(userProfile?.RegisteredNumber.PhoneNumber)}
               />
               <LabelValuePill.Text
-                label="fieldLabels.createdAt"
+                label="fieldLabels.assignedOn"
                 icon="clock"
-                text={runFormatDate(userProfile?.RegisteredNumber.DateCreated)}
+                text={runFormatDateWithAt(userProfile?.RegisteredNumber.DateCreated)}
               />
-              <LabelValuePill.Text
+
+              <LabelValuePill.Boolean
                 label="fieldLabels.registrationStatus"
                 icon="fingerPrint"
-                text={
-                  userProfile.IsPhoneRegistered
-                    ? translate("common.complete")
-                    : translate("common.inProgress")
-                }
+                value={userProfile.IsPhoneRegistered}
+                trueTx={"common.complete"}
+                falseTx={"common.inProgress"}
               />
-              <LabelValuePill.Text
+              <LabelValuePill.Boolean
                 label="fieldLabels.supportsMMS"
-                icon="photo"
-                text={
-                  userProfile?.RegisteredNumber?.Capabilities?.IsMMSEnabled
-                    ? translate("common.supported")
-                    : translate("common.notSupported")
-                }
+                icon="fingerPrint"
+                value={userProfile?.RegisteredNumber?.Capabilities?.IsMMSEnabled}
+                trueTx={"common.supported"}
+                falseTx={"common.notSupported"}
               />
-              <LabelValuePill.Text
+              <LabelValuePill.Boolean
                 label="fieldLabels.supportsVoice"
-                icon="phoneArrowUpRight"
-                text={
-                  userProfile?.RegisteredNumber?.Capabilities?.IsVoiceEnabled
-                    ? translate("common.supported")
-                    : translate("common.notSupported")
-                }
+                icon="fingerPrint"
+                value={userProfile?.RegisteredNumber?.Capabilities?.IsVoiceEnabled}
+                trueTx={"common.supported"}
+                falseTx={"common.notSupported"}
               />
             </Stack>
           )}

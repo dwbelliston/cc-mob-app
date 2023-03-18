@@ -74,6 +74,13 @@ export const MySubscriptionScreen: FC<SettingsStackScreenProps<"MySubscription">
                   icon="creditCard"
                   text={userProfile?.Billing.BillingType}
                 />
+                <LabelValuePill.Boolean
+                  label="billing.subscriptionStatus"
+                  icon="checkCircle"
+                  value={userProfile?.Billing?.SubscriptionStatus === "active"}
+                  trueText={userProfile?.Billing?.SubscriptionStatus}
+                  falseText={userProfile?.Billing?.SubscriptionStatus}
+                />
                 <LabelValuePill.Text
                   label="billing.productName"
                   icon="cube"
@@ -99,11 +106,7 @@ export const MySubscriptionScreen: FC<SettingsStackScreenProps<"MySubscription">
                   icon="clock"
                   text={runFormatTimeWithAt(userProfile?.Billing.CurrentPeriodEndTime)}
                 />
-                <LabelValuePill.Text
-                  label="billing.subscriptionStatus"
-                  icon="checkCircle"
-                  text={userProfile?.Billing?.SubscriptionStatus}
-                />
+
                 {!userProfile?.Billing?.CancelAtTime ? (
                   <LabelValuePill.Text
                     label="billing.willCancelAt"

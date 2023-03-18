@@ -69,6 +69,7 @@ import {
   PhoneXMarkIcon,
   PhotoIcon,
   PlayIcon,
+  PuzzlePieceIcon,
   RocketLaunchIcon,
   ScaleIcon,
   ShareIcon,
@@ -153,6 +154,7 @@ import {
   PhoneXMarkIcon as PhoneXMarkIconSolid,
   PhotoIcon as PhotoIconSolid,
   PlayIcon as PlayIconSolid,
+  PuzzlePieceIcon as PuzzlePieceIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
   ScaleIcon as ScaleIconSolid,
   ShareIcon as ShareIconSolid,
@@ -289,6 +291,10 @@ export const iconRegistry = {
   cube: {
     outline: CubeIcon,
     solid: CubeIconSolid,
+  },
+  puzzle: {
+    outline: PuzzlePieceIcon,
+    solid: PuzzlePieceIconSolid,
   },
   shieldCheck: {
     outline: ShieldCheckIcon,

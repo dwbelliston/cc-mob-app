@@ -5,7 +5,7 @@ import { IUserProfile, IUserProfileUpdateForm } from "../../../../models/UserPro
 import { APIEndpoints } from "../../config"
 import { userprofileKeys } from "../userprofile"
 
-const makeApiRequest = (userProfileForm): Promise<IUserProfile> => {
+const makeApiRequest = (userProfileForm: IUserProfileUpdateForm): Promise<IUserProfile> => {
   const reqData = {
     body: userProfileForm,
   }

@@ -21,7 +21,8 @@ const en = {
     inProgress: "In Progess",
     supported: "Supported",
     notSupported: "Not Supported",
-
+    active: "Active",
+    inActive: "Inactive",
 
   },
   fieldLabels: {
@@ -45,6 +46,7 @@ const en = {
     registrationStatus: "Registration Status",
     supportsMMS: "MMS messages",
     supportsVoice: "Voice features",
+    assignedOn: "Assigned On",
   },
   templates: {
     smstemplates: "Templates",
@@ -205,6 +207,19 @@ const en = {
     changePayment: "Change Payment",
     editSubscription: "Edit Subscription",
     failedToOpen: "Error Loading",
+  },
+  crmSync: {
+    pageHeader: "CRM Sync",
+    pageSubheader: "The easiest way to use CurrentClient is setting up a sync. Contacts will be synced from your CRM daily. CRM Sync should be setup on the desktop app.",
+    createNew: "Set up connector",
+    supportedCRMS: "Supported CRMs",
+    activeSyncSource: "Sync Source",
+    statusSync: "Sync Status",
+    isAllowCreate: "Push new contacts to CRM",
+    isAllowUpdate: "Push contact edits to CRM",
+    isAllowNotes: "Add conversations as notes to CRM",
+    edit: "Edit",
+    enabled: "Enabled",
   }
 }
 
