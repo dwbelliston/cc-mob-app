@@ -10,6 +10,7 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
+import { CallforwardingScreen } from "./callforwarding/CallforwardingScreen"
 import { ComplianceScreen } from "./compliance/ComplianceScreen"
 import { CrmSyncScreen } from "./crmsync/CrmSync"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
@@ -29,6 +30,7 @@ export type SettingsStackParamList = {
   CrmSync: undefined
   SmsTemplates: undefined
   Compliance: undefined
+  Callforwarding: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -156,6 +158,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={ComplianceScreen}
         options={{
           headerTitle: translate("settings.compliance"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"Callforwarding"}
+        component={CallforwardingScreen}
+        options={{
+          headerTitle: translate("settings.callForwarding"),
           headerStyle: {
             backgroundColor: headerBg,
           },

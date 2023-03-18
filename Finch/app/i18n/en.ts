@@ -56,6 +56,7 @@ const en = {
     supportsVoice: "Voice features",
     assignedOn: "Assigned On",
     title: "Title",
+    number: "Number",
     template: "Template",
   },
 
@@ -249,6 +250,15 @@ const en = {
     noTemplatesDescription: "Create templates in desktop app",
     editInfo:  "Save a message that can be reused from the inbox",
     editHint:  "You can use ${FirstName} in the template. When the template gets used, it will auto replace the first name of the contact if available.",
+  },
+  callforwarding: {
+    pageHeader: "Call Forwarding",
+    pageSubheader: "When a client calls your CurrentClient number, you can optionally have it forward to a different number. Notice, if you use this feature, you will not be able to use the voicemail and business hours features in CurrentClient.",
+    status: "Call forwarding status",
+    isOn: "Call forwarding is on",
+    isOff: "Call forwarding is off",
+    number:"Number to forward to"
+
   }
 }
 
