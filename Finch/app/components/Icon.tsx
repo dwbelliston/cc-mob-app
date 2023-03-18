@@ -73,6 +73,7 @@ import {
   StarIcon,
   StopIcon,
   TagIcon,
+  TrashIcon,
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
@@ -152,6 +153,7 @@ import {
   StarIcon as StarIconSolid,
   StopIcon as StopIconSolid,
   TagIcon as TagIconSolid,
+  TrashIcon as TrashIconSolid,
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
@@ -507,5 +509,9 @@ export const iconRegistry = {
   briefcase: {
     outline: BriefcaseIcon,
     solid: BriefcaseIconSolid,
+  },
+  trash: {
+    outline: TrashIcon,
+    solid: TrashIconSolid,
   },
 }

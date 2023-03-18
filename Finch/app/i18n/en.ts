@@ -17,6 +17,7 @@ const en = {
     save: "Save",
     "saved!": "Saved!",
     tapToEdit: "Tap to edit",
+
   },
   fieldLabels: {
     name: "Name",
@@ -170,6 +171,12 @@ const en = {
     noBlockedNumbersDescription: "Nice! You don't have any blocked numbers.",
     blockedNumbersReachOut: "It's not personal",
     blockedNumbersReachOutMore: "Often clients just didnt recognize the number.",
+    deleteAccount: "Delete Account",
+    deleteAccountSub: "You are about to start the process for deleting your account.",
+    deleteAccountExplainConfirm: "Type Delete to continue",
+    deleteAccountExplain: "We understand that sometimes things just dont work out. We wish you the very best success in everything you do! If you would like to proceed in deleting your account then you can start the process by confirming below.\n\nOnce you submit, your account will begin to be deleted and you will receive a confirmation from the CurrentClient support team that the deletion is complete.\n\nIf you would like to keep your phone number and port it to another service, please let us know and we are happy to assist you in that!\n\nThe process will take up to 2 weeks to complete.",
+    requestComplete: "Request complete",
+    deleteRequestedHelp: "Please reach out to us if you have any questions at admin@currentclient.com",
   }
 }
 

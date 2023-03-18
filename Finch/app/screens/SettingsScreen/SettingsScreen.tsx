@@ -1,12 +1,12 @@
 import { useHeaderHeight } from "@react-navigation/elements"
 import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Box, HStack, SectionList, useColorModeValue, View } from "native-base"
+import { Box, SectionList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
-import { Pressable } from "react-native"
 
 import appConfig from "../../../app-config"
-import { Icon, IconProps, Screen, Text, TextProps } from "../../components"
+import { IconProps, Screen, Text, TextProps } from "../../components"
+import { PressableActionRow } from "../../components/PressableActionRow"
 import { useStores } from "../../models"
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
@@ -32,6 +32,7 @@ const SETTINGS_LINKS: ISectionData[] = [
         icon: "userCircle",
         tx: "settings.myProfile",
         navigateScreen: "Profile",
+        colorToken: "success",
       },
       {
         icon: "phone",
@@ -146,34 +147,14 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
 
     const renderItem = React.useCallback(({ item }: { item: ISectionDataItem }) => {
       return (
-        <View w="full">
-          <Pressable
-            onPress={() => {
-              handleOnItemPress(item)
-            }}
-          >
-            <HStack
-              flex={1}
-              justifyContent="space-between"
-              py={spacing.tiny}
-              px={spacing.tiny}
-              alignItems="center"
-            >
-              {/* Icon */}
-              <HStack flex={1} space={spacing.tiny} alignItems="center">
-                <Icon colorToken={item.colorToken} size={20} icon={item.icon}></Icon>
-                {/* Label */}
-                {/* Arror */}
-                <Text
-                  colorToken={item.colorToken}
-                  // fontSize="md"
-                  tx={item.tx}
-                ></Text>
-              </HStack>
-              <Icon colorToken={"text.softer"} size={20} icon="chevronRight"></Icon>
-            </HStack>
-          </Pressable>
-        </View>
+        <PressableActionRow
+          onPress={() => {
+            handleOnItemPress(item)
+          }}
+          icon={{ icon: item.icon }}
+          tx={item.tx}
+          colorToken={item.colorToken}
+        />
       )
     }, [])
 

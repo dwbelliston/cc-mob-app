@@ -10,6 +10,7 @@ import { colors, spacing } from "../../theme"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { PressableActionRow } from "../../components/PressableActionRow"
 import { translate } from "../../i18n"
 import useUploadUserMedia from "../../services/api/usermedia/mutations/useUploadUserMedia"
 import useUpdateUserProfile from "../../services/api/userprofile/mutations/useUpdateUserProfile"
@@ -38,13 +39,14 @@ export type FormHandle = {
 
 export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
   function ProfileScreen(_props) {
+    const { navigation } = _props
     // ref
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
     const formRef = React.useRef<FormHandle>(null)
 
     const snapPoints = React.useMemo(() => ["50%", "80%"], [])
-    const { top: topInset } = useSafeAreaInsets()
+    const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
 
     const toast = useCustomToast()
 
@@ -86,6 +88,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
         toast.error({ title: "Error saving" })
       }
     }
+
     const handleOnSubmitCompanyUpdate = async (data: IEditProfileCompanyNameFormInput) => {
       try {
         await mutateAsyncProfile({ ...data })
@@ -125,6 +128,10 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
       bottomSheetModalRef.current?.present()
     }
 
+    const handleOnDelete = () => {
+      navigation.navigate("DeleteAccount")
+    }
+
     const handleOnFileSelected = async (brandUrl: string) => {
       // const messageMediaItemsUpdate = messageMediaItems.map((mediaItem) => mediaItem)
       // messageMediaItemsUpdate.push(newMediaItem)
@@ -142,7 +149,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
       <Screen
         preset="scroll"
         contentContainerStyle={{
-          paddingBottom: spacing.large,
+          paddingBottom: bottomInset + spacing.large,
         }}
         style={{}}
         statusBarStyle={statusBarColor}
@@ -189,6 +196,14 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
                 text={userProfile.CompanyName}
                 onEdit={handleOnEditCompanyName}
               />
+
+              <PressableActionRow
+                tx="settings.deleteAccount"
+                icon={{
+                  icon: "trash",
+                }}
+                onPress={handleOnDelete}
+              ></PressableActionRow>
             </Stack>
           )}
         </Box>

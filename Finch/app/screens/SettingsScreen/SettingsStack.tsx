@@ -10,12 +10,14 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
+import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { ProfileScreen } from "./ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
 
 export type SettingsStackParamList = {
   Settings: undefined
   Profile: undefined
+  DeleteAccount: undefined
   Blocked: undefined
 }
 
@@ -74,6 +76,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={ProfileScreen}
         options={{
           headerTitle: translate("settings.myProfile"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"DeleteAccount"}
+        component={DeleteAccountScreen}
+        options={{
+          headerTitle: translate("settings.deleteAccount"),
           headerStyle: {
             backgroundColor: headerBg,
           },

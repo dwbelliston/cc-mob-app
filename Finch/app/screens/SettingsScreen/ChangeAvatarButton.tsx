@@ -51,11 +51,11 @@ export const ChangeAvatarButton = ({
     if (isLoadingUpload) return
     Haptics.selectionAsync()
     const options = ["Take a picture", "Choose from photos", "Cancel"]
-    const cancelButtonIndex = 3
+    const cancelButtonIndex = 2
 
     showActionSheetWithOptions(
       {
-        title: "Add media file",
+        title: "Change Profile",
         options,
         cancelButtonIndex,
         // destructiveButtonIndex,

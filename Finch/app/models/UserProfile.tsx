@@ -87,6 +87,7 @@ export interface IUserProfileUpdateForm {
   State?: string
   Zip?: string
   BrandImageUrl?: string
+  IsDeleteRequested?: boolean
 }
 
 export interface IRegisteredNumber {
@@ -176,6 +177,7 @@ export interface IUserProfile extends IUserProfileBase {
   CallForwarding?: ICallForwarding
   Milestones?: IMilestones
   // Governance?: { [organizationId: string]: IUserGovernance }
+  IsDeleteRequested?: boolean
 }
 
 export interface IUserProfileCallForwardingForm {
