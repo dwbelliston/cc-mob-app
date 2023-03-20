@@ -52,7 +52,7 @@ export const CallforwardingScreen: FC<SettingsStackScreenProps<"Callforwarding">
       try {
         await mutateAsyncUpdate(data)
 
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })

@@ -15,7 +15,7 @@ const en = {
     compliance: "Compliance",
     areYouSure: "Are you sure?",
     save: "Save",
-    "saved!": "Saved!",
+    "saved": "Saved",
     "created!": "Created!",
     tapToEdit: "Tap to edit",
     complete: "Complete",
@@ -248,7 +248,7 @@ const en = {
   compliance: {
     pageHeader: "Compliance Message Setup",
     pageSubheader: "When a text is sent to a client's number for the very first time, we can automatically include a message that contains opt-in/opt-out language.",
-    readMore: "Read more about TCPA",
+    readMore: "Read more about the TCPA",
     enabled: "Enabled",
     autoSendMessage: "Auto Send Message",
     autoSendIsOn: "Auto send is active",

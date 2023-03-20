@@ -227,9 +227,9 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
           bg={bgSectionTitle}
           fontWeight={"semibold"}
           colorToken="text.softer"
-          py={spacing.micro}
           px={spacing.tiny}
           tx={titleTx}
+          py={spacing.micro}
         ></Text>
       )
     }, [])
@@ -237,7 +237,6 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
     return (
       <Screen
         preset="fixed"
-        safeAreaEdges={["bottom"]}
         contentContainerStyle={{
           flex: 1,
         }}
@@ -255,6 +254,7 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
             ListFooterComponent={renderFooter}
+            // SectionSeparatorComponent={() => <Divider mt={spacing.small} bg="transparent" />}
           />
         </Box>
       </Screen>

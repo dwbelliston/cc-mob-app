@@ -79,7 +79,7 @@ export const CrmSyncScreen: FC<SettingsStackScreenProps<"MySubscription">> = obs
             userId: userProfile.UserId,
             updateData: { IsEnabled: data.IsEnabled },
           })
-          toast.success({ title: translate("common.saved!") })
+          toast.success({ title: translate("common.saved") })
           handleOnCancel()
         } catch (e) {
           toast.error({ title: "Error saving" })

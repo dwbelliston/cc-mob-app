@@ -1,3 +1,4 @@
+import * as WebBrowser from "expo-web-browser"
 import { observer } from "mobx-react-lite"
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
@@ -53,7 +54,9 @@ export const ComplianceScreen: FC<SettingsStackScreenProps<"Compliance">> = obse
     const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } =
       useUpdateComplianceMessage()
 
-    const onViewTCPA = () => {}
+    const onViewTCPA = () => {
+      WebBrowser.openBrowserAsync("https://www.fcc.gov/sites/default/files/tcpa-rules.pdf")
+    }
 
     const handleOnEdit = () => {
       setEditMode(EditFormModeEnum.ISENABLED)
@@ -69,7 +72,7 @@ export const ComplianceScreen: FC<SettingsStackScreenProps<"Compliance">> = obse
       try {
         await mutateAsyncUpdate(data)
 
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })
@@ -79,7 +82,7 @@ export const ComplianceScreen: FC<SettingsStackScreenProps<"Compliance">> = obse
       try {
         await mutateAsyncUpdate(data)
 
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })

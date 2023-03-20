@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import { Box, Divider, Fab, FlatList, HStack, Spinner, Stack, View } from "native-base"
+import { Box, Fab, FlatList, HStack, Spinner, Stack, View } from "native-base"
 import React, { FC } from "react"
 
 import { Button, Icon, Screen, Text } from "../../../components"
@@ -90,7 +90,7 @@ export const SmsTemplatesScreen: FC<SettingsStackScreenProps<"MySubscription">> 
             smsTemplateId: editTemplate.SmsTemplateId,
             updateData: data,
           })
-          toast.success({ title: translate("common.saved!") })
+          toast.success({ title: translate("common.saved") })
           handleOnCancel()
         } catch (e) {
           toast.error({ title: "Error saving" })
@@ -176,7 +176,7 @@ export const SmsTemplatesScreen: FC<SettingsStackScreenProps<"MySubscription">> 
               }
               keyExtractor={(i) => i.SmsTemplateId}
               renderItem={renderItem}
-              ItemSeparatorComponent={() => <Divider py={spacing.micro} bg="transparent" />}
+              // ItemSeparatorComponent={() => <Divider py={spacing.micro} bg="transparent" />}
             />
           )}
         </View>

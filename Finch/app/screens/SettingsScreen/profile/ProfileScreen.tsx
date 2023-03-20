@@ -62,7 +62,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
     const handleOnSubmitProfileUpdate = async (data: IEditProfileNameFormInput) => {
       try {
         await mutateAsyncProfile({ ...data })
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })
@@ -72,7 +72,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
     const handleOnSubmitProfilePhoneUpdate = async (data: IEditProfilePhoneFormInput) => {
       try {
         await mutateAsyncProfile({ ...data })
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })
@@ -82,7 +82,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
     const handleOnSubmitProfileAddressUpdate = async (data: IEditProfileAddressFormInput) => {
       try {
         await mutateAsyncProfile({ ...data })
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })
@@ -92,7 +92,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
     const handleOnSubmitCompanyUpdate = async (data: IEditProfileCompanyNameFormInput) => {
       try {
         await mutateAsyncProfile({ ...data })
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })
@@ -138,7 +138,7 @@ export const ProfileScreen: FC<SettingsStackScreenProps<"Profile">> = observer(
       // setMessageMediaItems(messageMediaItemsUpdate)
       try {
         await mutateAsyncProfile({ BrandImageUrl: brandUrl })
-        toast.success({ title: translate("common.saved!") })
+        toast.success({ title: translate("common.saved") })
         handleOnCancel()
       } catch (e) {
         toast.error({ title: "Error saving" })
