@@ -270,7 +270,16 @@ const en = {
     isOn: "Call forwarding is on",
     isOff: "Call forwarding is off",
     number:"Number to forward to"
-
+  },
+  businessHours: {
+    pageHeader: "Business Hours",
+    pageSubheader: "Set up your business hours which then enable you to react to incoming message or calls depending on your business schedule.",
+    turnOnHours:"Turn on hours",
+    businessHours: "Business Hours",
+    isOn: "Hours are on",
+    isOff: "Hours are off",
+    timezone: "Timezone",
+    selectTimezone: "Select Timezone",
   }
 }
 

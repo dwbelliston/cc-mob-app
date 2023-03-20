@@ -1,11 +1,13 @@
 import { API } from "@aws-amplify/api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
-import { ICallFlow, ICallForwardingForm } from "../../../../models/CallFlow"
+import { IBusinessHoursForm, ICallFlow, ICallForwardingForm } from "../../../../models/CallFlow"
 import { APIEndpoints } from "../../config"
 import { callflowKeys } from "../callflow"
 
-const makeApiRequest = (updateData: ICallForwardingForm): Promise<ICallFlow> => {
+const makeApiRequest = (
+  updateData: ICallForwardingForm | IBusinessHoursForm,
+): Promise<ICallFlow> => {
   const reqData = {
     body: updateData,
   }
@@ -15,7 +17,7 @@ const makeApiRequest = (updateData: ICallForwardingForm): Promise<ICallFlow> => 
 const useUpdateCallFlow = () => {
   const queryClient = useQueryClient()
 
-  return useMutation<ICallFlow, AxiosError, ICallForwardingForm>(
+  return useMutation<ICallFlow, AxiosError, ICallForwardingForm | IBusinessHoursForm>(
     (updateData) => makeApiRequest(updateData),
     {
       retry: 0,

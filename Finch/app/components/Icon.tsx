@@ -42,6 +42,8 @@ import {
   FingerPrintIcon,
   FireIcon,
   FunnelIcon,
+  GlobeAltIcon,
+  GlobeAmericasIcon,
   HandThumbUpIcon,
   HashtagIcon,
   HomeIcon,
@@ -84,7 +86,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
-  XMarkIcon,
+  XMarkIcon
 } from "react-native-heroicons/outline"
 import {
   ArrowDownLeftIcon as ArrowDownLeftIconSolid,
@@ -92,8 +94,7 @@ import {
   ArrowLeftIcon as ArrowLeftIconSolid,
   ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconSolid,
   ArrowLongLeftIcon as ArrowLongLeftIconSolid,
-  ArrowLongRightIcon as ArrowLongRightIconSolid,
-  ArrowPathIcon as ArrowPathIconSolid,
+  ArrowLongRightIcon as ArrowLongRightIconSolid, ArrowPathIcon as ArrowPathIconSolid,
   ArrowRightIcon as ArrowRightIconSolid,
   ArrowsRightLeftIcon as ArrowsRightLeftIconSolid,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid,
@@ -129,7 +130,7 @@ import {
   FingerPrintIcon as FingerPrintIconSolid,
   FireIcon as FireIconSolid,
   FunnelIcon as FunnelIconSolid,
-  HandThumbUpIcon as HandThumbUpIconSolid,
+  GlobeAltIcon as GlobeAltIconSolid, GlobeAmericasIcon as GlobeAmericasIconSolid, HandThumbUpIcon as HandThumbUpIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
   IdentificationIcon as IdentificationIconSolid,
@@ -171,7 +172,7 @@ import {
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
-  XMarkIcon as XMarkIconSolid,
+  XMarkIcon as XMarkIconSolid
 } from "react-native-heroicons/solid"
 
 import { Icon as NBIcon, IIconProps as INBIconProps } from "native-base"
@@ -247,6 +248,14 @@ export const iconRegistry = {
   check: {
     outline: CheckIcon,
     solid: CheckIconSolid,
+  },
+  globeAmericas: {
+    outline: GlobeAmericasIcon,
+    solid: GlobeAmericasIconSolid,
+  },
+  globeAlt: {
+    outline: GlobeAltIcon,
+    solid: GlobeAltIconSolid,
   },
   cloudArrowUp: {
     outline: CloudArrowDownIcon,

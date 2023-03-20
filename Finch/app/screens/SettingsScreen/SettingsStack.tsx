@@ -10,6 +10,7 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { BlockedScreen } from "./BlockedScreen"
+import { BusinessHoursScreen } from "./businesshours/BusinessHoursScreen"
 import { CallforwardingScreen } from "./callforwarding/CallforwardingScreen"
 import { ComplianceScreen } from "./compliance/ComplianceScreen"
 import { CrmSyncScreen } from "./crmsync/CrmSync"
@@ -31,6 +32,7 @@ export type SettingsStackParamList = {
   SmsTemplates: undefined
   Compliance: undefined
   Callforwarding: undefined
+  BusinessHours: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -168,6 +170,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={CallforwardingScreen}
         options={{
           headerTitle: translate("settings.callForwarding"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"BusinessHours"}
+        component={BusinessHoursScreen}
+        options={{
+          headerTitle: translate("settings.businessHours"),
           headerStyle: {
             backgroundColor: headerBg,
           },

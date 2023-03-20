@@ -61,6 +61,12 @@ export interface ICallForwardingForm {
   NumberForwardTo?: string
 }
 
+export interface IBusinessHoursForm {
+  IsEnableBusinessHours?: boolean
+  BusinessTimezone?: string
+  BusinessSchedule?: BusinessHourDaySchedule[]
+}
+
 export interface ICallFlowForm {
   IsEnableForwardCall?: boolean
   IsEnableInAppCalling?: boolean

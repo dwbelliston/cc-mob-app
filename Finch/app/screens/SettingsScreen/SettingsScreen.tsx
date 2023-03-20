@@ -64,9 +64,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "clock",
         tx: "settings.businessHours",
-        navigateScreen: "Compliance",
-        colorToken: "text.softer",
-        isSoon: true,
+        navigateScreen: "BusinessHours",
       },
       {
         icon: "bolt",
