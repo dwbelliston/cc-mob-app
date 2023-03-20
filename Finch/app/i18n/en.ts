@@ -34,6 +34,8 @@ const en = {
     open: "Open",
     close: "Close",
     closed: "Closed",
+    desktopOnly: "Desktop Only",
+    desktopOnlyMore: "Please visit the desktop app for this feature.",
   },
   fieldLabels: {
     name: "Name",
@@ -320,6 +322,12 @@ const en = {
     activeAutoReply: "Active auto reply",
     turnOnBusinessHours: "Turn On Business Hours",
     turnOnBusinessHoursMore: "Enable business hours for this to take effect",
+  },
+  voicemail: {
+    pageHeader: "Voicemail",
+    pageSubheader:
+      "Record a new voicemail or upload a file from your computer. You can also enable voicemail transcription, which will convert speech to text and display in your call feed.",
+    notice: "To manage your voicemail settings, please login to the desktop app and go to your settings.",
   },
 }
 

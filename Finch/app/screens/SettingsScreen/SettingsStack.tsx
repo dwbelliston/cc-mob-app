@@ -21,6 +21,7 @@ import { MySubscriptionScreen } from "./MySubscriptionScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
 import { SmsTemplatesScreen } from "./smstemplates/SmsTemplatesScreen"
+import { VoicemailScreen } from "./voicemail/VoicemailScreen"
 
 export type SettingsStackParamList = {
   Settings: undefined
@@ -35,6 +36,7 @@ export type SettingsStackParamList = {
   Callforwarding: undefined
   BusinessHours: undefined
   AutoReplies: undefined
+  Voicemail: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -192,6 +194,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={AutoRepliesScreen}
         options={{
           headerTitle: translate("settings.autoReplies"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"Voicemail"}
+        component={VoicemailScreen}
+        options={{
+          headerTitle: translate("settings.voicemail"),
           headerStyle: {
             backgroundColor: headerBg,
           },

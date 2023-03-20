@@ -74,9 +74,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "inbox",
         tx: "settings.voicemail",
-        navigateScreen: "Compliance",
-        colorToken: "text.softer",
-        isSoon: true,
+        navigateScreen: "Voicemail",
       },
     ],
   },
