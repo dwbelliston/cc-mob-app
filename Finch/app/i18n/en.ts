@@ -58,6 +58,9 @@ const en = {
     title: "Title",
     number: "Number",
     template: "Template",
+    code: "Code",
+    newPassword: "New Password",
+    confirmPassword: "Confirm Password",
   },
 
   inbox: {
@@ -125,11 +128,20 @@ const en = {
     enterAlt: "Alt Login",
     enterAltDescription: "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
     createAccount: "Create Account",
+    enterResetCode: "Have a code already? Enter here",
     forgotPassword: "Forgot password?",
     resetPassword: "Reset Password",
     resetPasswordDescription: "Enter your email and we will send you a verification code you can use to reset your password.",
+    resetPasswordConfirm: "New Password",
+    resetPasswordConfirmDescription: "Use the code from your email to set a new password.",
     altLogin: "Alt Login",
     backToLogin: "Back to primary login",
+    passwordRequirements: "Password needs to include",
+    uppercase: "1 Uppercase",
+    lowercase: "1 Lowercase",
+    symbol: "1 Symbol",
+    number: "1 Number",
+    pleaseImprovePassword: "Please improve password",
   },
   welcomeScreen: {
     postscript:

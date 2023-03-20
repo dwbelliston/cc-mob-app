@@ -11,6 +11,7 @@ export const AuthenticationStoreModel = types
     registerError: types.maybe(types.string),
     validateError: types.maybe(types.string),
     resetPasswordError: types.maybe(types.string),
+    resetPasswordConfirmError: types.maybe(types.string),
   })
   .views((store) => ({
     get isAuthenticated() {
@@ -66,12 +67,34 @@ export const AuthenticationStoreModel = types
     async resetPassword(username: string) {
       try {
 
-        const user = await Auth.forgotPassword(username);
+        await Auth.forgotPassword(username);
 
       } catch (error: any) {
         let errorMessage = "Reset failed";
         store.setProp("resetPasswordError", errorMessage);
         throw error
+      }
+    },
+    async resetErrors() {
+      store.setProp("loginError", "");
+      store.setProp("registerError", "");
+      store.setProp("validateError", "");
+      store.setProp("resetPasswordError", "");
+      store.setProp("resetPasswordConfirmError", "");
+    },
+    async resetPasswordConfirm(email: string, code: string, password: string) {
+      try {
+        await Auth.forgotPasswordSubmit(email, code, password);
+        store.setProp("resetPasswordConfirmError", "");
+      } catch (error: any) {
+        let errorMessage = "Oh no! Looks like we can't reset the password right now. Please try again later.";
+
+        if (error.code === "CodeMismatchException") {
+          errorMessage = "Code is not correct, please request a new one.";
+        }
+
+        store.setProp("resetPasswordConfirmError", errorMessage);
+        throw(error)
       }
     },
     async resetRegister() {

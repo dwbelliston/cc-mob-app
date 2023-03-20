@@ -48,7 +48,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   const [isBiometricSupported, setIsBiometricSupported] = React.useState<boolean>(true)
 
   const {
-    authenticationStore: { setLoginError, loginError, login },
+    authenticationStore: { loginError, login, resetErrors },
   } = useStores()
 
   // Pull in navigation via hook
@@ -59,6 +59,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
     control,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
@@ -70,7 +71,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   })
 
   const onSubmit = async (data: IFormInputs) => {
-    setLoginError("")
+    resetErrors()
 
     await secureStorageSave(STORAGE_KEY_REMEMBERLOGIN, data.rememberDevice ? "true" : "false")
 
@@ -92,12 +93,14 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   }
 
   const handleOnReset = () => {
-    setLoginError("")
-    navigation.navigate("ResetPassword")
+    const enteredEmail = getValues("email")
+    resetErrors()
+
+    navigation.navigate("ResetPassword", { email: enteredEmail })
   }
 
   const handleOnAltLogin = () => {
-    setLoginError("")
+    resetErrors()
     navigation.navigate("AltLogin")
   }
 
@@ -139,7 +142,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   }, [route])
 
   React.useEffect(() => {
-    setLoginError("")
+    resetErrors()
     ;(async () => {
       // if bio available and is remembered, fill with bio
       const compatible = await LocalAuthentication.hasHardwareAsync()

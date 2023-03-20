@@ -59,6 +59,8 @@ export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = obs
 
       try {
         await resetPassword(data.email)
+        toast.success({ title: "Check email" })
+        navigation.navigate("ResetPasswordConfirm", { email: data.email })
       } catch (e) {}
       setIsSubmitting(false)
     }
@@ -68,6 +70,19 @@ export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = obs
       Haptics.selectionAsync()
       navigation.goBack()
     }
+
+    const handleOnValidateEmail = () => {
+      Haptics.selectionAsync()
+      navigation.navigate("ResetPasswordConfirm")
+    }
+
+    React.useEffect(() => {
+      // Here is where you could fetch credentials from keychain or storage
+      // and pre-fill the form fields.
+      if (route.params?.email) {
+        setValue("email", route.params?.email)
+      }
+    }, [route])
 
     return (
       <Screen preset="scroll" safeAreaEdges={["top", "bottom"]}>
@@ -121,6 +136,12 @@ export const ResetPasswordScreen: FC<AppStackScreenProps<"ResetPassword">> = obs
                 tx="common.reset"
                 onPress={handleSubmit(onSubmit)}
                 rightIcon={<Icon icon="arrowRightLong" />}
+              ></Button>
+              <Button
+                flex={1}
+                colorScheme="gray"
+                tx="loginScreen.enterResetCode"
+                onPress={handleOnValidateEmail}
               ></Button>
             </Stack>
 

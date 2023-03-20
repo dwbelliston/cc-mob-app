@@ -20,6 +20,7 @@ import {
   ResetPasswordScreen,
   WelcomeScreen,
 } from "../screens"
+import { ResetPasswordConfirmScreen } from "../screens/ResetPasswordConfirmScreen"
 import { colors, HEADER_TITLE_STYLES } from "../theme"
 import { useColor } from "../theme/useColor"
 import AppDrawerNavigator from "./AppDrawerNavigator"
@@ -48,7 +49,8 @@ export type AppStackParamList = {
   ContactDetail: { contactName: string; contactId: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
-  ResetPassword: undefined
+  ResetPassword: { email?: string } | undefined
+  ResetPasswordConfirm: { email?: string } | undefined
 }
 
 /**
@@ -123,6 +125,7 @@ const AppStack = observer(function AppStack() {
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="AltLogin" component={AltLoginScreen} />
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+          <Stack.Screen name="ResetPasswordConfirm" component={ResetPasswordConfirmScreen} />
         </Stack.Group>
       )}
     </Stack.Navigator>
