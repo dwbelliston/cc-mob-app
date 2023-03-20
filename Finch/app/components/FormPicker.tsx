@@ -55,6 +55,7 @@ export const FormPicker = forwardRef(function CheckboxField(props: FormPickerPro
 
   const input = useRef<any>()
 
+  const pickerColor = useColor("text")
   const pickerBg = useColor("bg.high")
   const pickerBorder = useColor("text.softest")
 
@@ -99,6 +100,9 @@ export const FormPicker = forwardRef(function CheckboxField(props: FormPickerPro
                 <Picker
                   selectedValue={value}
                   onValueChange={(itemValue, itemIndex) => field.onChange(itemValue)}
+                  itemStyle={{
+                    color: pickerColor,
+                  }}
                 >
                   {options.map((option) => {
                     return (

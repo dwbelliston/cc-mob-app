@@ -290,6 +290,7 @@ const en = {
     isOff: "Hours are off",
     timezone: "Timezone",
     selectTimezone: "Select Timezone",
+    setSchedule: "Set Your Schedule",
   }
 }
 

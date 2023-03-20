@@ -34,7 +34,7 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
   },
   // Text
   text: {
-    light: "gray.800",
+    light: colors.gray[800],
     dark: "white",
   },
   "text.primary": {

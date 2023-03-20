@@ -162,6 +162,7 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
 
                 {dataCallFlow && dataCallFlow.IsEnableBusinessHours ? (
                   <>
+                    <Text textAlign={"center"} tx="businessHours.setSchedule"></Text>
                     {SCHEDULE_DAYS.map((dayTx, idx) => {
                       return (
                         <LabelValuePill.Hours
