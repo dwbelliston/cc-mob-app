@@ -18,6 +18,8 @@ import {
   BoltIcon,
   BriefcaseIcon,
   CakeIcon,
+  CalendarDaysIcon,
+  CalendarIcon,
   ChatBubbleBottomCenterTextIcon,
   ChatBubbleLeftEllipsisIcon,
   ChatBubbleLeftIcon,
@@ -86,7 +88,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
-  XMarkIcon
+  XMarkIcon,
 } from "react-native-heroicons/outline"
 import {
   ArrowDownLeftIcon as ArrowDownLeftIconSolid,
@@ -94,7 +96,8 @@ import {
   ArrowLeftIcon as ArrowLeftIconSolid,
   ArrowLeftOnRectangleIcon as ArrowLeftOnRectangleIconSolid,
   ArrowLongLeftIcon as ArrowLongLeftIconSolid,
-  ArrowLongRightIcon as ArrowLongRightIconSolid, ArrowPathIcon as ArrowPathIconSolid,
+  ArrowLongRightIcon as ArrowLongRightIconSolid,
+  ArrowPathIcon as ArrowPathIconSolid,
   ArrowRightIcon as ArrowRightIconSolid,
   ArrowsRightLeftIcon as ArrowsRightLeftIconSolid,
   ArrowTopRightOnSquareIcon as ArrowTopRightOnSquareIconSolid,
@@ -107,6 +110,8 @@ import {
   BoltIcon as BoltIconSolid,
   BriefcaseIcon as BriefcaseIconSolid,
   CakeIcon as CakeIconSolid,
+  CalendarDaysIcon as CalendarDaysIconSolid,
+  CalendarIcon as CalendarIconSolid,
   ChatBubbleBottomCenterTextIcon as ChatBubbleBottomCenterTextIconSolid,
   ChatBubbleLeftEllipsisIcon as ChatBubbleLeftEllipsisIconSolid,
   ChatBubbleLeftIcon as ChatBubbleLeftIconSolid,
@@ -130,7 +135,9 @@ import {
   FingerPrintIcon as FingerPrintIconSolid,
   FireIcon as FireIconSolid,
   FunnelIcon as FunnelIconSolid,
-  GlobeAltIcon as GlobeAltIconSolid, GlobeAmericasIcon as GlobeAmericasIconSolid, HandThumbUpIcon as HandThumbUpIconSolid,
+  GlobeAltIcon as GlobeAltIconSolid,
+  GlobeAmericasIcon as GlobeAmericasIconSolid,
+  HandThumbUpIcon as HandThumbUpIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
   IdentificationIcon as IdentificationIconSolid,
@@ -172,7 +179,7 @@ import {
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
-  XMarkIcon as XMarkIconSolid
+  XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
 
 import { Icon as NBIcon, IIconProps as INBIconProps } from "native-base"
@@ -240,6 +247,14 @@ export const iconRegistry = {
   arrowPath: {
     outline: ArrowPathIcon,
     solid: ArrowPathIconSolid,
+  },
+  calendar: {
+    outline: CalendarIcon,
+    solid: CalendarIconSolid,
+  },
+  calendarDays: {
+    outline: CalendarDaysIcon,
+    solid: CalendarDaysIconSolid,
   },
   lockClosed: {
     outline: LockClosedIcon,

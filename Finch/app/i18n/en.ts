@@ -31,6 +31,9 @@ const en = {
     edit: "Edit",
     supportedSoon: "Support Coming Soon",
     enabled: "Enabled",
+    open: "Open",
+    close: "Close",
+    closed: "Closed",
   },
   fieldLabels: {
     name: "Name",
@@ -61,6 +64,13 @@ const en = {
     code: "Code",
     newPassword: "New Password",
     confirmPassword: "Confirm Password",
+    monday: "Monday",
+    tuesday: "Tuesday",
+    wednesday: "Wednesday",
+    thursday: "Thursday",
+    friday: "Friday",
+    saturday: "Saturday",
+    sunday: "Sunday",
   },
 
   inbox: {

@@ -15,6 +15,7 @@ import {
   isFuture,
   isToday,
   isWithinInterval,
+  parse,
   parseISO,
   subWeeks,
 } from "date-fns"
@@ -357,5 +358,17 @@ export const runFormatDateFromNow = (dateValue: string): string => {
       formattedDate = `${formatDistanceToNow(dateObj)} ago`
     }
   } catch (e) {}
+  return formattedDate
+}
+
+export const runFormat24Hrto12Hr = (hoursIn: string): string => {
+  let formattedDate = ""
+
+  try {
+    const hhMM = `${hoursIn.slice(0, 2)}:${hoursIn.slice(2, 5)}`
+
+    formattedDate = format(parse(hhMM, "HH:mm", new Date()), "hh:mm a")
+  } catch (e) {}
+
   return formattedDate
 }

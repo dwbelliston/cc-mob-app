@@ -1,11 +1,13 @@
 import * as Haptics from "expo-haptics"
 import { Box, Button, HStack, IStackProps, Pressable, Stack } from "native-base"
 import React from "react"
+import { BusinessHourDaySchedule } from "../models/CallFlow"
 import { IConnector, SUPPORTED_CRM_URLS } from "../models/Connector"
 import { IContact, runFormatSourceDisplay } from "../models/Contact"
 import { ITag } from "../models/Tag"
 import { spacing } from "../theme"
 import { useColor } from "../theme/useColor"
+import { runFormat24Hrto12Hr } from "../utils/useFormatDate"
 import { AutoImage } from "./AutoImage"
 import { ContactSourceAvatar } from "./ContactSourceAvatar"
 import { CopyButton } from "./CopyButton"
@@ -360,6 +362,81 @@ export const ValueBoolean = ({
     </Pressable>
   )
 }
+export interface ILabelValuePillHoursProps extends IStackProps {
+  icon?: IconProps["icon"]
+  label: TextProps["tx"]
+  trueTx?: TextProps["tx"]
+  trueText?: TextProps["text"]
+  falseTx?: TextProps["tx"]
+  falseText?: TextProps["text"]
+  value: BusinessHourDaySchedule
+  dotProps?: IDotProps
+  onEdit?: () => void
+}
+
+export const ValueHours = ({
+  label,
+  icon,
+  value,
+  dotProps,
+  onEdit,
+  trueTx,
+  falseTx,
+  trueText,
+  falseText,
+  ...rest
+}: ILabelValuePillHoursProps) => {
+  const bgPill = useColor("bg.high")
+
+  const handleOnPress = () => {
+    if (onEdit) {
+      Haptics.selectionAsync()
+      onEdit()
+    }
+  }
+
+  const isClosed = !value.start
+
+  return (
+    <Pressable onPress={handleOnPress}>
+      <Stack space={1}>
+        <HStack space={4} justifyContent={"space-between"} px={spacing.micro} {...rest}>
+          <Label icon={icon} label={label} />
+        </HStack>
+
+        <HStack
+          space={0}
+          flex={1}
+          bg={bgPill}
+          {...PILL_STYLES}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <HStack alignItems={"center"} justifyContent="space-around" space={spacing.tiny}>
+            {isClosed ? (
+              <>
+                <Dot.Warning {...dotProps} />
+                <Text tx={"common.closed"}></Text>
+              </>
+            ) : (
+              <>
+                <Dot.Success {...dotProps} />
+                <Text text={runFormat24Hrto12Hr(value.start)}></Text>
+                <Text text="-"></Text>
+                <Text text={runFormat24Hrto12Hr(value.end)}></Text>
+              </>
+            )}
+          </HStack>
+          {onEdit ? (
+            <Box>
+              <Icon size={16} icon="pencilSquare" />
+            </Box>
+          ) : null}
+        </HStack>
+      </Stack>
+    </Pressable>
+  )
+}
 
 export const LabelValuePill = {
   Text: ValueText,
@@ -368,4 +445,5 @@ export const LabelValuePill = {
   ContactSource: ValueContactSource,
   SourceCrm: ValueSourceCrm,
   Boolean: ValueBoolean,
+  Hours: ValueHours,
 }

@@ -15,15 +15,17 @@ import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "../SettingsStack"
 
-import { IBusinessHoursForm } from "../../../models/CallFlow"
+import { BusinessHourDaySchedule, IBusinessHoursForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
+import { EditDayScheduleForm, SCHEDULE_DAYS } from "./EditDayScheduleForm"
 import { EditHoursEnabledForm } from "./EditHoursEnabledForm"
 import { EditTimezoneForm } from "./EditTimezoneForm"
 
 enum EditFormModeEnum {
   ISENABLED = "ISENABLED",
   TIMEZONE = "TIMEZONE",
+  SCHEDULE = "SCHEDULE",
 }
 
 export type FormHandle = {
@@ -32,6 +34,7 @@ export type FormHandle = {
 
 export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
   function BusinessHoursScreen(_props) {
+    const [editDayIndex, setEditDayIndex] = React.useState<number>()
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
     const formRef = React.useRef<FormHandle>(null)
@@ -59,6 +62,11 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
       bottomSheetModalRef.current?.present()
     }
 
+    const handleOnEditDay = (dayIdx: number) => {
+      setEditDayIndex(dayIdx)
+      setEditMode(EditFormModeEnum.SCHEDULE)
+      bottomSheetModalRef.current?.present()
+    }
     const handleOnEditTimezone = () => {
       setEditMode(EditFormModeEnum.TIMEZONE)
       bottomSheetModalRef.current?.present()
@@ -77,6 +85,25 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
     const handleOnSubmitTimezone = async (data: IBusinessHoursForm) => {
       try {
         await mutateAsyncUpdate(data)
+
+        toast.success({ title: translate("common.saved") })
+        handleOnCancel()
+      } catch (e) {
+        toast.error({ title: "Error saving" })
+      }
+    }
+
+    const handleOnSubmitSchedule = async (data: BusinessHourDaySchedule) => {
+      const updateSchedule = dataCallFlow.BusinessSchedule
+
+      updateSchedule[editDayIndex] = data
+
+      const updateForm: IBusinessHoursForm = {
+        BusinessSchedule: updateSchedule,
+      }
+
+      try {
+        await mutateAsyncUpdate(updateForm)
 
         toast.success({ title: translate("common.saved") })
         handleOnCancel()
@@ -132,6 +159,26 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
                   onEdit={handleOnEditTimezone}
                   text={dataCallFlow && dataCallFlow?.BusinessTimezone}
                 />
+
+                {dataCallFlow && dataCallFlow.IsEnableBusinessHours ? (
+                  <>
+                    {SCHEDULE_DAYS.map((dayTx, idx) => {
+                      return (
+                        <LabelValuePill.Hours
+                          key={dayTx}
+                          label={dayTx}
+                          icon="calendarDays"
+                          value={
+                            dataCallFlow &&
+                            dataCallFlow?.BusinessSchedule.length > idx + 1 &&
+                            dataCallFlow?.BusinessSchedule[idx]
+                          }
+                          onEdit={() => handleOnEditDay(idx)}
+                        />
+                      )
+                    })}
+                  </>
+                ) : null}
               </Stack>
             </Stack>
           )}
@@ -205,6 +252,14 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
                   BusinessTimezone: dataCallFlow.BusinessTimezone,
                 }}
                 onSubmit={handleOnSubmitTimezone}
+              />
+            ) : null}
+            {editMode === EditFormModeEnum.SCHEDULE && editDayIndex !== undefined ? (
+              <EditDayScheduleForm
+                ref={formRef}
+                editDayIndex={editDayIndex}
+                daySchedule={dataCallFlow.BusinessSchedule[editDayIndex]}
+                onSubmit={handleOnSubmitSchedule}
               />
             ) : null}
           </BottomSheetScrollView>
