@@ -9,6 +9,7 @@ import { AppDrawerScreenProps } from "../../navigators"
 
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { AutoRepliesScreen } from "./autoreplies/AutoRepliesScreen"
 import { BlockedScreen } from "./BlockedScreen"
 import { BusinessHoursScreen } from "./businesshours/BusinessHoursScreen"
 import { CallforwardingScreen } from "./callforwarding/CallforwardingScreen"
@@ -33,6 +34,7 @@ export type SettingsStackParamList = {
   Compliance: undefined
   Callforwarding: undefined
   BusinessHours: undefined
+  AutoReplies: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -180,6 +182,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={BusinessHoursScreen}
         options={{
           headerTitle: translate("settings.businessHours"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"AutoReplies"}
+        component={AutoRepliesScreen}
+        options={{
+          headerTitle: translate("settings.autoReplies"),
           headerStyle: {
             backgroundColor: headerBg,
           },

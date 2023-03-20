@@ -66,6 +66,16 @@ export interface IBusinessHoursForm {
   BusinessTimezone?: string
   BusinessSchedule?: BusinessHourDaySchedule[]
 }
+export interface IAutoReplyForm {
+  IsEnableAutoIncomingMessage?: boolean
+  TextAutoIncomingMessage?: string
+  IsEnableAutoMissedCall?: boolean
+  TextAutoMissedCall?: string
+  IsEnableAutoOutsideHoursIncomingMessage?: boolean
+  TextAutoOutsideHoursIncomingMessage?: string
+  IsEnableAutoOutsideHoursMissedCall?: boolean
+  TextAutoAutoOutsideHoursMissedCall?: string
+}
 
 export interface ICallFlowForm {
   IsEnableForwardCall?: boolean

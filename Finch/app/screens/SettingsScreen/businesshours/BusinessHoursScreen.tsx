@@ -1,4 +1,3 @@
-import * as WebBrowser from "expo-web-browser"
 import { observer } from "mobx-react-lite"
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
@@ -10,7 +9,6 @@ import { spacing } from "../../../theme"
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { translate } from "../../../i18n"
-import useReadUserProfile from "../../../services/api/userprofile/queries/useReadUserProfile"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "../SettingsStack"
@@ -46,16 +44,11 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
 
     const borderColor = useColor("text.softest")
     const bgHighColor = useColor("bg.high")
-    const bgCard = useColor("bg.high")
+
     const bgColor = useColor("bg.main")
 
-    const { data: userProfile } = useReadUserProfile()
     const { data: dataCallFlow, isLoading: isLoadingMessage } = useReadCallFlow()
     const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } = useUpdateCallFlow()
-
-    const onViewTCPA = () => {
-      WebBrowser.openBrowserAsync("https://www.fcc.gov/sites/default/files/tcpa-rules.pdf")
-    }
 
     const handleOnEditEnabled = () => {
       setEditMode(EditFormModeEnum.ISENABLED)

@@ -15,7 +15,7 @@ const en = {
     compliance: "Compliance",
     areYouSure: "Are you sure?",
     save: "Save",
-    "saved": "Saved",
+    saved: "Saved",
     "created!": "Created!",
     tapToEdit: "Tap to edit",
     complete: "Complete",
@@ -83,13 +83,16 @@ const en = {
     selectFilter: "Select Inbox Filter",
     inbox: "Inbox",
     noUnreadTitle: "You are all caught up!",
-    noUnreadDescription: "Change the inbox view on the top right to view Active or Completed conversations",
+    noUnreadDescription:
+      "Change the inbox view on the top right to view Active or Completed conversations",
     noSearchTitle: "Nothing found",
     noSearchDescription: "Clear your search and try again",
     noActiveTitle: "Everything is completed",
-    noActiveDescription: "Well done staying on top of the conversations. Take a minute to get outside and get some fresh air!",
+    noActiveDescription:
+      "Well done staying on top of the conversations. Take a minute to get outside and get some fresh air!",
     noCloseTitle: "No conversations",
-    noCloseDescription: "When you are ready to mark a conversation complete swipe the conversation to change its status.",
+    noCloseDescription:
+      "When you are ready to mark a conversation complete swipe the conversation to change its status.",
     endOfConversations: "End of History",
     enterMessage: "Enter message...",
     voicemail: "Voicemail",
@@ -122,7 +125,7 @@ const en = {
   },
   contact: {
     information: "Information",
-    address: "Address"
+    address: "Address",
   },
   contacts: {
     noDataTitle: "No contacts yet!",
@@ -136,12 +139,14 @@ const en = {
     login: "Login",
     enter: "Please Login",
     enterAlt: "Alt Login",
-    enterAltDescription: "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
+    enterAltDescription:
+      "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
     createAccount: "Create Account",
     enterResetCode: "Have a code already? Enter here",
     forgotPassword: "Forgot password?",
     resetPassword: "Reset Password",
-    resetPasswordDescription: "Enter your email and we will send you a verification code you can use to reset your password.",
+    resetPasswordDescription:
+      "Enter your email and we will send you a verification code you can use to reset your password.",
     resetPasswordConfirm: "New Password",
     resetPasswordConfirmDescription: "Use the code from your email to set a new password.",
     altLogin: "Alt Login",
@@ -154,8 +159,7 @@ const en = {
     pleaseImprovePassword: "Please improve password",
   },
   welcomeScreen: {
-    postscript:
-      "hey there",
+    postscript: "hey there",
     readyForLaunch: "Your app, almost ready for launch!",
     exciting: "(ohh, this is exciting!)",
   },
@@ -220,15 +224,19 @@ const en = {
     deleteAccount: "Delete Account",
     deleteAccountSub: "You are about to start the process for deleting your account.",
     deleteAccountExplainConfirm: "Type Delete to continue",
-    deleteAccountExplain: "We understand that sometimes things just dont work out. We wish you the very best success in everything you do! If you would like to proceed in deleting your account then you can start the process by confirming below.\n\nOnce you submit, your account will begin to be deleted and you will receive a confirmation from the CurrentClient support team that the deletion is complete.\n\nIf you would like to keep your phone number and port it to another service, please let us know and we are happy to assist you in that!\n\nThe process will take up to 2 weeks to complete.",
+    deleteAccountExplain:
+      "We understand that sometimes things just dont work out. We wish you the very best success in everything you do! If you would like to proceed in deleting your account then you can start the process by confirming below.\n\nOnce you submit, your account will begin to be deleted and you will receive a confirmation from the CurrentClient support team that the deletion is complete.\n\nIf you would like to keep your phone number and port it to another service, please let us know and we are happy to assist you in that!\n\nThe process will take up to 2 weeks to complete.",
     requestComplete: "Request complete",
-    deleteRequestedHelp: "Please reach out to us if you have any questions at admin@currentclient.com",
+    deleteRequestedHelp:
+      "Please reach out to us if you have any questions at admin@currentclient.com",
     numberDetails: "Details about your number",
-    numberDetailsInfo: "If you would like to change your number, please reach out to us:\nadmin@currentclient.com",
+    numberDetailsInfo:
+      "If you would like to change your number, please reach out to us:\nadmin@currentclient.com",
   },
   billing: {
     pageHeader: "Details about your subscription",
-    pageSubheader: "CurrentClient uses a very popular online payment provider called Stripe to handle all of our billing. We do not store credit cards or charge them.",
+    pageSubheader:
+      "CurrentClient uses a very popular online payment provider called Stripe to handle all of our billing. We do not store credit cards or charge them.",
     billingType: "Billing Type",
     subscriptionStatus: "Subscription Status",
     productName: "Product Name",
@@ -244,7 +252,8 @@ const en = {
   },
   crmSync: {
     pageHeader: "CRM Sync",
-    pageSubheader: "The easiest way to use CurrentClient is setting up a sync. Contacts will be synced from your CRM daily. CRM Sync should be setup on the desktop app.",
+    pageSubheader:
+      "The easiest way to use CurrentClient is setting up a sync. Contacts will be synced from your CRM daily. CRM Sync should be setup on the desktop app.",
     createNew: "Set up connector",
     supportedCRMS: "Supported CRMs",
     activeSyncSource: "Sync Source",
@@ -257,7 +266,8 @@ const en = {
   },
   compliance: {
     pageHeader: "Compliance Message Setup",
-    pageSubheader: "When a text is sent to a client's number for the very first time, we can automatically include a message that contains opt-in/opt-out language.",
+    pageSubheader:
+      "When a text is sent to a client's number for the very first time, we can automatically include a message that contains opt-in/opt-out language.",
     readMore: "Read more about the TCPA",
     enabled: "Enabled",
     autoSendMessage: "Auto Send Message",
@@ -270,28 +280,45 @@ const en = {
     templates: "Templates",
     noTemplates: "No Templates",
     noTemplatesDescription: "Create templates in desktop app",
-    editInfo:  "Save a message that can be reused from the inbox",
-    editHint:  "You can use ${FirstName} in the template. When the template gets used, it will auto replace the first name of the contact if available.",
+    editInfo: "Save a message that can be reused from the inbox",
+    editHint:
+      "You can use ${FirstName} in the template. When the template gets used, it will auto replace the first name of the contact if available.",
   },
   callforwarding: {
     pageHeader: "Call Forwarding",
-    pageSubheader: "When a client calls your CurrentClient number, you can optionally have it forward to a different number. Notice, if you use this feature, you will not be able to use the voicemail and business hours features in CurrentClient.",
+    pageSubheader:
+      "When a client calls your CurrentClient number, you can optionally have it forward to a different number. Notice, if you use this feature, you will not be able to use the voicemail and business hours features in CurrentClient.",
     status: "Call forwarding status",
     isOn: "Call forwarding is on",
     isOff: "Call forwarding is off",
-    number:"Number to forward to"
+    number: "Number to forward to",
   },
   businessHours: {
     pageHeader: "Business Hours",
-    pageSubheader: "Set up your business hours which then enable you to react to incoming message or calls depending on your business schedule.",
-    turnOnHours:"Turn on hours",
+    pageSubheader:
+      "Set up your business hours which then enable you to react to incoming message or calls depending on your business schedule.",
+    turnOnHours: "Turn on hours",
     businessHours: "Business Hours",
     isOn: "Hours are on",
     isOff: "Hours are off",
     timezone: "Timezone",
     selectTimezone: "Select Timezone",
     setSchedule: "Set Your Schedule",
-  }
+  },
+  autoreplies: {
+    pageHeader: "Auto Replies",
+    pageSubheader:
+      "Respond to incoming messages and missed calls automatically, with option to respond differently outside business hours.",
+    duringHours: "During Business Hours",
+    outsideHours: "Outside Business Hours",
+    autoToIncomingMessage: "Auto respond to incoming message",
+    autoToIncomingCall: "Auto respond to missed call",
+    isOn: "Auto reply active",
+    isOff: "No auto reply",
+    onIncomingMessage: "On incoming message reply with:",
+    onMissedCall: "On missed call reply with:",
+    activeAutoReply: "Active auto reply",
+  },
 }
 
 export default en

@@ -69,9 +69,7 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "bolt",
         tx: "settings.autoReplies",
-        navigateScreen: "Compliance",
-        colorToken: "text.softer",
-        isSoon: true,
+        navigateScreen: "AutoReplies",
       },
       {
         icon: "inbox",
