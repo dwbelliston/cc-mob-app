@@ -13,6 +13,7 @@ import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "../SettingsStack"
 
+import { Butter } from "../../../components/Butter"
 import { IAutoReplyForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
@@ -205,6 +206,18 @@ export const AutoRepliesScreen: FC<SettingsStackScreenProps<"BusinessHours">> = 
                 </Stack>
                 <Stack space={spacing.tiny}>
                   <Text fontSize="lg" tx="autoreplies.outsideHours"></Text>
+
+                  {!dataCallFlow?.IsEnableBusinessHours ? (
+                    <Box>
+                      <Butter.Warning
+                        titleText={{ tx: "autoreplies.turnOnBusinessHours" }}
+                        descriptionText={{
+                          tx: "autoreplies.turnOnBusinessHoursMore",
+                          fontSize: "xs",
+                        }}
+                      ></Butter.Warning>
+                    </Box>
+                  ) : null}
 
                   <Stack
                     space={spacing.tiny}

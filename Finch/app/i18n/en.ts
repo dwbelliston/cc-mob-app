@@ -318,6 +318,8 @@ const en = {
     onIncomingMessage: "On incoming message reply with:",
     onMissedCall: "On missed call reply with:",
     activeAutoReply: "Active auto reply",
+    turnOnBusinessHours: "Turn On Business Hours",
+    turnOnBusinessHoursMore: "Enable business hours for this to take effect",
   },
 }
 
