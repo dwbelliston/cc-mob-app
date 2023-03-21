@@ -7,40 +7,35 @@ import { useForm } from "react-hook-form"
 import { Icon } from "../../components"
 import { Butter } from "../../components/Butter"
 import { BottomSheetFormControl } from "../../components/FormControl"
-import { IContactCreate } from "../../models/Contact"
+import { IContact, IContactUpdate } from "../../models/Contact"
 import useReadCrmSync from "../../services/api/crmsync/queries/useReadCrmSync"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 import { REGEX_PHONE } from "../../utils/constants"
+import { FormHandle } from "./ContactDetailScreen"
 
 interface IProps {
-  onSubmit: (data: IContactCreate) => void
-  phone?: string
-}
-
-export type AddContactFormHandle = {
-  submitForm: () => void
+  onSubmit: (data: IContactUpdate) => void
+  data: IContact
 }
 
 export const schema = yup.object().shape({
-  FirstName: yup.string().required("Required"),
-  LastName: yup.string().required("Required"),
   Phone: yup.string().matches(REGEX_PHONE, "Use 10 digit phone"),
 })
 
-export const AddContactForm = React.forwardRef<AddContactFormHandle, IProps>(
-  ({ onSubmit, phone }, ref) => {
+export const EditContactPhoneForm = React.forwardRef<FormHandle, IProps>(
+  ({ onSubmit, data }, ref) => {
     const { data: userProfile } = useReadUserProfile()
     const { data: dataCrmSync, isLoading: isLoadingCrmSync } = useReadCrmSync(userProfile?.UserId)
 
-    const form = useForm<IContactCreate>({
+    const form = useForm<IContactUpdate>({
       resolver: yupResolver(schema),
-      defaultValues: { FirstName: "", LastName: "", Phone: phone },
+      defaultValues: data,
     })
 
     const handleOnInvalid = () => {}
 
-    const handleOnValid = (data: IContactCreate) => {
+    const handleOnValid = (data: IContactUpdate) => {
       onSubmit(data)
     }
 
@@ -59,20 +54,6 @@ export const AddContactForm = React.forwardRef<AddContactFormHandle, IProps>(
             descriptionText={{ tx: "crmSync.warningMore", fontSize: "xs" }}
           ></Butter.Warning>
         ) : null}
-        <BottomSheetFormControl
-          name="FirstName"
-          control={form.control}
-          labelProps={{
-            tx: "fieldLabels.firstName",
-          }}
-        ></BottomSheetFormControl>
-        <BottomSheetFormControl
-          name="LastName"
-          control={form.control}
-          labelProps={{
-            tx: "fieldLabels.lastName",
-          }}
-        ></BottomSheetFormControl>
 
         <BottomSheetFormControl
           name="Phone"

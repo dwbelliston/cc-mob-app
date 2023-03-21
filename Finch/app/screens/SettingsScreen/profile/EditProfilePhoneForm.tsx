@@ -4,6 +4,7 @@ import * as yup from "yup"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
+import { Icon } from "../../../components"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { spacing } from "../../../theme"
 import { REGEX_PHONE } from "../../../utils/constants"
@@ -53,6 +54,7 @@ export const EditProfilePhoneForm = React.forwardRef<FormHandle, IProps>(
           }}
           textContentType="telephoneNumber"
           keyboardType="phone-pad"
+          InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="phone" />}
         ></BottomSheetFormControl>
       </Stack>
     )

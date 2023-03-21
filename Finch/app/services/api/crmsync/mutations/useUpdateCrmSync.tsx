@@ -26,7 +26,6 @@ const useUpdateCrmSync = () => {
     },
     {
       retry: 0,
-
       onSettled: () => {
         queryClient.invalidateQueries(crmSyncKeys.all)
       },
