@@ -9,7 +9,6 @@ import { useDebounce } from "use-debounce"
 
 import * as Linking from "expo-linking"
 import { Button, Screen, Text } from "../../components"
-import { ContactAvatar } from "../../components/ContactAvatar"
 import { useStores } from "../../models"
 import { IContactCreate, IContactFilter } from "../../models/Contact"
 import { getConversationId } from "../../models/Conversation"
@@ -29,6 +28,7 @@ import { pluralize } from "../../utils/pluralize"
 import { useCustomToast } from "../../utils/useCustomToast"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 import { AddContactForm, AddContactFormHandle } from "../ContactsScreen/AddContactForm"
+import { ContactSmudgePressable } from "../ContactsScreen/ContactSmudgePressable"
 import { DialPad } from "./DialPad"
 
 interface IFoundContact {
@@ -70,10 +70,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   const bgColor = useColor("bg.main")
 
   const { contactsStore } = useStores()
-  const bgHigh = useColor("bg.high")
-  const bgMatch = useColorModeValue("primary.100", "primary.900")
-  const colorMatch = useColorModeValue("primary.500", "primary.200")
-  const avatarBg = useColorModeValue("primary.400", "primary.600")
+
   const bgNew = useColorModeValue("secondary.100", "secondary.900")
   const colorNew = useColorModeValue("secondary.500", "secondary.200")
 
@@ -229,39 +226,16 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
 
             {!isLoadingContacts && foundContact ? (
               <Stack justifyContent={"center"} alignItems="center" space={0}>
-                <Pressable
-                  key={foundContact.contactId}
+                <ContactSmudgePressable
                   onPress={() => handleOnPressContact(foundContact.name, foundContact.contactId)}
-                >
-                  <HStack
-                    w="full"
-                    rounded="full"
-                    bg={bgMatch}
-                    space={spacing.micro}
-                    px={spacing.tiny}
-                    py={0.5}
-                    alignItems="center"
-                  >
-                    <ContactAvatar
-                      avatarColor={avatarBg}
-                      initials={foundContact.initials}
-                      avatarProps={{ size: "xs" }}
-                    ></ContactAvatar>
-                    <Text
-                      maxW={32}
-                      fontWeight="semibold"
-                      isTruncated={true}
-                      color={colorMatch}
-                      text={foundContact.name}
-                    ></Text>
-                  </HStack>
-                </Pressable>
+                  name={foundContact.name}
+                />
 
                 {countFound > 1 ? (
                   <Text
                     size="xs"
                     colorToken="text.softer"
-                    text={`+${pluralize(countFound - 1, "contact")}`}
+                    text={`+${pluralize(countFound - 1, "contact")} share this number`}
                   ></Text>
                 ) : null}
               </Stack>

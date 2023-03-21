@@ -32,6 +32,14 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: colors.primary[700],
     dark: colors.gray[900],
   },
+  contactSmudgeBgStart: {
+    light: colors.primary[100],
+    dark: colors.primary[800],
+  },
+  contactSmudgeBgEnd: {
+    light: colors.primary[300],
+    dark: colors.primary[700],
+  },
   // Text
   text: {
     light: colors.gray[800],
