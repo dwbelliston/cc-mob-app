@@ -22,6 +22,8 @@ import { runFormatTimeFromNowSpecial } from "../../utils/useFormatDate"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
 import { useActionSheet } from "@expo/react-native-action-sheet"
+import { useSharedValue } from "react-native-reanimated"
+import { AnimatedBackground } from "../../components/AnimatedBackground"
 import { Dot } from "../../components/Dot"
 import { AppStackParamList } from "../../navigators"
 import { getInitials } from "../../utils/getInitials"
@@ -273,6 +275,7 @@ const ConversationListItem = ({
   onMarkActive,
 }: IConversationListItem) => {
   const swipeableRef = React.useRef(null)
+  const progress = useSharedValue(0)
 
   const errorColor = useColorModeValue("error.300", "error.400")
   const cardBg = useColor("bg.main")
@@ -312,6 +315,7 @@ const ConversationListItem = ({
   }
 
   const handleOnClickConversation = () => {
+    progress.value = 1
     closeSwipeable()
     onViewConversation({ contactName, conversationId })
   }
@@ -345,78 +349,84 @@ const ConversationListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickConversation}>
-        <HStack
-          bg={cardBg}
-          borderColor={cardBorder}
-          borderWidth={1}
-          rounded="lg"
-          py={spacing.tiny}
-          px={spacing.micro}
-          space={2}
-          alignItems="center"
+        <AnimatedBackground
+          sharedValue={progress}
+          bgStart="bg.main"
+          bgEnd={"bg.high"}
+          styles={{ borderRadius: 12 }}
         >
-          <AvatarRing
-            // outerRingColor={!isRead ? errorColor : cardBg}
-            innerRingColor={cardBg}
-            initials={initials}
-            avatarProps={{ size: "sm" }}
-            sourceBadge={!isRead ? <Dot.Error size="md" /> : null}
-          ></AvatarRing>
+          <HStack
+            borderColor={cardBorder}
+            borderWidth={1}
+            rounded="lg"
+            py={spacing.tiny}
+            px={spacing.micro}
+            space={2}
+            alignItems="center"
+          >
+            <AvatarRing
+              // outerRingColor={!isRead ? errorColor : cardBg}
+              innerRingColor={cardBg}
+              initials={initials}
+              avatarProps={{ size: "sm" }}
+              sourceBadge={!isRead ? <Dot.Error size="md" /> : null}
+            ></AvatarRing>
 
-          <Stack flex={1}>
-            <HStack alignItems="center" justifyContent={"space-between"} space={spacing.micro}>
-              <Text
-                flex={1}
-                numberOfLines={1}
-                colorToken={"text"}
-                fontWeight="semibold"
-                fontSize="md"
-                text={contactName || runFormatPhoneSimple(conversationNumber)}
-              ></Text>
-              {createdTime && (
-                <Text textAlign={"right"} fontSize="xs" colorToken={"text.softer"}>
-                  {runFormatTimeFromNowSpecial(createdTime)}
-                </Text>
-              )}
-            </HStack>
-            <HStack alignItems="center" space={spacing.micro}>
-              {isIncoming && isMessage ? (
-                <Icon size={16} color={errorColor} icon="arrowDownLeft"></Icon>
-              ) : null}
-              {isIncoming && isCall ? (
-                <Icon size={16} color={errorColor} icon="phoneArrowDownLeft"></Icon>
-              ) : null}
-              {conversationMessage === "MEDIA" ? (
-                <HStack alignItems={"center"} flex={1} space={spacing.micro}>
+            <Stack flex={1}>
+              <HStack alignItems="center" justifyContent={"space-between"} space={spacing.micro}>
+                <Text
+                  flex={1}
+                  numberOfLines={1}
+                  colorToken={"text"}
+                  fontWeight="semibold"
+                  fontSize="md"
+                  text={contactName || runFormatPhoneSimple(conversationNumber)}
+                ></Text>
+                {createdTime && (
+                  <Text textAlign={"right"} fontSize="xs" colorToken={"text.softer"}>
+                    {runFormatTimeFromNowSpecial(createdTime)}
+                  </Text>
+                )}
+              </HStack>
+              <HStack alignItems="center" space={spacing.micro}>
+                {isIncoming && isMessage ? (
+                  <Icon size={16} color={errorColor} icon="arrowDownLeft"></Icon>
+                ) : null}
+                {isIncoming && isCall ? (
+                  <Icon size={16} color={errorColor} icon="phoneArrowDownLeft"></Icon>
+                ) : null}
+                {conversationMessage === "MEDIA" ? (
+                  <HStack alignItems={"center"} flex={1} space={spacing.micro}>
+                    <Text
+                      numberOfLines={1}
+                      maxH={12}
+                      fontSize="sm"
+                      colorToken={!isRead ? "text" : "text.soft"}
+                      fontWeight={!isRead ? "medium" : "normal"}
+                      text={isIncoming ? "" : `You:`}
+                    ></Text>
+                    <Icon size={20} icon="photo"></Icon>
+                  </HStack>
+                ) : (
                   <Text
+                    flex={1}
                     numberOfLines={1}
                     maxH={12}
                     fontSize="sm"
                     colorToken={!isRead ? "text" : "text.soft"}
                     fontWeight={!isRead ? "medium" : "normal"}
-                    text={isIncoming ? "" : `You:`}
+                    text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
                   ></Text>
-                  <Icon size={20} icon="photo"></Icon>
-                </HStack>
-              ) : (
-                <Text
-                  flex={1}
-                  numberOfLines={1}
-                  maxH={12}
-                  fontSize="sm"
-                  colorToken={!isRead ? "text" : "text.soft"}
-                  fontWeight={!isRead ? "medium" : "normal"}
-                  text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
-                ></Text>
-              )}
-              {isRead && isClosed && <Dot.Neutral size="sm" />}
-            </HStack>
-          </Stack>
+                )}
+                {isRead && isClosed && <Dot.Neutral size="sm" />}
+              </HStack>
+            </Stack>
 
-          <Box alignItems="center">
-            <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
-          </Box>
-        </HStack>
+            <Box alignItems="center">
+              <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
+            </Box>
+          </HStack>
+        </AnimatedBackground>
       </Pressable>
     </Swipeable>
   )

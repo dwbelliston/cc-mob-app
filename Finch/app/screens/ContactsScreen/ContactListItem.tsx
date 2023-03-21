@@ -9,10 +9,12 @@ import { useColor } from "../../theme/useColor"
 import { getInitials } from "../../utils/getInitials"
 
 import { useActionSheet } from "@expo/react-native-action-sheet"
+import { useSharedValue } from "react-native-reanimated"
+import { AnimatedBackground } from "../../components/AnimatedBackground"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { getContactName, IContact } from "../../models/Contact"
+import { AppStackParamList } from "../../navigators"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
-import { ContactsStackParamList } from "./ContactsStack"
 
 const CARD_MARGIN = spacing.tiny
 
@@ -47,7 +49,7 @@ export interface IContactListItemData {
 export interface IContactListItem extends IContactListItemData {
   onEmail: (contactName: string, contactEmail: string) => void
   onText: (contactName: string, contactNumber: string) => void
-  onViewContact: ({ contactName, contactId }: ContactsStackParamList["ContactDetail"]) => void
+  onViewContact: ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => void
 }
 
 interface IRightActions {
@@ -168,6 +170,7 @@ const ContactListItem = ({
   onViewContact,
 }: IContactListItem) => {
   const swipeableRef = React.useRef(null)
+  const progress = useSharedValue(0)
 
   const errorColor = useColorModeValue("error.300", "error.400")
   const cardBg = useColor("bg.main")
@@ -189,12 +192,14 @@ const ContactListItem = ({
   }
 
   const handleOnClickContact = () => {
+    progress.value = 1
     closeSwipeable()
     onViewContact({ contactName, contactId })
   }
 
   const handleOnClickContactAvatar = () => {
     // haptic on the avatar already
+    progress.value = 1
     swipeableRef.current.close()
     onViewContact({ contactName, contactId })
   }
@@ -218,52 +223,58 @@ const ContactListItem = ({
       overshootRight={false}
     >
       <Pressable onPress={handleOnClickContact}>
-        <HStack
-          bg={cardBg}
-          borderColor={cardBorder}
-          borderWidth={1}
-          rounded="lg"
-          py={spacing.tiny}
-          px={spacing.micro}
-          space={2}
-          alignItems="center"
+        <AnimatedBackground
+          sharedValue={progress}
+          bgStart="bg.main"
+          bgEnd={"bg.high"}
+          styles={{ borderRadius: 12 }}
         >
-          <ContactAvatar
-            innerRingColor={cardBg}
-            initials={initials}
-            avatarProps={{ size: "sm" }}
-            contactSource={contactSourceType}
-            onPress={handleOnClickContactAvatar}
-          ></ContactAvatar>
+          <HStack
+            borderColor={cardBorder}
+            borderWidth={1}
+            rounded="lg"
+            py={spacing.tiny}
+            px={spacing.micro}
+            space={2}
+            alignItems="center"
+          >
+            <ContactAvatar
+              innerRingColor={cardBg}
+              initials={initials}
+              avatarProps={{ size: "sm" }}
+              contactSource={contactSourceType}
+              onPress={handleOnClickContactAvatar}
+            ></ContactAvatar>
 
-          <Stack flex={1}>
-            <HStack alignItems="center" justifyContent={"flex-start"} space={1}>
-              <Text numberOfLines={1} colorToken={"text"} fontSize="md" text={firstName}></Text>
-              <Text
-                numberOfLines={1}
-                colorToken={"text"}
-                fontWeight="bold"
-                fontSize="md"
-                text={lastName}
-              ></Text>
-            </HStack>
-            <HStack alignItems="center" space={spacing.micro}>
-              <Text
-                flex={1}
-                numberOfLines={1}
-                maxH={12}
-                fontSize="sm"
-                colorToken={"text.soft"}
-                fontWeight={"normal"}
-                text={runFormatPhoneSimple(contactNumber)}
-              ></Text>
-            </HStack>
-          </Stack>
+            <Stack flex={1}>
+              <HStack alignItems="center" justifyContent={"flex-start"} space={1}>
+                <Text numberOfLines={1} colorToken={"text"} fontSize="md" text={firstName}></Text>
+                <Text
+                  numberOfLines={1}
+                  colorToken={"text"}
+                  fontWeight="bold"
+                  fontSize="md"
+                  text={lastName}
+                ></Text>
+              </HStack>
+              <HStack alignItems="center" space={spacing.micro}>
+                <Text
+                  flex={1}
+                  numberOfLines={1}
+                  maxH={12}
+                  fontSize="sm"
+                  colorToken={"text.soft"}
+                  fontWeight={"normal"}
+                  text={runFormatPhoneSimple(contactNumber)}
+                ></Text>
+              </HStack>
+            </Stack>
 
-          <Box alignItems="center">
-            <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
-          </Box>
-        </HStack>
+            <Box alignItems="center">
+              <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
+            </Box>
+          </HStack>
+        </AnimatedBackground>
       </Pressable>
     </Swipeable>
   )

@@ -20,6 +20,7 @@ export const UserPhone = (props: IProps) => {
       {userProfile?.IsPhoneRegistered ? <Dot.Success></Dot.Success> : <Dot.Warning></Dot.Warning>}
       <Text
         fontSize="lg"
+        maxFontSizeMultiplier={1}
         colorToken={"text.soft"}
         colorScheme={"gray"}
         fontWeight="semibold"

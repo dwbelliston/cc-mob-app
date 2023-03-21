@@ -1,6 +1,8 @@
 import * as Haptics from "expo-haptics"
-import { HStack, Pressable, View } from "native-base"
+import { HStack, Pressable } from "native-base"
+import { useSharedValue } from "react-native-reanimated"
 import { spacing } from "../theme"
+import { AnimatedBackground } from "./AnimatedBackground"
 import { Icon, IconProps } from "./Icon"
 import { Text, TextProps } from "./Text"
 
@@ -14,9 +16,11 @@ interface IProps {
 
 export const PressableActionRow = (props: IProps) => {
   const { colorToken, tx, text, icon, onPress, ...rest } = props
+  const progress = useSharedValue(0)
 
   const handleOnPress = () => {
     if (onPress) {
+      progress.value = 1
       Haptics.selectionAsync()
       onPress()
     }
@@ -24,7 +28,7 @@ export const PressableActionRow = (props: IProps) => {
 
   return (
     <Pressable onPress={handleOnPress}>
-      <View w="full">
+      <AnimatedBackground sharedValue={progress}>
         <HStack
           flex={1}
           justifyContent="space-between"
@@ -35,11 +39,11 @@ export const PressableActionRow = (props: IProps) => {
           {/* Icon */}
           <HStack flex={1} space={spacing.tiny} alignItems="center">
             <Icon colorToken={colorToken} size={20} {...icon}></Icon>
-            <Text colorToken={colorToken} tx={tx} text={text}></Text>
+            <Text flex={1} noOfLines={1} colorToken={colorToken} tx={tx} text={text}></Text>
           </HStack>
           <Icon colorToken={"text.softer"} size={20} icon="chevronRight"></Icon>
         </HStack>
-      </View>
+      </AnimatedBackground>
     </Pressable>
   )
 }

@@ -6,7 +6,7 @@ import { IConnector, SUPPORTED_CRM_URLS } from "../models/Connector"
 import { IContact, runFormatSourceDisplay } from "../models/Contact"
 import { ITag } from "../models/Tag"
 import { spacing } from "../theme"
-import { useColor } from "../theme/useColor"
+import { ColorTokenOption, useColor } from "../theme/useColor"
 import { runFormat24Hrto12Hr } from "../utils/useFormatDate"
 import { AutoImage } from "./AutoImage"
 import { ContactSourceAvatar } from "./ContactSourceAvatar"
@@ -18,6 +18,14 @@ import { ShareButton } from "./ShareButton"
 import { TagPill } from "./TagPill"
 import { Text, TextProps } from "./Text"
 
+import Animated, {
+  interpolateColor,
+  SharedValue,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
+
 export interface ILabelProps extends IStackProps {
   icon: IconProps["icon"]
   label: TextProps["tx"]
@@ -27,6 +35,57 @@ const PILL_STYLES = {
   rounded: "lg",
   py: spacing.tiny,
   px: spacing.tiny,
+}
+
+interface IAnimateBackground {
+  sharedValue: SharedValue<number>
+  bgStart?: ColorTokenOption
+  bgEnd?: ColorTokenOption
+  children
+}
+
+const AnimateBackground = ({
+  sharedValue,
+  bgStart = "bg.high",
+  bgEnd = "bg.higher",
+  children,
+}: IAnimateBackground) => {
+  const bgPill = useColor(bgStart)
+  const bgTempPill = useColor(bgEnd)
+
+  const animatedBgStyles = useAnimatedStyle(() => {
+    const color = interpolateColor(sharedValue.value, [0, 1], [bgPill, bgTempPill])
+
+    return {
+      backgroundColor: withTiming(
+        color,
+        {
+          duration: 250,
+        },
+        () => {
+          if (sharedValue) {
+            sharedValue.value = 0
+          }
+        },
+      ),
+    }
+  })
+
+  return (
+    <Animated.View
+      style={[
+        {
+          backgroundColor: bgPill,
+          borderRadius: 6,
+          paddingVertical: spacing.medium,
+          paddingHorizontal: spacing.medium,
+        },
+        [animatedBgStyles],
+      ]}
+    >
+      {children}
+    </Animated.View>
+  )
 }
 
 const Label = ({ icon, label, ...rest }: ILabelProps) => {
@@ -57,10 +116,11 @@ export const ValueText = ({
   onEdit,
   ...rest
 }: ILabelValuePillTextProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   const handleOnPress = () => {
     if (onEdit) {
+      progress.value = 1
       Haptics.selectionAsync()
       onEdit()
     }
@@ -84,21 +144,23 @@ export const ValueText = ({
             </Button.Group>
           ) : null}
         </HStack>
-        <HStack bg={bgPill} {...PILL_STYLES} alignItems={"center"} justifyContent={"space-between"}>
-          {text ? (
-            <>
-              <Text flex={1} fontSize="md" text={text}></Text>
-            </>
-          ) : (
-            <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
-          )}
+        <AnimateBackground sharedValue={progress}>
+          <HStack alignItems={"center"} justifyContent={"space-between"}>
+            {text ? (
+              <>
+                <Text flex={1} fontSize="md" text={text}></Text>
+              </>
+            ) : (
+              <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
+            )}
 
-          {onEdit ? (
-            <Box>
-              <Icon size={16} icon="pencilSquare" />
-            </Box>
-          ) : null}
-        </HStack>
+            {onEdit ? (
+              <Box>
+                <Icon size={16} icon="pencilSquare" />
+              </Box>
+            ) : null}
+          </HStack>
+        </AnimateBackground>
       </Stack>
     </Pressable>
   )
@@ -132,7 +194,7 @@ export const ValueAddress = ({
   onEdit,
   ...rest
 }: ILabelValuePillAddressProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   const line1 = address2 ? `${address1} ${address2}` : address1
 
@@ -154,6 +216,7 @@ export const ValueAddress = ({
 
   const handleOnPress = () => {
     if (onEdit) {
+      progress.value = 1
       Haptics.selectionAsync()
       onEdit()
     }
@@ -171,17 +234,19 @@ export const ValueAddress = ({
           </Button.Group>
         </HStack>
 
-        <HStack bg={bgPill} {...PILL_STYLES} alignItems={"center"} justifyContent={"space-between"}>
-          <Stack space={0} flex={1}>
-            <Text flex={1} fontSize="md" text={line1}></Text>
-            <Text flex={1} fontSize="md" text={line2}></Text>
-          </Stack>
-          {onEdit ? (
-            <Box>
-              <Icon size={16} icon="pencilSquare" />
-            </Box>
-          ) : null}
-        </HStack>
+        <AnimateBackground sharedValue={progress}>
+          <HStack alignItems={"center"} justifyContent={"space-between"}>
+            <Stack space={0} flex={1}>
+              <Text flex={1} fontSize="md" text={line1}></Text>
+              <Text flex={1} fontSize="md" text={line2}></Text>
+            </Stack>
+            {onEdit ? (
+              <Box>
+                <Icon size={16} icon="pencilSquare" />
+              </Box>
+            ) : null}
+          </HStack>
+        </AnimateBackground>
       </Stack>
     </Pressable>
   )
@@ -194,7 +259,7 @@ export interface ILabelValuePillTagsProps extends IStackProps {
 }
 
 export const ValueTags = ({ label, icon, tags, ...rest }: ILabelValuePillTagsProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   return (
     <Stack space={1}>
@@ -202,13 +267,15 @@ export const ValueTags = ({ label, icon, tags, ...rest }: ILabelValuePillTagsPro
         <Label icon={icon} label={label} />
       </HStack>
 
-      <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
-        {tags && tags?.length ? (
-          <TagPill.Group tags={tags} />
-        ) : (
-          <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
-        )}
-      </Stack>
+      <AnimateBackground sharedValue={progress}>
+        <Stack space={0} flex={1}>
+          {tags && tags?.length ? (
+            <TagPill.Group tags={tags} />
+          ) : (
+            <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
+          )}
+        </Stack>
+      </AnimateBackground>
     </Stack>
   )
 }
@@ -224,7 +291,7 @@ export const ValueContactSource = ({
   contactSource,
   ...rest
 }: ILabelValuePillSourceTypeProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   return (
     <Stack space={1}>
@@ -232,23 +299,29 @@ export const ValueContactSource = ({
         <Label icon={icon} label={label} />
       </HStack>
 
-      <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
-        {contactSource ? (
-          <HStack alignItems={"center"} space={spacing.micro}>
-            <ContactSourceAvatar size={"xs"} contactSource={contactSource} />
-            <Text
-              flex={1}
-              fontSize="md"
-              text={`Contact is synced with ${runFormatSourceDisplay(contactSource)}`}
-            ></Text>
-          </HStack>
-        ) : (
-          <HStack alignItems={"center"} space={spacing.micro}>
-            <ContactSourceAvatar size={"xs"} contactSource={contactSource} />
-            <Text flex={1} fontSize="md" text={`Contact added manually from CurrentClient`}></Text>
-          </HStack>
-        )}
-      </Stack>
+      <AnimateBackground sharedValue={progress}>
+        <Stack space={0} flex={1}>
+          {contactSource ? (
+            <HStack alignItems={"center"} space={spacing.micro}>
+              <ContactSourceAvatar size={"xs"} contactSource={contactSource} />
+              <Text
+                flex={1}
+                fontSize="md"
+                text={`Contact is synced with ${runFormatSourceDisplay(contactSource)}`}
+              ></Text>
+            </HStack>
+          ) : (
+            <HStack alignItems={"center"} space={spacing.micro}>
+              <ContactSourceAvatar size={"xs"} contactSource={contactSource} />
+              <Text
+                flex={1}
+                fontSize="md"
+                text={`Contact added manually from CurrentClient`}
+              ></Text>
+            </HStack>
+          )}
+        </Stack>
+      </AnimateBackground>
     </Stack>
   )
 }
@@ -265,7 +338,7 @@ export const ValueSourceCrm = ({
   sourceCrm,
   ...rest
 }: ILabelValuePillSourceCrmProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   return (
     <Stack space={1}>
@@ -273,21 +346,23 @@ export const ValueSourceCrm = ({
         <Label icon={icon} label={label} />
       </HStack>
 
-      <Stack space={0} flex={1} bg={bgPill} {...PILL_STYLES}>
-        {sourceCrm ? (
-          <HStack rounded="lg" py={spacing.tiny} overflow={"hidden"} justifyContent="center">
-            <AutoImage
-              resizeMode="cover"
-              source={{
-                uri: SUPPORTED_CRM_URLS[sourceCrm],
-              }}
-              maxHeight={48}
-            />
-          </HStack>
-        ) : (
-          <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
-        )}
-      </Stack>
+      <AnimateBackground sharedValue={progress}>
+        <Stack space={0} flex={1}>
+          {sourceCrm ? (
+            <HStack rounded="lg" py={spacing.tiny} overflow={"hidden"} justifyContent="center">
+              <AutoImage
+                resizeMode="cover"
+                source={{
+                  uri: SUPPORTED_CRM_URLS[sourceCrm],
+                }}
+                maxHeight={48}
+              />
+            </HStack>
+          ) : (
+            <Text flex={1} colorToken="text.softest" fontSize={"md"} tx={"common.noValue"}></Text>
+          )}
+        </Stack>
+      </AnimateBackground>
     </Stack>
   )
 }
@@ -315,10 +390,11 @@ export const ValueBoolean = ({
   falseText,
   ...rest
 }: ILabelValuePillBooleanProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   const handleOnPress = () => {
     if (onEdit) {
+      progress.value = 1
       Haptics.selectionAsync()
       onEdit()
     }
@@ -331,33 +407,28 @@ export const ValueBoolean = ({
           <Label icon={icon} label={label} />
         </HStack>
 
-        <HStack
-          space={0}
-          flex={1}
-          bg={bgPill}
-          {...PILL_STYLES}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          <HStack alignItems={"center"} space={spacing.tiny}>
-            {value ? (
-              <>
-                <Dot.Success {...dotProps} />
-                <Text tx={trueTx ? trueTx : "common.active"} text={trueText}></Text>
-              </>
-            ) : (
-              <>
-                <Dot.Warning {...dotProps} />
-                <Text tx={falseTx ? falseTx : "common.inActive"} text={falseText}></Text>
-              </>
-            )}
+        <AnimateBackground sharedValue={progress}>
+          <HStack space={0} flex={1} alignItems={"center"} justifyContent={"space-between"}>
+            <HStack alignItems={"center"} space={spacing.tiny}>
+              {value ? (
+                <>
+                  <Dot.Success {...dotProps} />
+                  <Text tx={trueTx ? trueTx : "common.active"} text={trueText}></Text>
+                </>
+              ) : (
+                <>
+                  <Dot.Warning {...dotProps} />
+                  <Text tx={falseTx ? falseTx : "common.inActive"} text={falseText}></Text>
+                </>
+              )}
+            </HStack>
+            {onEdit ? (
+              <Box>
+                <Icon size={16} icon="pencilSquare" />
+              </Box>
+            ) : null}
           </HStack>
-          {onEdit ? (
-            <Box>
-              <Icon size={16} icon="pencilSquare" />
-            </Box>
-          ) : null}
-        </HStack>
+        </AnimateBackground>
       </Stack>
     </Pressable>
   )
@@ -386,10 +457,11 @@ export const ValueHours = ({
   falseText,
   ...rest
 }: ILabelValuePillHoursProps) => {
-  const bgPill = useColor("bg.high")
+  const progress = useSharedValue(0)
 
   const handleOnPress = () => {
     if (onEdit) {
+      progress.value = 1
       Haptics.selectionAsync()
       onEdit()
     }
@@ -404,35 +476,30 @@ export const ValueHours = ({
           <Label icon={icon} label={label} />
         </HStack>
 
-        <HStack
-          space={0}
-          flex={1}
-          bg={bgPill}
-          {...PILL_STYLES}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          <HStack alignItems={"center"} justifyContent="space-around" space={spacing.tiny}>
-            {isClosed ? (
-              <>
-                <Dot.Warning {...dotProps} />
-                <Text tx={"common.closed"}></Text>
-              </>
-            ) : (
-              <>
-                <Dot.Success {...dotProps} />
-                <Text text={runFormat24Hrto12Hr(value.start)}></Text>
-                <Text text="-"></Text>
-                <Text text={runFormat24Hrto12Hr(value.end)}></Text>
-              </>
-            )}
+        <AnimateBackground sharedValue={progress}>
+          <HStack space={0} flex={1} alignItems={"center"} justifyContent={"space-between"}>
+            <HStack alignItems={"center"} justifyContent="space-around" space={spacing.tiny}>
+              {isClosed ? (
+                <>
+                  <Dot.Warning {...dotProps} />
+                  <Text tx={"common.closed"}></Text>
+                </>
+              ) : (
+                <>
+                  <Dot.Success {...dotProps} />
+                  <Text text={runFormat24Hrto12Hr(value.start)}></Text>
+                  <Text text="-"></Text>
+                  <Text text={runFormat24Hrto12Hr(value.end)}></Text>
+                </>
+              )}
+            </HStack>
+            {onEdit ? (
+              <Box>
+                <Icon size={16} icon="pencilSquare" />
+              </Box>
+            ) : null}
           </HStack>
-          {onEdit ? (
-            <Box>
-              <Icon size={16} icon="pencilSquare" />
-            </Box>
-          ) : null}
-        </HStack>
+        </AnimateBackground>
       </Stack>
     </Pressable>
   )

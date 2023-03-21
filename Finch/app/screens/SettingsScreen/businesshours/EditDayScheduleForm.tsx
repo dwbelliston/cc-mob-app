@@ -48,6 +48,12 @@ export const EditDayScheduleForm = React.forwardRef<FormHandle, IProps>(
       onSubmit(data)
     }
 
+    React.useEffect(() => {
+      if (daySchedule) {
+        form.reset(daySchedule)
+      }
+    }, [daySchedule])
+
     React.useImperativeHandle(ref, () => ({
       // start() has type inferrence here
       submitForm() {

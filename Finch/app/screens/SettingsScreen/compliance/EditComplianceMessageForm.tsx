@@ -7,11 +7,12 @@ import { spacing } from "../../../theme"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Pressable } from "native-base"
 import { useForm } from "react-hook-form"
+import { useSharedValue } from "react-native-reanimated"
 import { Text } from "../../../components"
+import { AnimatedBackground } from "../../../components/AnimatedBackground"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { IComplianceMessageMessageUpdate } from "../../../models/ComplianceMessage"
 import { IUserProfile } from "../../../models/UserProfile"
-import { useColor } from "../../../theme/useColor"
 import { COMPLIANCE_MESSAGE_TEXT, REGEX_COMPLIANCE_MESSAGE_TEXT } from "../../../utils/constants"
 import { renderMessageWithUser } from "../../../utils/useMessage"
 import { FormHandle } from "../profile/ProfileScreen"
@@ -29,6 +30,30 @@ const COMPLIANCE_LIBRAY = [
   "This is #firstname #lastname. I use this number for all my business texting. Please save it to your phone and reach out to me if you need anything. You can also opt-out by replying STOP if you prefer.",
 ]
 
+const MessageOptionPressable = ({ msgBody, onPress }) => {
+  const progress = useSharedValue(0)
+
+  const handleOnPress = () => {
+    progress.value = 1
+    onPress()
+  }
+
+  return (
+    <Pressable onPress={handleOnPress}>
+      <AnimatedBackground
+        sharedValue={progress}
+        bgStart="bg.high"
+        bgEnd={"bg.higher"}
+        styles={{ borderRadius: 12 }}
+      >
+        <HStack space={8} p={2} py={3} px={4}>
+          <Text>{msgBody}</Text>
+        </HStack>
+      </AnimatedBackground>
+    </Pressable>
+  )
+}
+
 export const schema = yup.object().shape({
   Message: yup
     .string()
@@ -43,8 +68,6 @@ export const schema = yup.object().shape({
 export const EditComplianceMessageForm = React.forwardRef<FormHandle, IProps>(
   ({ onSubmit, data, userProfile }, ref) => {
     const [renderedMessageLibrary, setRenderedMessageLibrary] = React.useState<string[]>([])
-
-    const msgBg = useColor("bg.high")
 
     const form = useForm<IComplianceMessageMessageUpdate>({
       resolver: yupResolver(schema),
@@ -95,16 +118,13 @@ export const EditComplianceMessageForm = React.forwardRef<FormHandle, IProps>(
           <Stack space={spacing.tiny}>
             {renderedMessageLibrary.map((msgBody, idx) => {
               return (
-                <Pressable
+                <MessageOptionPressable
                   key={idx}
+                  msgBody={msgBody}
                   onPress={() => {
                     handleOnUseMessage(msgBody)
                   }}
-                >
-                  <HStack space={8} p={2} py={3} px={4} bg={msgBg} rounded="lg">
-                    <Text>{msgBody}</Text>
-                  </HStack>
-                </Pressable>
+                ></MessageOptionPressable>
               )
             })}
           </Stack>

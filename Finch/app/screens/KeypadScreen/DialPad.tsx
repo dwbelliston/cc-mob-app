@@ -72,12 +72,23 @@ export const DialPad = ({ onKeyPress, onKeyDelete }: IProps) => {
                 >
                   <Stack space={0}>
                     <Center>
-                      <Text fontSize="2xl" fontWeight={"semibold"} textAlign="center">
+                      <Text
+                        fontSize="2xl"
+                        fontWeight={"semibold"}
+                        textAlign="center"
+                        maxFontSizeMultiplier={1}
+                      >
                         {key.display}
                       </Text>
                     </Center>
                     {!key.isCentered ? (
-                      <Text bottom="1" color="gray.400" fontSize="8" fontWeight={"bold"}>
+                      <Text
+                        bottom="1"
+                        color="gray.400"
+                        fontSize="8"
+                        fontWeight={"bold"}
+                        maxFontSizeMultiplier={1}
+                      >
                         {key.subDisplay}
                       </Text>
                     ) : null}

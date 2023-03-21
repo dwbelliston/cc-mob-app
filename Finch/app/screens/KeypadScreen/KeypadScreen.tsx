@@ -31,7 +31,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   _props,
 ) {
   const { navigation } = _props
-  const [trackedDialerKeys, setTrackedDialerKeys] = React.useState<string[]>(["1", "2"])
+  const [trackedDialerKeys, setTrackedDialerKeys] = React.useState<string[]>([])
   const [dialerDisplay, setDialerDisplay] = React.useState<string>()
   const [useFilters, setUseFilters] = React.useState<IContactFilter[] | undefined>(undefined)
   const [flatData, setFlatData] = React.useState<IFoundContact[]>()
