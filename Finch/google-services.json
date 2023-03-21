@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "190901195921",
+    "project_id": "currentclient-finch",
+    "storage_bucket": "currentclient-finch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190901195921:android:4d37660e82f5578acf1b30",
+        "android_client_info": {
+          "package_name": "com.currentclient.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190901195921-fqje8rbdjb2e2ggrd7bkd7oju8vtvg4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN30YxCTjpt2Q314S1fXIb0hiu9WdVkmo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190901195921-fqje8rbdjb2e2ggrd7bkd7oju8vtvg4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
