@@ -50,7 +50,7 @@ export const Text = (props: TextProps) => {
   }
 
   return (
-    <NBText color={_color} {...presetStyles} {...rest}>
+    <NBText adjustsFontSizeToFit={true} color={_color} {...presetStyles} {...rest}>
       {content}
     </NBText>
   )

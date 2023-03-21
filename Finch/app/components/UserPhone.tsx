@@ -17,17 +17,25 @@ export const UserPhone = (props: IProps) => {
 
   return (
     <HStack px={spacing.micro} space={2} alignItems="center" {...rest}>
-      {userProfile?.IsPhoneRegistered ? <Dot.Success></Dot.Success> : <Dot.Warning></Dot.Warning>}
-      <Text
-        fontSize="lg"
-        maxFontSizeMultiplier={1}
-        colorToken={"text.soft"}
-        colorScheme={"gray"}
-        fontWeight="semibold"
-        {...textProps}
-      >
-        {runFormatPhoneSimple(userProfile?.RegisteredNumber.PhoneNumber)}
-      </Text>
+      {!isLoadingProfile ? (
+        <>
+          {userProfile?.IsPhoneRegistered ? (
+            <Dot.Success></Dot.Success>
+          ) : (
+            <Dot.Warning></Dot.Warning>
+          )}
+          <Text
+            fontSize="lg"
+            maxFontSizeMultiplier={1}
+            colorToken={"text.soft"}
+            colorScheme={"gray"}
+            fontWeight="semibold"
+            {...textProps}
+          >
+            {runFormatPhoneSimple(userProfile?.RegisteredNumber.PhoneNumber)}
+          </Text>
+        </>
+      ) : null}
     </HStack>
   )
 }

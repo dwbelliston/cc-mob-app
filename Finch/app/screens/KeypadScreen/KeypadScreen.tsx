@@ -7,10 +7,11 @@ import { Box, HStack, Pressable, Stack, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
-import { Screen, Text } from "../../components"
+import * as Linking from "expo-linking"
+import { Button, Screen, Text } from "../../components"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { useStores } from "../../models"
-import { IContactFilter } from "../../models/Contact"
+import { IContactCreate, IContactFilter } from "../../models/Contact"
 import { getConversationId } from "../../models/Conversation"
 import { useUserPhone } from "../../models/UserProfile"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
@@ -19,9 +20,15 @@ import useReadUserProfile from "../../services/api/userprofile/queries/useReadUs
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 
+import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { translate } from "../../i18n"
+import useCreateContacts from "../../services/api/contacts/mutations/useCreateContacts"
 import { getInitials } from "../../utils/getInitials"
 import { pluralize } from "../../utils/pluralize"
+import { useCustomToast } from "../../utils/useCustomToast"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
+import { AddContactForm, AddContactFormHandle } from "../ContactsScreen/AddContactForm"
 import { DialPad } from "./DialPad"
 
 interface IFoundContact {
@@ -31,19 +38,36 @@ interface IFoundContact {
   initials: string
 }
 
+enum EditFormModeEnum {
+  CREATE_CONTACT = "CREATE_CONTACT",
+}
+
 export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function ContactsScreen(
   _props,
 ) {
   const { navigation } = _props
+  const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
   const [trackedDialerKeys, setTrackedDialerKeys] = React.useState<string[]>([])
   const [dialerDisplay, setDialerDisplay] = React.useState<string>()
   const [useFilters, setUseFilters] = React.useState<IContactFilter[] | undefined>(undefined)
   const [foundContact, setFoundContact] = React.useState<IFoundContact>()
   const [countFound, setCountFound] = React.useState<number>()
+  const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
+  const formRef = React.useRef<AddContactFormHandle>(null)
 
   const headerHeight = useHeaderHeight()
 
   const [debouncedTextSearch] = useDebounce(trackedDialerKeys, 500)
+
+  const snapPoints = React.useMemo(() => ["50%", "80%", "100%"], [])
+  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
+
+  const toast = useCustomToast()
+
+  const borderColor = useColor("text.softest")
+  const bgHighColor = useColor("bg.high")
+  const bgCard = useColor("bg.high")
+  const bgColor = useColor("bg.main")
 
   const { contactsStore } = useStores()
   const bgHigh = useColor("bg.high")
@@ -59,10 +83,15 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   })
 
   const { data: userProfile } = useReadUserProfile()
+  const { mutateAsync: mutateAsyncCreate, isLoading: isLoadingCreate } = useCreateContacts()
 
   const userNumber = useUserPhone(userProfile)
 
-  const handleOnCreateContact = () => {}
+  const handleOnCreateContact = () => {
+    // Open bottom sheet
+    setEditMode(EditFormModeEnum.CREATE_CONTACT)
+    bottomSheetModalRef.current?.present()
+  }
 
   const handleOnPressContact = (contactName: string, contactId: string) => {
     Haptics.selectionAsync()
@@ -79,6 +108,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     setTrackedDialerKeys((prevValues) => [...prevValues, value])
   }
+
   const handleOnDeletePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     setTrackedDialerKeys((prevValues) => {
@@ -98,6 +128,33 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
         conversationId: foundContact.conversationId,
       })
     }
+  }
+
+  const handleOnCallPress = () => {
+    Haptics.selectionAsync()
+    if (debouncedTextSearch.length > 9) {
+      const joinedSearch = debouncedTextSearch.join("")
+      Linking.openURL(`tel:${joinedSearch}`)
+    }
+  }
+
+  const handleOnCancel = () => {
+    setEditMode(undefined)
+    bottomSheetModalRef.current?.dismiss()
+  }
+
+  const handleOnSubmitAddContact = async (data: IContactCreate) => {
+    try {
+      await mutateAsyncCreate([data])
+      toast.success({ title: translate("common.created") })
+      handleOnCancel()
+    } catch (e) {
+      toast.error({ title: "Error saving" })
+    }
+  }
+
+  const handleOnSave = () => {
+    formRef.current.submitForm()
   }
 
   React.useEffect(() => {
@@ -180,7 +237,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
                     w="full"
                     rounded="full"
                     bg={bgMatch}
-                    space={spacing.tiny}
+                    space={spacing.micro}
                     px={spacing.tiny}
                     py={0.5}
                     alignItems="center"
@@ -241,11 +298,74 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
             onKeyPress={handleOnKeyPress}
             onKeyDelete={handleOnDeletePress}
             onMessagePress={handleOnMessagePress}
+            onCallPress={handleOnCallPress}
             isMessageButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
             isCallButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
           />
         </Box>
       </Stack>
+      <BottomSheetModal
+        ref={bottomSheetModalRef}
+        index={0}
+        snapPoints={snapPoints}
+        topInset={topInset}
+        style={{
+          borderTopWidth: 1,
+          borderTopColor: borderColor,
+        }}
+        handleStyle={{
+          backgroundColor: bgHighColor,
+        }}
+        handleIndicatorStyle={{
+          backgroundColor: borderColor,
+        }}
+      >
+        <Box
+          pb={spacing.tiny}
+          px={spacing.tiny}
+          borderBottomWidth={1}
+          borderBottomColor={borderColor}
+          bg={bgHighColor}
+        >
+          <HStack justifyContent={"space-between"}>
+            <Box flex={1}>
+              <Button onPress={handleOnCancel} size="xs" tx="common.cancel"></Button>
+            </Box>
+
+            <Text
+              flex={3}
+              preset="heading"
+              textAlign={"center"}
+              fontSize="xl"
+              tx="common.new"
+            ></Text>
+
+            <Box flex={1}>
+              <Button
+                isLoading={isLoadingCreate}
+                onPress={handleOnSave}
+                size="xs"
+                colorScheme={"primary"}
+                tx="common.save"
+              ></Button>
+            </Box>
+          </HStack>
+        </Box>
+        <BottomSheetScrollView
+          style={{
+            flex: 1,
+            backgroundColor: bgColor,
+          }}
+        >
+          {editMode === EditFormModeEnum.CREATE_CONTACT ? (
+            <AddContactForm
+              ref={formRef}
+              phone={debouncedTextSearch.join("")}
+              onSubmit={handleOnSubmitAddContact}
+            />
+          ) : null}
+        </BottomSheetScrollView>
+      </BottomSheetModal>
     </Screen>
   )
 })

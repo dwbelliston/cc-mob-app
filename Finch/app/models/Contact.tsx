@@ -37,6 +37,7 @@ export interface IContactBase {
 }
 
 export interface IContactUpdate extends IContactBase {}
+export interface IContactCreate extends IContactBase {}
 
 export interface IContact extends IContactBase {
   ContactId?: string

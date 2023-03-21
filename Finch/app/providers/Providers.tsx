@@ -12,11 +12,11 @@ function AppProviders(props: IProps) {
   return (
     <ActionSheetProvider>
       <NativeBaseProvider>
-        <BottomSheetModalProvider>
-          <ReactQueryProvider>
+        <ReactQueryProvider>
+          <BottomSheetModalProvider>
             <AuthProvider>{props.children}</AuthProvider>
-          </ReactQueryProvider>
-        </BottomSheetModalProvider>
+          </BottomSheetModalProvider>
+        </ReactQueryProvider>
       </NativeBaseProvider>
     </ActionSheetProvider>
   )

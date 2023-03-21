@@ -9,6 +9,7 @@ interface IProps {
   trackedKeys?: string[]
   onKeyPress: (val: string) => void
   onKeyDelete: () => void
+  onCallPress: () => void
   onMessagePress: () => void
   isMessageButtonDisabled?: boolean
   isCallButtonDisabled?: boolean
@@ -48,6 +49,7 @@ export const DialPad = ({
   onKeyPress,
   onKeyDelete,
   onMessagePress,
+  onCallPress,
   isCallButtonDisabled,
   isMessageButtonDisabled,
 }: IProps) => {
@@ -117,6 +119,7 @@ export const DialPad = ({
         </Center>
         <IconButton
           isDisabled={isCallButtonDisabled}
+          onPress={onCallPress}
           h={16}
           w={16}
           colorScheme={"green"}

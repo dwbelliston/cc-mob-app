@@ -33,6 +33,7 @@ const en = {
     enabled: "Enabled",
     open: "Open",
     close: "Close",
+    created: "Created",
     closed: "Closed",
     desktopOnly: "Desktop Only",
     desktopOnlyMore: "Please visit the desktop app for this feature.",
@@ -266,6 +267,8 @@ const en = {
     isAllowNotes: "Add conversations as notes to CRM",
     edit: "Edit",
     enabled: "Enabled",
+    warning: "CRM sync is active",
+    warningMore: "Please create this contact in your CRM since that is your source of truth.",
   },
   compliance: {
     pageHeader: "Compliance Message Setup",
