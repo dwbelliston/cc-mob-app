@@ -80,8 +80,8 @@ export const DynamicContactHeader = ({
 
           {isLoadingContact && (
             <Stack space={spacing.tiny} py={spacing.tiny}>
-              <Skeleton h="8" w="70%" rounded="sm" />
-              <Skeleton h="6" w="20%" rounded="sm" />
+              <Skeleton h="8" w="70%" rounded="sm" bgColor={bgColor} />
+              <Skeleton h="6" w="20%" rounded="sm" bgColor={bgColor} />
             </Stack>
           )}
 
