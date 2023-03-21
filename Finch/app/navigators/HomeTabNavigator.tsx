@@ -1,17 +1,20 @@
 import { BottomTabScreenProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 
-import { IconButton, useColorModeValue } from "native-base"
+import { useColorModeValue } from "native-base"
 import React, { FC } from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
 
-import { useNavigation } from "@react-navigation/native"
 import { translate } from "../i18n"
 
+import { UserAvatar } from "../components/UserAvatar"
+import { UserPhone } from "../components/UserPhone"
 import { ContactsStack } from "../screens/ContactsScreen/ContactsStack"
 import { ConversationsStack } from "../screens/ConversationsScreen/ConversationsStack"
+import { KeypadScreen } from "../screens/KeypadScreen/KeypadScreen"
 import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
+import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 import { colors, HEADER_TITLE_STYLES, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
 import { AppDrawerScreenProps } from "./AppDrawerNavigator"
@@ -19,6 +22,7 @@ import { AppDrawerScreenProps } from "./AppDrawerNavigator"
 export type HomeTabParamList = {
   ConversationsStack: undefined
   ContactsStack: undefined
+  Keypad: undefined
 }
 
 /**
@@ -34,11 +38,12 @@ export type HomeTabScreenProps<T extends keyof HomeTabParamList> = CompositeScre
 const Tab = createBottomTabNavigator<HomeTabParamList>()
 
 export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
-  const { route } = _props
+  const { navigation, route } = _props
 
   const { bottom } = useSafeAreaInsets()
 
   const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
+  const { data: userProfile } = useReadUserProfile()
 
   const unreadCountBadge = parseInt(dataCountUnreadConversations)
 
@@ -58,37 +63,6 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
       id="HomeTabNavigator"
       screenOptions={{
         headerShown: false,
-        headerLeftContainerStyle: { paddingLeft: spacing.large },
-        headerTitleContainerStyle: { width: "100%" },
-        headerBackgroundContainerStyle: {
-          borderBottomWidth: 2,
-          borderBottomColor: tabBorder,
-          backgroundColor: headerBg,
-          height: bottom + 80,
-        },
-        headerRightContainerStyle: { paddingRight: spacing.large },
-        headerTransparent: true,
-        headerTitleAlign: "center",
-        headerTitleStyle: {
-          ...HEADER_TITLE_STYLES,
-        },
-        // headerTitle: ({ children }) => {
-        //   return (
-        //     <Box w="full">
-        //       <Text textAlign={"center"} preset="heading" fontSize="lg" text={children} />
-        //     </Box>
-        //   )
-        // },
-        headerLeft: (props) => {
-          const navigation = useNavigation()
-          return (
-            <IconButton
-              colorScheme={"gray"}
-              onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-              icon={<Icon colorToken="text.softer" icon="menu" size={32} />}
-            ></IconButton>
-          )
-        },
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: tabIconColorActive,
@@ -125,6 +99,56 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
               color={focused ? tabIconColorActive : tabIconColorInActive}
               icon="chat"
               isOutline={focused ? false : true}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Keypad"
+        component={KeypadScreen}
+        options={{
+          headerShown: true,
+          headerBackgroundContainerStyle: {
+            borderBottomWidth: 2,
+            borderBottomColor: tabBorder,
+            backgroundColor: headerBg,
+            // height: bottom + 80,
+          },
+
+          headerTransparent: true,
+          headerTitleAlign: "center",
+          headerTitleStyle: {
+            ...HEADER_TITLE_STYLES,
+          },
+          headerLeft: ({}) => {
+            const handleOnPress = () => {
+              navigation.dispatch(DrawerActions.toggleDrawer())
+            }
+
+            return <UserAvatar size="sm" onPress={handleOnPress}></UserAvatar>
+          },
+          headerLeftContainerStyle: { paddingLeft: spacing.medium },
+          headerRightContainerStyle: { paddingRight: spacing.medium },
+          headerRight: ({}) => {
+            const handleOnPress = () => {
+              navigation.getParent()?.navigate("SettingsStack")
+            }
+
+            return (
+              <Icon icon="adjustmentsVertical" colorToken={"text.softer"} onPress={handleOnPress} />
+            )
+          },
+          headerTitle: () => (
+            <UserPhone justifyContent={"center"} textProps={{ colorToken: "text" }} />
+          ),
+          tabBarAccessibilityLabel: translate("navigator.keypad"),
+          tabBarLabel: translate("navigator.keypad"),
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              size={8}
+              color={focused ? tabIconColorActive : tabIconColorInActive}
+              icon="keypad"
+              isOutline={true}
             />
           ),
         }}

@@ -14,12 +14,11 @@ import { Box, HStack, IconButton, Stack, useColorModeValue } from "native-base"
 import { Icon, Text } from "../components"
 import { colors, spacing } from "../theme"
 
-import { Dot } from "../components/Dot"
 import { UserAvatar } from "../components/UserAvatar"
+import { UserPhone } from "../components/UserPhone"
 import { useUserName, useUserPhone } from "../models/UserProfile"
 import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
-import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
 
 export type AppDrawerParamList = {
@@ -71,16 +70,7 @@ const CustomDrawerContent = (props: any) => {
             </HStack>
           </Box>
 
-          <HStack px={spacing.micro} space={2} alignItems="center">
-            {userProfile?.IsPhoneRegistered ? (
-              <Dot.Success></Dot.Success>
-            ) : (
-              <Dot.Warning></Dot.Warning>
-            )}
-            <Text fontSize="lg" colorToken={"text.soft"} colorScheme={"gray"} fontWeight="semibold">
-              {runFormatPhoneSimple(userNumber)}
-            </Text>
-          </HStack>
+          <UserPhone />
         </Stack>
 
         <DrawerItemList {...props} />
@@ -167,7 +157,7 @@ const AppDrawerNavigator = () => {
         name="SettingsStack"
         component={SettingsStack}
         options={{
-          drawerIcon: ({ color }) => <Icon icon="settings" size={20} color={color} />,
+          drawerIcon: ({ color }) => <Icon icon="adjustmentsVertical" size={20} color={color} />,
           drawerLabel: ({ color }) => (
             <Text color={color} fontSize="sm" tx="navigator.settings"></Text>
           ),

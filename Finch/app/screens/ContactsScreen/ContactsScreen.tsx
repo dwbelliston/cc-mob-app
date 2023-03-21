@@ -1,4 +1,3 @@
-import { useHeaderHeight } from "@react-navigation/elements"
 import { observer } from "mobx-react-lite"
 import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
@@ -46,8 +45,6 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     const [contactsSearch, setContactsSearch] = React.useState("")
 
     const [debouncedContactsSearch] = useDebounce(contactsSearch, 750)
-
-    const headerHeight = useHeaderHeight()
 
     const {
       data: dataContacts,

@@ -1,4 +1,5 @@
 import {
+  AdjustmentsVerticalIcon,
   ArrowDownLeftIcon,
   ArrowDownRightIcon,
   ArrowLeftIcon,
@@ -12,6 +13,7 @@ import {
   ArrowUpIcon,
   ArrowUpRightIcon,
   AtSymbolIcon,
+  BackspaceIcon,
   Bars3Icon,
   BellAlertIcon,
   BellIcon,
@@ -91,6 +93,7 @@ import {
   XMarkIcon,
 } from "react-native-heroicons/outline"
 import {
+  AdjustmentsVerticalIcon as AdjustmentsVerticalIconSolid,
   ArrowDownLeftIcon as ArrowDownLeftIconSolid,
   ArrowDownRightIcon as ArrowDownRightIconSolid,
   ArrowLeftIcon as ArrowLeftIconSolid,
@@ -104,6 +107,7 @@ import {
   ArrowUpIcon as ArrowUpIconSolid,
   ArrowUpRightIcon as ArrowUpRightIconSolid,
   AtSymbolIcon as AtSymbolIconSolid,
+  BackspaceIcon as BackspaceIconSolid,
   Bars3Icon as Bars3IconSolid,
   BellAlertIcon as BellAlertIconSolid,
   BellIcon as BellIconSolid,
@@ -184,6 +188,7 @@ import {
 
 import { Icon as NBIcon, IIconProps as INBIconProps } from "native-base"
 import * as React from "react"
+import KeyPadIcon from "../../assets/icons/KeypadIcon"
 import { ColorTokenOption, useColor } from "../theme/useColor"
 
 export type IconTypes = keyof typeof iconRegistry
@@ -199,6 +204,7 @@ export interface IconProps extends INBIconProps {
   colorToken?: ColorTokenOption
   size?: number
   isOutline?: boolean
+  stroke?: string
 }
 
 export const Icon = (props: IconProps) => {
@@ -216,6 +222,16 @@ export const Icon = (props: IconProps) => {
 }
 
 export const iconRegistry = {
+  // special made one
+  keypad: {
+    outline: KeyPadIcon,
+    solid: KeyPadIcon,
+  },
+  // from heroicons
+  adjustmentsVertical: {
+    outline: AdjustmentsVerticalIcon,
+    solid: AdjustmentsVerticalIconSolid,
+  },
   bolt: {
     outline: BoltIcon,
     solid: BoltIconSolid,
@@ -227,6 +243,10 @@ export const iconRegistry = {
   eyeSlash: {
     outline: EyeSlashIcon,
     solid: EyeSlashIconSolid,
+  },
+  backspace: {
+    outline: BackspaceIcon,
+    solid: BackspaceIconSolid,
   },
   star: {
     outline: StarIcon,

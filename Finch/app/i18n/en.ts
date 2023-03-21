@@ -189,6 +189,7 @@ const en = {
     feedback: "Feedback",
     signout: "Sign out",
     settings: "Settings",
+    keypad: "Keypad",
   },
   settings: {
     myProfile: "My Profile",

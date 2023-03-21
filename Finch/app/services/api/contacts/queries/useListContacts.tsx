@@ -45,6 +45,7 @@ const useListContacts = (props: IContactsListFilterProps) => {
       })
     },
     {
+      enabled: props.isEnabled,
       getPreviousPageParam: (firstPage) => firstPage.meta.cursor ?? false,
       getNextPageParam: (lastPage) => lastPage.meta.cursor ?? false,
       refetchInterval: 1000 * 15,

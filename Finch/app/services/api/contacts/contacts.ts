@@ -4,6 +4,7 @@ import { IContactFilter } from "../../../models/Contact"
 export interface IContactsListFilterProps {
   pageLimit: number
   filters?: IContactFilter[]
+  isEnabled?: boolean
 }
 
 
