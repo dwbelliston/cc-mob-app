@@ -10,6 +10,8 @@ interface IProps {
   onKeyPress: (val: string) => void
   onKeyDelete: () => void
   onMessagePress: () => void
+  isMessageButtonDisabled?: boolean
+  isCallButtonDisabled?: boolean
 }
 
 interface IKey {
@@ -41,7 +43,14 @@ const KEYS: IKey[][] = [
   ],
 ]
 
-export const DialPad = ({ trackedKeys, onKeyPress, onKeyDelete, onMessagePress }: IProps) => {
+export const DialPad = ({
+  trackedKeys,
+  onKeyPress,
+  onKeyDelete,
+  onMessagePress,
+  isCallButtonDisabled,
+  isMessageButtonDisabled,
+}: IProps) => {
   const handleOnKey = (key: IKey) => {
     onKeyPress(key.display)
   }
@@ -99,7 +108,7 @@ export const DialPad = ({ trackedKeys, onKeyPress, onKeyDelete, onMessagePress }
       <HStack space={spacing.extraSmall + 2}>
         <Center>
           <IconButton
-            isDisabled={trackedKeys?.length < 10}
+            isDisabled={isMessageButtonDisabled}
             colorScheme={"primary"}
             icon={<Icon icon="chatBubbleLeftEllipsis" />}
             rounded="full"
@@ -107,7 +116,7 @@ export const DialPad = ({ trackedKeys, onKeyPress, onKeyDelete, onMessagePress }
           ></IconButton>
         </Center>
         <IconButton
-          isDisabled={trackedKeys?.length < 10}
+          isDisabled={isCallButtonDisabled}
           h={16}
           w={16}
           colorScheme={"green"}

@@ -241,6 +241,8 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
             onKeyPress={handleOnKeyPress}
             onKeyDelete={handleOnDeletePress}
             onMessagePress={handleOnMessagePress}
+            isMessageButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
+            isCallButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
           />
         </Box>
       </Stack>
