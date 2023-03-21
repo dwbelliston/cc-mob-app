@@ -1,5 +1,6 @@
 import { API } from "@aws-amplify/api"
 import { useInfiniteQuery } from "@tanstack/react-query"
+import { AxiosError } from "axios"
 import { IPaginatedConversationStream } from "../../../../models/Conversation"
 import { APIEndpoints } from "../../config"
 import { conversationKeys } from "../conversations"
@@ -31,8 +32,9 @@ const useListConversationStream = (
   pageLimit: number,
   conversationId?: string,
   search: string | null = null,
+  refetchInterval: number = 5000,
 ) => {
-  return useInfiniteQuery<IPaginatedConversationStream>(
+  return useInfiniteQuery<IPaginatedConversationStream, AxiosError>(
     conversationKeys.stream(conversationId, search),
     (props) => {
       return makeApiRequest({
@@ -50,7 +52,7 @@ const useListConversationStream = (
         return conversationId && lastPage.meta.cursor ? lastPage.meta.cursor : false
       },
       enabled: !!conversationId,
-      refetchInterval: 5000,
+      refetchInterval: refetchInterval,
       retry: 2,
     },
   )

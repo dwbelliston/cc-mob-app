@@ -36,6 +36,7 @@ interface IProps {
   contactName: string
   contactNumber: string
   contactId: string
+  onSent?: () => void
 }
 
 type IFormInputs = {
@@ -55,7 +56,7 @@ export interface ISelectedFile {
   name: string
 }
 
-const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IProps) => {
+const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent }: IProps) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [messageMediaItems, setMessageMediaItems] = React.useState<IUserMediaItem[]>([])
 
@@ -110,6 +111,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
       return
     }
 
+    console.log("SEND>>>", contactNumber)
     if (contactNumber && userNumber) {
       setIsSubmitting(true)
 
@@ -146,6 +148,9 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId }: IPro
           // if (contactId) {
           //   messageDraftUpdate[contactId] = {}
           // }
+          if (onSent) {
+            onSent()
+          }
 
           resetInputs()
         } catch (e) {}

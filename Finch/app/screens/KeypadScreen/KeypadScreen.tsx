@@ -8,7 +8,7 @@ import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
 import * as Linking from "expo-linking"
-import { Button, Screen, Text } from "../../components"
+import { Button, Icon, IconButton, Screen, Text } from "../../components"
 import { useStores } from "../../models"
 import { IContactCreate, IContactFilter } from "../../models/Contact"
 import { getConversationId } from "../../models/Conversation"
@@ -34,6 +34,7 @@ import { DialPad } from "./DialPad"
 interface IFoundContact {
   name: string
   contactId: string
+  contactNumber: string
   conversationId: string
   initials: string
 }
@@ -106,6 +107,9 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     setTrackedDialerKeys((prevValues) => [...prevValues, value])
   }
 
+  const onClearAll = () => {
+    setTrackedDialerKeys([])
+  }
   const handleOnDeletePress = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
     setTrackedDialerKeys((prevValues) => {
@@ -123,6 +127,8 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
       nav.navigate("ConversationStream", {
         contactName: foundContact.name,
         conversationId: foundContact.conversationId,
+        contactNumber: foundContact.contactNumber,
+        contactId: foundContact.contactId,
       })
     }
   }
@@ -165,6 +171,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
 
           const name = `${firstContact.FirstName} ${firstContact.LastName}`
           const contactId = firstContact.ContactId
+          const contactNumber = firstContact.Phone
           const initials = getInitials(name)
           const conversationId = getConversationId(userNumber, firstContact.Phone)
           foundContact = {
@@ -172,6 +179,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
             contactId,
             initials,
             conversationId,
+            contactNumber,
           }
         }
       }
@@ -226,10 +234,17 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
 
             {!isLoadingContacts && foundContact ? (
               <Stack justifyContent={"center"} alignItems="center" space={0}>
-                <ContactSmudgePressable
-                  onPress={() => handleOnPressContact(foundContact.name, foundContact.contactId)}
-                  name={foundContact.name}
-                />
+                <HStack alignItems="center" space={1}>
+                  <ContactSmudgePressable
+                    onPress={() => handleOnPressContact(foundContact.name, foundContact.contactId)}
+                    name={foundContact.name}
+                  />
+                  <IconButton
+                    variant={"ghost"}
+                    onPress={onClearAll}
+                    icon={<Icon colorToken={"error"} icon={"xMark"} />}
+                  />
+                </HStack>
 
                 {countFound > 1 ? (
                   <Text

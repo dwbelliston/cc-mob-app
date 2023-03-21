@@ -35,7 +35,9 @@ import SendMessageFloaterInput from "./SendMessageFloaterInput"
 export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStream">> = observer(
   function ConversationStreamScreen(_props) {
     const [sectionConversationItems, setSectionConversationItems] = React.useState<any>([])
+    const [contactId, setContactId] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
+    const [refetchInterval, setRefetchInterval] = React.useState(5000)
     // React.useState<SectionListProps<any, any>>()
     // React.useState<SectionBase<IConversationItem[]>>()
 
@@ -48,11 +50,11 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
 
     const contactName = _props.route.params.contactName
     const conversationId = _props.route.params.conversationId
+    const paramContactId = _props.route.params.contactId
+    const paramContactNumber = _props.route.params.contactNumber
 
     const { data: dataConversation, isLoading: isLoadingConversation } =
       useReadConversation(conversationId)
-
-    const contactId = dataConversation?.ContactId
 
     const {
       data: dataContact,
@@ -77,11 +79,18 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
       viewLimit,
       conversationId,
       null,
+      refetchInterval,
       // debouncedStreamSearch
     )
 
     const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
 
+    const handleOnSent = () => {
+      // If a message is sent to a new contact the refetch is set to 0, this turns it back on
+      if (!refetchInterval) {
+        setRefetchInterval(5000)
+      }
+    }
     const handleLoadMore = () => {
       if (!isFetchingStream) {
         if (dataStreamItems?.pages) {
@@ -129,10 +138,6 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     }, [])
 
     React.useEffect(() => {
-      const conversationItemsUpdate: IConversationItem[] = []
-
-      let dateHeadMarker: string = ""
-
       const markersWithList = {}
 
       if (dataStreamItems?.pages) {
@@ -194,7 +199,16 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     React.useEffect(() => {
       if (dataConversation) {
         const contactNumber = getConversationContactNumber(dataConversation)
+        const contactId = dataConversation?.ContactId
+        setContactId(contactId)
         setContactNumber(contactNumber)
+      } else {
+        if (paramContactNumber) {
+          setContactNumber(paramContactNumber)
+        }
+        if (paramContactId) {
+          setContactId(paramContactId)
+        }
       }
     }, [dataConversation])
 
@@ -205,6 +219,12 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
         }
       }
     }, [dataConversation])
+
+    React.useEffect(() => {
+      if (isError) {
+        setRefetchInterval(0)
+      }
+    }, [isError])
 
     return (
       <Screen
@@ -227,7 +247,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           renderItem={renderItem}
           renderSectionHeader={renderSectionHeader}
           ListEmptyComponent={
-            isLoadingStream ? (
+            isLoadingStream && !isError ? (
               <Box px={spacing.tiny} py={spacing.small} h="full">
                 <Text textAlign={"center"} colorToken="text.softer" tx="common.oneMoment"></Text>
               </Box>
@@ -270,6 +290,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           contactName={contactName}
           contactId={contactId}
           contactNumber={contactNumber}
+          onSent={handleOnSent}
         />
       </Screen>
     )

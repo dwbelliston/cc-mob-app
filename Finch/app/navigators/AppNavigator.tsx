@@ -45,7 +45,9 @@ const imgSrc = require("../../assets/images/img-lines-header-light.png")
 export type AppStackParamList = {
   Welcome: undefined
   AppDrawer: undefined
-  ConversationStream: { contactName?: string; conversationId?: string } | undefined
+  ConversationStream:
+    | { contactName?: string; conversationId?: string; contactNumber?: string; contactId?: string }
+    | undefined
   ContactDetail: { contactName: string; contactId: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
