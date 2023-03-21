@@ -2,7 +2,7 @@ import { useHeaderHeight } from "@react-navigation/elements"
 import { NavigationProp } from "@react-navigation/native"
 import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
-import { Box, Center, HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
+import { Box, HStack, Pressable, Stack, useColorModeValue } from "native-base"
 
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
@@ -45,12 +45,15 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   const bgMatch = useColorModeValue("primary.100", "primary.900")
   const colorMatch = useColorModeValue("primary.500", "primary.200")
   const avatarBg = useColorModeValue("primary.400", "primary.600")
+  const bgNew = useColorModeValue("secondary.100", "secondary.900")
+  const colorNew = useColorModeValue("secondary.500", "secondary.200")
 
   const { data: dataContacts, isLoading: isLoadingContacts } = useListContacts({
     pageLimit: contactsStore.viewLimit,
     filters: useFilters,
   })
 
+  const handleOnCreateContact = () => {}
   const handleOnPressContact = (contactName: string, contactId: string) => {
     Haptics.selectionAsync()
 
@@ -115,75 +118,96 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
       preset="fixed"
       contentContainerStyle={{
         paddingBottom: 0,
+        flex: 1,
         paddingTop: headerHeight,
       }}
     >
-      <View h="full" borderWidth={4} borderColor="red.400">
-        <Box borderWidth={4} borderColor="red.900" minH={32} h={32}>
-          <Center h="full">
-            <Stack space={spacing.micro}>
-              <Text
-                noOfLines={1}
-                textAlign={"center"}
-                fontSize="3xl"
-                fontWeight="semibold"
-                text={dialerDisplay}
-              ></Text>
+      <Stack h="full" justifyContent={"center"} space={spacing.tiny}>
+        <Box minH={32} h={32}>
+          <Stack space={spacing.micro} h="full" justifyContent={"center"}>
+            <Text
+              noOfLines={1}
+              textAlign={"center"}
+              fontSize="3xl"
+              fontWeight="semibold"
+              text={dialerDisplay}
+            ></Text>
 
-              {!isLoadingContacts && flatData && flatData?.length ? (
-                <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
-                  {flatData?.slice(0, 1).map((fContact) => {
-                    return (
-                      <Pressable
-                        key={fContact.contactId}
-                        onPress={() => handleOnPressContact(fContact.name, fContact.contactId)}
+            {!isLoadingContacts && flatData && flatData?.length ? (
+              <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
+                {flatData?.slice(0, 1).map((fContact) => {
+                  return (
+                    <Pressable
+                      key={fContact.contactId}
+                      onPress={() => handleOnPressContact(fContact.name, fContact.contactId)}
+                    >
+                      <HStack
+                        w="full"
+                        rounded="full"
+                        bg={bgMatch}
+                        space={spacing.tiny}
+                        px={spacing.tiny}
+                        py={0.5}
+                        alignItems="center"
                       >
-                        <HStack
-                          w="full"
-                          rounded="full"
-                          bg={bgMatch}
-                          space={spacing.tiny}
-                          px={spacing.tiny}
-                          py={0.5}
-                          alignItems="center"
-                        >
-                          <ContactAvatar
-                            avatarColor={avatarBg}
-                            initials={fContact.initials}
-                            avatarProps={{ size: "xs" }}
-                          ></ContactAvatar>
-                          <Text
-                            maxW={32}
-                            isTruncated={true}
-                            color={colorMatch}
-                            text={"dustin belliston belliston william"}
-                          ></Text>
-                          {/* <Text color={colorMatch} text={fContact.name}></Text> */}
-                        </HStack>
-                      </Pressable>
-                    )
-                  })}
-                  {flatData?.length > 1 ? (
+                        <ContactAvatar
+                          avatarColor={avatarBg}
+                          initials={fContact.initials}
+                          avatarProps={{ size: "xs" }}
+                        ></ContactAvatar>
+                        <Text
+                          maxW={32}
+                          fontWeight="semibold"
+                          isTruncated={true}
+                          color={colorMatch}
+                          text={fContact.name}
+                        ></Text>
+                      </HStack>
+                    </Pressable>
+                  )
+                })}
+                {flatData?.length > 1 ? (
+                  <Text
+                    colorToken="text.softer"
+                    text={`+${pluralize(flatData?.length - 1, "contact")}`}
+                  ></Text>
+                ) : null}
+              </HStack>
+            ) : null}
+
+            {!isLoadingContacts && !flatData?.length && useFilters ? (
+              <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
+                <Pressable onPress={handleOnCreateContact}>
+                  <HStack
+                    w="full"
+                    rounded="full"
+                    bg={bgNew}
+                    space={spacing.tiny}
+                    px={spacing.tiny}
+                    py={0.5}
+                    alignItems="center"
+                  >
                     <Text
-                      colorToken="text.softer"
-                      text={`+${pluralize(flatData?.length - 1, "contact")}`}
+                      maxW={32}
+                      fontWeight="semibold"
+                      isTruncated={true}
+                      color={colorNew}
+                      text={"Add Contact"}
                     ></Text>
-                  ) : null}
-                </HStack>
-              ) : null}
-            </Stack>
-          </Center>
+                  </HStack>
+                </Pressable>
+              </HStack>
+            ) : null}
+          </Stack>
         </Box>
-        <Box flex={1} borderWidth={4} borderColor="green.900">
-          <Center h="full">
-            <DialPad
-              trackedKeys={trackedDialerKeys}
-              onKeyPress={handleOnKeyPress}
-              onKeyDelete={handleOnDeletePress}
-            />
-          </Center>
+        <Box>
+          <DialPad
+            trackedKeys={trackedDialerKeys}
+            onKeyPress={handleOnKeyPress}
+            onKeyDelete={handleOnDeletePress}
+          />
         </Box>
-      </View>
+      </Stack>
     </Screen>
   )
 })
