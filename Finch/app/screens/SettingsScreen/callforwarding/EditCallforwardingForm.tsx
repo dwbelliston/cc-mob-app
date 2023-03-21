@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { FormSingleSwitch } from "../../../components/FormSingleSwitch"
 
+import { Icon } from "../../../components"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { ICallForwardingForm } from "../../../models/CallFlow"
 import { REGEX_PHONE } from "../../../utils/constants"
@@ -56,14 +57,17 @@ export const EditCallforwardingForm = React.forwardRef<FormHandle, IProps>(
           errors={form.formState.errors}
           labelTx="callforwarding.status"
         ></FormSingleSwitch>
+
         <BottomSheetFormControl
           name="NumberForwardTo"
           control={form.control}
-          multiline={true}
-          numberOfLines={5}
+          multiline={false}
           labelProps={{
             tx: "fieldLabels.number",
           }}
+          textContentType="telephoneNumber"
+          keyboardType="phone-pad"
+          InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="phone" />}
         ></BottomSheetFormControl>
       </Stack>
     )
