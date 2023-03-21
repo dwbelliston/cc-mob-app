@@ -61,7 +61,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   const [debouncedTextSearch] = useDebounce(trackedDialerKeys, 500)
 
   const snapPoints = React.useMemo(() => ["50%", "80%", "100%"], [])
-  const { top: topInset, bottom: bottomInset } = useSafeAreaInsets()
+  const { top: topInset } = useSafeAreaInsets()
 
   const toast = useCustomToast()
 
@@ -190,11 +190,9 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   }, [dataContacts, useFilters])
 
   React.useEffect(() => {
-    let dialerDisplayUpdate = debouncedTextSearch.join(" ")
+    // Update search filters
     if (debouncedTextSearch && debouncedTextSearch.length === 10) {
       const joinedSearch = debouncedTextSearch.join("")
-
-      dialerDisplayUpdate = runFormatPhoneSimple(joinedSearch)
 
       let allFilters: IContactFilter[] = [
         {
@@ -208,9 +206,19 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     } else {
       setUseFilters(undefined)
     }
+  }, [debouncedTextSearch])
+
+  React.useEffect(() => {
+    // Update dialer
+    let dialerDisplayUpdate = trackedDialerKeys.join(" ")
+    if (trackedDialerKeys.length === 10) {
+      const joinedSearch = trackedDialerKeys.join("")
+
+      dialerDisplayUpdate = runFormatPhoneSimple(joinedSearch)
+    }
 
     setDialerDisplay(dialerDisplayUpdate)
-  }, [debouncedTextSearch])
+  }, [trackedDialerKeys])
 
   return (
     <Screen
