@@ -2,6 +2,7 @@ import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 
 import React, { FC } from "react"
+import { Icon } from "../../components"
 import { UserAvatar } from "../../components/UserAvatar"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
@@ -59,6 +60,16 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
 
                 return <UserAvatar size="sm" onPress={handleOnPressSettings}></UserAvatar>
               },
+
+          headerRight: ({}) => {
+            const handleOnPress = () => {
+              navigation.getParent()?.navigate("SettingsStack")
+            }
+
+            return (
+              <Icon icon="adjustmentsVertical" colorToken={"text.softer"} onPress={handleOnPress} />
+            )
+          },
         }}
       />
     </Stack.Navigator>

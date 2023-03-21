@@ -160,7 +160,7 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
         options={({ route: contactStackRoute }) => {
           return {
             headerShown: false,
-            title: "Inbox",
+            title: "Contacts",
             tabBarAccessibilityLabel: translate("navigator.contactsTab"),
             tabBarLabel: translate("navigator.contactsTab"),
             tabBarIcon: ({ focused }) => (

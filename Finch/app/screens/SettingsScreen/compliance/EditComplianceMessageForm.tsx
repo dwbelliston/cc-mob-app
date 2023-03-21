@@ -11,6 +11,7 @@ import { Text } from "../../../components"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { IComplianceMessageMessageUpdate } from "../../../models/ComplianceMessage"
 import { IUserProfile } from "../../../models/UserProfile"
+import { useColor } from "../../../theme/useColor"
 import { COMPLIANCE_MESSAGE_TEXT, REGEX_COMPLIANCE_MESSAGE_TEXT } from "../../../utils/constants"
 import { renderMessageWithUser } from "../../../utils/useMessage"
 import { FormHandle } from "../profile/ProfileScreen"
@@ -42,6 +43,8 @@ export const schema = yup.object().shape({
 export const EditComplianceMessageForm = React.forwardRef<FormHandle, IProps>(
   ({ onSubmit, data, userProfile }, ref) => {
     const [renderedMessageLibrary, setRenderedMessageLibrary] = React.useState<string[]>([])
+
+    const msgBg = useColor("bg.high")
 
     const form = useForm<IComplianceMessageMessageUpdate>({
       resolver: yupResolver(schema),
@@ -88,7 +91,7 @@ export const EditComplianceMessageForm = React.forwardRef<FormHandle, IProps>(
         ></BottomSheetFormControl>
 
         <Stack space={spacing.tiny}>
-          <Text tx={"compliance.ideas"} textAlign={"center"} color="gray.500"></Text>
+          <Text tx={"compliance.ideas"} textAlign={"center"} colorToken="text.softer"></Text>
           <Stack space={spacing.tiny}>
             {renderedMessageLibrary.map((msgBody, idx) => {
               return (
@@ -98,7 +101,7 @@ export const EditComplianceMessageForm = React.forwardRef<FormHandle, IProps>(
                     handleOnUseMessage(msgBody)
                   }}
                 >
-                  <HStack space={8} p={2} py={3} px={4} bg={"gray.50"} rounded="lg">
+                  <HStack space={8} p={2} py={3} px={4} bg={msgBg} rounded="lg">
                     <Text>{msgBody}</Text>
                   </HStack>
                 </Pressable>

@@ -215,18 +215,21 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
       )
     }, [])
 
-    const renderSectionHeader = React.useCallback(({ section: { titleTx } }) => {
-      return (
-        <Text
-          bg={bgSectionTitle}
-          fontWeight={"semibold"}
-          colorToken="text.softer"
-          px={spacing.tiny}
-          tx={titleTx}
-          py={spacing.micro}
-        ></Text>
-      )
-    }, [])
+    const renderSectionHeader = React.useCallback(
+      ({ section: { titleTx } }) => {
+        return (
+          <Text
+            bg={bgSectionTitle}
+            fontWeight={"semibold"}
+            colorToken="text.softer"
+            px={spacing.tiny}
+            tx={titleTx}
+            py={spacing.micro}
+          ></Text>
+        )
+      },
+      [bgSectionTitle],
+    )
 
     return (
       <Screen
