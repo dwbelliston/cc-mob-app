@@ -2,7 +2,6 @@ import { Center, HStack, Stack } from "native-base"
 import React from "react"
 import { Button, Icon, IconButton, Text } from "../../components"
 import { spacing } from "../../theme"
-import { useColor } from "../../theme/useColor"
 
 // https://www.twilio.com/docs/voice/sdks/javascript/twiliocall#callsenddigitsdigits
 
@@ -10,6 +9,7 @@ interface IProps {
   trackedKeys?: string[]
   onKeyPress: (val: string) => void
   onKeyDelete: () => void
+  onMessagePress: () => void
 }
 
 interface IKey {
@@ -41,10 +41,7 @@ const KEYS: IKey[][] = [
   ],
 ]
 
-export const DialPad = ({ onKeyPress, onKeyDelete }: IProps) => {
-  const bgButton = useColor("bg.high")
-  const bgPressed = useColor("bg.higher")
-
+export const DialPad = ({ trackedKeys, onKeyPress, onKeyDelete, onMessagePress }: IProps) => {
   const handleOnKey = (key: IKey) => {
     onKeyPress(key.display)
   }
@@ -102,12 +99,15 @@ export const DialPad = ({ onKeyPress, onKeyDelete }: IProps) => {
       <HStack space={spacing.extraSmall + 2}>
         <Center>
           <IconButton
+            isDisabled={trackedKeys?.length < 10}
             colorScheme={"primary"}
             icon={<Icon icon="chatBubbleLeftEllipsis" />}
             rounded="full"
+            onPress={onMessagePress}
           ></IconButton>
         </Center>
         <IconButton
+          isDisabled={trackedKeys?.length < 10}
           h={16}
           w={16}
           colorScheme={"green"}
@@ -116,6 +116,7 @@ export const DialPad = ({ onKeyPress, onKeyDelete }: IProps) => {
         ></IconButton>
         <Center>
           <IconButton
+            isDisabled={trackedKeys?.length < 1}
             onPress={handleOnDelete}
             icon={<Icon colorToken="text" icon="backspace" />}
             rounded="full"

@@ -11,8 +11,11 @@ import { Screen, Text } from "../../components"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { useStores } from "../../models"
 import { IContactFilter } from "../../models/Contact"
+import { getConversationId } from "../../models/Conversation"
+import { useUserPhone } from "../../models/UserProfile"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import useListContacts from "../../services/api/contacts/queries/useListContacts"
+import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 
@@ -24,6 +27,7 @@ import { DialPad } from "./DialPad"
 interface IFoundContact {
   name: string
   contactId: string
+  conversationId: string
   initials: string
 }
 
@@ -34,7 +38,8 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   const [trackedDialerKeys, setTrackedDialerKeys] = React.useState<string[]>([])
   const [dialerDisplay, setDialerDisplay] = React.useState<string>()
   const [useFilters, setUseFilters] = React.useState<IContactFilter[] | undefined>(undefined)
-  const [flatData, setFlatData] = React.useState<IFoundContact[]>()
+  const [foundContact, setFoundContact] = React.useState<IFoundContact>()
+  const [countFound, setCountFound] = React.useState<number>()
 
   const headerHeight = useHeaderHeight()
 
@@ -53,7 +58,12 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     filters: useFilters,
   })
 
+  const { data: userProfile } = useReadUserProfile()
+
+  const userNumber = useUserPhone(userProfile)
+
   const handleOnCreateContact = () => {}
+
   const handleOnPressContact = (contactName: string, contactId: string) => {
     Haptics.selectionAsync()
 
@@ -64,6 +74,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
       contactId,
     })
   }
+
   const handleOnKeyPress = (value: string) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     setTrackedDialerKeys((prevValues) => [...prevValues, value])
@@ -76,18 +87,44 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     })
   }
 
-  React.useEffect(() => {
-    let matchingContacts: IFoundContact[] = []
-    if (dataContacts && useFilters) {
-      matchingContacts = dataContacts.pages.flatMap((page, idx) =>
-        page.records.flatMap((contact, idx) => ({
-          name: `${contact.FirstName} ${contact.LastName}`,
-          contactId: contact.ContactId,
-          initials: getInitials(`${contact.FirstName} ${contact.LastName}`),
-        })),
-      )
+  const handleOnMessagePress = () => {
+    if (foundContact) {
+      Haptics.selectionAsync()
+
+      const nav = navigation.getParent<NavigationProp<any>>()
+
+      nav.navigate("ConversationStream", {
+        contactName: foundContact.name,
+        conversationId: foundContact.conversationId,
+      })
     }
-    setFlatData(matchingContacts)
+  }
+
+  React.useEffect(() => {
+    let foundContact: IFoundContact
+    let countFound = 0
+    if (dataContacts && useFilters) {
+      if (dataContacts.pages?.length) {
+        if (dataContacts.pages[0].records?.length) {
+          const firstContact = dataContacts.pages[0].records[0]
+          countFound = dataContacts.pages[0].records.length
+
+          const name = `${firstContact.FirstName} ${firstContact.LastName}`
+          const contactId = firstContact.ContactId
+          const initials = getInitials(name)
+          const conversationId = getConversationId(userNumber, firstContact.Phone)
+          foundContact = {
+            name,
+            contactId,
+            initials,
+            conversationId,
+          }
+        }
+      }
+    }
+
+    setCountFound(countFound)
+    setFoundContact(foundContact)
   }, [dataContacts, useFilters])
 
   React.useEffect(() => {
@@ -133,49 +170,47 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
               text={dialerDisplay}
             ></Text>
 
-            {!isLoadingContacts && flatData && flatData?.length ? (
-              <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
-                {flatData?.slice(0, 1).map((fContact) => {
-                  return (
-                    <Pressable
-                      key={fContact.contactId}
-                      onPress={() => handleOnPressContact(fContact.name, fContact.contactId)}
-                    >
-                      <HStack
-                        w="full"
-                        rounded="full"
-                        bg={bgMatch}
-                        space={spacing.tiny}
-                        px={spacing.tiny}
-                        py={0.5}
-                        alignItems="center"
-                      >
-                        <ContactAvatar
-                          avatarColor={avatarBg}
-                          initials={fContact.initials}
-                          avatarProps={{ size: "xs" }}
-                        ></ContactAvatar>
-                        <Text
-                          maxW={32}
-                          fontWeight="semibold"
-                          isTruncated={true}
-                          color={colorMatch}
-                          text={fContact.name}
-                        ></Text>
-                      </HStack>
-                    </Pressable>
-                  )
-                })}
-                {flatData?.length > 1 ? (
+            {!isLoadingContacts && foundContact ? (
+              <Stack justifyContent={"center"} alignItems="center" space={0}>
+                <Pressable
+                  key={foundContact.contactId}
+                  onPress={() => handleOnPressContact(foundContact.name, foundContact.contactId)}
+                >
+                  <HStack
+                    w="full"
+                    rounded="full"
+                    bg={bgMatch}
+                    space={spacing.tiny}
+                    px={spacing.tiny}
+                    py={0.5}
+                    alignItems="center"
+                  >
+                    <ContactAvatar
+                      avatarColor={avatarBg}
+                      initials={foundContact.initials}
+                      avatarProps={{ size: "xs" }}
+                    ></ContactAvatar>
+                    <Text
+                      maxW={32}
+                      fontWeight="semibold"
+                      isTruncated={true}
+                      color={colorMatch}
+                      text={foundContact.name}
+                    ></Text>
+                  </HStack>
+                </Pressable>
+
+                {countFound > 1 ? (
                   <Text
+                    size="xs"
                     colorToken="text.softer"
-                    text={`+${pluralize(flatData?.length - 1, "contact")}`}
+                    text={`+${pluralize(countFound - 1, "contact")}`}
                   ></Text>
                 ) : null}
-              </HStack>
+              </Stack>
             ) : null}
 
-            {!isLoadingContacts && !flatData?.length && useFilters ? (
+            {!isLoadingContacts && !countFound && useFilters ? (
               <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
                 <Pressable onPress={handleOnCreateContact}>
                   <HStack
@@ -205,6 +240,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
             trackedKeys={trackedDialerKeys}
             onKeyPress={handleOnKeyPress}
             onKeyDelete={handleOnDeletePress}
+            onMessagePress={handleOnMessagePress}
           />
         </Box>
       </Stack>
