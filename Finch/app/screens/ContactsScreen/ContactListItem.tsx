@@ -12,7 +12,8 @@ import { useActionSheet } from "@expo/react-native-action-sheet"
 import { useSharedValue } from "react-native-reanimated"
 import { AnimatedBackground } from "../../components/AnimatedBackground"
 import { ContactAvatar } from "../../components/ContactAvatar"
-import { getContactName, IContact } from "../../models/Contact"
+import { Phone } from "../../components/Phone"
+import { getContactName, IContact, NumberCarrierTypeEnum } from "../../models/Contact"
 import { AppStackParamList } from "../../navigators"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
@@ -39,6 +40,7 @@ export interface IContactListItemData {
   lastName: string
   contactEmail: string
   contactNumber: string
+  contactCarrierType: NumberCarrierTypeEnum
   avatarColor: string
   initials: string
   contactSourceType?: IContact["SourceType"]
@@ -66,6 +68,7 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
   const lastName = contact.LastName
   const contactEmail = contact.Email
   const contactNumber = contact.Phone
+  const contactCarrierType = contact.NumberCarrierType
   const avatarColor = getAvatarColor(contactName)
   const initials = getInitials(contactName)
   const lastContactTime = contact.LastContactedTime
@@ -79,6 +82,7 @@ export const makeContactListItemData = (contact: IContact): IContactListItemData
     lastName,
     contactEmail,
     contactNumber,
+    contactCarrierType,
     avatarColor,
     initials,
     lastContactTime,
@@ -160,6 +164,7 @@ const ContactListItem = ({
   lastName,
   contactEmail,
   contactNumber,
+  contactCarrierType,
   avatarColor,
   initials,
   contactSourceType,
@@ -258,6 +263,7 @@ const ContactListItem = ({
                 ></Text>
               </HStack>
               <HStack alignItems="center" space={spacing.micro}>
+                <Phone.Dot numberCarrierType={contactCarrierType} />
                 <Text
                   flex={1}
                   numberOfLines={1}

@@ -105,7 +105,18 @@ export const TypeDescription = ({ numberCarrierType, ...rest }: ITypeDescription
   )
 }
 
+export const PhoneDot = ({ numberCarrierType, ...rest }: ITypeDescriptionProps) => {
+  let dotStatus: DotStatuses = TYPE_STATUS["unknown"]
+
+  if (numberCarrierType) {
+    dotStatus = TYPE_STATUS[numberCarrierType]
+  }
+
+  return <Dot.Base status={dotStatus} size="sm" />
+}
+
 export const Phone = {
   Pill: PhonePill,
+  Dot: PhoneDot,
   Type: TypeDescription,
 }

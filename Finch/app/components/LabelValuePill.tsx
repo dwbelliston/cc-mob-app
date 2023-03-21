@@ -3,7 +3,7 @@ import { Box, Button, HStack, IStackProps, Pressable, Stack } from "native-base"
 import React from "react"
 import { BusinessHourDaySchedule } from "../models/CallFlow"
 import { IConnector, SUPPORTED_CRM_URLS } from "../models/Connector"
-import { IContact, runFormatSourceDisplay } from "../models/Contact"
+import { IContact, NumberCarrierTypeEnum, runFormatSourceDisplay } from "../models/Contact"
 import { ITag } from "../models/Tag"
 import { spacing } from "../theme"
 import { ColorTokenOption, useColor } from "../theme/useColor"
@@ -25,6 +25,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
+import { Phone } from "./Phone"
 
 export interface ILabelProps extends IStackProps {
   icon: IconProps["icon"]
@@ -165,6 +166,78 @@ export const ValueText = ({
     </Pressable>
   )
 }
+export interface ILabelValuePillValuePhoneTypeProps extends IStackProps {
+  icon?: IconProps["icon"]
+  label: TextProps["tx"]
+  phone: TextProps["text"]
+  isCopy?: boolean
+  carrierName: string
+  carrierType: NumberCarrierTypeEnum
+  isShare?: boolean
+  dotProps?: IDotProps
+  onEdit?: () => void
+}
+
+export const ValuePhoneType = ({
+  label,
+  icon,
+  phone,
+  children,
+  isCopy = false,
+  isShare = false,
+  onEdit,
+  carrierName,
+  carrierType,
+  dotProps,
+  ...rest
+}: ILabelValuePillValuePhoneTypeProps) => {
+  const progress = useSharedValue(0)
+
+  const handleOnPress = () => {
+    if (onEdit) {
+      progress.value = 1
+      Haptics.selectionAsync()
+      onEdit()
+    }
+  }
+
+  return (
+    <Pressable onPress={handleOnPress}>
+      <Stack space={1}>
+        <HStack
+          space={4}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          px={spacing.micro}
+          {...rest}
+        >
+          <Label icon={icon} label={label} />
+          {phone ? (
+            <Button.Group size="md" variant="ghost" justifyContent={"flex-end"}>
+              {isCopy ? <CopyButton text={phone} /> : null}
+              {isShare ? <ShareButton text={phone} /> : null}
+            </Button.Group>
+          ) : null}
+        </HStack>
+        <AnimateBackground sharedValue={progress}>
+          <HStack alignItems={"center"} justifyContent={"space-between"}>
+            <Stack space={0} flex={1}>
+              <Text flex={1} fontSize="md" text={phone}></Text>
+              <Phone.Type numberCarrierType={carrierType} />
+            </Stack>
+
+            {onEdit ? (
+              <Box>
+                <Icon size={16} icon="pencilSquare" />
+              </Box>
+            ) : null}
+          </HStack>
+        </AnimateBackground>
+      </Stack>
+    </Pressable>
+  )
+}
+
 export interface ILabelValuePillAddressProps extends IStackProps {
   icon?: IconProps["icon"]
   label: TextProps["tx"]
@@ -507,6 +580,7 @@ export const ValueHours = ({
 
 export const LabelValuePill = {
   Text: ValueText,
+  PhoneType: ValuePhoneType,
   Address: ValueAddress,
   Tags: ValueTags,
   ContactSource: ValueContactSource,

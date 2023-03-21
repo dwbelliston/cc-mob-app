@@ -190,10 +190,12 @@ export const ContactDetailScreen: FC<AppStackScreenProps<"ContactDetail">> = obs
                     onEdit={handleOnEditName}
                   />
 
-                  <LabelValuePill.Text
+                  <LabelValuePill.PhoneType
                     label="fieldLabels.phone"
                     icon="phone"
-                    text={contactNumber}
+                    phone={contactNumber}
+                    carrierName={dataContact.NumberCarrierName}
+                    carrierType={dataContact.NumberCarrierType}
                     isCopy={true}
                     onEdit={handleOnEditPhone}
                   />
