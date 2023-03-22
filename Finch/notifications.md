@@ -16,3 +16,10 @@ https://console.cloud.google.com/apis/credentials?authuser=2&project=currentclie
 expo
 admin@currentlcient.com
 Finch
+
+
+
+
+
+app store connect
+dustin@currentlcient.com
