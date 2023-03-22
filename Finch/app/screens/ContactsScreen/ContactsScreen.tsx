@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite"
-import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
+import { Box, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
 import * as MailComposer from "expo-mail-composer"
-import { Screen, Text } from "../../components"
+import { Icon, Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IContactFilter } from "../../models/Contact"
@@ -55,6 +55,10 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
       pageLimit: contactsStore.viewLimit,
       filters: useFilters,
     })
+
+    const handleOnCreateNew = () => {
+      navigation.getParent().navigate("AddContact")
+    }
 
     const handleLoadMore = () => {
       if (!isFetchingContacts) {
@@ -206,19 +210,12 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     }, [])
 
     return (
-      <Screen
-        preset="fixed"
-        safeAreaEdges={["top"]}
-        statusBarStyle={statusBarColor}
-        contentContainerStyle={{
-          paddingBottom: 0,
-          paddingTop: 0,
-        }}
-      >
+      <Screen preset="fixed">
         <View h="full">
           <FlatList
             contentContainerStyle={{
-              paddingBottom: 16,
+              paddingTop: spacing.small,
+              paddingBottom: spacing.small,
             }}
             contentInsetAdjustmentBehavior="automatic"
             ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}
@@ -250,6 +247,14 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
             initialNumToRender={10}
           />
         </View>
+        <Fab
+          renderInPortal={false}
+          shadow={0}
+          p={3}
+          onPress={handleOnCreateNew}
+          rounded="full"
+          icon={<Icon color="white" size={28} icon="plus" />}
+        />
       </Screen>
     )
   },

@@ -171,16 +171,19 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
     ({
       contactName,
       conversationId,
+      contactId,
       conversationNumber,
     }: {
       contactName: string
       conversationNumber: string
+      contactId: string
       conversationId: string
     }) => {
       navigation.getParent().navigate("ConversationStream", {
         contactName,
         conversationNumber,
         conversationId,
+        contactId,
       })
     },
     [],

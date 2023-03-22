@@ -231,12 +231,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
             <Button onPress={handleOnReset} tx="loginScreen.forgotPassword"></Button>
           </Stack>
 
-          <Text
-            textAlign={"center"}
-            preset="legal"
-            colorToken="text.softer"
-            text="By continuing, you acknowledge that you have read, understood, and agree to CurrentClient Terms of Service and Privacy Policy"
-          />
+          <Text textAlign={"center"} preset="legal" colorToken="text.softer" tx="legal.terms" />
 
           <Text
             textAlign={"center"}

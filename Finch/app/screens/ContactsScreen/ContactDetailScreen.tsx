@@ -174,7 +174,7 @@ const ContactDetailScreenBase: FC<AppStackScreenProps<"ContactDetail">> = observ
 
           <DynamicContactActions
             scrollY={scrollY}
-            bgColor={bgColor}
+            bgColor={borderColor}
             contactId={route.params.contactId}
           />
 

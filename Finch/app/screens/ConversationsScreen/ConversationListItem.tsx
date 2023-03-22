@@ -79,10 +79,12 @@ export interface IConversationListItem extends IConversationListItemData {
   onViewConversation: ({
     contactName,
     conversationNumber,
+    contactId,
     conversationId,
   }: {
     contactName: string
     conversationNumber: string
+    contactId: string
     conversationId: string
   }) => void
 }
@@ -319,7 +321,7 @@ const ConversationListItem = ({
   const handleOnClickConversation = () => {
     progress.value = 1
     closeSwipeable()
-    onViewConversation({ contactName, conversationNumber, conversationId })
+    onViewConversation({ contactName, conversationNumber, contactId, conversationId })
   }
 
   return (

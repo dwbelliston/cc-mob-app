@@ -20,6 +20,8 @@ import {
   ResetPasswordScreen,
   WelcomeScreen,
 } from "../screens"
+import { AddContactScreen } from "../screens/ContactsScreen/AddContactScreen"
+import { ConversationSteamDetailMenu } from "../screens/ConversationsScreen/ConversationSteamDetailMenu"
 import { ResetPasswordConfirmScreen } from "../screens/ResetPasswordConfirmScreen"
 import { colors, HEADER_TITLE_STYLES } from "../theme"
 import { useColor } from "../theme/useColor"
@@ -55,6 +57,7 @@ export type AppStackParamList = {
       }
     | undefined
   ContactDetail: { contactName: string; contactId: string } | undefined
+  AddContact: { contactPhone?: string; assignConversationId?: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
   ResetPassword: { email?: string } | undefined
@@ -109,6 +112,14 @@ const AppStack = observer(function AppStack() {
                 ...HEADER_TITLE_STYLES,
               },
               headerBackVisible: true,
+              headerRight: () => (
+                <ConversationSteamDetailMenu
+                  contactId={route.params.contactId}
+                  contactName={route.params.contactName}
+                  conversationNumber={route.params.conversationNumber}
+                  conversationId={route.params.conversationId}
+                />
+              ),
             })}
           />
 
@@ -124,6 +135,21 @@ const AppStack = observer(function AppStack() {
               },
               headerTitleStyle: {
                 color: "white",
+                ...HEADER_TITLE_STYLES,
+              },
+              headerBackVisible: true,
+            })}
+          />
+          <Stack.Screen
+            name={"AddContact"}
+            component={AddContactScreen}
+            options={({ route }) => ({
+              headerShown: true,
+              headerTitle: "Create",
+              headerStyle: {
+                backgroundColor: headerDetailBg,
+              },
+              headerTitleStyle: {
                 ...HEADER_TITLE_STYLES,
               },
               headerBackVisible: true,

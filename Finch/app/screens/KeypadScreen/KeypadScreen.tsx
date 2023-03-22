@@ -28,7 +28,10 @@ import { getInitials } from "../../utils/getInitials"
 import { pluralize } from "../../utils/pluralize"
 import { useCustomToast } from "../../utils/useCustomToast"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
-import { AddContactForm, AddContactFormHandle } from "../ContactsScreen/AddContactForm"
+import {
+  AddContactSheetForm,
+  AddContactSheetFormHandle,
+} from "../ContactsScreen/AddContactSheetForm"
 import { ContactSmudgePressable } from "../ContactsScreen/ContactSmudgePressable"
 import { DialPad } from "./DialPad"
 
@@ -55,7 +58,7 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
   const [foundContact, setFoundContact] = React.useState<IFoundContact>()
   const [countFound, setCountFound] = React.useState<number>()
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
-  const formRef = React.useRef<AddContactFormHandle>(null)
+  const formRef = React.useRef<AddContactSheetFormHandle>(null)
 
   const headerHeight = useHeaderHeight()
 
@@ -359,7 +362,7 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
           }}
         >
           {editMode === EditFormModeEnum.CREATE_CONTACT ? (
-            <AddContactForm
+            <AddContactSheetForm
               ref={formRef}
               phone={debouncedTextSearch.join("")}
               onSubmit={handleOnSubmitAddContact}

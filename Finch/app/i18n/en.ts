@@ -38,6 +38,12 @@ const en = {
     desktopOnly: "Desktop Only",
     desktopOnlyMore: "Please visit the desktop app for this feature.",
   },
+  error: {
+    saving: "Error saving",
+    creating: "Error creating",
+    updating: "Error updating",
+    assigning: "Error assigning",
+  },
   fieldLabels: {
     name: "Name",
     firstName: "First Name",
@@ -103,6 +109,7 @@ const en = {
     transcript: "Transcript",
     contactCard: "Contact Card",
     startOfConversation: "Start of Conversation",
+    errorAssigningConversation: "Failed to add contact to conversation",
   },
   stream: {
     noMessages: "No Messages",
@@ -137,6 +144,7 @@ const en = {
     noSearchDescription: "Clear your search and try again",
     loadingContacts: "Getting contacts...",
     backToContacts: "Back to contacts",
+    createContact: "Create Contact",
   },
   loginScreen: {
     login: "Login",
@@ -330,9 +338,13 @@ const en = {
   voicemail: {
     pageHeader: "Voicemail",
     pageSubheader:
-      "Record a new voicemail or upload a file from your computer. You can also enable voicemail transcription, which will convert speech to text and display in your call feed.",
+    "Record a new voicemail or upload a file from your computer. You can also enable voicemail transcription, which will convert speech to text and display in your call feed.",
     notice: "To manage your voicemail settings, please login to the desktop app and go to your settings.",
   },
+  legal: {
+    terms: "By continuing, you acknowledge that you have read, understood, and agree to CurrentClient Terms of Service and Privacy Policy",
+    contact: "By continuing, you acknowledge that you have consent to contact this individual and will contact them as appropriate."
+  }
 }
 
 export default en

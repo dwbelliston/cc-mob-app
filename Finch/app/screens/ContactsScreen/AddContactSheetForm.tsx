@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { Icon } from "../../components"
 import { Butter } from "../../components/Butter"
-import { FormControl } from "../../components/FormControl"
+import { BottomSheetFormControl } from "../../components/FormControl"
 import { IContactCreate } from "../../models/Contact"
 import useReadCrmSync from "../../services/api/crmsync/queries/useReadCrmSync"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
@@ -18,7 +18,7 @@ interface IProps {
   phone?: string
 }
 
-export type AddContactFormHandle = {
+export type AddContactSheetFormHandle = {
   submitForm: () => void
 }
 
@@ -26,10 +26,9 @@ export const schema = yup.object().shape({
   FirstName: yup.string().required("Required"),
   LastName: yup.string().required("Required"),
   Phone: yup.string().matches(REGEX_PHONE, "Use 10 digit phone"),
-  Email: yup.string().email("Please use name@domain.com pattern"),
 })
 
-export const AddContactForm = React.forwardRef<AddContactFormHandle, IProps>(
+export const AddContactSheetForm = React.forwardRef<AddContactSheetFormHandle, IProps>(
   ({ onSubmit, phone }, ref) => {
     const { data: userProfile } = useReadUserProfile()
     const { data: dataCrmSync, isLoading: isLoadingCrmSync } = useReadCrmSync(userProfile?.UserId)
@@ -53,29 +52,29 @@ export const AddContactForm = React.forwardRef<AddContactFormHandle, IProps>(
     }))
 
     return (
-      <Stack space={spacing.tiny}>
+      <Stack space={spacing.tiny} py={spacing.tiny} px={spacing.tiny}>
         {dataCrmSync?.IsEnabled ? (
           <Butter.Warning
             titleText={{ tx: "crmSync.warning" }}
             descriptionText={{ tx: "crmSync.warningMore", fontSize: "xs" }}
           ></Butter.Warning>
         ) : null}
-        <FormControl
+        <BottomSheetFormControl
           name="FirstName"
           control={form.control}
           labelProps={{
             tx: "fieldLabels.firstName",
           }}
-        ></FormControl>
-        <FormControl
+        ></BottomSheetFormControl>
+        <BottomSheetFormControl
           name="LastName"
           control={form.control}
           labelProps={{
             tx: "fieldLabels.lastName",
           }}
-        ></FormControl>
+        ></BottomSheetFormControl>
 
-        <FormControl
+        <BottomSheetFormControl
           name="Phone"
           control={form.control}
           multiline={false}
@@ -85,19 +84,7 @@ export const AddContactForm = React.forwardRef<AddContactFormHandle, IProps>(
           textContentType="telephoneNumber"
           keyboardType="phone-pad"
           InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="phone" />}
-        ></FormControl>
-
-        <FormControl
-          name="Email"
-          control={form.control}
-          labelProps={{
-            tx: "fieldLabels.email",
-          }}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoComplete="email"
-          InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="atSymbol" />}
-        ></FormControl>
+        ></BottomSheetFormControl>
       </Stack>
     )
   },
