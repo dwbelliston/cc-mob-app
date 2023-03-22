@@ -23,6 +23,17 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+      "android": {
+        "serviceAccountKeyPath": "../path/to/api-xxx-yyy-zzz.json",
+        "track": "internal"
+      },
+      "ios": {
+        "appleId": "dustin@currentlcient.com",
+        "ascAppId": "6446603544",
+        "appleTeamId": "5DRMFX44RD",
+        "sku": "com.currentclient.app"
+      }
+    }
   }
 }
