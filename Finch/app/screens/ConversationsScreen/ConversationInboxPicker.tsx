@@ -60,7 +60,7 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
         <Menu.Group
           title={translate("inbox.selectFilter")}
           _title={{
-            textTransform: "unset",
+            textTransform: "none",
             _light: {
               color: txtColor,
             },

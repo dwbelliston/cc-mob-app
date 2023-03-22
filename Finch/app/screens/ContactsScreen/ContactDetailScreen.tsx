@@ -11,6 +11,7 @@ import { useColor } from "../../theme/useColor"
 import { runFormatPhone } from "../../utils/useFormatPhone"
 
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { LabelValuePill } from "../../components/LabelValuePill"
@@ -39,7 +40,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-export const ContactDetailScreen: FC<AppStackScreenProps<"ContactDetail">> = observer(
+const ContactDetailScreenBase: FC<AppStackScreenProps<"ContactDetail">> = observer(
   function ContactDetailScreen(_props) {
     const { navigation, route } = _props
 
@@ -304,3 +305,5 @@ export const ContactDetailScreen: FC<AppStackScreenProps<"ContactDetail">> = obs
     )
   },
 )
+
+export const ContactDetailScreen = gestureHandlerRootHOC(ContactDetailScreenBase)

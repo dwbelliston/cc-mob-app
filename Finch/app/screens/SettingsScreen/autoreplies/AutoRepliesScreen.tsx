@@ -13,6 +13,7 @@ import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "../SettingsStack"
 
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { Butter } from "../../../components/Butter"
 import { IAutoReplyForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
@@ -30,7 +31,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-export const AutoRepliesScreen: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
+const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
   function AutoRepliesScreen(_props) {
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const [editMessage, setEditMessage] = React.useState<string>()
@@ -365,3 +366,5 @@ export const AutoRepliesScreen: FC<SettingsStackScreenProps<"BusinessHours">> = 
     )
   },
 )
+
+export const AutoRepliesScreen = gestureHandlerRootHOC(AutoRepliesScreenBase)

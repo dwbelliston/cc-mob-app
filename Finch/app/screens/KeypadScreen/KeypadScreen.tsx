@@ -20,6 +20,7 @@ import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { translate } from "../../i18n"
 import useCreateContacts from "../../services/api/contacts/mutations/useCreateContacts"
@@ -43,7 +44,7 @@ enum EditFormModeEnum {
   CREATE_CONTACT = "CREATE_CONTACT",
 }
 
-export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function ContactsScreen(
+const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function ContactsScreen(
   _props,
 ) {
   const { navigation } = _props
@@ -367,3 +368,5 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     </Screen>
   )
 })
+
+export const KeypadScreen = gestureHandlerRootHOC(KeypadScreenBase)

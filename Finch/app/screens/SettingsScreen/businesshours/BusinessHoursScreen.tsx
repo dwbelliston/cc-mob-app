@@ -13,6 +13,7 @@ import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "../SettingsStack"
 
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { BusinessHourDaySchedule, IBusinessHoursForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
@@ -30,7 +31,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
+const BusinessHoursScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
   function BusinessHoursScreen(_props) {
     const [editDayIndex, setEditDayIndex] = React.useState<number>()
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
@@ -262,3 +263,5 @@ export const BusinessHoursScreen: FC<SettingsStackScreenProps<"BusinessHours">> 
     )
   },
 )
+
+export const BusinessHoursScreen = gestureHandlerRootHOC(BusinessHoursScreenBase)

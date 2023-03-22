@@ -8,6 +8,7 @@ import React from "react"
 
 import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet"
 import { Keyboard } from "react-native"
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, IconButton, IconButtonProps, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
@@ -21,7 +22,7 @@ export interface ISelectTemplateButtonProps extends IconButtonProps {
   onTemplateSelect: (template: ISmsTemplate) => void
 }
 
-export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTemplateButtonProps) => {
+const SelectTemplateButtonBase = ({ onTemplateSelect, ...rest }: ISelectTemplateButtonProps) => {
   const [flatData, setFlatData] = React.useState<ISmsTemplate[]>()
 
   const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
@@ -162,3 +163,5 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
     </>
   )
 }
+
+export const SelectTemplateButton = gestureHandlerRootHOC(SelectTemplateButtonBase)

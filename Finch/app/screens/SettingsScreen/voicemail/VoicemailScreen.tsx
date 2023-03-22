@@ -7,13 +7,14 @@ import { spacing } from "../../../theme"
 
 import { SettingsStackScreenProps } from "../SettingsStack"
 
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { Butter } from "../../../components/Butter"
 
 export type FormHandle = {
   submitForm: () => void
 }
 
-export const VoicemailScreen: FC<SettingsStackScreenProps<"Voicemail">> = observer(
+const VoicemailScreenBase: FC<SettingsStackScreenProps<"Voicemail">> = observer(
   function VoicemailScreen(_props) {
     return (
       <Screen preset="scroll" style={{}}>
@@ -39,3 +40,5 @@ export const VoicemailScreen: FC<SettingsStackScreenProps<"Voicemail">> = observ
     )
   },
 )
+
+export const VoicemailScreen = gestureHandlerRootHOC(VoicemailScreenBase)

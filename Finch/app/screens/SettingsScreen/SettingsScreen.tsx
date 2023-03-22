@@ -238,12 +238,7 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
           flex: 1,
         }}
       >
-        <Box
-          style={{
-            marginTop: headerHeight,
-          }}
-          flex={1}
-        >
+        <Box flex={1}>
           <SectionList
             sections={SETTINGS_LINKS}
             stickySectionHeadersEnabled={true}

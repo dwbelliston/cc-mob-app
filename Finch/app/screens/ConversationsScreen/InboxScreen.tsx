@@ -233,19 +233,12 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
   }, [debouncedConversationSearch])
 
   return (
-    <Screen
-      preset="fixed"
-      safeAreaEdges={["top"]}
-      statusBarStyle={statusBarColor}
-      contentContainerStyle={{
-        paddingBottom: 0,
-        paddingTop: 0,
-      }}
-    >
+    <Screen preset="fixed">
       <View h="full">
         <FlatList
           contentContainerStyle={{
-            paddingBottom: 16,
+            paddingTop: spacing.small,
+            paddingBottom: spacing.small,
           }}
           contentInsetAdjustmentBehavior="automatic"
           ItemSeparatorComponent={() => <Divider my={spacing.micro} bg="transparent" />}

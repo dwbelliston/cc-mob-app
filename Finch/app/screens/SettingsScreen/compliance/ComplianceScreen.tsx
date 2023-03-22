@@ -2,6 +2,7 @@ import * as WebBrowser from "expo-web-browser"
 import { observer } from "mobx-react-lite"
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 
 import { Button, Screen, Text } from "../../../components"
 import { LabelValuePill } from "../../../components/LabelValuePill"
@@ -33,7 +34,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-export const ComplianceScreen: FC<SettingsStackScreenProps<"Compliance">> = observer(
+const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observer(
   function ComplianceScreen(_props) {
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
@@ -222,3 +223,5 @@ export const ComplianceScreen: FC<SettingsStackScreenProps<"Compliance">> = obse
     )
   },
 )
+
+export const ComplianceScreen = gestureHandlerRootHOC(ComplianceScreenBase)

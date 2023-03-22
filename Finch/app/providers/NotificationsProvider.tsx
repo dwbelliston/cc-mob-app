@@ -5,7 +5,7 @@ import React from "react"
 import { Platform } from "react-native"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 
-const BACKGROUND_NOTIFICATION_TASK = "BACKGROUND-NOTIFICATION-TASK"
+const BACKGROUND_NOTIFICATION_TASK = "CC-BACKGROUND-NOTIFICATION-TASK-001"
 
 // defines how device should handle a notification when the app is running (foreground notifications)
 Notifications.setNotificationHandler({

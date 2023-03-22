@@ -9,6 +9,7 @@ import { spacing } from "../../../theme"
 
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import * as WebBrowser from "expo-web-browser"
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import appConfig from "../../../../app-config"
 import { PressableActionRow } from "../../../components/PressableActionRow"
@@ -38,7 +39,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-export const CrmSyncScreen: FC<SettingsStackScreenProps<"MySubscription">> = observer(
+export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> = observer(
   function CrmSyncScreen(_props) {
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
@@ -256,3 +257,5 @@ export const CrmSyncScreen: FC<SettingsStackScreenProps<"MySubscription">> = obs
     )
   },
 )
+
+export const CrmSyncScreen = gestureHandlerRootHOC(CrmSyncScreenBase)

@@ -10,6 +10,7 @@ import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { translate } from "../../../i18n"
 
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { ICallForwardingForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
@@ -28,7 +29,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-export const CallforwardingScreen: FC<SettingsStackScreenProps<"Callforwarding">> = observer(
+const CallforwardingScreenBase: FC<SettingsStackScreenProps<"Callforwarding">> = observer(
   function CallforwardingScreen(_props) {
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
@@ -184,3 +185,5 @@ export const CallforwardingScreen: FC<SettingsStackScreenProps<"Callforwarding">
     )
   },
 )
+
+export const CallforwardingScreen = gestureHandlerRootHOC(CallforwardingScreenBase)

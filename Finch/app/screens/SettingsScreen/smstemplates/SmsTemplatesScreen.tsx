@@ -7,6 +7,7 @@ import useReadUserProfile from "../../../services/api/userprofile/queries/useRea
 import { spacing } from "../../../theme"
 
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { DataStatus } from "../../../components/DataStatus"
 import { PressableActionRow } from "../../../components/PressableActionRow"
@@ -31,7 +32,7 @@ enum EditFormModeEnum {
   CREATE = "CREATE",
 }
 
-export const SmsTemplatesScreen: FC<SettingsStackScreenProps<"MySubscription">> = observer(
+export const SmsTemplatesScreenBase: FC<SettingsStackScreenProps<"MySubscription">> = observer(
   function SmsTemplatesScreen(_props) {
     const [editTemplate, setEditTemplate] = React.useState<ISmsTemplate>()
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
@@ -281,3 +282,5 @@ export const SmsTemplatesScreen: FC<SettingsStackScreenProps<"MySubscription">> 
     )
   },
 )
+
+export const SmsTemplatesScreen = gestureHandlerRootHOC(SmsTemplatesScreenBase)
