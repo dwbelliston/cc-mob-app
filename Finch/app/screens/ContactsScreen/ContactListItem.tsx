@@ -50,7 +50,7 @@ export interface IContactListItemData {
 
 export interface IContactListItem extends IContactListItemData {
   onEmail: (contactName: string, contactEmail: string) => void
-  onText: (contactName: string, contactNumber: string) => void
+  onText: (contactName: string, contactId: string, contactNumber: string) => void
   onViewContact: ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => void
 }
 
@@ -193,7 +193,7 @@ const ContactListItem = ({
 
   const handleOnText = () => {
     closeSwipeable()
-    onText(contactName, contactNumber)
+    onText(contactName, contactId, contactNumber)
   }
 
   const handleOnClickContact = () => {

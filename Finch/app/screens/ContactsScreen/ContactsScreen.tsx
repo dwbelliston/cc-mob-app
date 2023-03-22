@@ -124,12 +124,13 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
     )
 
     const handleOnText = React.useCallback(
-      (contactName: string, contactNumber: string) => {
+      (contactName: string, contactId: string, contactNumber: string) => {
         const conversationId = getConversationId(userNumber, contactNumber)
 
         navigation.getParent()?.navigate("ConversationStream", {
           contactName,
           conversationId,
+          contactId,
           conversationNumber: contactNumber,
         })
       },
