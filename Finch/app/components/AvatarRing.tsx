@@ -46,7 +46,8 @@ export const AvatarRing = (props: IAvatarRingProps) => {
   return (
     <Circle
       mx="auto"
-      display="inline"
+      // THis crashed on android
+      // display="inline"
       bg={innerRingColor}
       p={0.5}
       borderWidth={1}

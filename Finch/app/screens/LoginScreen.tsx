@@ -5,6 +5,7 @@ import { Box, Image, Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
+import appConfig from "../../app-config"
 import { Button, Icon, Screen, Text } from "../components"
 import { Butter } from "../components/Butter"
 import { FormControl } from "../components/FormControl"
@@ -46,6 +47,8 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [attemptsCount, setAttemptsCount] = React.useState(0)
   const [isBiometricSupported, setIsBiometricSupported] = React.useState<boolean>(true)
+
+  const appVersion = `App version: ${appConfig.version}`
 
   const {
     authenticationStore: { loginError, login, resetErrors },
@@ -234,6 +237,13 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
             colorToken="text.softer"
             text="By continuing, you acknowledge that you have read, understood, and agree to CurrentClient Terms of Service and Privacy Policy"
           />
+
+          <Text
+            textAlign={"center"}
+            preset="legal"
+            colorToken={"text.softer"}
+            text={appVersion}
+          ></Text>
         </Stack>
       </Stack>
     </Screen>

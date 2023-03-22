@@ -103,7 +103,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
   }
 
   const handleOnKeyPress = (value: string) => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+    Haptics.selectionAsync()
     setTrackedDialerKeys((prevValues) => [...prevValues, value])
   }
 
@@ -111,7 +111,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
     setTrackedDialerKeys([])
   }
   const handleOnDeletePress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium)
+    Haptics.selectionAsync()
     setTrackedDialerKeys((prevValues) => {
       prevValues.pop()
       return [...prevValues]
@@ -235,6 +235,7 @@ export const KeypadScreen: FC<HomeTabScreenProps<"Keypad">> = observer(function 
             <Text
               noOfLines={1}
               textAlign={"center"}
+              adjustsFontSizeToFit={true}
               fontSize="3xl"
               fontWeight="semibold"
               text={dialerDisplay}
