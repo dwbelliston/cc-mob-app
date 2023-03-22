@@ -1,5 +1,6 @@
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { Stack } from "native-base"
 
 import React, { FC } from "react"
 import { Icon } from "../../components"
@@ -20,7 +21,7 @@ export type ContactsStackScreenProps<T extends keyof ContactsStackParamList> = C
   HomeTabScreenProps<"ContactsStack">
 >
 
-const Stack = createNativeStackNavigator<ContactsStackParamList>()
+const StackNavigator = createNativeStackNavigator<ContactsStackParamList>()
 
 export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) => {
   const { navigation } = _props
@@ -30,8 +31,8 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
   const headerBg = useColor("bg.header")
 
   return (
-    <Stack.Navigator>
-      <Stack.Screen
+    <StackNavigator.Navigator>
+      <StackNavigator.Screen
         name={"ContactsList"}
         component={ContactsScreen}
         options={{
@@ -67,11 +68,17 @@ export const ContactsStack: FC<HomeTabScreenProps<"ContactsStack">> = (_props) =
             }
 
             return (
-              <Icon icon="adjustmentsVertical" colorToken={"text.softer"} onPress={handleOnPress} />
+              <Stack position="relative">
+                <Icon
+                  icon="adjustmentsVertical"
+                  colorToken={"text.softer"}
+                  onPress={handleOnPress}
+                />
+              </Stack>
             )
           },
         }}
       />
-    </Stack.Navigator>
+    </StackNavigator.Navigator>
   )
 }
