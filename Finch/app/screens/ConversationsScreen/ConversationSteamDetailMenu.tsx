@@ -7,6 +7,7 @@ import { useStores } from "../../models"
 import { useActionSheet } from "@expo/react-native-action-sheet"
 import { NavigationProp, useNavigation } from "@react-navigation/native"
 import { StyleProp, ViewStyle } from "react-native"
+import { translate } from "../../i18n"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
 export interface ConversationSteamDetailMenuProps {
@@ -46,7 +47,7 @@ export const ConversationSteamDetailMenu = observer(function ConversationSteamDe
   }
 
   const handleOnContactAction = () => {
-    let options = ["View Contact", "Cancel"]
+    let options = [translate("contacts.viewContact"), translate("common.cancel")]
     const cancelButtonIndex = 1
 
     showActionSheetWithOptions(
@@ -69,7 +70,7 @@ export const ConversationSteamDetailMenu = observer(function ConversationSteamDe
     )
   }
   const handleOnNoContactAction = () => {
-    let options = ["Create Contact", "Cancel"]
+    let options = [translate("contacts.createContact"), translate("common.cancel")]
 
     const cancelButtonIndex = 1
 

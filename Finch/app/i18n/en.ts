@@ -145,6 +145,7 @@ const en = {
     loadingContacts: "Getting contacts...",
     backToContacts: "Back to contacts",
     createContact: "Create Contact",
+    viewContact: "View Contact",
   },
   loginScreen: {
     login: "Login",
