@@ -234,11 +234,11 @@ const variants = {
 
 const sizes = {
   '2xl': { fontSize: 'xl' },
-  'xl': { fontSize: 'lg' },
-  'lg': { fontSize: 'md' },
-  'md': { fontSize: 'sm' },
-  'sm': { fontSize: 'xs' },
-  'xs': { fontSize: '2xs' },
+  'xl': { fontSize: 'xl' },
+  'lg': { fontSize: 'lg' },
+  'md': { fontSize: 'md' },
+  'sm': { fontSize: 'sm' },
+  'xs': { fontSize: 'xs' },
 };
 
 const defaultProps = {
