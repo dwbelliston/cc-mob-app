@@ -211,11 +211,13 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
 
   React.useEffect(() => {
     // Update dialer
-    let dialerDisplayUpdate = trackedDialerKeys.join(" ")
+    let dialerDisplayUpdate = ""
     if (trackedDialerKeys.length === 10) {
       const joinedSearch = trackedDialerKeys.join("")
 
       dialerDisplayUpdate = runFormatPhoneSimple(joinedSearch)
+    } else {
+      dialerDisplayUpdate = trackedDialerKeys.join(" ")
     }
 
     setDialerDisplay(dialerDisplayUpdate)
