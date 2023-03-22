@@ -126,6 +126,7 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
         navigation.getParent()?.navigate("ConversationStream", {
           contactName,
           conversationId,
+          conversationNumber: contactNumber,
         })
       },
       [userNumber],

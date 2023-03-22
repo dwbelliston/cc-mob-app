@@ -13,5 +13,5 @@ export const contactsKeys = {
   lists: () => [...contactsKeys.all, 'list'] as const,
   list: (filters: IContactsListFilterProps) => [...contactsKeys.lists(), filters] as const,
   details: () => [...contactsKeys.all, 'detail'] as const,
-  detail: (id: string) => [...contactsKeys.details(), id] as const,
+  detail: (id: string, isListVersions: boolean) => [...contactsKeys.details(), id, isListVersions] as const,
 }

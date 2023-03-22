@@ -1,3 +1,4 @@
+import * as Linking from "expo-linking"
 import { Box, HStack, IStackProps, Spinner, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { AutoImage, Icon, IconButton } from "../../components"
@@ -32,30 +33,34 @@ const MessageMediaItemsPreview = ({
     const fileName = mediaUrl.split("/").pop()
     const ext = `.${mediaType.split("/").pop()}`
 
-    setIsDownloading(true)
+    const isVCard = mediaType?.toLowerCase().includes("vcard") ? true : false
 
-    const isAvailable = await MediaLibrary.isAvailableAsync()
-
-    if (isAvailable) {
-      try {
-        const localFileUrl = `${FileSystem.documentDirectory}${fileName}${ext}`
-
-        await FileSystem.downloadAsync(mediaUrl, localFileUrl)
-        await MediaLibrary.saveToLibraryAsync(localFileUrl)
-        // const asset = await MediaLibrary.createAssetAsync(localFileUrl)
-
-        toast.success({ title: "Download complete" })
-      } catch (error) {
-        toast.error({ title: "Download failed" })
-      }
+    if (isVCard) {
+      Linking.openURL(mediaUrl)
     } else {
-      toast.warning({
-        title: "Limited Permissions",
-        description: "Required permissions not available",
-      })
-    }
+      setIsDownloading(true)
+      const isAvailable = await MediaLibrary.isAvailableAsync()
 
-    setIsDownloading(false)
+      if (isAvailable) {
+        try {
+          const localFileUrl = `${FileSystem.documentDirectory}${fileName}${ext}`
+
+          await FileSystem.downloadAsync(mediaUrl, localFileUrl)
+          await MediaLibrary.saveToLibraryAsync(localFileUrl)
+          // const asset = await MediaLibrary.createAssetAsync(localFileUrl)
+
+          toast.success({ title: "Download complete" })
+        } catch (error) {
+          toast.error({ title: "Download failed" })
+        }
+      } else {
+        toast.warning({
+          title: "Limited Permissions",
+          description: "Required permissions not available",
+        })
+      }
+      setIsDownloading(false)
+    }
   }
 
   return (
@@ -66,19 +71,14 @@ const MessageMediaItemsPreview = ({
 
         return (
           <Box key={`${idx}-${mediaItem.MediaUrl}`} position="relative">
-            {isVCard ? (
-              <VCardMediaDisplay
-                isMessageError={isMessageError}
-                isUserMessage={isUserMessage}
-                mediaItem={mediaItem}
-              ></VCardMediaDisplay>
-            ) : (
-              <HStack
-                direction={isUserMessage ? "row-reverse" : "row"}
-                alignItems="center"
-                w="full"
-              >
-                {/* Image */}
+            <HStack direction={isUserMessage ? "row-reverse" : "row"} alignItems="center" w="full">
+              {isVCard ? (
+                <VCardMediaDisplay
+                  isMessageError={isMessageError}
+                  isUserMessage={isUserMessage}
+                  mediaItem={mediaItem}
+                ></VCardMediaDisplay>
+              ) : (
                 <Box
                   borderWidth={isMessageError ? 1 : 0}
                   borderColor={isMessageError ? borderError : "transparent"}
@@ -95,28 +95,28 @@ const MessageMediaItemsPreview = ({
                     maxWidth={200}
                   />
                 </Box>
-                {/* Download button */}
-                {isDownloadable ? (
-                  <Box ml={isUserMessage ? 0 : 2} mr={!isUserMessage ? 0 : 2}>
-                    {isDownloading ? (
-                      <Box p={2}>
-                        <Spinner />
-                      </Box>
-                    ) : (
-                      <IconButton
-                        rounded="full"
-                        size="md"
-                        onPress={() => handleDownload(mediaItem.MediaUrl, mediaItem.MediaType)}
-                        variant={"ghost"}
-                        aria-label="Download Media"
-                        icon={<Icon colorToken="text.soft" size={20} icon="cloudArrowDown"></Icon>}
-                        tx="common.downloadMedia"
-                      ></IconButton>
-                    )}
-                  </Box>
-                ) : null}
-              </HStack>
-            )}
+              )}
+
+              {isDownloadable ? (
+                <Box ml={isUserMessage ? 0 : 2} mr={!isUserMessage ? 0 : 2}>
+                  {isDownloading ? (
+                    <Box p={2}>
+                      <Spinner />
+                    </Box>
+                  ) : (
+                    <IconButton
+                      rounded="full"
+                      size="md"
+                      onPress={() => handleDownload(mediaItem.MediaUrl, mediaItem.MediaType)}
+                      variant={"ghost"}
+                      aria-label="Download Media"
+                      icon={<Icon colorToken="text.soft" size={20} icon={"cloudArrowDown"}></Icon>}
+                      tx="common.downloadMedia"
+                    ></IconButton>
+                  )}
+                </Box>
+              ) : null}
+            </HStack>
           </Box>
         )
       })}

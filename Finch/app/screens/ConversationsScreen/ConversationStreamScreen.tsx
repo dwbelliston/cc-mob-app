@@ -3,7 +3,6 @@ import { observer } from "mobx-react-lite"
 import { Box, SectionList, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 
-import { StyleSheet, ViewStyle } from "react-native"
 import { Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { translate } from "../../i18n"
@@ -16,7 +15,6 @@ import {
 } from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
-import useReadContact from "../../services/api/contacts/queries/useReadContact"
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversationStream from "../../services/api/conversations/queries/useListConversationStream"
 import { useReadConversation } from "../../services/api/conversations/queries/useReadConversation"
@@ -51,16 +49,10 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const contactName = _props.route.params.contactName
     const conversationId = _props.route.params.conversationId
     const paramContactId = _props.route.params.contactId
-    const paramContactNumber = _props.route.params.contactNumber
+    const paramConversationNumber = _props.route.params.conversationNumber
 
     const { data: dataConversation, isLoading: isLoadingConversation } =
       useReadConversation(conversationId)
-
-    const {
-      data: dataContact,
-      isError: isErrorContact,
-      isLoading: isLoadingContact,
-    } = useReadContact(contactId)
 
     const {
       status,
@@ -203,8 +195,8 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
         setContactId(contactId)
         setContactNumber(contactNumber)
       } else {
-        if (paramContactNumber) {
-          setContactNumber(paramContactNumber)
+        if (paramConversationNumber) {
+          setContactNumber(paramConversationNumber)
         }
         if (paramContactId) {
           setContactId(paramContactId)
@@ -296,33 +288,3 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     )
   },
 )
-
-const $root: ViewStyle = {
-  flex: 1,
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  inner: {
-    padding: 24,
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  header: {
-    fontSize: 36,
-    lineHeight: 36,
-    marginBottom: 48,
-  },
-  input: {
-    height: 40,
-    borderColor: "#000000",
-    borderBottomWidth: 1,
-    marginBottom: 36,
-  },
-  btnContainer: {
-    backgroundColor: "white",
-    marginTop: 12,
-  },
-})

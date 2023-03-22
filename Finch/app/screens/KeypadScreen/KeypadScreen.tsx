@@ -128,7 +128,7 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
       nav.navigate("ConversationStream", {
         contactName: foundContact.name,
         conversationId: foundContact.conversationId,
-        contactNumber: foundContact.contactNumber,
+        conversationNumber: foundContact.contactNumber,
         contactId: foundContact.contactId,
       })
     }

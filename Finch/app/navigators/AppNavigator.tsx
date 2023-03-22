@@ -23,6 +23,7 @@ import {
 import { ResetPasswordConfirmScreen } from "../screens/ResetPasswordConfirmScreen"
 import { colors, HEADER_TITLE_STYLES } from "../theme"
 import { useColor } from "../theme/useColor"
+import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import AppDrawerNavigator from "./AppDrawerNavigator"
 
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
@@ -46,7 +47,12 @@ export type AppStackParamList = {
   Welcome: undefined
   AppDrawer: undefined
   ConversationStream:
-    | { contactName?: string; conversationId?: string; contactNumber?: string; contactId?: string }
+    | {
+        contactName?: string
+        conversationId?: string
+        conversationNumber?: string
+        contactId?: string
+      }
     | undefined
   ContactDetail: { contactName: string; contactId: string } | undefined
   Login: { username?: string; password?: string } | undefined
@@ -91,7 +97,10 @@ const AppStack = observer(function AppStack() {
             component={ConversationStreamScreen}
             options={({ route }) => ({
               headerShown: true,
-              headerTitle: route.params?.contactName || "Conversation",
+              headerTitle:
+                route.params?.contactName ||
+                runFormatPhoneSimple(route.params?.conversationNumber) ||
+                "Conversation",
               // headerLargeTitle: true,
               headerStyle: {
                 backgroundColor: headerDetailBg,

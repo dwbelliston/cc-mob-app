@@ -60,6 +60,7 @@ export const DynamicContactActions = ({ scrollY, bgColor, contactId }: IProps) =
     navigation.navigate("ConversationStream", {
       contactName,
       conversationId,
+      conversationNumber: dataContact?.Phone,
     })
   }
 

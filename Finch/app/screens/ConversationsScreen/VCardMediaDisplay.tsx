@@ -1,8 +1,8 @@
-import { Box, HStack, IBoxProps, Stack } from "native-base"
+import { Box, HStack, IBoxProps, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { Icon, Text } from "../../components"
 import { IMessageMediaItem } from "../../models/Message"
-import { spacing } from "../../theme"
+import { colors, spacing } from "../../theme"
 
 interface IProps extends IBoxProps {
   mediaItem: IMessageMediaItem
@@ -18,16 +18,29 @@ const VCardMediaDisplay = ({
 }: IProps) => {
   const [fileName, set_fileName] = React.useState("")
 
+  const bgError = useColorModeValue(colors.error[50], colors.error[900])
+  const borderError = useColorModeValue(colors.error[200], colors.error[600])
+  const colorError = useColorModeValue(colors.error[800], colors.error[200])
+
+  const bgRight = useColorModeValue(colors.blue[50], colors.blue[800])
+  const borderRight = useColorModeValue(colors.blue[200], colors.blue[600])
+  const colorRight = useColorModeValue(colors.gray[800], colors.white)
+
+  const bgLeft = useColorModeValue(colors.white, colors.gray[800])
+  const borderLeft = useColorModeValue(colors.gray[200], colors.gray[700])
+  const colorLeft = useColorModeValue(colors.gray[800], colors.white)
+
   React.useEffect(() => {
     const fileNameUpdate = mediaItem.MediaUrl.split("/").pop()
     if (fileNameUpdate) {
       set_fileName(fileNameUpdate)
     }
   }, [mediaItem])
+
   return (
     <Box
-      bg={isMessageError ? "red.50" : isUserMessage ? "primary.50" : "white"}
-      borderColor={isMessageError ? "red.200" : isUserMessage ? "primary.200" : "gray.200"}
+      bg={isMessageError ? bgError : isUserMessage ? bgRight : bgLeft}
+      borderColor={isMessageError ? borderError : isUserMessage ? borderRight : borderLeft}
       borderWidth={"1px"}
       rounded="lg"
       shadow="sm"
@@ -38,9 +51,16 @@ const VCardMediaDisplay = ({
       {...rest}
     >
       <HStack space={spacing.tiny} alignItems="center">
-        <Icon size={24} icon="identification"></Icon>
+        <Icon
+          color={isMessageError ? colorError : isUserMessage ? colorRight : colorLeft}
+          size={24}
+          icon="identification"
+        ></Icon>
         <Stack space={0}>
-          <Text tx="inbox.contactCard"></Text>
+          <Text
+            color={isMessageError ? colorError : isUserMessage ? colorRight : colorLeft}
+            tx="inbox.contactCard"
+          ></Text>
           {/* <Text fontSize="sm" color="gray.500">
             {fileName}
           </Text> */}

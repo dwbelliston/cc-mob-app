@@ -16,10 +16,10 @@ const makeApiRequest = (contactId, versions = true) => {
   return API.get(APIEndpoints.authenticatedContacts, `/api/v1/contacts/${contactId}`, qParams)
 }
 
-export default function useReadContact(contactId) {
+export default function useReadContact(contactId, isListVersions = true) {
   return useQuery<IContact, AxiosError>(
-    contactsKeys.detail(contactId),
-    () => makeApiRequest(contactId),
+    contactsKeys.detail(contactId, isListVersions),
+    () => makeApiRequest(contactId, isListVersions),
     {
       enabled: !!contactId,
     },

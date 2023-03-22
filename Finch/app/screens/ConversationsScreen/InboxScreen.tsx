@@ -168,9 +168,18 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
   }, [])
 
   const handleViewConversation = React.useCallback(
-    ({ contactName, conversationId }: { contactName: string; conversationId: string }) => {
+    ({
+      contactName,
+      conversationId,
+      conversationNumber,
+    }: {
+      contactName: string
+      conversationNumber: string
+      conversationId: string
+    }) => {
       navigation.getParent().navigate("ConversationStream", {
         contactName,
+        conversationNumber,
         conversationId,
       })
     },

@@ -90,6 +90,7 @@ import {
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
+  UserPlusIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline"
 import {
@@ -183,6 +184,7 @@ import {
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
+  UserPlusIcon as UserPlusIconSolid,
   XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
 
@@ -247,6 +249,10 @@ export const iconRegistry = {
   backspace: {
     outline: BackspaceIcon,
     solid: BackspaceIconSolid,
+  },
+  userPlus: {
+    outline: UserPlusIcon,
+    solid: UserPlusIconSolid,
   },
   star: {
     outline: StarIcon,

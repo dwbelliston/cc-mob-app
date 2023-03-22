@@ -35,7 +35,7 @@ import { SelectTemplateButton } from "./SelectTemplateButton"
 interface IProps {
   contactName: string
   contactNumber: string
-  contactId: string
+  contactId?: string
   onSent?: () => void
 }
 
@@ -58,6 +58,7 @@ export interface ISelectedFile {
 
 const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent }: IProps) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
+
   const [messageMediaItems, setMessageMediaItems] = React.useState<IUserMediaItem[]>([])
 
   const bgMain = useColor("bg.main")
@@ -67,7 +68,11 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
 
   const { data: userProfile } = useReadUserProfile()
 
-  const { data: dataContact } = useReadContact(contactId)
+  const {
+    data: dataContact,
+    isLoading: isLoadingContact,
+    isError: isErrorContact,
+  } = useReadContact(contactId, false)
 
   const userNumber = useUserPhone(userProfile)
 
@@ -111,7 +116,6 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
       return
     }
 
-    console.log("SEND>>>", contactNumber)
     if (contactNumber && userNumber) {
       setIsSubmitting(true)
 
@@ -170,8 +174,12 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
           dataContact.FirstName,
           dataContact.LastName,
         )
-        setValue("message", messageBodyUpdate, { shouldValidate: true })
+      } else {
+        messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Client", "Friend")
+        toast.warning({ title: "Check Message" })
       }
+
+      setValue("message", messageBodyUpdate, { shouldValidate: true })
     },
     [dataContact],
   )
@@ -206,15 +214,23 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
       </Box>
       <HStack justifyContent={"space-between"}>
         <NBButton.Group space={spacing.micro}>
-          <SelectTemplateButton onTemplateSelect={handleOnTemplateSelected} />
-          <AttachFileButton onFileSelect={handleOnFileSelected} />
-        </NBButton.Group>
-        <HStack space={spacing.micro} alignItems="center">
-          {isLoadingSend && (
+          {contactId && isLoadingContact && !isErrorContact ? (
             <Box>
               <Spinner />
             </Box>
+          ) : (
+            <>
+              <SelectTemplateButton onTemplateSelect={handleOnTemplateSelected} />
+              <AttachFileButton onFileSelect={handleOnFileSelected} />
+            </>
           )}
+        </NBButton.Group>
+        <HStack space={spacing.micro} alignItems="center">
+          {contactId && isLoadingSend && !isErrorContact ? (
+            <Box>
+              <Spinner />
+            </Box>
+          ) : null}
 
           <IconButton
             onPress={handleSubmit(handleOnSend)}

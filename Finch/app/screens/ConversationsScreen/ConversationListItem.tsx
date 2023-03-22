@@ -78,9 +78,11 @@ export interface IConversationListItem extends IConversationListItemData {
   onViewContact: ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => void
   onViewConversation: ({
     contactName,
+    conversationNumber,
     conversationId,
   }: {
     contactName: string
+    conversationNumber: string
     conversationId: string
   }) => void
 }
@@ -317,7 +319,7 @@ const ConversationListItem = ({
   const handleOnClickConversation = () => {
     progress.value = 1
     closeSwipeable()
-    onViewConversation({ contactName, conversationId })
+    onViewConversation({ contactName, conversationNumber, conversationId })
   }
 
   return (
