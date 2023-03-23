@@ -4,7 +4,7 @@
   "expo": {
     "name": "CurrentClient",
     "slug": "finch",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "scheme": "currentclient",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
@@ -23,7 +23,7 @@
       "**/*"
     ],
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "googleServicesFile": "./google-services.json",
       "icon": "./assets/images/app-icon-android-legacy.png",
       "package": "com.currentclient.app",
@@ -45,7 +45,7 @@
       ]
     },
     "ios": {
-      "buildNumber": "7",
+      "buildNumber": "8",
       "icon": "./assets/images/app-icon-ios.png",
       "supportsTablet": true,
       "bundleIdentifier": "com.currentclient.app",
