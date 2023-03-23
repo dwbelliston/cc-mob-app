@@ -110,21 +110,25 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     }
 
     const createMessageRoutingRule = async () => {
-      try {
-        await mutateAsyncRoutingRule([
-          {
-            ConnectorId: deviceConnector.ConnectorId,
-            ConnectorName: deviceConnector.ConnectorName,
-            EventName: IRoutingEventNameEnum.MESSAGE_INCOMING,
-            Frequency: IRoutingFrequencyEnum.STREAM,
-            IsEnabled: true,
-            IsMobileManaged: true,
-            ConnectorType: deviceConnector.ConnectorType,
-            ConnectorMeta: deviceConnector.Meta,
-          },
-        ])
-      } catch (e) {
-        toast.error({ title: translate("common.error") })
+      if (deviceConnector) {
+        try {
+          await mutateAsyncRoutingRule([
+            {
+              ConnectorId: deviceConnector.ConnectorId,
+              ConnectorName: deviceConnector.ConnectorName,
+              EventName: IRoutingEventNameEnum.MESSAGE_INCOMING,
+              Frequency: IRoutingFrequencyEnum.STREAM,
+              IsEnabled: true,
+              IsMobileManaged: true,
+              ConnectorType: deviceConnector.ConnectorType,
+              ConnectorMeta: deviceConnector.Meta,
+            },
+          ])
+        } catch (e) {
+          toast.error({ title: translate("common.error") })
+        }
+      } else {
+        toast.warning({ title: translate("notifications.noDeviceId") })
       }
     }
     const updateRoutingRule = async (routingRuleId, isEnabled) => {
@@ -144,8 +148,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
 
     const registerDevice = async () => {
       try {
-        // const token = "TEST0001"
-        const token = await registerForPushNotificationsAsync()
+        const token = "TEST0001"
+        // const token = await registerForPushNotificationsAsync()
         setExpoPushToken(token)
       } catch (e) {
         toast.warning({
