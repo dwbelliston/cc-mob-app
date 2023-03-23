@@ -55,14 +55,14 @@ export const MyPhoneScreen: FC<SettingsStackScreenProps<"MyPhone">> = observer(
               />
               <LabelValuePill.Boolean
                 label="fieldLabels.supportsMMS"
-                icon="fingerPrint"
+                icon="photo"
                 value={userProfile?.RegisteredNumber?.Capabilities?.IsMMSEnabled}
                 trueTx={"common.supported"}
                 falseTx={"common.notSupported"}
               />
               <LabelValuePill.Boolean
                 label="fieldLabels.supportsVoice"
-                icon="fingerPrint"
+                icon="phone"
                 value={userProfile?.RegisteredNumber?.Capabilities?.IsVoiceEnabled}
                 trueTx={"common.supported"}
                 falseTx={"common.notSupported"}

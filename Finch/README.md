@@ -133,3 +133,9 @@ Read [Detox setup instructions](./detox/README.md).
 ## Misc
 https://github.com/react-navigation/react-navigation/issues/3971
 https://medium.com/@nickopops/keyboardavoidingview-not-working-properly-c413c0a200d4
+
+
+
+## Android Emuluator
+
+try to put the DNS server as 8.8.8.8 and 8.8.4.4

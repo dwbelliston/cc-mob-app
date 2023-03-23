@@ -19,6 +19,8 @@ import { CrmSyncScreen } from "./crmsync/CrmSync"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MyPhoneScreen } from "./MyPhoneScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
+import { DebugNotificationsScreen } from "./notifications/DebugNotificationsScreen"
+import { NotificationsScreen } from "./notifications/NotificationsScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
 import { SmsTemplatesScreen } from "./smstemplates/SmsTemplatesScreen"
@@ -38,6 +40,8 @@ export type SettingsStackParamList = {
   BusinessHours: undefined
   AutoReplies: undefined
   Voicemail: undefined
+  Notifications: undefined
+  DebugNotifications: undefined
 }
 
 export type SettingsStackScreenProps<T extends keyof SettingsStackParamList> = CompositeScreenProps<
@@ -214,6 +218,26 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={VoicemailScreen}
         options={{
           headerTitle: translate("settings.voicemail"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"Notifications"}
+        component={NotificationsScreen}
+        options={{
+          headerTitle: translate("settings.notifications"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"DebugNotifications"}
+        component={DebugNotificationsScreen}
+        options={{
+          headerTitle: translate("settings.debugNotifications"),
           headerStyle: {
             backgroundColor: headerBg,
           },

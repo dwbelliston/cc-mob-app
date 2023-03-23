@@ -3,6 +3,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet"
 import { AuthProvider } from "./AuthProvider"
 import GestureHandlerProvider from "./GestureHandlerProvider"
 import NativeBaseProvider from "./NativeBaseProvider"
+import { NotificationsProvider } from "./NotificationsProvider"
 import { ReactQueryProvider } from "./ReactQueryProvider"
 
 interface IProps {
@@ -16,7 +17,9 @@ function AppProviders(props: IProps) {
         <NativeBaseProvider>
           <ReactQueryProvider>
             <BottomSheetModalProvider>
-              <AuthProvider>{props.children}</AuthProvider>
+              <NotificationsProvider>
+                <AuthProvider>{props.children}</AuthProvider>
+              </NotificationsProvider>
             </BottomSheetModalProvider>
           </ReactQueryProvider>
         </NativeBaseProvider>

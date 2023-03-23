@@ -37,6 +37,14 @@ export interface IConnectorCreate {
   Meta: any
 }
 
+export interface ICreateConnectorDevice {
+  ExpoPushToken: string
+  DeviceId: string | null
+  DeviceName?: string | null
+  DeviceBrand: string | null
+  DeviceModel: string | null
+}
+
 export interface IConnector extends IConnectorCreate {
   UserId: string
   IsEnabled: boolean

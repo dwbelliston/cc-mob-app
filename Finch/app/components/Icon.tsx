@@ -36,6 +36,7 @@ import {
   Cog6ToothIcon,
   CreditCardIcon,
   CubeIcon,
+  DevicePhoneMobileIcon,
   DocumentDuplicateIcon,
   EllipsisHorizontalIcon,
   EllipsisVerticalIcon,
@@ -87,6 +88,7 @@ import {
   StopIcon,
   TagIcon,
   TrashIcon,
+  TvIcon,
   UserCircleIcon,
   UserGroupIcon,
   UserIcon,
@@ -130,6 +132,7 @@ import {
   Cog6ToothIcon as Cog6ToothIconSolid,
   CreditCardIcon as CreditCardIconSolid,
   CubeIcon as CubeIconSolid,
+  DevicePhoneMobileIcon as DevicePhoneMobileIconSolid,
   DocumentDuplicateIcon as DocumentDuplicateIconSolid,
   EllipsisHorizontalIcon as EllipsisHorizontalIconSolid,
   EllipsisVerticalIcon as EllipsisVerticalIconSolid,
@@ -181,6 +184,7 @@ import {
   StopIcon as StopIconSolid,
   TagIcon as TagIconSolid,
   TrashIcon as TrashIconSolid,
+  TvIcon as TvIconSolid,
   UserCircleIcon as UserCircleIconSolid,
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
@@ -297,6 +301,10 @@ export const iconRegistry = {
   globeAlt: {
     outline: GlobeAltIcon,
     solid: GlobeAltIconSolid,
+  },
+  devicePhoneMobile: {
+    outline: DevicePhoneMobileIcon,
+    solid: DevicePhoneMobileIconSolid,
   },
   cloudArrowUp: {
     outline: CloudArrowDownIcon,
@@ -597,6 +605,10 @@ export const iconRegistry = {
   briefcase: {
     outline: BriefcaseIcon,
     solid: BriefcaseIconSolid,
+  },
+  tv: {
+    outline: TvIcon,
+    solid: TvIconSolid,
   },
   trash: {
     outline: TrashIcon,

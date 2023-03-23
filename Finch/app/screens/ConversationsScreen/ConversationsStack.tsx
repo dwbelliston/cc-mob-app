@@ -3,12 +3,13 @@ import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navig
 import { observer } from "mobx-react-lite"
 
 import React, { FC } from "react"
-import { ConversationInboxPicker } from "../../components"
+
 import { UserAvatar } from "../../components/UserAvatar"
 import { useStores } from "../../models"
 import { HomeTabScreenProps } from "../../navigators/HomeTabNavigator"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { ConversationInboxPicker } from "./ConversationInboxPicker"
 import { InboxScreen } from "./InboxScreen"
 
 export type ConversationsStackParamList = {
@@ -33,6 +34,7 @@ export const ConversationsStack: FC<HomeTabScreenProps<"ConversationsStack">> = 
           name={"Inbox"}
           component={InboxScreen}
           options={{
+            headerShown: true,
             headerTitle: conversationStore.inboxViewTx,
             headerLargeTitle: true,
             headerLargeTitleShadowVisible: false,

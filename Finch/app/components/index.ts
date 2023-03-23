@@ -1,4 +1,3 @@
-export * from "../screens/ConversationsScreen/ConversationInboxPicker"
 export * from "./AutoImage"
 export * from "./Button"
 export * from "./Card"

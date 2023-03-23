@@ -29,6 +29,7 @@
       "package": "com.currentclient.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/app-icon-android-adaptive-foreground.png",
+        "backgroundColor": "#FFFFFF",
         "backgroundImage": "./assets/images/app-icon-android-adaptive-background.png"
       },
       "splash": {

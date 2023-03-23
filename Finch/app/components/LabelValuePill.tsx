@@ -486,12 +486,18 @@ export const ValueBoolean = ({
               {value ? (
                 <>
                   <Dot.Success {...dotProps} />
-                  <Text tx={trueTx ? trueTx : "common.active"} text={trueText}></Text>
+                  <Text
+                    tx={trueTx ? trueTx : !trueText ? "common.active" : null}
+                    text={trueText}
+                  ></Text>
                 </>
               ) : (
                 <>
                   <Dot.Warning {...dotProps} />
-                  <Text tx={falseTx ? falseTx : "common.inActive"} text={falseText}></Text>
+                  <Text
+                    tx={falseTx ? falseTx : !falseText ? "common.inActive" : null}
+                    text={falseText}
+                  ></Text>
                 </>
               )}
             </HStack>

@@ -31,7 +31,7 @@ const useUpdateContact = () => {
         // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
         await queryClient.cancelQueries(contactsKeys.details())
 
-        const detailKey = contactsKeys.detail(updates.contactId)
+        const detailKey = contactsKeys.detail(updates.contactId, false)
 
         // Snapshot the previous value
         const previousRecord = queryClient.getQueryData(detailKey)
@@ -49,7 +49,7 @@ const useUpdateContact = () => {
       },
       // If the mutation fails, use the context returned from onMutate to roll back
       onError: (err, updates, context: any) => {
-        const detailKey = contactsKeys.detail(updates.contactId)
+        const detailKey = contactsKeys.detail(updates.contactId, false)
 
         queryClient.setQueryData(detailKey, context.previousRecord)
       },
