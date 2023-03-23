@@ -281,7 +281,7 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
                 tx="notifications.existingMobileConnectors"
               ></Text>
 
-              <Stack space={spacing.extraSmall}>
+              <Stack space={spacing.tiny}>
                 {dataConnectors?.records
                   ?.filter((connector) => connector.ConnectorType === IConnectorTypeEnum.MOBILE)
                   .map((connector) => {

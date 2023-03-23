@@ -16,17 +16,26 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { PressableActionRow } from "../../../components/PressableActionRow"
 import { translate } from "../../../i18n"
 import { IConnector, ICreateConnectorDevice } from "../../../models/Connector"
+import {
+  IRoutingEventNameEnum,
+  IRoutingFrequencyEnum,
+  IRoutingRule,
+} from "../../../models/RoutingRule"
 import useCreateDeviceToken from "../../../services/api/connectors/mutations/useCreateDeviceToken"
 import useListConnectors from "../../../services/api/connectors/queries/useListConnectors"
 import useReadConnector from "../../../services/api/connectors/queries/useReadConnector"
 import useUpdateCrmSync from "../../../services/api/crmsync/mutations/useUpdateCrmSync"
 import useReadCrmSync from "../../../services/api/crmsync/queries/useReadCrmSync"
+import useCreateRoutingRules from "../../../services/api/routingrules/mutations/useCreateRoutingRules"
+import useUpdateRoutingRule from "../../../services/api/routingrules/mutations/useUpdateRoutingRule"
+import useListRoutingRules from "../../../services/api/routingrules/queries/useListRoutingRules"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "../SettingsStack"
+import { EditIsEnabledForm, IEditIsEnabledFormInput } from "./EditIsEnabledForm"
 
 enum EditFormModeEnum {
-  ISENABLED = "ISENABLED",
+  ENABLE_MESSAGE = "ENABLE_MESSAGE",
 }
 
 export type FormHandle = {
@@ -44,6 +53,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
   function NotificationsScreen(_props) {
     const { navigation } = _props
     const [deviceConnector, setDeviceConnector] = React.useState<IConnector>()
+    const [ruleIncomingMessage, setRuleIncomingMessage] = React.useState<IRoutingRule>()
     const [expoDeviceId, setExpoDeviceId] = React.useState<string>()
     const [expoPushToken, setExpoPushToken] = React.useState("")
 
@@ -66,6 +76,11 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } = useUpdateCrmSync()
     const { data: dataConnector } = useReadConnector(dataCrmSync?.ConnectorId)
     const { data: dataConnectors, isLoading: isLoadingConnectors } = useListConnectors()
+    const { data: dataRoutingRules, isLoading: isLoadingRoutingRules } = useListRoutingRules()
+    const { mutateAsync: mutateAsyncRoutingRule, isLoading: isLoadingCreateRoutingRule } =
+      useCreateRoutingRules()
+    const { mutateAsync: mutateAsyncRoutingRuleUpdate, isLoading: isLoadingRoutingRuleUpdate } =
+      useUpdateRoutingRule()
 
     const {
       mutateAsync: mutateAsyncDevice,
@@ -75,8 +90,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       error: errorCreateDevice,
     } = useCreateDeviceToken()
 
-    const handleOnEdit = () => {
-      setEditMode(EditFormModeEnum.ISENABLED)
+    const handleOnEditMessageAlert = () => {
+      setEditMode(EditFormModeEnum.ENABLE_MESSAGE)
       bottomSheetModalRef.current?.present()
     }
 
@@ -103,6 +118,36 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       token = (await Notifications.getExpoPushTokenAsync()).data
 
       return token
+    }
+
+    const createMessageRoutingRule = async () => {
+      console.log("createMessageRoutingRule")
+      try {
+        await mutateAsyncRoutingRule([
+          {
+            ConnectorId: deviceConnector.ConnectorId,
+            ConnectorName: deviceConnector.ConnectorName,
+            EventName: IRoutingEventNameEnum.MESSAGE_INCOMING,
+            Frequency: IRoutingFrequencyEnum.STREAM,
+            IsEnabled: true,
+            IsMobileManaged: true,
+            ConnectorType: deviceConnector.ConnectorType,
+            ConnectorMeta: deviceConnector.Meta,
+          },
+        ])
+      } catch (e) {
+        toast.error({ title: translate("common.error") })
+      }
+    }
+    const updateRoutingRule = async (routingRuleId, isEnabled) => {
+      try {
+        await mutateAsyncRoutingRuleUpdate({
+          routingRuleId,
+          updateData: { ...ruleIncomingMessage, IsEnabled: isEnabled },
+        })
+      } catch (e) {
+        toast.error({ title: translate("common.error") })
+      }
     }
 
     const onHandleGetHelp = async () => {
@@ -145,19 +190,35 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       }
     }
 
-    const handleOnSubmitEnabled = async (data: any) => {
-      // if (userProfile?.UserId) {
-      //   try {
-      //     await mutateAsyncUpdate({
-      //       userId: userProfile.UserId,
-      //       updateData: { IsEnabled: data.IsEnabled },
-      //     })
-      //     toast.success({ title: translate("common.saved") })
-      //     handleOnCancel()
-      //   } catch (e) {
-      //     toast.error({ title: "Error saving" })
-      //   }
-      // }
+    const handleOnSubmitMessageEnable = async (data: IEditIsEnabledFormInput) => {
+      console.log("handleOnSubmitMessageEnable", data)
+      // If its enabled
+      if (data.IsEnabled) {
+        if (ruleIncomingMessage) {
+          if (ruleIncomingMessage.IsEnabled) {
+            // Nothing to do
+          } else {
+            // Turn it on
+            await updateRoutingRule(ruleIncomingMessage.RoutingRuleId, data.IsEnabled)
+          }
+        } else {
+          // Create rule
+          await createMessageRoutingRule()
+        }
+      } else {
+        // Not enabled
+        if (ruleIncomingMessage) {
+          if (ruleIncomingMessage.IsEnabled) {
+            // Turn it off
+            await updateRoutingRule(ruleIncomingMessage.RoutingRuleId, data.IsEnabled)
+          } else {
+            // Nothing to do
+          }
+        } else {
+          // Nothing to do
+        }
+      }
+      handleOnCancel()
     }
 
     const handleOnCancel = () => {
@@ -185,11 +246,33 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       setDeviceConnector(foundDeviceConnector)
     }
 
+    const handleOnSetRoutingRules = (
+      deviceConnector: IConnector,
+      dataRoutingRules: IRoutingRule[],
+    ) => {
+      const thisConnectorsRules = dataRoutingRules.filter(
+        (connector) => connector.ConnectorId === deviceConnector.ConnectorId,
+      )
+
+      // Get routing rule for incoming message
+      let foundRuleIncomingMessage = thisConnectorsRules.find(
+        (connector) => connector.EventName == IRoutingEventNameEnum.MESSAGE_INCOMING,
+      )
+
+      setRuleIncomingMessage(foundRuleIncomingMessage)
+    }
+
     React.useEffect(() => {
       if (dataConnectors?.records && expoPushToken) {
         handleOnSetDeviceConnector(expoPushToken, dataConnectors.records)
       }
     }, [expoPushToken, dataConnectors])
+
+    React.useEffect(() => {
+      if (dataRoutingRules?.records && deviceConnector) {
+        handleOnSetRoutingRules(deviceConnector, dataRoutingRules.records)
+      }
+    }, [dataRoutingRules, deviceConnector])
 
     React.useEffect(() => {
       // Set the device id
@@ -220,15 +303,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                 </Stack>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                  <LabelValuePill.Boolean
-                    label="notifications.registeredDevice"
-                    icon="fingerPrint"
-                    trueText={deviceConnector?.ConnectorName || expoDeviceId}
-                    falseTx={"notifications.notRegistered"}
-                    value={!!deviceConnector}
-                  />
-
-                  {isLoadingDevice ? (
+                  {!deviceConnector && isLoadingDevice ? (
                     <Stack space={spacing.tiny}>
                       <Text tx="notifications.noDeviceRegisterNew"></Text>
                       <Box>
@@ -238,16 +313,20 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                   ) : null}
 
                   <LabelValuePill.Boolean
-                    label="notifications.allowBadge"
-                    icon="bellAlert"
-                    onEdit={handleOnEdit}
-                    value={dataCrmSync && dataCrmSync?.IsEnabled}
+                    label="notifications.registeredDevice"
+                    icon="fingerPrint"
+                    trueText={deviceConnector?.ConnectorName || expoDeviceId}
+                    falseTx={"notifications.notRegistered"}
+                    value={!!deviceConnector}
                   />
+
                   <LabelValuePill.Boolean
-                    label="notifications.allowIncomingAlert"
+                    label="notifications.allowIncomingMessageAlert"
                     icon="chatBubbleLeftEllipsis"
-                    onEdit={handleOnEdit}
-                    value={dataCrmSync && dataCrmSync?.IsEnabled}
+                    trueTx={"notifications.isOn"}
+                    falseTx={"notifications.isOff"}
+                    value={!!ruleIncomingMessage?.IsEnabled}
+                    onEdit={handleOnEditMessageAlert}
                   />
                 </Stack>
 
@@ -301,7 +380,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
 
               <Box flex={1}>
                 <Button
-                  isLoading={isLoadingUpdate}
+                  isLoading={isLoadingRoutingRuleUpdate || isLoadingCreateRoutingRule}
                   onPress={handleOnSave}
                   size="xs"
                   colorScheme={"primary"}
@@ -316,15 +395,15 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
               backgroundColor: bgColor,
             }}
           >
-            {/* {editMode === EditFormModeEnum.ISENABLED ? (
-              <EditCRMSyncEnabledForm
+            {editMode === EditFormModeEnum.ENABLE_MESSAGE ? (
+              <EditIsEnabledForm
                 ref={formRef}
                 data={{
-                  IsEnabled: dataCrmSync.IsEnabled,
+                  IsEnabled: ruleIncomingMessage?.IsEnabled,
                 }}
-                onSubmit={handleOnSubmitEnabled}
+                onSubmit={handleOnSubmitMessageEnable}
               />
-            ) : null} */}
+            ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
       </>
