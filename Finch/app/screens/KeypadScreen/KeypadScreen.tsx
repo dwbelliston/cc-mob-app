@@ -240,6 +240,7 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
           <Box minH={32} h={32}>
             <Stack space={spacing.micro} h="full" justifyContent={"center"}>
               <Text
+                px={spacing.tiny}
                 noOfLines={1}
                 textAlign={"center"}
                 adjustsFontSizeToFit={true}
