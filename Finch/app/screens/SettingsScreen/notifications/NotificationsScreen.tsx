@@ -23,9 +23,6 @@ import {
 } from "../../../models/RoutingRule"
 import useCreateDeviceToken from "../../../services/api/connectors/mutations/useCreateDeviceToken"
 import useListConnectors from "../../../services/api/connectors/queries/useListConnectors"
-import useReadConnector from "../../../services/api/connectors/queries/useReadConnector"
-import useUpdateCrmSync from "../../../services/api/crmsync/mutations/useUpdateCrmSync"
-import useReadCrmSync from "../../../services/api/crmsync/queries/useReadCrmSync"
 import useCreateRoutingRules from "../../../services/api/routingrules/mutations/useCreateRoutingRules"
 import useUpdateRoutingRule from "../../../services/api/routingrules/mutations/useUpdateRoutingRule"
 import useListRoutingRules from "../../../services/api/routingrules/queries/useListRoutingRules"
@@ -72,9 +69,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const bgColor = useColor("bg.main")
 
     const { data: userProfile, isLoading: isLoadingProfile } = useReadUserProfile()
-    const { data: dataCrmSync, isLoading: isLoadingCrmSync } = useReadCrmSync(userProfile?.UserId)
-    const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } = useUpdateCrmSync()
-    const { data: dataConnector } = useReadConnector(dataCrmSync?.ConnectorId)
+
     const { data: dataConnectors, isLoading: isLoadingConnectors } = useListConnectors()
     const { data: dataRoutingRules, isLoading: isLoadingRoutingRules } = useListRoutingRules()
     const { mutateAsync: mutateAsyncRoutingRule, isLoading: isLoadingCreateRoutingRule } =
@@ -82,13 +77,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const { mutateAsync: mutateAsyncRoutingRuleUpdate, isLoading: isLoadingRoutingRuleUpdate } =
       useUpdateRoutingRule()
 
-    const {
-      mutateAsync: mutateAsyncDevice,
-      isLoading: isLoadingDevice,
-      isError: isErrorDevice,
-      status: statusCreateDevice,
-      error: errorCreateDevice,
-    } = useCreateDeviceToken()
+    const { mutateAsync: mutateAsyncDevice, isLoading: isLoadingDevice } = useCreateDeviceToken()
 
     const handleOnEditMessageAlert = () => {
       setEditMode(EditFormModeEnum.ENABLE_MESSAGE)
@@ -121,7 +110,6 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     }
 
     const createMessageRoutingRule = async () => {
-      console.log("createMessageRoutingRule")
       try {
         await mutateAsyncRoutingRule([
           {
@@ -156,8 +144,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
 
     const registerDevice = async () => {
       try {
-        const token = "TEST0001"
-        // const token = await registerForPushNotificationsAsync()
+        // const token = "TEST0001"
+        const token = await registerForPushNotificationsAsync()
         setExpoPushToken(token)
       } catch (e) {
         toast.warning({
@@ -191,7 +179,6 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     }
 
     const handleOnSubmitMessageEnable = async (data: IEditIsEnabledFormInput) => {
-      console.log("handleOnSubmitMessageEnable", data)
       // If its enabled
       if (data.IsEnabled) {
         if (ruleIncomingMessage) {
