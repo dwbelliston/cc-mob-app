@@ -13,6 +13,7 @@ import * as WebBrowser from "expo-web-browser"
 import { Platform } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Dot } from "../../../components/Dot"
+import { LabelValuePill } from "../../../components/LabelValuePill"
 import { PressableActionRow } from "../../../components/PressableActionRow"
 import { translate } from "../../../i18n"
 import { IConnectorTypeEnum } from "../../../models/Connector"
@@ -285,6 +286,13 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
                       )
                     }
                   ></PressableActionRow>
+                  <PressableActionRow
+                    tx="notifications.urlArticalTurnOffDisturb"
+                    icon={{
+                      icon: "newspaper",
+                    }}
+                    onPress={() => openUrlInBrowser("https://support.apple.com/en-us/HT204321")}
+                  ></PressableActionRow>
                 </>
               ) : (
                 <>
@@ -294,6 +302,17 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
                       icon: "tv",
                     }}
                     onPress={() => openUrlInBrowser("https://www.youtube.com/watch?v=_xKeUdcIGN4")}
+                  ></PressableActionRow>
+                  <PressableActionRow
+                    tx="notifications.urlArticalTurnOffDisturb"
+                    icon={{
+                      icon: "newspaper",
+                    }}
+                    onPress={() =>
+                      openUrlInBrowser(
+                        "https://support.google.com/googlenest/answer/7552172?hl=en-AU&co=GENIE.Platform%3DAndroid",
+                      )
+                    }
                   ></PressableActionRow>
                   <PressableActionRow
                     tx="notifications.urlArticlePermissions"
@@ -362,6 +381,12 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
             </Stack>
 
             <Stack space={spacing.tiny} px={spacing.tiny}>
+              <LabelValuePill.Text
+                label="notifications.registeredDevice"
+                icon="devicePhoneMobile"
+                isCopy={true}
+                text={expoPushToken}
+              />
               <Text
                 colorToken="text.softer"
                 fontSize="md"
