@@ -69,21 +69,19 @@ const CallBubble = (props: IProps) => {
           </Box>
 
           <Stack space={0} flex={1}>
-            <HStack justifyContent={"space-between"} alignItems="center">
-              <CallStatus.Description fontSize="md" status={callStatus}></CallStatus.Description>
-              <CallStatus.Forwarded
-                colorToken={"text.soft"}
-                fontSize="sm"
-                callIsForwarded={callIsForwarded}
-                callNumberForwardedTo={callNumberForwardedTo}
-              ></CallStatus.Forwarded>
-              <CallStatus.OutideHours
-                colorToken={"text.soft"}
-                fontSize="sm"
-                callIsOutsideHours={callIsOutsideHours}
-              ></CallStatus.OutideHours>
-            </HStack>
+            <CallStatus.Description fontSize="md" status={callStatus}></CallStatus.Description>
 
+            <CallStatus.Forwarded
+              colorToken={"text.soft"}
+              fontSize="xs"
+              callIsForwarded={callIsForwarded}
+              callNumberForwardedTo={callNumberForwardedTo}
+            ></CallStatus.Forwarded>
+            <CallStatus.OutideHours
+              colorToken={"text.soft"}
+              fontSize="xs"
+              callIsOutsideHours={callIsOutsideHours}
+            ></CallStatus.OutideHours>
             <CallDirection.Description
               fontSize="xs"
               colorToken={"text.soft"}
