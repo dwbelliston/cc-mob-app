@@ -17,8 +17,8 @@ interface IAnimatedBackground {
 
 export const AnimatedBackground = ({
   sharedValue,
-  bgStart = "bg.main",
-  bgEnd = "bg.high",
+  bgStart = "bg.animStart",
+  bgEnd = "bg.animEnd",
   styles,
   children,
 }: IAnimatedBackground) => {

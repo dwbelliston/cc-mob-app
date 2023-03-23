@@ -161,45 +161,46 @@ const ProfileScreenBase: FC<SettingsStackScreenProps<"Profile">> = observer(func
           {isLoadingProfile ? (
             <Spinner></Spinner>
           ) : (
-            <Stack space={spacing.extraSmall} px={spacing.tiny}>
-              <ChangeAvatarButton onFileSelect={handleOnFileSelected} />
-              <LabelValuePill.Text
-                label="fieldLabels.name"
-                icon="userCircle"
-                text={`${userProfile.FirstName} ${userProfile.LastName}`}
-                onEdit={handleOnEditName}
-              />
-              <LabelValuePill.Text
-                label="fieldLabels.phone"
-                icon="phone"
-                text={runFormatPhoneSimple(userProfile.Phone)}
-                onEdit={handleOnEditPhone}
-              />
-              <LabelValuePill.Text
-                label="fieldLabels.email"
-                icon="envelope"
-                text={userProfile?.Email}
-              />
+            <Stack space={spacing.extraSmall}>
+              <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                <ChangeAvatarButton onFileSelect={handleOnFileSelected} />
+                <LabelValuePill.Text
+                  label="fieldLabels.name"
+                  icon="userCircle"
+                  text={`${userProfile.FirstName} ${userProfile.LastName}`}
+                  onEdit={handleOnEditName}
+                />
+                <LabelValuePill.Text
+                  label="fieldLabels.phone"
+                  icon="phone"
+                  text={runFormatPhoneSimple(userProfile.Phone)}
+                  onEdit={handleOnEditPhone}
+                />
+                <LabelValuePill.Text
+                  label="fieldLabels.email"
+                  icon="envelope"
+                  text={userProfile?.Email}
+                />
 
-              <LabelValuePill.Address
-                label="fieldLabels.address"
-                icon="mapPin"
-                address1={userProfile?.Address1}
-                address2={userProfile?.Address2}
-                city={userProfile?.City}
-                state={userProfile?.State}
-                zip={userProfile?.Zip}
-                onEdit={handleOnEditAddress}
-                isOpen={true}
-              />
+                <LabelValuePill.Address
+                  label="fieldLabels.address"
+                  icon="mapPin"
+                  address1={userProfile?.Address1}
+                  address2={userProfile?.Address2}
+                  city={userProfile?.City}
+                  state={userProfile?.State}
+                  zip={userProfile?.Zip}
+                  onEdit={handleOnEditAddress}
+                  isOpen={true}
+                />
 
-              <LabelValuePill.Text
-                label="fieldLabels.companyName"
-                icon="briefcase"
-                text={userProfile.CompanyName}
-                onEdit={handleOnEditCompanyName}
-              />
-
+                <LabelValuePill.Text
+                  label="fieldLabels.companyName"
+                  icon="briefcase"
+                  text={userProfile.CompanyName}
+                  onEdit={handleOnEditCompanyName}
+                />
+              </Stack>
               <PressableActionRow
                 tx="settings.deleteAccount"
                 icon={{
