@@ -1,5 +1,6 @@
 import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
+import * as TaskManager from "expo-task-manager"
 import { observer } from "mobx-react-lite"
 
 import { Box, HStack, Stack, View } from "native-base"
@@ -15,10 +16,11 @@ import { Dot } from "../../../components/Dot"
 import { PressableActionRow } from "../../../components/PressableActionRow"
 import { translate } from "../../../i18n"
 import { IConnectorTypeEnum } from "../../../models/Connector"
+import { BACKGROUND_NOTIFICATION_TASK } from "../../../providers/NotificationsProvider"
 import useListConnectors from "../../../services/api/connectors/queries/useListConnectors"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
-import { runFormatDateWithAt } from "../../../utils/useFormatDate"
+import { runFormatDateWithAt, runTodayTimestamp } from "../../../utils/useFormatDate"
 import { SettingsStackScreenProps } from "../SettingsStack"
 
 interface ILogItem {
@@ -30,6 +32,7 @@ interface ILogItem {
 
 export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotifications">> =
   observer(function DebugNotificationsScreen(_props) {
+    const [isBackgroungTaskRunning, setIsBackgroungTaskRunning] = React.useState<boolean>()
     const [debugLog, setDebugLog] = React.useState<ILogItem[]>([])
     const [expoPushToken, setExpoPushToken] = React.useState("")
     const [notification, setNotification] = React.useState<Notifications.Notification>()
@@ -44,13 +47,16 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
 
     // Can use this function below OR use Expo's Push Notification Tool from: https://expo.dev/notifications
     const sendPushNotification = async () => {
-      toast.info({ title: translate("notifications.sendingTest") })
+      setDebugLog((prevValues) => [...prevValues, { message: "Sending test...", isInfo: true }])
+
+      const today = runTodayTimestamp()
+
       const message = {
         to: expoPushToken,
         sound: "default",
         title: translate("notifications.testTitle"),
         body: translate("notifications.testBody"),
-        data: { someData: "EXAMPLE" },
+        data: { time: `${today}` },
       }
 
       await fetch("https://exp.host/--/api/v2/push/send", {
@@ -165,10 +171,57 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
     const runDebug = async () => {
       registerForPushNotificationsAsync()
     }
+    const runTaskCheck = async () => {
+      const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_NOTIFICATION_TASK)
+      setIsBackgroungTaskRunning(isRegistered)
+    }
+
+    const runPermCheck = async () => {
+      const { granted, ios } = await Notifications.requestPermissionsAsync()
+      if (Platform.OS === "ios") {
+        if (ios.allowsAlert) {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "iOS allows alerts", isSuccess: true },
+          ])
+        } else {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "iOS doesnt allow alerts", isError: true },
+          ])
+        }
+        if (ios.allowsBadge) {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "iOS allows red badge", isSuccess: true },
+          ])
+        } else {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "iOS doesnt allow red badge", isError: true },
+          ])
+        }
+        if (ios.allowsDisplayOnLockScreen) {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "iOS allows display on lock screen", isSuccess: true },
+          ])
+        } else {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "iOS doesnt allow display on lock screen", isError: true },
+          ])
+        }
+      }
+    }
 
     React.useEffect(() => {
       notificationListener.current = Notifications.addNotificationReceivedListener(
         (notification) => {
+          setDebugLog((prevValues) => [
+            ...prevValues,
+            { message: "Received test", isSuccess: true },
+          ])
           setNotification(notification)
         },
       )
@@ -181,6 +234,8 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
     React.useEffect(() => {
       setDebugLog([])
       runDebug()
+      runTaskCheck()
+      runPermCheck()
     }, [])
 
     return (
@@ -202,36 +257,6 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
               ></Text>
             </Stack>
 
-            <Stack space={spacing.extraSmall} px={spacing.tiny}>
-              <Stack>
-                {debugLog.map((logItem) => {
-                  return (
-                    <HStack key={logItem.message} space={spacing.tiny} alignItems="center">
-                      {logItem.isInfo ? <Dot.Info></Dot.Info> : null}
-                      {logItem.isSuccess ? <Dot.Success></Dot.Success> : null}
-                      {logItem.isError ? <Dot.Error></Dot.Error> : null}
-                      <Text flex={1} text={logItem.message} />
-                    </HStack>
-                  )
-                })}
-              </Stack>
-
-              {notification ? (
-                <View borderWidth={1} borderColor={borderColor} rounded="lg" p={spacing.micro}>
-                  <Text colorToken={"text.soft"}>Test Notification Information</Text>
-                  <Text>Title: {notification && notification.request.content.title} </Text>
-                  <Text>Body: {notification && notification.request.content.body}</Text>
-                  <Text>
-                    Data: {notification && JSON.stringify(notification.request.content.data)}
-                  </Text>
-                </View>
-              ) : null}
-
-              {expoPushToken ? (
-                <Button tx="notifications.sendTest" onPress={sendPushNotification}></Button>
-              ) : null}
-            </Stack>
-
             <Stack>
               {Platform.OS === "ios" ? (
                 <>
@@ -248,6 +273,17 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
                       icon: "tv",
                     }}
                     onPress={() => openUrlInBrowser("https://www.youtube.com/watch?v=fvEqJ4mRy9Q")}
+                  ></PressableActionRow>
+                  <PressableActionRow
+                    tx="notifications.urlHowToBackgroundRefresh"
+                    icon={{
+                      icon: "newspaper",
+                    }}
+                    onPress={() =>
+                      openUrlInBrowser(
+                        "https://support.apple.com/en-us/HT202070#:~:text=Use%20Background%20App%20Refresh&text=If%20you%20want%20suspended%20apps,before%20you%20open%20it%20again.",
+                      )
+                    }
                   ></PressableActionRow>
                 </>
               ) : (
@@ -272,6 +308,57 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
                   ></PressableActionRow>
                 </>
               )}
+            </Stack>
+
+            <Stack space={spacing.extraSmall} px={spacing.tiny}>
+              <Stack>
+                <HStack space={spacing.tiny} alignItems="center">
+                  {isBackgroungTaskRunning ? (
+                    <>
+                      <Dot.Success></Dot.Success>
+                      <Text text="Listening for notifications"></Text>
+                    </>
+                  ) : (
+                    <>
+                      <Dot.Error></Dot.Error>
+                      <Text text="Not listening for background notifications"></Text>
+                    </>
+                  )}
+                </HStack>
+                {debugLog.map((logItem, idx) => {
+                  return (
+                    <HStack
+                      key={`${logItem.message}-${idx}`}
+                      space={spacing.tiny}
+                      alignItems="center"
+                    >
+                      {logItem.isInfo ? <Dot.Info></Dot.Info> : null}
+                      {logItem.isSuccess ? <Dot.Success></Dot.Success> : null}
+                      {logItem.isError ? <Dot.Error></Dot.Error> : null}
+                      <Text flex={1} text={logItem.message} />
+                    </HStack>
+                  )
+                })}
+              </Stack>
+
+              {notification ? (
+                <View borderWidth={1} borderColor={borderColor} rounded="lg" p={spacing.micro}>
+                  <Text colorToken={"text.soft"}>Test Notification Information</Text>
+                  <Text>Title: {notification && notification.request.content.title} </Text>
+                  <Text>Body: {notification && notification.request.content.body}</Text>
+                  <Text>
+                    Data: {notification && JSON.stringify(notification.request.content.data)}
+                  </Text>
+                </View>
+              ) : null}
+
+              {expoPushToken ? (
+                <Button
+                  tx="notifications.sendTest"
+                  colorScheme="indigo"
+                  onPress={sendPushNotification}
+                ></Button>
+              ) : null}
             </Stack>
 
             <Stack space={spacing.tiny} px={spacing.tiny}>

@@ -367,6 +367,7 @@ const en = {
     urlHowToVideoPermissions: "How to video for notifications",
     urlHowToVideoSummary: "Pro Tip: Notification summaries",
     urlArticlePermissions: "Read permissions tutorial",
+    urlHowToBackgroundRefresh: "Allow background app refresh",
     noDeviceId: "Cant find device ID",
   },
   voicemail: {

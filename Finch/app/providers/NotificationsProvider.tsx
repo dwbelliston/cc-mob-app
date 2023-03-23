@@ -4,8 +4,9 @@ import React from "react"
 import { Platform } from "react-native"
 import * as Sentry from "sentry-expo"
 import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
+import { useCustomToast } from "../utils/useCustomToast"
 
-const BACKGROUND_NOTIFICATION_TASK = "CC-BACKGROUND-NOTIFICATION-TASK-V01"
+export const BACKGROUND_NOTIFICATION_TASK = "CC-BACKGROUND-NOTIFICATION-TASK-V01"
 
 const handleSetBadgeCountBackground = async (countBadge: number = 1) => {
   let isAllowSet = false
@@ -41,8 +42,6 @@ const handleNewNotificationBackground = async (notificationObject: any) => {
     //   data: JSON.parse(notificationObject.data.body),
     // };
 
-    Sentry.Native.captureEvent({ extra: notificationObject })
-
     const currentBadgeCount = await Notifications.getBadgeCountAsync()
     await handleSetBadgeCountBackground(currentBadgeCount + 1)
   } catch (error) {
@@ -74,7 +73,7 @@ if (Platform.OS === "android") {
 TaskManager.defineTask(
   BACKGROUND_NOTIFICATION_TASK,
   ({ data, error, executionInfo }: { data: any; error: any; executionInfo: any }) => {
-    Sentry.Native.captureEvent({ extra: data })
+    // Sentry.Native.captureEvent({ extra: data.notification })
     handleNewNotificationBackground(data.notification)
   },
 )
@@ -84,11 +83,12 @@ interface IProps {
 }
 
 export const NotificationsProvider = (props: IProps) => {
-  const [notification, setNotification] = React.useState<Notifications.Notification>()
   const notificationListener = React.useRef<any>()
   const responseListener = React.useRef<any>()
 
   const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
+
+  const toast = useCustomToast()
 
   const handleSetBadgeCountForeground = async (countBadge: number) => {
     let isAllowSet = false
@@ -116,16 +116,22 @@ export const NotificationsProvider = (props: IProps) => {
 
   React.useEffect(() => {
     notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      console.log("HIT:::", notification)
-      setNotification(notification)
+      Sentry.Native.captureMessage("Received notifcation")
+
+      // notification: Notifications.Notification
+      toast.info({ title: notification.request.content.title })
     })
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      console.log("HITresponse:::", notification)
-      console.log(response)
+      Sentry.Native.captureMessage("Receive notifcation response")
     })
 
+    // register task to run whenever is received while the app is in the background
+    Notifications.registerTaskAsync(BACKGROUND_NOTIFICATION_TASK)
+
     return () => {
+      // Notifications.removeNotificationSubscription(responseListener.current);
+      Notifications.unregisterTaskAsync(BACKGROUND_NOTIFICATION_TASK)
       Notifications.removeNotificationSubscription(notificationListener.current)
       Notifications.removeNotificationSubscription(responseListener.current)
     }
