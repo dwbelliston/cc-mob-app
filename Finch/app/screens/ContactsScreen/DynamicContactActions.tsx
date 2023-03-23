@@ -1,4 +1,6 @@
 import { useNavigation } from "@react-navigation/native"
+import * as Haptics from "expo-haptics"
+import * as Linking from "expo-linking"
 import { Button as NBButton, HStack, Skeleton, View } from "native-base"
 import React from "react"
 import Animated, { interpolateColor, SharedValue, useAnimatedStyle } from "react-native-reanimated"
@@ -52,7 +54,15 @@ export const DynamicContactActions = ({ scrollY, bgColor, contactId }: IProps) =
     }
   })
 
+  const handleOnCallPress = () => {
+    Haptics.selectionAsync()
+    if (dataContact) {
+      Linking.openURL(`tel:${dataContact.Phone}`)
+    }
+  }
+
   const handleViewConversation = () => {
+    Haptics.selectionAsync()
     const contactName = getContactName(dataContact)
 
     const conversationId = getConversationId(userNumber, dataContact?.Phone)
@@ -99,7 +109,11 @@ export const DynamicContactActions = ({ scrollY, bgColor, contactId }: IProps) =
 
         {!isLoadingContact && dataContact && (
           <NBButton.Group size="lg" justifyContent={"center"} space={spacing.tiny}>
-            <IconButton rounded="full" icon={<Icon colorToken="text" icon="phoneArrowUpRight" />} />
+            <IconButton
+              onPress={handleOnCallPress}
+              rounded="full"
+              icon={<Icon colorToken="text" icon="phoneArrowUpRight" />}
+            />
             <IconButton
               rounded="full"
               onPress={handleViewConversation}
