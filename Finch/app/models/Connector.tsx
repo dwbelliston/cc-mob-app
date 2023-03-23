@@ -43,6 +43,8 @@ export interface ICreateConnectorDevice {
   DeviceName?: string | null
   DeviceBrand: string | null
   DeviceModel: string | null
+  PlatformOS: string | null
+  PlatformVersion: string | number | null
 }
 
 export interface IConnector extends IConnectorCreate {

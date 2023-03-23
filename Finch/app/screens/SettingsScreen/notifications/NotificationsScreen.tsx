@@ -5,7 +5,7 @@ import * as Sentry from "sentry-expo"
 
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
-
+import { Platform } from "react-native"
 import { Button, Screen, Text } from "../../../components"
 import { LabelValuePill } from "../../../components/LabelValuePill"
 import useReadUserProfile from "../../../services/api/userprofile/queries/useReadUserProfile"
@@ -71,8 +71,16 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
 
     const { data: userProfile, isLoading: isLoadingProfile } = useReadUserProfile()
 
-    const { data: dataConnectors, isLoading: isLoadingConnectors } = useListConnectors()
-    const { data: dataRoutingRules, isLoading: isLoadingRoutingRules } = useListRoutingRules()
+    const {
+      data: dataConnectors,
+      isLoading: isLoadingConnectors,
+      refetch: refetchConnectors,
+    } = useListConnectors()
+    const {
+      data: dataRoutingRules,
+      isLoading: isLoadingRoutingRules,
+      refetch: refetchRules,
+    } = useListRoutingRules()
     const { mutateAsync: mutateAsyncRoutingRule, isLoading: isLoadingCreateRoutingRule } =
       useCreateRoutingRules()
     const { mutateAsync: mutateAsyncRoutingRuleUpdate, isLoading: isLoadingRoutingRuleUpdate } =
@@ -172,6 +180,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
         DeviceName: Device.deviceName,
         DeviceBrand: Device.brand,
         DeviceModel: Device.modelName,
+        PlatformOS: Platform.OS,
+        PlatformVersion: Platform.Version,
       }
       try {
         const connector = await mutateAsyncDevice(createDevice)
@@ -269,6 +279,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     }, [dataRoutingRules, deviceConnector])
 
     React.useEffect(() => {
+      refetchConnectors()
+      refetchRules()
       // Set the device id
       registerDevice()
     }, [])
