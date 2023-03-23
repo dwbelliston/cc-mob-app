@@ -18,7 +18,7 @@ const useGetCountUnreadConversations = () => {
       return makeApiRequest()
     },
     {
-      refetchInterval: 15000,
+      refetchInterval: 1000 * 15,
       retry: 1,
     },
   )

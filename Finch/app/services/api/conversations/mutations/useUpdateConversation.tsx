@@ -59,6 +59,7 @@ const useUpdateConversation = () => {
       onSettled: () => {
         queryClient.invalidateQueries({ queryKey: conversationKeys.lists() })
         queryClient.invalidateQueries({ queryKey: conversationKeys.getUnreadCount() })
+        queryClient.refetchQueries({ queryKey: conversationKeys.getUnreadCount(), exact: true })
       },
     },
   )
