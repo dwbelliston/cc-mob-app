@@ -49,6 +49,7 @@ import {
   FunnelIcon,
   GlobeAltIcon,
   GlobeAmericasIcon,
+  HandRaisedIcon,
   HandThumbUpIcon,
   HashtagIcon,
   HomeIcon,
@@ -145,6 +146,7 @@ import {
   FunnelIcon as FunnelIconSolid,
   GlobeAltIcon as GlobeAltIconSolid,
   GlobeAmericasIcon as GlobeAmericasIconSolid,
+  HandRaisedIcon as HandRaisedIconSolid,
   HandThumbUpIcon as HandThumbUpIconSolid,
   HashtagIcon as HashtagIconSolid,
   HomeIcon as HomeIconSolid,
@@ -241,6 +243,10 @@ export const iconRegistry = {
   bolt: {
     outline: BoltIcon,
     solid: BoltIconSolid,
+  },
+  handRaised: {
+    outline: HandRaisedIcon,
+    solid: HandRaisedIconSolid,
   },
   eye: {
     outline: EyeIcon,

@@ -1,4 +1,4 @@
-import { useHeaderHeight } from "@react-navigation/elements"
+import * as SMS from "expo-sms"
 import { observer } from "mobx-react-lite"
 import { Box, SectionList, View } from "native-base"
 import React, { FC } from "react"
@@ -12,6 +12,7 @@ import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
 
+import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { SettingsStackParamList, SettingsStackScreenProps } from "./SettingsStack"
 
 interface ISectionDataItem {
@@ -21,6 +22,7 @@ interface ISectionDataItem {
   colorToken?: TextProps["colorToken"]
   isLogout?: boolean
   isSoon?: boolean
+  isTextSupport?: boolean
 }
 interface ISectionData {
   titleTx: TextProps["tx"]
@@ -149,6 +151,11 @@ const SETTINGS_LINKS: ISectionData[] = [
     titleTx: "settings.currentClient",
     data: [
       {
+        icon: "handRaised",
+        tx: "settings.textSupport",
+        isTextSupport: true,
+      },
+      {
         icon: "lifebuoy",
         tx: "settings.helpCenter",
       },
@@ -183,15 +190,26 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
 
     const appVersion = `App version: ${appConfig.version}`
 
-    const headerHeight = useHeaderHeight()
+    const { data: userProfile } = useReadUserProfile()
 
-    const handleOnItemPress = (item: ISectionDataItem) => {
+    const handleOnItemPress = async (item: ISectionDataItem) => {
       if (item.navigateScreen) {
         navigation.navigate(item.navigateScreen)
       } else if (item.isLogout) {
         logout()
       } else if (item.isSoon) {
         toast.info({ title: translate("common.supportedSoon") })
+      } else if (item.isTextSupport) {
+        const isAvailable = await SMS.isAvailableAsync()
+        if (isAvailable) {
+          let msgSend = "Hey! I would like some help."
+          if (userProfile) {
+            msgSend = `Hey! This is ${userProfile.FirstName} and I would like some help.`
+          }
+          await SMS.sendSMSAsync("3853361132", msgSend)
+        } else {
+          toast.warning({ title: "Not able to text" })
+        }
       }
     }
 

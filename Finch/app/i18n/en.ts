@@ -219,6 +219,7 @@ const en = {
     businessHours: "Business Hours",
     autoReplies: "Auto Replies",
     voicemail: "Voicemail",
+    textSupport: "Text us for help",
     notifications: "Notifications",
     debugNotifications: "Troubleshoot",
     logOut: "Log out",
