@@ -57,7 +57,10 @@
       },
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos.",
-        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos."
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos.",
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "web": {
@@ -96,12 +99,27 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your clients."
         }
-      ]
+      ],
+      "sentry-expo"
     ],
     "extra": {
       "eas": {
         "projectId": "d3efcaa3-2e7a-4fe4-afbc-31f0d98d34c3"
       }
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "currentclient",
+            "project": "finch",
+            "authToken": false
+          }
+        }
+      ]
     }
+
+
   }
 }

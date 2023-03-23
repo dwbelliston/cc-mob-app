@@ -1,7 +1,7 @@
 import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { observer } from "mobx-react-lite"
 import React from "react"
-// import * as Sentry from "sentry-expo";
+import * as Sentry from "sentry-expo"
 import { useStores } from "../models"
 
 interface IProps {
@@ -19,7 +19,7 @@ const ReactQueryProvider: React.FC<IProps> = observer(function ReactQueryProvide
     queryCache: new QueryCache({
       onError: (error: any) => {
         try {
-          // Sentry.Native.captureException(error);
+          Sentry.Native.captureException(error)
           if (error === "No current user") {
             logout()
           }

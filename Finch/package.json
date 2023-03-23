@@ -51,6 +51,7 @@
     "@react-navigation/native": "~6.0.1",
     "@react-navigation/native-stack": "^6.0.2",
     "@react-navigation/stack": "~6.2.1",
+    "@sentry/react-native": "4.9.0",
     "@tanstack/react-query": "^4.24.6",
     "amazon-cognito-identity-js": "^6.1.2",
     "apisauce": "2.1.5",
@@ -82,6 +83,7 @@
     "expo-status-bar": "~1.4.2",
     "expo-system-ui": "~2.0.1",
     "expo-task-manager": "~11.0.1",
+    "expo-updates": "~0.15.6",
     "expo-web-browser": "~12.0.0",
     "i18n-js": "3.9.2",
     "mobx": "6.6.0",
@@ -103,6 +105,7 @@
     "reactotron-mst": "3.1.4",
     "reactotron-react-js": "^3.3.7",
     "reactotron-react-native": "5.0.3",
+    "sentry-expo": "~6.0.0",
     "use-debounce": "^9.0.3",
     "yup": "^1.0.0"
   },

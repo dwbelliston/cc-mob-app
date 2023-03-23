@@ -1,6 +1,7 @@
 import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
 import { observer } from "mobx-react-lite"
+import * as Sentry from "sentry-expo"
 
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
@@ -139,6 +140,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
         })
       } catch (e) {
         toast.error({ title: translate("common.error") })
+        Sentry.Native.captureException(e)
       }
     }
 
@@ -148,14 +150,15 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
 
     const registerDevice = async () => {
       try {
-        const token = "TEST0001"
-        // const token = await registerForPushNotificationsAsync()
+        // const token = "TEST0001"
+        const token = await registerForPushNotificationsAsync()
         setExpoPushToken(token)
       } catch (e) {
         toast.warning({
           title: translate("common.error"),
           description: translate("notifications.failedToGetId"),
         })
+        Sentry.Native.captureException(e)
       }
     }
 
@@ -178,7 +181,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
           title: translate("common.error"),
           description: translate("notifications.failedToRegister"),
         })
-        // Sentry.Native.captureException(e)
+        Sentry.Native.captureException(e)
       }
     }
 

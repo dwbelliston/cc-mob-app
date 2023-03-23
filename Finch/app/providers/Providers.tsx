@@ -5,6 +5,7 @@ import GestureHandlerProvider from "./GestureHandlerProvider"
 import NativeBaseProvider from "./NativeBaseProvider"
 import { NotificationsProvider } from "./NotificationsProvider"
 import { ReactQueryProvider } from "./ReactQueryProvider"
+import { SentryProvider } from "./SentryProvider"
 
 interface IProps {
   children?: React.ReactNode
@@ -12,19 +13,21 @@ interface IProps {
 
 function AppProviders(props: IProps) {
   return (
-    <GestureHandlerProvider>
-      <ActionSheetProvider>
-        <NativeBaseProvider>
-          <ReactQueryProvider>
-            <BottomSheetModalProvider>
-              <NotificationsProvider>
-                <AuthProvider>{props.children}</AuthProvider>
-              </NotificationsProvider>
-            </BottomSheetModalProvider>
-          </ReactQueryProvider>
-        </NativeBaseProvider>
-      </ActionSheetProvider>
-    </GestureHandlerProvider>
+    <SentryProvider>
+      <GestureHandlerProvider>
+        <ActionSheetProvider>
+          <NativeBaseProvider>
+            <ReactQueryProvider>
+              <BottomSheetModalProvider>
+                <NotificationsProvider>
+                  <AuthProvider>{props.children}</AuthProvider>
+                </NotificationsProvider>
+              </BottomSheetModalProvider>
+            </ReactQueryProvider>
+          </NativeBaseProvider>
+        </ActionSheetProvider>
+      </GestureHandlerProvider>
+    </SentryProvider>
   )
 }
 

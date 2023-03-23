@@ -3,8 +3,7 @@
  *   RN   https://docs.sentry.io/platforms/react-native/
  *   Expo https://docs.expo.dev/guides/using-sentry/
  */
-// import * as Sentry from "sentry-expo"
-// import * as Sentry from "@sentry/react-native"
+import * as Sentry from "sentry-expo"
 
 /**
  * If you're using Crashlytics: https://rnfirebase.io/crashlytics/usage
@@ -58,10 +57,7 @@ export const reportCrash = (error: any, type: ErrorType = ErrorType.FATAL) => {
     console.tron.log(error)
   } else {
     // In production, utilize crash reporting service of choice below:
-    // RN
-    // Sentry.captureException(error)
-    // Expo
-    // Sentry.Native.captureException(error)
+    Sentry.Native.captureException(error)
     // crashlytics().recordError(error)
     // Bugsnag.notify(error)
   }
