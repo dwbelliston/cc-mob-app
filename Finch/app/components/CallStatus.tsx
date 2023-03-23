@@ -267,6 +267,8 @@ const CallStatusIcon = ({ status, direction, ...rest }: IIconProps) => {
     <Circle
       bg={bg}
       p={3}
+      borderWidth={1}
+      borderColor={bg}
       // style={{
       //   animation: isPulse ? "pulse 2s infinite linear" : "",
       // }}
