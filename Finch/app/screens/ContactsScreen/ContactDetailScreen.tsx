@@ -155,85 +155,87 @@ const ContactDetailScreenBase: FC<AppStackScreenProps<"ContactDetail">> = observ
     }, [tagList, dataContact, setContactsTags])
 
     return (
-      <Screen preset="fixed" safeAreaEdges={[]} statusBarStyle={statusBarColor}>
-        <Animated.ScrollView
-          scrollEventThrottle={0}
-          onScroll={scrollHandler}
-          stickyHeaderIndices={[1]}
-        >
-          <DynamicContactHeader
-            handleOnBack={handleOnBack}
-            topInset={topInset}
-            scrollY={scrollY}
-            isLoadingContact={isLoadingContact}
-            dataContact={dataContact}
-            bgColor={bgColor}
-            contactName={contactName}
-            contactNumber={contactNumber}
-          />
+      <>
+        <Screen preset="fixed" safeAreaEdges={[]} statusBarStyle={statusBarColor}>
+          <Animated.ScrollView
+            scrollEventThrottle={0}
+            onScroll={scrollHandler}
+            stickyHeaderIndices={[1]}
+          >
+            <DynamicContactHeader
+              handleOnBack={handleOnBack}
+              topInset={topInset}
+              scrollY={scrollY}
+              isLoadingContact={isLoadingContact}
+              dataContact={dataContact}
+              bgColor={bgColor}
+              contactName={contactName}
+              contactNumber={contactNumber}
+            />
 
-          <DynamicContactActions
-            scrollY={scrollY}
-            bgColor={borderColor}
-            contactId={route.params.contactId}
-          />
+            <DynamicContactActions
+              scrollY={scrollY}
+              bgColor={borderColor}
+              contactId={route.params.contactId}
+            />
 
-          {/* Content */}
-          <Stack px={spacing.tiny} bg={bgMain} flex={1} pt={spacing.tiny} pb={spacing.small}>
-            {!isLoadingContact && dataContact && (
-              <Stack space={spacing.small}>
-                <Stack space={spacing.extraSmall}>
-                  <LabelValuePill.Tags label="fieldLabels.tags" icon="tag" tags={contactsTags} />
-                  <LabelValuePill.Text
-                    label="fieldLabels.name"
-                    icon="userCircle"
-                    text={contactName}
-                    onEdit={handleOnEditName}
-                  />
+            {/* Content */}
+            <Stack px={spacing.tiny} bg={bgMain} flex={1} pt={spacing.tiny} pb={spacing.small}>
+              {!isLoadingContact && dataContact && (
+                <Stack space={spacing.small}>
+                  <Stack space={spacing.extraSmall}>
+                    <LabelValuePill.Tags label="fieldLabels.tags" icon="tag" tags={contactsTags} />
+                    <LabelValuePill.Text
+                      label="fieldLabels.name"
+                      icon="userCircle"
+                      text={contactName}
+                      onEdit={handleOnEditName}
+                    />
 
-                  <LabelValuePill.PhoneType
-                    label="fieldLabels.phone"
-                    icon="phone"
-                    phone={contactNumber}
-                    carrierName={dataContact.NumberCarrierName}
-                    carrierType={dataContact.NumberCarrierType}
-                    isCopy={true}
-                    onEdit={handleOnEditPhone}
-                  />
-                  <LabelValuePill.Text
-                    label="fieldLabels.email"
-                    icon="envelope"
-                    text={dataContact?.Email}
-                    isShare={true}
-                    onEdit={handleOnEditEmail}
-                  />
-                  <LabelValuePill.Text
-                    label="fieldLabels.birthdate"
-                    icon="cake"
-                    text={runFormatDate(dataContact?.BirthDate)}
-                  />
-                  <LabelValuePill.Address
-                    label="fieldLabels.address"
-                    icon="mapPin"
-                    address1={dataContact?.Address1}
-                    address2={dataContact?.Address2}
-                    city={dataContact?.City}
-                    state={dataContact?.State}
-                    zip={dataContact?.Zip}
-                    isOpen={true}
-                    isShare={true}
-                    onEdit={handleOnEditAddress}
-                  />
-                  <LabelValuePill.ContactSource
-                    label="fieldLabels.sourceType"
-                    icon="cloudArrowDown"
-                    contactSource={dataContact.SourceType}
-                  />
+                    <LabelValuePill.PhoneType
+                      label="fieldLabels.phone"
+                      icon="phone"
+                      phone={contactNumber}
+                      carrierName={dataContact.NumberCarrierName}
+                      carrierType={dataContact.NumberCarrierType}
+                      isCopy={true}
+                      onEdit={handleOnEditPhone}
+                    />
+                    <LabelValuePill.Text
+                      label="fieldLabels.email"
+                      icon="envelope"
+                      text={dataContact?.Email}
+                      isShare={true}
+                      onEdit={handleOnEditEmail}
+                    />
+                    <LabelValuePill.Text
+                      label="fieldLabels.birthdate"
+                      icon="cake"
+                      text={runFormatDate(dataContact?.BirthDate)}
+                    />
+                    <LabelValuePill.Address
+                      label="fieldLabels.address"
+                      icon="mapPin"
+                      address1={dataContact?.Address1}
+                      address2={dataContact?.Address2}
+                      city={dataContact?.City}
+                      state={dataContact?.State}
+                      zip={dataContact?.Zip}
+                      isOpen={true}
+                      isShare={true}
+                      onEdit={handleOnEditAddress}
+                    />
+                    <LabelValuePill.ContactSource
+                      label="fieldLabels.sourceType"
+                      icon="cloudArrowDown"
+                      contactSource={dataContact.SourceType}
+                    />
+                  </Stack>
                 </Stack>
-              </Stack>
-            )}
-          </Stack>
-        </Animated.ScrollView>
+              )}
+            </Stack>
+          </Animated.ScrollView>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -249,6 +251,7 @@ const ContactDetailScreenBase: FC<AppStackScreenProps<"ContactDetail">> = observ
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -283,7 +286,6 @@ const ContactDetailScreenBase: FC<AppStackScreenProps<"ContactDetail">> = observ
           </Box>
           <BottomSheetScrollView
             style={{
-              flex: 1,
               backgroundColor: bgMain,
             }}
           >
@@ -301,7 +303,7 @@ const ContactDetailScreenBase: FC<AppStackScreenProps<"ContactDetail">> = observ
             ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

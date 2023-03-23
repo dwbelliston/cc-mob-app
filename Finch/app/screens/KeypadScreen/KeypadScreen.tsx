@@ -227,87 +227,91 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
   }, [trackedDialerKeys])
 
   return (
-    <Screen
-      preset="fixed"
-      contentContainerStyle={{
-        paddingBottom: 0,
-        flex: 1,
-        paddingTop: headerHeight,
-      }}
-    >
-      <Stack h="full" justifyContent={"center"} space={spacing.tiny}>
-        <Box minH={32} h={32}>
-          <Stack space={spacing.micro} h="full" justifyContent={"center"}>
-            <Text
-              noOfLines={1}
-              textAlign={"center"}
-              adjustsFontSizeToFit={true}
-              fontSize="3xl"
-              fontWeight="semibold"
-              text={dialerDisplay}
-            ></Text>
+    <>
+      <Screen
+        preset="fixed"
+        contentContainerStyle={{
+          paddingBottom: 0,
+          flex: 1,
+          paddingTop: headerHeight,
+        }}
+      >
+        <Stack h="full" justifyContent={"center"} space={spacing.tiny}>
+          <Box minH={32} h={32}>
+            <Stack space={spacing.micro} h="full" justifyContent={"center"}>
+              <Text
+                noOfLines={1}
+                textAlign={"center"}
+                adjustsFontSizeToFit={true}
+                fontSize="3xl"
+                fontWeight="semibold"
+                text={dialerDisplay}
+              ></Text>
 
-            {!isLoadingContacts && foundContact ? (
-              <Stack justifyContent={"center"} alignItems="center" space={0}>
-                <HStack alignItems="center" space={1}>
-                  <ContactSmudgePressable
-                    onPress={() => handleOnPressContact(foundContact.name, foundContact.contactId)}
-                    name={foundContact.name}
-                  />
-                  <IconButton
-                    variant={"ghost"}
-                    onPress={onClearAll}
-                    icon={<Icon colorToken={"error"} icon={"xMark"} />}
-                  />
-                </HStack>
-
-                {countFound > 1 ? (
-                  <Text
-                    size="xs"
-                    colorToken="text.softer"
-                    text={`+${pluralize(countFound - 1, "contact")} share this number`}
-                  ></Text>
-                ) : null}
-              </Stack>
-            ) : null}
-
-            {!isLoadingContacts && !countFound && useFilters ? (
-              <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
-                <Pressable onPress={handleOnCreateContact}>
-                  <HStack
-                    w="full"
-                    rounded="full"
-                    bg={bgNew}
-                    space={spacing.tiny}
-                    px={spacing.tiny}
-                    py={0.5}
-                    alignItems="center"
-                  >
-                    <Text
-                      maxW={32}
-                      fontWeight="semibold"
-                      isTruncated={true}
-                      color={colorNew}
-                      text={"Add Contact"}
-                    ></Text>
+              {!isLoadingContacts && foundContact ? (
+                <Stack justifyContent={"center"} alignItems="center" space={0}>
+                  <HStack alignItems="center" space={1}>
+                    <ContactSmudgePressable
+                      onPress={() =>
+                        handleOnPressContact(foundContact.name, foundContact.contactId)
+                      }
+                      name={foundContact.name}
+                    />
+                    <IconButton
+                      variant={"ghost"}
+                      onPress={onClearAll}
+                      icon={<Icon colorToken={"error"} icon={"xMark"} />}
+                    />
                   </HStack>
-                </Pressable>
-              </HStack>
-            ) : null}
-          </Stack>
-        </Box>
-        <Box>
-          <DialPad
-            trackedKeys={trackedDialerKeys}
-            onKeyPress={handleOnKeyPress}
-            onKeyDelete={handleOnDeletePress}
-            onMessagePress={handleOnMessagePress}
-            onCallPress={handleOnCallPress}
-            isMessageButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
-            isCallButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
-          />
-        </Box>
-      </Stack>
+
+                  {countFound > 1 ? (
+                    <Text
+                      size="xs"
+                      colorToken="text.softer"
+                      text={`+${pluralize(countFound - 1, "contact")} share this number`}
+                    ></Text>
+                  ) : null}
+                </Stack>
+              ) : null}
+
+              {!isLoadingContacts && !countFound && useFilters ? (
+                <HStack justifyContent={"center"} alignItems="center" space={spacing.tiny}>
+                  <Pressable onPress={handleOnCreateContact}>
+                    <HStack
+                      w="full"
+                      rounded="full"
+                      bg={bgNew}
+                      space={spacing.tiny}
+                      px={spacing.tiny}
+                      py={0.5}
+                      alignItems="center"
+                    >
+                      <Text
+                        maxW={32}
+                        fontWeight="semibold"
+                        isTruncated={true}
+                        color={colorNew}
+                        text={"Add Contact"}
+                      ></Text>
+                    </HStack>
+                  </Pressable>
+                </HStack>
+              ) : null}
+            </Stack>
+          </Box>
+          <Box>
+            <DialPad
+              trackedKeys={trackedDialerKeys}
+              onKeyPress={handleOnKeyPress}
+              onKeyDelete={handleOnDeletePress}
+              onMessagePress={handleOnMessagePress}
+              onCallPress={handleOnCallPress}
+              isMessageButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
+              isCallButtonDisabled={trackedDialerKeys?.length < 10 || !countFound}
+            />
+          </Box>
+        </Stack>
+      </Screen>
       <BottomSheetModal
         ref={bottomSheetModalRef}
         index={0}
@@ -323,6 +327,7 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
         handleIndicatorStyle={{
           backgroundColor: borderColor,
         }}
+        android_keyboardInputMode="adjustResize"
       >
         <Box
           pb={spacing.tiny}
@@ -370,7 +375,7 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
           ) : null}
         </BottomSheetScrollView>
       </BottomSheetModal>
-    </Screen>
+    </>
   )
 })
 

@@ -98,97 +98,99 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
     }
 
     return (
-      <Screen
-        preset="scroll"
-        contentContainerStyle={{
-          paddingBottom: bottomInset + spacing.large,
-        }}
-        style={{}}
-      >
-        <Box py={spacing.extraSmall}>
-          {isLoadingProfile ? (
-            <Spinner></Spinner>
-          ) : (
-            <Stack space={spacing.extraSmall}>
-              <Stack px={spacing.tiny}>
-                <Text fontSize="lg" preset="subheading" tx="crmSync.pageHeader"></Text>
-                <Text colorToken="text.softer" fontSize="md" tx="crmSync.pageSubheader"></Text>
-              </Stack>
-
-              <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                <LabelValuePill.Boolean
-                  label="crmSync.statusSync"
-                  icon="arrowLeftRight"
-                  onEdit={handleOnEdit}
-                  value={dataCrmSync && dataCrmSync?.IsEnabled}
-                />
-
-                {dataConnector && dataConnector.ConnectorType ? (
-                  <LabelValuePill.SourceCrm
-                    label="crmSync.activeSyncSource"
-                    icon="arrowLeftRight"
-                    sourceCrm={dataConnector.ConnectorType}
-                  />
-                ) : null}
-
-                {dataCrmSync && dataCrmSync.IsEnabled ? (
-                  <>
-                    <LabelValuePill.Boolean
-                      label="crmSync.isAllowCreate"
-                      icon="settings"
-                      value={dataCrmSync && dataCrmSync?.IsAllowCreate}
-                    />
-                    <LabelValuePill.Boolean
-                      label="crmSync.isAllowUpdate"
-                      icon="settings"
-                      value={dataCrmSync && dataCrmSync?.IsAllowUpdate}
-                    />
-                    <LabelValuePill.Boolean
-                      label="crmSync.isAllowNotes"
-                      icon="settings"
-                      value={dataCrmSync && dataCrmSync?.IsAllowNotes}
-                    />
-                  </>
-                ) : null}
-              </Stack>
-
-              <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                <Text colorToken="text.softer" fontSize="md" tx="crmSync.supportedCRMS"></Text>
-
-                <Stack space={spacing.tiny}>
-                  {SUPPORTED_CRM_URLS.map((url) => (
-                    <HStack
-                      key={url}
-                      bg={bgCard}
-                      borderWidth={1}
-                      borderColor={borderColor}
-                      rounded="lg"
-                      py={spacing.tiny}
-                      overflow={"hidden"}
-                      justifyContent="center"
-                    >
-                      <AutoImage
-                        resizeMode="cover"
-                        source={{
-                          uri: url,
-                        }}
-                        maxHeight={48}
-                      />
-                    </HStack>
-                  ))}
+      <>
+        <Screen
+          preset="scroll"
+          contentContainerStyle={{
+            paddingBottom: bottomInset + spacing.large,
+          }}
+          style={{}}
+        >
+          <Box py={spacing.extraSmall}>
+            {isLoadingProfile ? (
+              <Spinner></Spinner>
+            ) : (
+              <Stack space={spacing.extraSmall}>
+                <Stack px={spacing.tiny}>
+                  <Text fontSize="lg" preset="subheading" tx="crmSync.pageHeader"></Text>
+                  <Text colorToken="text.softer" fontSize="md" tx="crmSync.pageSubheader"></Text>
                 </Stack>
-              </Stack>
 
-              <PressableActionRow
-                tx="crmSync.createNew"
-                icon={{
-                  icon: "puzzle",
-                }}
-                onPress={createNewSync}
-              ></PressableActionRow>
-            </Stack>
-          )}
-        </Box>
+                <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  <LabelValuePill.Boolean
+                    label="crmSync.statusSync"
+                    icon="arrowLeftRight"
+                    onEdit={handleOnEdit}
+                    value={dataCrmSync && dataCrmSync?.IsEnabled}
+                  />
+
+                  {dataConnector && dataConnector.ConnectorType ? (
+                    <LabelValuePill.SourceCrm
+                      label="crmSync.activeSyncSource"
+                      icon="arrowLeftRight"
+                      sourceCrm={dataConnector.ConnectorType}
+                    />
+                  ) : null}
+
+                  {dataCrmSync && dataCrmSync.IsEnabled ? (
+                    <>
+                      <LabelValuePill.Boolean
+                        label="crmSync.isAllowCreate"
+                        icon="settings"
+                        value={dataCrmSync && dataCrmSync?.IsAllowCreate}
+                      />
+                      <LabelValuePill.Boolean
+                        label="crmSync.isAllowUpdate"
+                        icon="settings"
+                        value={dataCrmSync && dataCrmSync?.IsAllowUpdate}
+                      />
+                      <LabelValuePill.Boolean
+                        label="crmSync.isAllowNotes"
+                        icon="settings"
+                        value={dataCrmSync && dataCrmSync?.IsAllowNotes}
+                      />
+                    </>
+                  ) : null}
+                </Stack>
+
+                <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  <Text colorToken="text.softer" fontSize="md" tx="crmSync.supportedCRMS"></Text>
+
+                  <Stack space={spacing.tiny}>
+                    {SUPPORTED_CRM_URLS.map((url) => (
+                      <HStack
+                        key={url}
+                        bg={bgCard}
+                        borderWidth={1}
+                        borderColor={borderColor}
+                        rounded="lg"
+                        py={spacing.tiny}
+                        overflow={"hidden"}
+                        justifyContent="center"
+                      >
+                        <AutoImage
+                          resizeMode="cover"
+                          source={{
+                            uri: url,
+                          }}
+                          maxHeight={48}
+                        />
+                      </HStack>
+                    ))}
+                  </Stack>
+                </Stack>
+
+                <PressableActionRow
+                  tx="crmSync.createNew"
+                  icon={{
+                    icon: "puzzle",
+                  }}
+                  onPress={createNewSync}
+                ></PressableActionRow>
+              </Stack>
+            )}
+          </Box>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -204,6 +206,7 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -253,7 +256,7 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
             ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

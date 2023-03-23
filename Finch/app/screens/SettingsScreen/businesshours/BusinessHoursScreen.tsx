@@ -116,68 +116,70 @@ const BusinessHoursScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = o
     }
 
     return (
-      <Screen
-        preset="scroll"
-        contentContainerStyle={{
-          paddingBottom: bottomInset + spacing.large,
-        }}
-        style={{}}
-      >
-        <Box py={spacing.extraSmall}>
-          {isLoadingMessage ? (
-            <Spinner></Spinner>
-          ) : (
-            <Stack space={spacing.extraSmall}>
-              <Stack px={spacing.tiny}>
-                <Text fontSize="lg" preset="subheading" tx="businessHours.pageHeader"></Text>
-                <Text
-                  colorToken="text.softer"
-                  fontSize="md"
-                  tx="businessHours.pageSubheader"
-                ></Text>
+      <>
+        <Screen
+          preset="scroll"
+          contentContainerStyle={{
+            paddingBottom: bottomInset + spacing.large,
+          }}
+          style={{}}
+        >
+          <Box py={spacing.extraSmall}>
+            {isLoadingMessage ? (
+              <Spinner></Spinner>
+            ) : (
+              <Stack space={spacing.extraSmall}>
+                <Stack px={spacing.tiny}>
+                  <Text fontSize="lg" preset="subheading" tx="businessHours.pageHeader"></Text>
+                  <Text
+                    colorToken="text.softer"
+                    fontSize="md"
+                    tx="businessHours.pageSubheader"
+                  ></Text>
+                </Stack>
+
+                <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  <LabelValuePill.Boolean
+                    label="businessHours.businessHours"
+                    icon="clock"
+                    onEdit={handleOnEditEnabled}
+                    trueTx={"businessHours.isOn"}
+                    falseTx={"businessHours.isOff"}
+                    value={dataCallFlow && dataCallFlow?.IsEnableBusinessHours}
+                  />
+
+                  <LabelValuePill.Text
+                    label="businessHours.timezone"
+                    icon="globeAlt"
+                    onEdit={handleOnEditTimezone}
+                    text={dataCallFlow && dataCallFlow?.BusinessTimezone}
+                  />
+
+                  {dataCallFlow && dataCallFlow.IsEnableBusinessHours ? (
+                    <>
+                      <Text textAlign={"center"} tx="businessHours.setSchedule"></Text>
+                      {SCHEDULE_DAYS.map((dayTx, idx) => {
+                        return (
+                          <LabelValuePill.Hours
+                            key={dayTx}
+                            label={dayTx}
+                            icon="calendarDays"
+                            value={
+                              dataCallFlow &&
+                              dataCallFlow?.BusinessSchedule.length > idx + 1 &&
+                              dataCallFlow?.BusinessSchedule[idx]
+                            }
+                            onEdit={() => handleOnEditDay(idx)}
+                          />
+                        )
+                      })}
+                    </>
+                  ) : null}
+                </Stack>
               </Stack>
-
-              <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                <LabelValuePill.Boolean
-                  label="businessHours.businessHours"
-                  icon="clock"
-                  onEdit={handleOnEditEnabled}
-                  trueTx={"businessHours.isOn"}
-                  falseTx={"businessHours.isOff"}
-                  value={dataCallFlow && dataCallFlow?.IsEnableBusinessHours}
-                />
-
-                <LabelValuePill.Text
-                  label="businessHours.timezone"
-                  icon="globeAlt"
-                  onEdit={handleOnEditTimezone}
-                  text={dataCallFlow && dataCallFlow?.BusinessTimezone}
-                />
-
-                {dataCallFlow && dataCallFlow.IsEnableBusinessHours ? (
-                  <>
-                    <Text textAlign={"center"} tx="businessHours.setSchedule"></Text>
-                    {SCHEDULE_DAYS.map((dayTx, idx) => {
-                      return (
-                        <LabelValuePill.Hours
-                          key={dayTx}
-                          label={dayTx}
-                          icon="calendarDays"
-                          value={
-                            dataCallFlow &&
-                            dataCallFlow?.BusinessSchedule.length > idx + 1 &&
-                            dataCallFlow?.BusinessSchedule[idx]
-                          }
-                          onEdit={() => handleOnEditDay(idx)}
-                        />
-                      )
-                    })}
-                  </>
-                ) : null}
-              </Stack>
-            </Stack>
-          )}
-        </Box>
+            )}
+          </Box>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -193,6 +195,7 @@ const BusinessHoursScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = o
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -259,7 +262,7 @@ const BusinessHoursScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = o
             ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

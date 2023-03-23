@@ -145,51 +145,53 @@ export const SmsTemplatesScreenBase: FC<SettingsStackScreenProps<"MySubscription
     }, [dataTemplates])
 
     return (
-      <Screen preset="fixed">
-        <View h="full">
-          {isLoadingProfile ? (
-            <Spinner></Spinner>
-          ) : (
-            <FlatList
-              contentContainerStyle={{
-                paddingBottom: bottomInset,
-              }}
-              data={flatData}
-              ListEmptyComponent={
-                isLoadingTemplates ? (
-                  <Box px={spacing.tiny} py={spacing.small} h="full">
-                    <Text
-                      textAlign={"center"}
-                      colorToken="text.softer"
-                      tx="common.oneMoment"
-                    ></Text>
-                  </Box>
-                ) : (
-                  <Box px={spacing.tiny} py={spacing.small} h="full">
-                    <DataStatus
-                      title={translate("smsTemplates.noTemplates")}
-                      description={translate("smsTemplates.noTemplatesDescription")}
-                      icon={"clipboardDocumentCheck"}
-                      colorScheme={"gray"}
-                    />
-                  </Box>
-                )
-              }
-              keyExtractor={(i) => i.SmsTemplateId}
-              renderItem={renderItem}
-              // ItemSeparatorComponent={() => <Divider py={spacing.micro} bg="transparent" />}
-            />
-          )}
-        </View>
-        <Fab
-          renderInPortal={false}
-          shadow={0}
-          mb={bottomInset}
-          p={3}
-          onPress={handleOnCreateNew}
-          rounded="full"
-          icon={<Icon color="white" size={28} icon="plus" />}
-        />
+      <>
+        <Screen preset="fixed">
+          <View h="full">
+            {isLoadingProfile ? (
+              <Spinner></Spinner>
+            ) : (
+              <FlatList
+                contentContainerStyle={{
+                  paddingBottom: bottomInset,
+                }}
+                data={flatData}
+                ListEmptyComponent={
+                  isLoadingTemplates ? (
+                    <Box px={spacing.tiny} py={spacing.small} h="full">
+                      <Text
+                        textAlign={"center"}
+                        colorToken="text.softer"
+                        tx="common.oneMoment"
+                      ></Text>
+                    </Box>
+                  ) : (
+                    <Box px={spacing.tiny} py={spacing.small} h="full">
+                      <DataStatus
+                        title={translate("smsTemplates.noTemplates")}
+                        description={translate("smsTemplates.noTemplatesDescription")}
+                        icon={"clipboardDocumentCheck"}
+                        colorScheme={"gray"}
+                      />
+                    </Box>
+                  )
+                }
+                keyExtractor={(i) => i.SmsTemplateId}
+                renderItem={renderItem}
+                // ItemSeparatorComponent={() => <Divider py={spacing.micro} bg="transparent" />}
+              />
+            )}
+          </View>
+          <Fab
+            renderInPortal={false}
+            shadow={0}
+            mb={bottomInset}
+            p={3}
+            onPress={handleOnCreateNew}
+            rounded="full"
+            icon={<Icon color="white" size={28} icon="plus" />}
+          />
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -205,6 +207,7 @@ export const SmsTemplatesScreenBase: FC<SettingsStackScreenProps<"MySubscription
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -278,7 +281,7 @@ export const SmsTemplatesScreenBase: FC<SettingsStackScreenProps<"MySubscription
             </Stack>
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

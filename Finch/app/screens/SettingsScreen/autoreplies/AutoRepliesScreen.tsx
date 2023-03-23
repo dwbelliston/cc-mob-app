@@ -110,52 +110,42 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
     }
 
     return (
-      <Screen
-        preset="scroll"
-        contentContainerStyle={{
-          paddingBottom: bottomInset + spacing.large,
-        }}
-        style={{}}
-      >
-        <Box py={spacing.extraSmall}>
-          {isLoadingMessage ? (
-            <Spinner></Spinner>
-          ) : (
-            <Stack space={spacing.extraSmall}>
-              <Stack px={spacing.tiny}>
-                <Text fontSize="lg" preset="subheading" tx="autoreplies.pageHeader"></Text>
-                <Text colorToken="text.softer" fontSize="md" tx="autoreplies.pageSubheader"></Text>
-              </Stack>
+      <>
+        <Screen
+          preset="scroll"
+          contentContainerStyle={{
+            paddingBottom: bottomInset + spacing.large,
+          }}
+          style={{}}
+        >
+          <Box py={spacing.extraSmall}>
+            {isLoadingMessage ? (
+              <Spinner></Spinner>
+            ) : (
+              <Stack space={spacing.extraSmall}>
+                <Stack px={spacing.tiny}>
+                  <Text fontSize="lg" preset="subheading" tx="autoreplies.pageHeader"></Text>
+                  <Text
+                    colorToken="text.softer"
+                    fontSize="md"
+                    tx="autoreplies.pageSubheader"
+                  ></Text>
+                </Stack>
 
-              <Stack space={spacing.small} px={spacing.tiny}>
-                <Stack space={spacing.tiny}>
-                  <Text fontSize="lg" tx="autoreplies.duringHours"></Text>
+                <Stack space={spacing.small} px={spacing.tiny}>
+                  <Stack space={spacing.tiny}>
+                    <Text fontSize="lg" tx="autoreplies.duringHours"></Text>
 
-                  <Stack
-                    space={spacing.tiny}
-                    borderWidth={1}
-                    borderColor={borderColor}
-                    p={spacing.tiny}
-                    rounded="lg"
-                  >
-                    <LabelValuePill.Boolean
-                      label="autoreplies.autoToIncomingMessage"
-                      icon="chatBubbleLeftEllipsis"
-                      onEdit={() =>
-                        handleOnEdit(
-                          EditFormModeEnum.HOURS_MESSAGE,
-                          dataCallFlow.IsEnableAutoIncomingMessage,
-                          dataCallFlow.TextAutoIncomingMessage,
-                        )
-                      }
-                      trueTx={"autoreplies.isOn"}
-                      falseTx={"autoreplies.isOff"}
-                      value={dataCallFlow && dataCallFlow?.IsEnableAutoIncomingMessage}
-                    />
-                    {dataCallFlow && dataCallFlow?.IsEnableAutoIncomingMessage ? (
-                      <LabelValuePill.Text
-                        label="autoreplies.onIncomingMessage"
-                        icon="bolt"
+                    <Stack
+                      space={spacing.tiny}
+                      borderWidth={1}
+                      borderColor={borderColor}
+                      p={spacing.tiny}
+                      rounded="lg"
+                    >
+                      <LabelValuePill.Boolean
+                        label="autoreplies.autoToIncomingMessage"
+                        icon="chatBubbleLeftEllipsis"
                         onEdit={() =>
                           handleOnEdit(
                             EditFormModeEnum.HOURS_MESSAGE,
@@ -163,36 +153,36 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
                             dataCallFlow.TextAutoIncomingMessage,
                           )
                         }
-                        text={dataCallFlow && dataCallFlow?.TextAutoIncomingMessage}
+                        trueTx={"autoreplies.isOn"}
+                        falseTx={"autoreplies.isOff"}
+                        value={dataCallFlow && dataCallFlow?.IsEnableAutoIncomingMessage}
                       />
-                    ) : null}
-                  </Stack>
+                      {dataCallFlow && dataCallFlow?.IsEnableAutoIncomingMessage ? (
+                        <LabelValuePill.Text
+                          label="autoreplies.onIncomingMessage"
+                          icon="bolt"
+                          onEdit={() =>
+                            handleOnEdit(
+                              EditFormModeEnum.HOURS_MESSAGE,
+                              dataCallFlow.IsEnableAutoIncomingMessage,
+                              dataCallFlow.TextAutoIncomingMessage,
+                            )
+                          }
+                          text={dataCallFlow && dataCallFlow?.TextAutoIncomingMessage}
+                        />
+                      ) : null}
+                    </Stack>
 
-                  <Stack
-                    space={spacing.tiny}
-                    borderWidth={1}
-                    borderColor={borderColor}
-                    p={spacing.tiny}
-                    rounded="lg"
-                  >
-                    <LabelValuePill.Boolean
-                      label="autoreplies.autoToIncomingCall"
-                      icon="phoneArrowDownLeft"
-                      onEdit={() =>
-                        handleOnEdit(
-                          EditFormModeEnum.HOURS_CALL,
-                          dataCallFlow.IsEnableAutoMissedCall,
-                          dataCallFlow.TextAutoMissedCall,
-                        )
-                      }
-                      trueTx={"autoreplies.isOn"}
-                      falseTx={"autoreplies.isOff"}
-                      value={dataCallFlow && dataCallFlow?.IsEnableAutoMissedCall}
-                    />
-                    {dataCallFlow && dataCallFlow?.IsEnableAutoMissedCall ? (
-                      <LabelValuePill.Text
+                    <Stack
+                      space={spacing.tiny}
+                      borderWidth={1}
+                      borderColor={borderColor}
+                      p={spacing.tiny}
+                      rounded="lg"
+                    >
+                      <LabelValuePill.Boolean
                         label="autoreplies.autoToIncomingCall"
-                        icon="bolt"
+                        icon="phoneArrowDownLeft"
                         onEdit={() =>
                           handleOnEdit(
                             EditFormModeEnum.HOURS_CALL,
@@ -200,51 +190,51 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
                             dataCallFlow.TextAutoMissedCall,
                           )
                         }
-                        text={dataCallFlow && dataCallFlow?.TextAutoMissedCall}
+                        trueTx={"autoreplies.isOn"}
+                        falseTx={"autoreplies.isOff"}
+                        value={dataCallFlow && dataCallFlow?.IsEnableAutoMissedCall}
                       />
-                    ) : null}
+                      {dataCallFlow && dataCallFlow?.IsEnableAutoMissedCall ? (
+                        <LabelValuePill.Text
+                          label="autoreplies.autoToIncomingCall"
+                          icon="bolt"
+                          onEdit={() =>
+                            handleOnEdit(
+                              EditFormModeEnum.HOURS_CALL,
+                              dataCallFlow.IsEnableAutoMissedCall,
+                              dataCallFlow.TextAutoMissedCall,
+                            )
+                          }
+                          text={dataCallFlow && dataCallFlow?.TextAutoMissedCall}
+                        />
+                      ) : null}
+                    </Stack>
                   </Stack>
-                </Stack>
-                <Stack space={spacing.tiny}>
-                  <Text fontSize="lg" tx="autoreplies.outsideHours"></Text>
+                  <Stack space={spacing.tiny}>
+                    <Text fontSize="lg" tx="autoreplies.outsideHours"></Text>
 
-                  {!dataCallFlow?.IsEnableBusinessHours ? (
-                    <Box>
-                      <Butter.Warning
-                        titleText={{ tx: "autoreplies.turnOnBusinessHours" }}
-                        descriptionText={{
-                          tx: "autoreplies.turnOnBusinessHoursMore",
-                          fontSize: "xs",
-                        }}
-                      ></Butter.Warning>
-                    </Box>
-                  ) : null}
+                    {!dataCallFlow?.IsEnableBusinessHours ? (
+                      <Box>
+                        <Butter.Warning
+                          titleText={{ tx: "autoreplies.turnOnBusinessHours" }}
+                          descriptionText={{
+                            tx: "autoreplies.turnOnBusinessHoursMore",
+                            fontSize: "xs",
+                          }}
+                        ></Butter.Warning>
+                      </Box>
+                    ) : null}
 
-                  <Stack
-                    space={spacing.tiny}
-                    borderWidth={1}
-                    borderColor={borderColor}
-                    p={spacing.tiny}
-                    rounded="lg"
-                  >
-                    <LabelValuePill.Boolean
-                      label="autoreplies.autoToIncomingMessage"
-                      icon="chatBubbleLeftEllipsis"
-                      onEdit={() =>
-                        handleOnEdit(
-                          EditFormModeEnum.AWAY_MESSAGE,
-                          dataCallFlow.IsEnableAutoOutsideHoursIncomingMessage,
-                          dataCallFlow.TextAutoOutsideHoursIncomingMessage,
-                        )
-                      }
-                      trueTx={"autoreplies.isOn"}
-                      falseTx={"autoreplies.isOff"}
-                      value={dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursIncomingMessage}
-                    />
-                    {dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursIncomingMessage ? (
-                      <LabelValuePill.Text
-                        label="autoreplies.onIncomingMessage"
-                        icon="bolt"
+                    <Stack
+                      space={spacing.tiny}
+                      borderWidth={1}
+                      borderColor={borderColor}
+                      p={spacing.tiny}
+                      rounded="lg"
+                    >
+                      <LabelValuePill.Boolean
+                        label="autoreplies.autoToIncomingMessage"
+                        icon="chatBubbleLeftEllipsis"
                         onEdit={() =>
                           handleOnEdit(
                             EditFormModeEnum.AWAY_MESSAGE,
@@ -252,35 +242,37 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
                             dataCallFlow.TextAutoOutsideHoursIncomingMessage,
                           )
                         }
-                        text={dataCallFlow && dataCallFlow?.TextAutoOutsideHoursIncomingMessage}
+                        trueTx={"autoreplies.isOn"}
+                        falseTx={"autoreplies.isOff"}
+                        value={
+                          dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursIncomingMessage
+                        }
                       />
-                    ) : null}
-                  </Stack>
-                  <Stack
-                    space={spacing.tiny}
-                    borderWidth={1}
-                    borderColor={borderColor}
-                    p={spacing.tiny}
-                    rounded="lg"
-                  >
-                    <LabelValuePill.Boolean
-                      label="autoreplies.autoToIncomingCall"
-                      icon="phoneArrowDownLeft"
-                      onEdit={() =>
-                        handleOnEdit(
-                          EditFormModeEnum.AWAY_CALL,
-                          dataCallFlow.IsEnableAutoOutsideHoursMissedCall,
-                          dataCallFlow.TextAutoAutoOutsideHoursMissedCall,
-                        )
-                      }
-                      trueTx={"autoreplies.isOn"}
-                      falseTx={"autoreplies.isOff"}
-                      value={dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursMissedCall}
-                    />
-                    {dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursMissedCall ? (
-                      <LabelValuePill.Text
+                      {dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursIncomingMessage ? (
+                        <LabelValuePill.Text
+                          label="autoreplies.onIncomingMessage"
+                          icon="bolt"
+                          onEdit={() =>
+                            handleOnEdit(
+                              EditFormModeEnum.AWAY_MESSAGE,
+                              dataCallFlow.IsEnableAutoOutsideHoursIncomingMessage,
+                              dataCallFlow.TextAutoOutsideHoursIncomingMessage,
+                            )
+                          }
+                          text={dataCallFlow && dataCallFlow?.TextAutoOutsideHoursIncomingMessage}
+                        />
+                      ) : null}
+                    </Stack>
+                    <Stack
+                      space={spacing.tiny}
+                      borderWidth={1}
+                      borderColor={borderColor}
+                      p={spacing.tiny}
+                      rounded="lg"
+                    >
+                      <LabelValuePill.Boolean
                         label="autoreplies.autoToIncomingCall"
-                        icon="bolt"
+                        icon="phoneArrowDownLeft"
                         onEdit={() =>
                           handleOnEdit(
                             EditFormModeEnum.AWAY_CALL,
@@ -288,15 +280,31 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
                             dataCallFlow.TextAutoAutoOutsideHoursMissedCall,
                           )
                         }
-                        text={dataCallFlow && dataCallFlow?.TextAutoAutoOutsideHoursMissedCall}
+                        trueTx={"autoreplies.isOn"}
+                        falseTx={"autoreplies.isOff"}
+                        value={dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursMissedCall}
                       />
-                    ) : null}
+                      {dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursMissedCall ? (
+                        <LabelValuePill.Text
+                          label="autoreplies.autoToIncomingCall"
+                          icon="bolt"
+                          onEdit={() =>
+                            handleOnEdit(
+                              EditFormModeEnum.AWAY_CALL,
+                              dataCallFlow.IsEnableAutoOutsideHoursMissedCall,
+                              dataCallFlow.TextAutoAutoOutsideHoursMissedCall,
+                            )
+                          }
+                          text={dataCallFlow && dataCallFlow?.TextAutoAutoOutsideHoursMissedCall}
+                        />
+                      ) : null}
+                    </Stack>
                   </Stack>
                 </Stack>
               </Stack>
-            </Stack>
-          )}
-        </Box>
+            )}
+          </Box>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -312,6 +320,7 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -362,7 +371,7 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
             ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

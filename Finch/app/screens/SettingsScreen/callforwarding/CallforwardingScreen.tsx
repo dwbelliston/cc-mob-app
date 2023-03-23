@@ -75,47 +75,49 @@ const CallforwardingScreenBase: FC<SettingsStackScreenProps<"Callforwarding">> =
     }
 
     return (
-      <Screen
-        preset="scroll"
-        contentContainerStyle={{
-          paddingBottom: bottomInset + spacing.large,
-        }}
-        style={{}}
-      >
-        <Box py={spacing.extraSmall}>
-          {isLoadingCallflow ? (
-            <Spinner></Spinner>
-          ) : (
-            <Stack space={spacing.extraSmall}>
-              <Stack px={spacing.tiny}>
-                <Text fontSize="lg" preset="subheading" tx="callforwarding.pageHeader"></Text>
-                <Text
-                  colorToken="text.softer"
-                  fontSize="md"
-                  tx="callforwarding.pageSubheader"
-                ></Text>
-              </Stack>
+      <>
+        <Screen
+          preset="scroll"
+          contentContainerStyle={{
+            paddingBottom: bottomInset + spacing.large,
+          }}
+          style={{}}
+        >
+          <Box py={spacing.extraSmall}>
+            {isLoadingCallflow ? (
+              <Spinner></Spinner>
+            ) : (
+              <Stack space={spacing.extraSmall}>
+                <Stack px={spacing.tiny}>
+                  <Text fontSize="lg" preset="subheading" tx="callforwarding.pageHeader"></Text>
+                  <Text
+                    colorToken="text.softer"
+                    fontSize="md"
+                    tx="callforwarding.pageSubheader"
+                  ></Text>
+                </Stack>
 
-              <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                <LabelValuePill.Boolean
-                  label="callforwarding.status"
-                  icon="phoneArrowUpRight"
-                  onEdit={handleOnEdit}
-                  trueTx={"callforwarding.isOn"}
-                  falseTx={"callforwarding.isOff"}
-                  value={dataCallFlow && dataCallFlow?.IsEnableForwardCall}
-                />
+                <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  <LabelValuePill.Boolean
+                    label="callforwarding.status"
+                    icon="phoneArrowUpRight"
+                    onEdit={handleOnEdit}
+                    trueTx={"callforwarding.isOn"}
+                    falseTx={"callforwarding.isOff"}
+                    value={dataCallFlow && dataCallFlow?.IsEnableForwardCall}
+                  />
 
-                <LabelValuePill.Text
-                  label="callforwarding.number"
-                  icon="hashtag"
-                  onEdit={handleOnEdit}
-                  text={runFormatPhoneSimple(dataCallFlow && dataCallFlow?.NumberForwardTo)}
-                />
+                  <LabelValuePill.Text
+                    label="callforwarding.number"
+                    icon="hashtag"
+                    onEdit={handleOnEdit}
+                    text={runFormatPhoneSimple(dataCallFlow && dataCallFlow?.NumberForwardTo)}
+                  />
+                </Stack>
               </Stack>
-            </Stack>
-          )}
-        </Box>
+            )}
+          </Box>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -131,6 +133,7 @@ const CallforwardingScreenBase: FC<SettingsStackScreenProps<"Callforwarding">> =
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -181,7 +184,7 @@ const CallforwardingScreenBase: FC<SettingsStackScreenProps<"Callforwarding">> =
             ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

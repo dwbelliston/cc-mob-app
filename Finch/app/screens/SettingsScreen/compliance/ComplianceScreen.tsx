@@ -100,51 +100,53 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
     }
 
     return (
-      <Screen
-        preset="scroll"
-        contentContainerStyle={{
-          paddingBottom: bottomInset + spacing.large,
-        }}
-        style={{}}
-      >
-        <Box py={spacing.extraSmall}>
-          {isLoadingMessage ? (
-            <Spinner></Spinner>
-          ) : (
-            <Stack space={spacing.extraSmall}>
-              <Stack px={spacing.tiny}>
-                <Text fontSize="lg" preset="subheading" tx="compliance.pageHeader"></Text>
-                <Text colorToken="text.softer" fontSize="md" tx="compliance.pageSubheader"></Text>
+      <>
+        <Screen
+          preset="scroll"
+          contentContainerStyle={{
+            paddingBottom: bottomInset + spacing.large,
+          }}
+          style={{}}
+        >
+          <Box py={spacing.extraSmall}>
+            {isLoadingMessage ? (
+              <Spinner></Spinner>
+            ) : (
+              <Stack space={spacing.extraSmall}>
+                <Stack px={spacing.tiny}>
+                  <Text fontSize="lg" preset="subheading" tx="compliance.pageHeader"></Text>
+                  <Text colorToken="text.softer" fontSize="md" tx="compliance.pageSubheader"></Text>
+                </Stack>
+
+                <PressableActionRow
+                  tx="compliance.readMore"
+                  icon={{
+                    icon: "newspaper",
+                  }}
+                  onPress={onViewTCPA}
+                ></PressableActionRow>
+
+                <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  <LabelValuePill.Boolean
+                    label="compliance.autoSendMessage"
+                    icon="arrowLeftRight"
+                    onEdit={handleOnEdit}
+                    trueTx={"compliance.autoSendIsOn"}
+                    falseTx={"compliance.autoSendIsOff"}
+                    value={dataComplianceMessage && dataComplianceMessage?.IsEnabled}
+                  />
+
+                  <LabelValuePill.Text
+                    label="compliance.message"
+                    icon="chatBubbleLeft"
+                    onEdit={handleOnEditMessage}
+                    text={dataComplianceMessage && dataComplianceMessage?.Message}
+                  />
+                </Stack>
               </Stack>
-
-              <PressableActionRow
-                tx="compliance.readMore"
-                icon={{
-                  icon: "newspaper",
-                }}
-                onPress={onViewTCPA}
-              ></PressableActionRow>
-
-              <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                <LabelValuePill.Boolean
-                  label="compliance.autoSendMessage"
-                  icon="arrowLeftRight"
-                  onEdit={handleOnEdit}
-                  trueTx={"compliance.autoSendIsOn"}
-                  falseTx={"compliance.autoSendIsOff"}
-                  value={dataComplianceMessage && dataComplianceMessage?.IsEnabled}
-                />
-
-                <LabelValuePill.Text
-                  label="compliance.message"
-                  icon="chatBubbleLeft"
-                  onEdit={handleOnEditMessage}
-                  text={dataComplianceMessage && dataComplianceMessage?.Message}
-                />
-              </Stack>
-            </Stack>
-          )}
-        </Box>
+            )}
+          </Box>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -160,6 +162,7 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -219,7 +222,7 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
             ) : null}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

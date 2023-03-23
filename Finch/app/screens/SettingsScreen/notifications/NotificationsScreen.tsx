@@ -197,69 +197,71 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     }, [])
 
     return (
-      <Screen
-        preset="scroll"
-        contentContainerStyle={{
-          paddingBottom: bottomInset + spacing.large,
-        }}
-        style={{}}
-      >
-        <Box py={spacing.extraSmall}>
-          {isLoadingProfile ? (
-            <Spinner></Spinner>
-          ) : (
-            <Stack space={spacing.extraSmall}>
-              <Stack px={spacing.tiny}>
-                <Text fontSize="lg" preset="subheading" tx="notifications.pageHeader"></Text>
-                <Text
-                  colorToken="text.softer"
-                  fontSize="md"
-                  tx="notifications.pageSubheader"
-                ></Text>
+      <>
+        <Screen
+          preset="scroll"
+          contentContainerStyle={{
+            paddingBottom: bottomInset + spacing.large,
+          }}
+          style={{}}
+        >
+          <Box py={spacing.extraSmall}>
+            {isLoadingProfile ? (
+              <Spinner></Spinner>
+            ) : (
+              <Stack space={spacing.extraSmall}>
+                <Stack px={spacing.tiny}>
+                  <Text fontSize="lg" preset="subheading" tx="notifications.pageHeader"></Text>
+                  <Text
+                    colorToken="text.softer"
+                    fontSize="md"
+                    tx="notifications.pageSubheader"
+                  ></Text>
+                </Stack>
+
+                <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  <LabelValuePill.Boolean
+                    label="notifications.registeredDevice"
+                    icon="fingerPrint"
+                    trueText={deviceConnector?.ConnectorName || expoDeviceId}
+                    falseTx={"notifications.notRegistered"}
+                    value={!!deviceConnector}
+                  />
+
+                  {isLoadingDevice ? (
+                    <Stack space={spacing.tiny}>
+                      <Text tx="notifications.noDeviceRegisterNew"></Text>
+                      <Box>
+                        <Spinner></Spinner>
+                      </Box>
+                    </Stack>
+                  ) : null}
+
+                  <LabelValuePill.Boolean
+                    label="notifications.allowBadge"
+                    icon="bellAlert"
+                    onEdit={handleOnEdit}
+                    value={dataCrmSync && dataCrmSync?.IsEnabled}
+                  />
+                  <LabelValuePill.Boolean
+                    label="notifications.allowIncomingAlert"
+                    icon="chatBubbleLeftEllipsis"
+                    onEdit={handleOnEdit}
+                    value={dataCrmSync && dataCrmSync?.IsEnabled}
+                  />
+                </Stack>
+
+                <PressableActionRow
+                  tx="notifications.troubleshoot"
+                  icon={{
+                    icon: "lifebuoy",
+                  }}
+                  onPress={onHandleGetHelp}
+                ></PressableActionRow>
               </Stack>
-
-              <Stack space={spacing.extraSmall} px={spacing.tiny}>
-                <LabelValuePill.Boolean
-                  label="notifications.registeredDevice"
-                  icon="fingerPrint"
-                  trueText={deviceConnector?.ConnectorName || expoDeviceId}
-                  falseTx={"notifications.notRegistered"}
-                  value={!!deviceConnector}
-                />
-
-                {isLoadingDevice ? (
-                  <Stack space={spacing.tiny}>
-                    <Text tx="notifications.noDeviceRegisterNew"></Text>
-                    <Box>
-                      <Spinner></Spinner>
-                    </Box>
-                  </Stack>
-                ) : null}
-
-                <LabelValuePill.Boolean
-                  label="notifications.allowBadge"
-                  icon="bellAlert"
-                  onEdit={handleOnEdit}
-                  value={dataCrmSync && dataCrmSync?.IsEnabled}
-                />
-                <LabelValuePill.Boolean
-                  label="notifications.allowIncomingAlert"
-                  icon="chatBubbleLeftEllipsis"
-                  onEdit={handleOnEdit}
-                  value={dataCrmSync && dataCrmSync?.IsEnabled}
-                />
-              </Stack>
-
-              <PressableActionRow
-                tx="notifications.troubleshoot"
-                icon={{
-                  icon: "lifebuoy",
-                }}
-                onPress={onHandleGetHelp}
-              ></PressableActionRow>
-            </Stack>
-          )}
-        </Box>
+            )}
+          </Box>
+        </Screen>
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={0}
@@ -275,6 +277,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
           handleIndicatorStyle={{
             backgroundColor: borderColor,
           }}
+          android_keyboardInputMode="adjustResize"
         >
           <Box
             pb={spacing.tiny}
@@ -324,7 +327,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
             ) : null} */}
           </BottomSheetScrollView>
         </BottomSheetModal>
-      </Screen>
+      </>
     )
   },
 )

@@ -148,67 +148,69 @@ const ProfileScreenBase: FC<SettingsStackScreenProps<"Profile">> = observer(func
   }
 
   return (
-    <Screen
-      preset="scroll"
-      contentContainerStyle={{
-        paddingBottom: bottomInset + spacing.large,
-      }}
-      style={{}}
-      statusBarStyle={statusBarColor}
-    >
-      <Box py={spacing.tiny}>
-        {isLoadingProfile ? (
-          <Spinner></Spinner>
-        ) : (
-          <Stack space={spacing.extraSmall} px={spacing.tiny}>
-            <ChangeAvatarButton onFileSelect={handleOnFileSelected} />
-            <LabelValuePill.Text
-              label="fieldLabels.name"
-              icon="userCircle"
-              text={`${userProfile.FirstName} ${userProfile.LastName}`}
-              onEdit={handleOnEditName}
-            />
-            <LabelValuePill.Text
-              label="fieldLabels.phone"
-              icon="phone"
-              text={runFormatPhoneSimple(userProfile.Phone)}
-              onEdit={handleOnEditPhone}
-            />
-            <LabelValuePill.Text
-              label="fieldLabels.email"
-              icon="envelope"
-              text={userProfile?.Email}
-            />
+    <>
+      <Screen
+        preset="scroll"
+        contentContainerStyle={{
+          paddingBottom: bottomInset + spacing.large,
+        }}
+        style={{}}
+        statusBarStyle={statusBarColor}
+      >
+        <Box py={spacing.tiny}>
+          {isLoadingProfile ? (
+            <Spinner></Spinner>
+          ) : (
+            <Stack space={spacing.extraSmall} px={spacing.tiny}>
+              <ChangeAvatarButton onFileSelect={handleOnFileSelected} />
+              <LabelValuePill.Text
+                label="fieldLabels.name"
+                icon="userCircle"
+                text={`${userProfile.FirstName} ${userProfile.LastName}`}
+                onEdit={handleOnEditName}
+              />
+              <LabelValuePill.Text
+                label="fieldLabels.phone"
+                icon="phone"
+                text={runFormatPhoneSimple(userProfile.Phone)}
+                onEdit={handleOnEditPhone}
+              />
+              <LabelValuePill.Text
+                label="fieldLabels.email"
+                icon="envelope"
+                text={userProfile?.Email}
+              />
 
-            <LabelValuePill.Address
-              label="fieldLabels.address"
-              icon="mapPin"
-              address1={userProfile?.Address1}
-              address2={userProfile?.Address2}
-              city={userProfile?.City}
-              state={userProfile?.State}
-              zip={userProfile?.Zip}
-              onEdit={handleOnEditAddress}
-              isOpen={true}
-            />
+              <LabelValuePill.Address
+                label="fieldLabels.address"
+                icon="mapPin"
+                address1={userProfile?.Address1}
+                address2={userProfile?.Address2}
+                city={userProfile?.City}
+                state={userProfile?.State}
+                zip={userProfile?.Zip}
+                onEdit={handleOnEditAddress}
+                isOpen={true}
+              />
 
-            <LabelValuePill.Text
-              label="fieldLabels.companyName"
-              icon="briefcase"
-              text={userProfile.CompanyName}
-              onEdit={handleOnEditCompanyName}
-            />
+              <LabelValuePill.Text
+                label="fieldLabels.companyName"
+                icon="briefcase"
+                text={userProfile.CompanyName}
+                onEdit={handleOnEditCompanyName}
+              />
 
-            <PressableActionRow
-              tx="settings.deleteAccount"
-              icon={{
-                icon: "trash",
-              }}
-              onPress={handleOnDelete}
-            ></PressableActionRow>
-          </Stack>
-        )}
-      </Box>
+              <PressableActionRow
+                tx="settings.deleteAccount"
+                icon={{
+                  icon: "trash",
+                }}
+                onPress={handleOnDelete}
+              ></PressableActionRow>
+            </Stack>
+          )}
+        </Box>
+      </Screen>
 
       <BottomSheetModal
         ref={bottomSheetModalRef}
@@ -225,6 +227,7 @@ const ProfileScreenBase: FC<SettingsStackScreenProps<"Profile">> = observer(func
         handleIndicatorStyle={{
           backgroundColor: borderColor,
         }}
+        android_keyboardInputMode="adjustResize"
       >
         <Box
           pb={spacing.tiny}
@@ -307,7 +310,7 @@ const ProfileScreenBase: FC<SettingsStackScreenProps<"Profile">> = observer(func
           ) : null}
         </BottomSheetScrollView>
       </BottomSheetModal>
-    </Screen>
+    </>
   )
 })
 

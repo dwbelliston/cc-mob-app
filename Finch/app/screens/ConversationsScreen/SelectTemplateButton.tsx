@@ -134,6 +134,7 @@ export const SelectTemplateButton = ({ onTemplateSelect, ...rest }: ISelectTempl
         handleIndicatorStyle={{
           backgroundColor: borderColor,
         }}
+        android_keyboardInputMode="adjustResize"
       >
         <View
           style={{
