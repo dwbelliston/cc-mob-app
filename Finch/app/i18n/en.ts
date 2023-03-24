@@ -372,6 +372,7 @@ const en = {
     urlArticalTurnOffDisturb: "Turn off do not disturb",
     urlHowToBackgroundRefresh: "Allow background app refresh",
     noDeviceId: "Cant find device ID",
+    errorLoading: "Error loading notifcations, please try later",
   },
   voicemail: {
     pageHeader: "Voicemail",

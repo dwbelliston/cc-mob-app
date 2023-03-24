@@ -14,6 +14,7 @@ import { spacing } from "../../../theme"
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { Butter } from "../../../components/Butter"
 import { PressableActionRow } from "../../../components/PressableActionRow"
 import { translate } from "../../../i18n"
 import { IConnector, ICreateConnectorDevice } from "../../../models/Connector"
@@ -80,11 +81,14 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const {
       data: dataConnectors,
       isLoading: isLoadingConnectors,
+      isError: isErrorConnectors,
       refetch: refetchConnectors,
     } = useListConnectors()
+
     const {
       data: dataRoutingRules,
       isLoading: isLoadingRoutingRules,
+      isError: isErrorRoutingRules,
       refetch: refetchRules,
     } = useListRoutingRules()
     const { mutateAsync: mutateAsyncRoutingRule, isLoading: isLoadingCreateRoutingRule } =
@@ -352,6 +356,13 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                 </Stack>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>
+                  {isErrorConnectors || isErrorRoutingRules ? (
+                    <Butter.Error
+                      title={translate("common.error")}
+                      description={translate("notifications.errorLoading")}
+                    ></Butter.Error>
+                  ) : null}
+
                   {!deviceConnector && isLoadingDevice ? (
                     <Stack space={spacing.tiny}>
                       <Text tx="notifications.noDeviceRegisterNew"></Text>
