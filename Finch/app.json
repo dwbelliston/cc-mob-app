@@ -2,7 +2,7 @@
   "name": "CurrentClient",
   "displayName": "CurrentClient",
   "expo": {
-    "name": "Clients",
+    "name": "CurrentClient",
     "slug": "finch",
     "version": "0.0.10",
     "scheme": "currentclient",

@@ -22,7 +22,7 @@ import {
   IRoutingFrequencyEnum,
   IRoutingRule,
 } from "../../../models/RoutingRule"
-import useCreateDeviceToken from "../../../services/api/connectors/mutations/useCreateDeviceToken"
+import useCreateDeviceConnector from "../../../services/api/connectors/mutations/useCreateDeviceConnector"
 import useListConnectors from "../../../services/api/connectors/queries/useListConnectors"
 import useCreateRoutingRules from "../../../services/api/routingrules/mutations/useCreateRoutingRules"
 import useUpdateRoutingRule from "../../../services/api/routingrules/mutations/useUpdateRoutingRule"
@@ -86,7 +86,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const { mutateAsync: mutateAsyncRoutingRuleUpdate, isLoading: isLoadingRoutingRuleUpdate } =
       useUpdateRoutingRule()
 
-    const { mutateAsync: mutateAsyncDevice, isLoading: isLoadingDevice } = useCreateDeviceToken()
+    const { mutateAsync: mutateAsyncDevice, isLoading: isLoadingDevice } =
+      useCreateDeviceConnector()
 
     const handleOnEditMessageAlert = () => {
       setEditMode(EditFormModeEnum.ENABLE_MESSAGE)

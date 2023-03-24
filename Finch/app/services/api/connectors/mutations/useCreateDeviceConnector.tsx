@@ -10,10 +10,10 @@ const makeApiRequest = (createIn: ICreateConnectorDevice) => {
     body: createIn,
   }
 
-  return API.post(APIEndpoints.authenticatedUsers, "/api/v1/connectors/device-token", postData)
+  return API.post(APIEndpoints.authenticatedUsers, "/api/v1/connectors/device", postData)
 }
 
-const useCreateDeviceToken = () => {
+const useCreateDeviceConnector = () => {
   const queryClient = useQueryClient()
 
   return useMutation<IConnector, AxiosError, ICreateConnectorDevice>(
@@ -30,4 +30,4 @@ const useCreateDeviceToken = () => {
   )
 }
 
-export default useCreateDeviceToken
+export default useCreateDeviceConnector

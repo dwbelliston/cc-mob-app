@@ -4,7 +4,6 @@ import React from "react"
 import { Platform } from "react-native"
 import * as Sentry from "sentry-expo"
 import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
-import { useCustomToast } from "../utils/useCustomToast"
 
 export const BACKGROUND_NOTIFICATION_TASK = "CC-BACKGROUND-NOTIFICATION-TASK-V01"
 
@@ -88,7 +87,7 @@ export const NotificationsProvider = (props: IProps) => {
 
   const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
 
-  const toast = useCustomToast()
+  // const toast = useCustomToast()
 
   const handleSetBadgeCountForeground = async (countBadge: number) => {
     let isAllowSet = false
@@ -119,7 +118,7 @@ export const NotificationsProvider = (props: IProps) => {
       Sentry.Native.captureMessage("Received notifcation")
 
       // notification: Notifications.Notification
-      toast.info({ title: notification.request.content.title })
+      // toast.info({ title: notification.request.content.title })
     })
 
     responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
