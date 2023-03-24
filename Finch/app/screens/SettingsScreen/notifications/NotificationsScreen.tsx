@@ -33,7 +33,10 @@ import { SettingsStackScreenProps } from "../SettingsStack"
 import { EditIsEnabledForm, IEditIsEnabledFormInput } from "./EditIsEnabledForm"
 
 enum EditFormModeEnum {
-  ENABLE_MESSAGE = "ENABLE_MESSAGE",
+  EDIT_MESSAGE = "EDIT_MESSAGE",
+  EDIT_CALL = "EDIT_CALL",
+  EDIT_LEAD = "EDIT_LEAD",
+  EDIT_CAMPAIGN = "EDIT_CAMPAIGN",
 }
 
 export type FormHandle = {
@@ -52,6 +55,9 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const { navigation } = _props
     const [deviceConnector, setDeviceConnector] = React.useState<IConnector>()
     const [ruleIncomingMessage, setRuleIncomingMessage] = React.useState<IRoutingRule>()
+    const [ruleMissedCall, setRuleMissedCall] = React.useState<IRoutingRule>()
+    const [ruleNewLead, setRuleNewLead] = React.useState<IRoutingRule>()
+    const [ruleNewSubmission, setRuleNewSubmission] = React.useState<IRoutingRule>()
     const [expoDeviceId, setExpoDeviceId] = React.useState<string>()
     const [expoPushToken, setExpoPushToken] = React.useState("")
 
@@ -89,8 +95,8 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
     const { mutateAsync: mutateAsyncDevice, isLoading: isLoadingDevice } =
       useCreateDeviceConnector()
 
-    const handleOnEditMessageAlert = () => {
-      setEditMode(EditFormModeEnum.ENABLE_MESSAGE)
+    const handleOnEditRule = (editMode: EditFormModeEnum) => {
+      setEditMode(editMode)
       bottomSheetModalRef.current?.present()
     }
 
@@ -119,14 +125,25 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       return token
     }
 
-    const createMessageRoutingRule = async () => {
+    const createTargetRoutingRule = async () => {
       if (deviceConnector) {
+        let eventName: IRoutingEventNameEnum
+        if (editMode === EditFormModeEnum.EDIT_CALL) {
+          eventName = IRoutingEventNameEnum.CALL_MISSED
+        } else if (editMode === EditFormModeEnum.EDIT_CAMPAIGN) {
+          eventName = IRoutingEventNameEnum.NEW_SUBMISSION
+        } else if (editMode === EditFormModeEnum.EDIT_LEAD) {
+          eventName = IRoutingEventNameEnum.NEW_LEAD
+        } else if (editMode === EditFormModeEnum.EDIT_MESSAGE) {
+          eventName = IRoutingEventNameEnum.MESSAGE_INCOMING
+        }
+
         try {
           await mutateAsyncRoutingRule([
             {
               ConnectorId: deviceConnector.ConnectorId,
               ConnectorName: deviceConnector.ConnectorName,
-              EventName: IRoutingEventNameEnum.MESSAGE_INCOMING,
+              EventName: eventName,
               Frequency: IRoutingFrequencyEnum.STREAM,
               IsEnabled: true,
               IsMobileManaged: true,
@@ -141,11 +158,11 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
         toast.warning({ title: translate("notifications.noDeviceId") })
       }
     }
-    const updateRoutingRule = async (routingRuleId, isEnabled) => {
+    const updateRoutingRule = async (targetRule: IRoutingRule, isEnabled) => {
       try {
         await mutateAsyncRoutingRuleUpdate({
-          routingRuleId,
-          updateData: { ...ruleIncomingMessage, IsEnabled: isEnabled },
+          routingRuleId: targetRule.RoutingRuleId,
+          updateData: { ...targetRule, IsEnabled: isEnabled },
         })
       } catch (e) {
         toast.error({ title: translate("common.error") })
@@ -196,26 +213,38 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       }
     }
 
-    const handleOnSubmitMessageEnable = async (data: IEditIsEnabledFormInput) => {
+    const handleOnSubmitEnable = async (data: IEditIsEnabledFormInput) => {
+      let targetRule: IRoutingRule
+
+      if (editMode === EditFormModeEnum.EDIT_CALL) {
+        targetRule = ruleMissedCall
+      } else if (editMode === EditFormModeEnum.EDIT_CAMPAIGN) {
+        targetRule = ruleNewSubmission
+      } else if (editMode === EditFormModeEnum.EDIT_LEAD) {
+        targetRule = ruleNewLead
+      } else if (editMode === EditFormModeEnum.EDIT_MESSAGE) {
+        targetRule = ruleIncomingMessage
+      }
+
       // If its enabled
       if (data.IsEnabled) {
-        if (ruleIncomingMessage) {
-          if (ruleIncomingMessage.IsEnabled) {
+        if (targetRule) {
+          if (targetRule.IsEnabled) {
             // Nothing to do
           } else {
             // Turn it on
-            await updateRoutingRule(ruleIncomingMessage.RoutingRuleId, data.IsEnabled)
+            await updateRoutingRule(targetRule, data.IsEnabled)
           }
         } else {
           // Create rule
-          await createMessageRoutingRule()
+          await createTargetRoutingRule()
         }
       } else {
         // Not enabled
-        if (ruleIncomingMessage) {
-          if (ruleIncomingMessage.IsEnabled) {
+        if (targetRule) {
+          if (targetRule.IsEnabled) {
             // Turn it off
-            await updateRoutingRule(ruleIncomingMessage.RoutingRuleId, data.IsEnabled)
+            await updateRoutingRule(targetRule, data.IsEnabled)
           } else {
             // Nothing to do
           }
@@ -259,12 +288,25 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
         (connector) => connector.ConnectorId === deviceConnector.ConnectorId,
       )
 
-      // Get routing rule for incoming message
       let foundRuleIncomingMessage = thisConnectorsRules.find(
         (connector) => connector.EventName == IRoutingEventNameEnum.MESSAGE_INCOMING,
       )
-
       setRuleIncomingMessage(foundRuleIncomingMessage)
+
+      let foundRuleMissedCall = thisConnectorsRules.find(
+        (connector) => connector.EventName == IRoutingEventNameEnum.CALL_MISSED,
+      )
+      setRuleMissedCall(foundRuleMissedCall)
+
+      let foundRuleNewLead = thisConnectorsRules.find(
+        (connector) => connector.EventName == IRoutingEventNameEnum.NEW_LEAD,
+      )
+      setRuleNewLead(foundRuleNewLead)
+
+      let foundRuleNewSubmission = thisConnectorsRules.find(
+        (connector) => connector.EventName == IRoutingEventNameEnum.NEW_SUBMISSION,
+      )
+      setRuleNewSubmission(foundRuleNewSubmission)
     }
 
     React.useEffect(() => {
@@ -333,7 +375,31 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                     trueTx={"notifications.isOn"}
                     falseTx={"notifications.isOff"}
                     value={!!ruleIncomingMessage?.IsEnabled}
-                    onEdit={handleOnEditMessageAlert}
+                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_MESSAGE)}
+                  />
+                  <LabelValuePill.Boolean
+                    label="notifications.allowMissedCallAlert"
+                    icon="phoneArrowDownLeft"
+                    trueTx={"notifications.isOn"}
+                    falseTx={"notifications.isOff"}
+                    value={!!ruleMissedCall?.IsEnabled}
+                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_CALL)}
+                  />
+                  <LabelValuePill.Boolean
+                    label="notifications.allowCampaignSubmittedAlert"
+                    icon="flag"
+                    trueTx={"notifications.isOn"}
+                    falseTx={"notifications.isOff"}
+                    value={!!ruleNewSubmission?.IsEnabled}
+                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_CAMPAIGN)}
+                  />
+                  <LabelValuePill.Boolean
+                    label="notifications.allowNewLeadAlert"
+                    icon="sparkles"
+                    trueTx={"notifications.isOn"}
+                    falseTx={"notifications.isOff"}
+                    value={!!ruleNewLead?.IsEnabled}
+                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_LEAD)}
                   />
                 </Stack>
 
@@ -402,13 +468,40 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
               backgroundColor: bgColor,
             }}
           >
-            {editMode === EditFormModeEnum.ENABLE_MESSAGE ? (
+            {editMode === EditFormModeEnum.EDIT_MESSAGE ? (
               <EditIsEnabledForm
                 ref={formRef}
                 data={{
                   IsEnabled: ruleIncomingMessage?.IsEnabled,
                 }}
-                onSubmit={handleOnSubmitMessageEnable}
+                onSubmit={handleOnSubmitEnable}
+              />
+            ) : null}
+            {editMode === EditFormModeEnum.EDIT_CALL ? (
+              <EditIsEnabledForm
+                ref={formRef}
+                data={{
+                  IsEnabled: ruleMissedCall?.IsEnabled,
+                }}
+                onSubmit={handleOnSubmitEnable}
+              />
+            ) : null}
+            {editMode === EditFormModeEnum.EDIT_CAMPAIGN ? (
+              <EditIsEnabledForm
+                ref={formRef}
+                data={{
+                  IsEnabled: ruleNewSubmission?.IsEnabled,
+                }}
+                onSubmit={handleOnSubmitEnable}
+              />
+            ) : null}
+            {editMode === EditFormModeEnum.EDIT_LEAD ? (
+              <EditIsEnabledForm
+                ref={formRef}
+                data={{
+                  IsEnabled: ruleNewLead?.IsEnabled,
+                }}
+                onSubmit={handleOnSubmitEnable}
               />
             ) : null}
           </BottomSheetScrollView>

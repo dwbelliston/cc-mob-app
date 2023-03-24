@@ -46,6 +46,7 @@ import {
   EyeSlashIcon,
   FingerPrintIcon,
   FireIcon,
+  FlagIcon,
   FunnelIcon,
   GlobeAltIcon,
   GlobeAmericasIcon,
@@ -143,6 +144,7 @@ import {
   EyeSlashIcon as EyeSlashIconSolid,
   FingerPrintIcon as FingerPrintIconSolid,
   FireIcon as FireIconSolid,
+  FlagIcon as FlagIconSolid,
   FunnelIcon as FunnelIconSolid,
   GlobeAltIcon as GlobeAltIconSolid,
   GlobeAmericasIcon as GlobeAmericasIconSolid,
@@ -247,6 +249,10 @@ export const iconRegistry = {
   handRaised: {
     outline: HandRaisedIcon,
     solid: HandRaisedIconSolid,
+  },
+  flag: {
+    outline: FlagIcon,
+    solid: FlagIconSolid,
   },
   eye: {
     outline: EyeIcon,

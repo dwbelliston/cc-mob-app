@@ -348,8 +348,10 @@ const en = {
     pageSubheaderDebug:
     "There are several settings to be aware of to get notications to work.",
     allowBadge: "Allow home screen badge",
-    allowIncomingAlert: "Alert incoming message",
     allowIncomingMessageAlert: "Incoming message alert",
+    allowMissedCallAlert: "Missed call alert",
+    allowCampaignSubmittedAlert: "Client submitted form alert",
+    allowNewLeadAlert: "New lead alert",
     isOn: "Notification is active",
     isOff: "No notification",
     existingMobileConnectors: "Existing Device Connectors",
