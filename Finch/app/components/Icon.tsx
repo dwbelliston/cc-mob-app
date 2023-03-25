@@ -70,6 +70,7 @@ import {
   MegaphoneIcon,
   NewspaperIcon,
   NoSymbolIcon,
+  PaintBrushIcon,
   PaperAirplaneIcon,
   PaperClipIcon,
   PauseIcon,
@@ -170,6 +171,7 @@ import {
   MegaphoneIcon as MegaphoneIconSolid,
   NewspaperIcon as NewspaperIconSolid,
   NoSymbolIcon as NoSymbolIconSolid,
+  PaintBrushIcon as PaintBrushIconSolid,
   PaperAirplaneIcon as PaperAirplaneIconSolid,
   PaperClipIcon as PaperClipIconSolid,
   PauseIcon as PauseIconSolid,
@@ -261,6 +263,10 @@ export const iconRegistry = {
   archiveBox: {
     outline: ArchiveBoxIcon,
     solid: ArchiveBoxIconSolid,
+  },
+  paintBrush: {
+    outline: PaintBrushIcon,
+    solid: PaintBrushIconSolid,
   },
   megaphone: {
     outline: MegaphoneIcon,

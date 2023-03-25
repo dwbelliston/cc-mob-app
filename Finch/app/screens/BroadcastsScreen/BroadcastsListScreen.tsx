@@ -133,7 +133,7 @@ export const BroadcastsListScreen: FC<BroadcastsStackScreenProps<"BroadcastsList
           shadow={0}
           p={3}
           rounded="full"
-          icon={<Icon color="white" size={28} icon="chatBubbleOvalLeftEllipsis" />}
+          icon={<Icon color="white" size={28} icon="plus" />}
         />
       </Screen>
     )

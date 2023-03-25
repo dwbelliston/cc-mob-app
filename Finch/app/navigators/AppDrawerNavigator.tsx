@@ -10,7 +10,7 @@ import React from "react"
 
 import { DrawerActions, NavigatorScreenParams, useNavigation } from "@react-navigation/native"
 
-import { Box, HStack, IconButton, Stack, useColorModeValue } from "native-base"
+import { Box, HStack, Stack, useColorModeValue } from "native-base"
 import { Icon, Text } from "../components"
 import { colors, spacing } from "../theme"
 
@@ -22,13 +22,19 @@ import {
   BroadcastsStackParamList,
 } from "../screens/BroadcastsScreen/BroadcastsStack"
 import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
+import {
+  TemplateGalleryStack,
+  TemplateGalleryStackParamList,
+} from "../screens/TemplateGalleryScreen/TemplateGalleryStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
+import { useColor } from "../theme/useColor"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
 
 export type AppDrawerParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   SettingsStack: NavigatorScreenParams<SettingsStackParamList>
   BroadcastsStack: NavigatorScreenParams<BroadcastsStackParamList>
+  TemplateGalleryStack: NavigatorScreenParams<TemplateGalleryStackParamList>
 }
 
 export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
@@ -84,12 +90,12 @@ const CustomDrawerContent = (props: any) => {
   )
 }
 
-const AppDrawerNavigator = () => {
+const AppDrawerNavigator = (_props) => {
   const drawerBg = useColorModeValue(colors.white, colors.gray[900])
 
   const activeBg = useColorModeValue(colors.gray[100], colors.gray[800])
   const activeColor = useColorModeValue(colors.gray[900], colors.white)
-
+  const headerDetailBg = useColor("bg.header")
   const inActiveBg = useColorModeValue(colors.white, colors.gray[900])
   const inActiveColor = useColorModeValue(colors.black, colors.gray[100])
 
@@ -138,12 +144,12 @@ const AppDrawerNavigator = () => {
           )
         },
         // // header: () => {},
-        headerLeft: (props) => (
-          <IconButton
-            onPress={navigation.toggleDrawer}
-            icon={<Icon icon="menu" size={24} color={inActiveColor} />}
-          ></IconButton>
-        ),
+        // headerLeft: (props) => (
+        //   <IconButton
+        //     onPress={navigation.toggleDrawer}
+        //     icon={<Icon icon="menu" size={24} color={inActiveColor} />}
+        //   ></IconButton>
+        // ),
       })}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
@@ -167,6 +173,17 @@ const AppDrawerNavigator = () => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="TemplateGalleryStack"
+        component={TemplateGalleryStack}
+        options={{
+          drawerIcon: ({ color }) => <Icon icon="paintBrush" size={20} color={color} />,
+          drawerLabel: ({ color }) => (
+            <Text color={color} fontSize="sm" tx="navigator.gallery"></Text>
+          ),
+        }}
+      />
+
       <Drawer.Screen
         name="SettingsStack"
         component={SettingsStack}

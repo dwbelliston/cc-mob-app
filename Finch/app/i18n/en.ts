@@ -216,6 +216,7 @@ const en = {
     contactsTab: "Contacts",
     inboxTab: "Inbox",
     campaigns: "Campaigns",
+    gallery: "Templates",
     broadcasts: "Broadcasts",
     notifications: "Notifications",
     feedback: "Feedback",
@@ -404,6 +405,10 @@ const en = {
   legal: {
     terms: "By continuing, you acknowledge that you have read, understood, and agree to CurrentClient Terms of Service and Privacy Policy",
     contact: "By continuing, you acknowledge that you have consent to contact this individual and will contact them as appropriate."
+  },
+  gallery: {
+    title: "Gallery",
+
   },
 }
 
