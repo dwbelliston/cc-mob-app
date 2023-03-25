@@ -55,6 +55,7 @@ export interface IBroadcastUpdate {
 
 
 
+
 // User can send dispatch
 export const evalIsAllowBroadcastSendDispatch = (
   broadcast: IBroadcast

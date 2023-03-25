@@ -25,6 +25,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
+import { IBroadcast } from "../models/Broadcast"
+import MessageMediaItemsPreview from "../screens/ConversationsScreen/MessageMediaItemsPreview"
 import { Phone } from "./Phone"
 
 export interface ILabelProps extends IStackProps {
@@ -166,6 +168,7 @@ export const ValueText = ({
     </Pressable>
   )
 }
+
 export interface ILabelValuePillValuePhoneTypeProps extends IStackProps {
   icon?: IconProps["icon"]
   label: TextProps["tx"]
@@ -584,6 +587,81 @@ export const ValueHours = ({
   )
 }
 
+export interface ILabelValuePillMessageProps extends IStackProps {
+  icon?: IconProps["icon"]
+  label: TextProps["tx"]
+  messageBody: IBroadcast["MessageBody"]
+  messageMediaItems?: IBroadcast["MessageMediaItems"]
+  onEdit?: () => void
+}
+
+export const ValueMessage = ({
+  label,
+  icon,
+  messageBody,
+  messageMediaItems,
+  children,
+  onEdit,
+  ...rest
+}: ILabelValuePillMessageProps) => {
+  const progress = useSharedValue(0)
+
+  const handleOnPress = () => {
+    if (onEdit) {
+      progress.value = 1
+      Haptics.selectionAsync()
+      onEdit()
+    }
+  }
+
+  return (
+    <Pressable onPress={handleOnPress}>
+      <Stack space={1}>
+        <HStack
+          space={4}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+          px={spacing.micro}
+          {...rest}
+        >
+          <Label icon={icon} label={label} />
+        </HStack>
+        <AnimateBackground sharedValue={progress}>
+          <Stack space={spacing.tiny}>
+            {messageMediaItems ? (
+              <MessageMediaItemsPreview
+                isUserMessage={false}
+                mediaItems={messageMediaItems}
+              ></MessageMediaItemsPreview>
+            ) : null}
+
+            <HStack alignItems={"center"} justifyContent={"space-between"}>
+              {messageBody ? (
+                <>
+                  <Text flex={1} fontSize="md" text={messageBody}></Text>
+                </>
+              ) : (
+                <Text
+                  flex={1}
+                  colorToken="text.softest"
+                  fontSize={"md"}
+                  tx={"common.noValue"}
+                ></Text>
+              )}
+
+              {onEdit ? (
+                <Box>
+                  <Icon size={16} icon="pencilSquare" />
+                </Box>
+              ) : null}
+            </HStack>
+          </Stack>
+        </AnimateBackground>
+      </Stack>
+    </Pressable>
+  )
+}
+
 export const LabelValuePill = {
   Text: ValueText,
   PhoneType: ValuePhoneType,
@@ -593,4 +671,5 @@ export const LabelValuePill = {
   SourceCrm: ValueSourceCrm,
   Boolean: ValueBoolean,
   Hours: ValueHours,
+  Message: ValueMessage,
 }

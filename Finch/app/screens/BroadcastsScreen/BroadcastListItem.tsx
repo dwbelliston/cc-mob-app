@@ -1,11 +1,10 @@
 // https://beta.reactjs.org/reference/react/memo#minimizing-props-changes
 
-import { Box, HStack, Pressable, Stack, useColorModeValue } from "native-base"
+import { HStack, Pressable, Spinner, Stack, useColorModeValue } from "native-base"
 import React from "react"
-import { Text } from "../../components"
+import { Icon, Text } from "../../components"
 import { BroadcastStatusEnum, IBroadcast } from "../../models/Broadcast"
 import { spacing } from "../../theme"
-import { runFormatDateWithAt } from "../../utils/useFormatDate"
 
 import { useSharedValue } from "react-native-reanimated"
 import { AnimatedBackground } from "../../components/AnimatedBackground"
@@ -17,8 +16,8 @@ export interface IBroadcastListItemData {
   Description: string
   IsSendingBroadcast: boolean
   Status: BroadcastStatusEnum
-  CreatedAt: string
   StatSendComplete: number
+  IsHasMedia: boolean
 }
 
 export interface IBroadcastListItem extends IBroadcastListItemData {
@@ -32,8 +31,8 @@ export const makeBroadcastListItemData = (broadcast: IBroadcast): IBroadcastList
     Description: broadcast.Description,
     IsSendingBroadcast: broadcast.IsSendingBroadcast,
     Status: broadcast.Status,
-    CreatedAt: runFormatDateWithAt(broadcast.CreatedAt),
     StatSendComplete: broadcast.StatSendComplete,
+    IsHasMedia: !!broadcast.MessageMediaItems?.length,
   }
 }
 
@@ -65,27 +64,40 @@ const BroadcastListItem = (props: IBroadcastListItem) => {
           alignItems="center"
         >
           <Stack flex={1}>
-            <Text
-              flex={1}
-              numberOfLines={1}
-              colorToken={"text"}
-              fontWeight="semibold"
-              fontSize="md"
-              text={props.Title}
-            ></Text>
+            <HStack alignItems="center" space={spacing.micro} justifyContent={"space-between"}>
+              <Text
+                flex={1}
+                numberOfLines={1}
+                colorToken={"text"}
+                fontWeight="semibold"
+                fontSize="md"
+                text={props.Title}
+              ></Text>
+              {props.IsHasMedia ? <Icon colorToken={"text.soft"} size={20} icon="photo" /> : null}
+            </HStack>
 
             <HStack alignItems="center" space={spacing.micro} justifyContent={"space-between"}>
-              <Box flex={1}>
+              {props.IsSendingBroadcast ? (
+                <>
+                  <Spinner></Spinner>
+                  <Text
+                    textAlign={"right"}
+                    fontSize="sm"
+                    colorToken={"text.softer"}
+                    tx="broadcasts.sending"
+                  ></Text>
+                </>
+              ) : (
                 <BroadcastStatus.Type
-                  flex={1}
                   numberOfLines={1}
                   maxH={12}
                   colorToken={"text.soft"}
                   status={props.Status}
                 />
-              </Box>
-              <Text flex={1} textAlign={"right"} fontSize="xs" colorToken={"text.softer"}>
-                {props.CreatedAt}
+              )}
+
+              <Text flex={1} textAlign={"right"} fontSize="sm" colorToken={"text.softer"}>
+                {props.StatSendComplete} sent
               </Text>
             </HStack>
           </Stack>

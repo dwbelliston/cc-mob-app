@@ -133,8 +133,10 @@ const en = {
     completed: "Completed",
     archived: "Archived",
     draft: "Draft",
+    sending: "Sending...",
     selectStatus: "Select Status",
-
+    statSendComplete: "Messages sent",
+    statSendError: "Failed to send (includes non-mobile)",
   },
   campaigns: {
     viewCampaign: "View Campaign",

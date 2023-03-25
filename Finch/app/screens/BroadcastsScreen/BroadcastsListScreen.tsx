@@ -50,15 +50,6 @@ export const BroadcastsListScreen: FC<BroadcastsStackScreenProps<"BroadcastsList
       status: broadcastsStore.listViewStatusEnum,
     })
 
-    console.log("dataBroadcasts", dataBroadcasts)
-
-    // const { mutateAsync: mutateAsyncCreateBlockednumber, isLoading: isLoadingBlockednumber } =
-    //   useCreateBlockedNumber()
-
-    // const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
-
-    // const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } = usePostConversationStatus()
-
     const handleLoadMore = () => {
       if (!isFetchingBroadcasts) {
         if (dataBroadcasts?.pages) {
@@ -70,86 +61,6 @@ export const BroadcastsListScreen: FC<BroadcastsStackScreenProps<"BroadcastsList
         }
       }
     }
-
-    // const handleOnViewContact = React.useCallback(
-    //   ({ contactName, contactId }: AppStackParamList["ContactDetail"]) => {
-    //     const nav = navigation.getParent<NavigationProp<any>>()
-
-    //     nav.navigate("ContactDetail", {
-    //       contactName,
-    //       contactId,
-    //     })
-    //   },
-    //   [],
-    // )
-
-    // const handleOnBlock = React.useCallback(async (contactNumber: string) => {
-    //   const updates: IBlockedNumberCreate = {
-    //     Number: contactNumber,
-    //     Reason: "unsubscribed",
-    //   }
-
-    //   setBlockCreate(updates)
-    //   onOpenConfirmBlock()
-    // }, [])
-
-    // const handleOnCancelBlock = async () => {
-    //   setBlockCreate(undefined)
-    //   onCloseConfirmBlock()
-    // }
-
-    // const handleOnConfirmBlock = async () => {
-    //   if (blockCreate) {
-    //     try {
-    //       await mutateAsyncCreateBlockednumber(blockCreate)
-    //       toast.success({ title: "Blocked", description: blockCreate.Number })
-    //     } catch (e) {
-    //       toast.error({ title: "Failed to block" })
-    //     }
-    //   }
-
-    //   onCloseConfirmBlock()
-    // }
-
-    // const handleOnMarkUnread = React.useCallback(async (conversationId: string) => {
-    //   const updates: IConversationUpdate = {
-    //     IsRead: false,
-    //   }
-
-    //   await mutateAsyncConversation({
-    //     conversationId: conversationId,
-    //     updates,
-    //   })
-    // }, [])
-
-    // const handleOnMarkRead = React.useCallback(async (conversationId: string) => {
-    //   const updates: IConversationUpdate = {
-    //     IsRead: true,
-    //   }
-
-    //   await mutateAsyncConversation({
-    //     conversationId: conversationId,
-    //     updates,
-    //   })
-    // }, [])
-
-    // const handleOnMarkComplete = React.useCallback(async (conversationId: string) => {
-    //   const updates: IConversationStatusUpdate = {
-    //     conversationId: conversationId,
-    //     status: ConversationStatusEnum.CLOSED,
-    //   }
-
-    //   await mutateAsyncStatus(updates)
-    // }, [])
-
-    // const handleOnMarkActive = React.useCallback(async (conversationId: string) => {
-    //   const updates: IConversationStatusUpdate = {
-    //     conversationId,
-    //     status: ConversationStatusEnum.OPEN,
-    //   }
-
-    //   await mutateAsyncStatus(updates)
-    // }, [])
 
     const handleViewBroadcast = React.useCallback(
       ({ title, broadcastId }: { title: string; broadcastId: string }) => {

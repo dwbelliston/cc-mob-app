@@ -20,6 +20,7 @@ import {
   ResetPasswordScreen,
   WelcomeScreen,
 } from "../screens"
+import { BroadcastDetailScreen } from "../screens/BroadcastsScreen/BroadcastDetailScreen"
 import { AddContactScreen } from "../screens/ContactsScreen/AddContactScreen"
 import { ConversationSteamDetailMenu } from "../screens/ConversationsScreen/ConversationSteamDetailMenu"
 import { ResetPasswordConfirmScreen } from "../screens/ResetPasswordConfirmScreen"
@@ -57,6 +58,7 @@ export type AppStackParamList = {
       }
     | undefined
   ContactDetail: { contactName: string; contactId: string } | undefined
+  BroadcastDetail: { title: string; broadcastId: string } | undefined
   AddContact: { contactPhone?: string; assignConversationId?: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
@@ -140,6 +142,24 @@ const AppStack = observer(function AppStack() {
               headerBackVisible: true,
             })}
           />
+          <Stack.Screen
+            name={"BroadcastDetail"}
+            component={BroadcastDetailScreen}
+            options={({ route }) => ({
+              headerShown: false,
+              headerTitle: route.params?.title || "Broadcast",
+              // headerLargeTitle: true,
+              headerStyle: {
+                backgroundColor: contactBgColor,
+              },
+              headerTitleStyle: {
+                color: "white",
+                ...HEADER_TITLE_STYLES,
+              },
+              headerBackVisible: true,
+            })}
+          />
+
           <Stack.Screen
             name={"AddContact"}
             component={AddContactScreen}
