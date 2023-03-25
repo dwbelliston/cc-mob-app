@@ -5,11 +5,13 @@ import { observer } from "mobx-react-lite"
 import { HStack, Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
+import * as Sentry from "sentry-expo"
 import * as yup from "yup"
 import { Button, Icon, IconButton, Screen, Text } from "../components"
 import { Butter } from "../components/Butter"
 import { FormControl } from "../components/FormControl"
 import { FormSingleCheckbox } from "../components/FormSingleCheckbox"
+import { translate } from "../i18n"
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { spacing } from "../theme"
@@ -103,9 +105,9 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
   const handleFillInWithBio = async () => {
     try {
       const biometricAuth = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Use saved alt login",
+        promptMessage: translate("loginScreen.useLogin"),
         disableDeviceFallback: true,
-        cancelLabel: "Cancel",
+        cancelLabel: translate("common.cancel"),
       })
 
       if (biometricAuth.success) {
@@ -118,10 +120,17 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
         if (password) {
           setValue("password", password)
         }
+      } else {
+        Sentry.Native.captureException(biometricAuth)
+        toast.warning({
+          title: translate("common.error"),
+          description: translate("loginScreen.bioNotAvailable"),
+        })
       }
     } catch (e) {
       toast.error({
-        title: "Getting saved login failed",
+        title: translate("common.error"),
+        description: translate("loginScreen.bioNotAvailable"),
       })
     }
   }
@@ -136,7 +145,7 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
       const rememberlogin = await secureStorageRead(STORAGE_KEY_REMEMBERLOGIN)
       if (rememberlogin === "true" && compatible) {
         setValue("rememberDevice", true)
-        handleFillInWithBio()
+        // handleFillInWithBio()
       }
     })()
   }, [])
@@ -197,13 +206,21 @@ export const AltLoginScreen: FC<AppStackScreenProps<"Login">> = observer(functio
             ></FormControl>
 
             {isBiometricSupported && (
-              <FormSingleCheckbox
-                name="rememberDevice"
-                control={control}
-                colorScheme="secondary"
-                errors={errors}
-                labelTx="fieldLabels.rememberDevice"
-              ></FormSingleCheckbox>
+              <HStack justifyContent={"space-between"} alignItems="center">
+                <FormSingleCheckbox
+                  name="rememberDevice"
+                  control={control}
+                  colorScheme="secondary"
+                  errors={errors}
+                  labelTx="fieldLabels.rememberDevice"
+                ></FormSingleCheckbox>
+                <IconButton
+                  size="sm"
+                  onPress={handleFillInWithBio}
+                  rounded="full"
+                  icon={<Icon colorToken="text" icon="fingerPrint" size={16} />}
+                ></IconButton>
+              </HStack>
             )}
           </Stack>
 

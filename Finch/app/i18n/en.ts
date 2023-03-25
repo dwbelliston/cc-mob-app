@@ -82,7 +82,6 @@ const en = {
     saturday: "Saturday",
     sunday: "Sunday",
   },
-
   inbox: {
     unread: "Unread",
     active: "Active",
@@ -170,6 +169,8 @@ const en = {
     symbol: "1 Symbol",
     number: "1 Number",
     pleaseImprovePassword: "Please improve password",
+    useLogin:"Use saved login",
+    bioNotAvailable:"BioAuth not supported",
   },
   welcomeScreen: {
     postscript: "hey there",

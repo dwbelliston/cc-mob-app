@@ -1,15 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as LocalAuthentication from "expo-local-authentication"
 import { observer } from "mobx-react-lite"
-import { Box, Image, Stack } from "native-base"
+import { Box, HStack, Image, Stack } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
+import * as Sentry from "sentry-expo"
 import * as yup from "yup"
 import appConfig from "../../app-config"
-import { Button, Icon, Screen, Text } from "../components"
+import { Button, Icon, IconButton, Screen, Text } from "../components"
 import { Butter } from "../components/Butter"
 import { FormControl } from "../components/FormControl"
 import { FormSingleCheckbox } from "../components/FormSingleCheckbox"
+import { translate } from "../i18n"
 import { useStores } from "../models"
 import { AppStackScreenProps } from "../navigators"
 import { spacing } from "../theme"
@@ -110,9 +112,9 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   const handleFillInWithBio = async () => {
     try {
       const biometricAuth = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Use saved login",
+        promptMessage: translate("loginScreen.useLogin"),
         disableDeviceFallback: true,
-        cancelLabel: "Cancel",
+        cancelLabel: translate("common.cancel"),
       })
 
       if (biometricAuth.success) {
@@ -125,10 +127,17 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
         if (password) {
           setValue("password", password)
         }
+      } else {
+        Sentry.Native.captureException(biometricAuth)
+        toast.warning({
+          title: translate("common.error"),
+          description: translate("loginScreen.bioNotAvailable"),
+        })
       }
     } catch (e) {
       toast.error({
-        title: "Getting saved login failed",
+        title: translate("common.error"),
+        description: translate("loginScreen.bioNotAvailable"),
       })
     }
   }
@@ -149,12 +158,13 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
     ;(async () => {
       // if bio available and is remembered, fill with bio
       const compatible = await LocalAuthentication.hasHardwareAsync()
+
       setIsBiometricSupported(compatible)
 
       const rememberlogin = await secureStorageRead(STORAGE_KEY_REMEMBERLOGIN)
       if (rememberlogin === "true" && compatible) {
         setValue("rememberDevice", true)
-        handleFillInWithBio()
+        // handleFillInWithBio()
       }
     })()
   }, [])
@@ -205,12 +215,20 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
             ></FormControl>
 
             {isBiometricSupported && (
-              <FormSingleCheckbox
-                name="rememberDevice"
-                control={control}
-                errors={errors}
-                labelTx="fieldLabels.rememberDevice"
-              ></FormSingleCheckbox>
+              <HStack justifyContent={"space-between"} alignItems="center">
+                <FormSingleCheckbox
+                  name="rememberDevice"
+                  control={control}
+                  errors={errors}
+                  labelTx="fieldLabels.rememberDevice"
+                ></FormSingleCheckbox>
+                <IconButton
+                  size="sm"
+                  onPress={handleFillInWithBio}
+                  rounded="full"
+                  icon={<Icon colorToken="text" icon="fingerPrint" size={16} />}
+                ></IconButton>
+              </HStack>
             )}
           </Stack>
 
