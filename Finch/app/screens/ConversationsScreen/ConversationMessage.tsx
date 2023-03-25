@@ -5,7 +5,7 @@
 import { Box, Center, HStack, Stack, View } from "native-base"
 import { ColorType } from "native-base/lib/typescript/components/types"
 import React from "react"
-import { Button, Icon, Text } from "../../components"
+import { Icon, Text } from "../../components"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { CurrentClientAvatar } from "../../components/CurrentClientAvatar"
 import { UserAvatar } from "../../components/UserAvatar"
@@ -114,6 +114,20 @@ const ConversationMessage = ({
               )}
 
               {messageCampaignId && (
+                <HStack alignItems={"center"} space={spacing.micro}>
+                  <Icon colorToken={"text.softer"} icon="flag" size={12}></Icon>
+                  <Text colorToken={"text.softer"} fontSize="xs" tx="message.campaign"></Text>
+                </HStack>
+              )}
+
+              {messageBroadcastId && (
+                <HStack alignItems={"center"} space={spacing.micro}>
+                  <Icon colorToken={"text.softer"} icon="megaphone" size={12}></Icon>
+                  <Text colorToken={"text.softer"} fontSize="xs" tx="message.broadcast"></Text>
+                </HStack>
+              )}
+
+              {/* {messageCampaignId && (
                 <Button
                   size="xs"
                   variant={"link"}
@@ -130,7 +144,7 @@ const ConversationMessage = ({
                   // onClick={handleViewBroadcast}
                   tx="broadcasts.viewBroadcast"
                 ></Button>
-              )}
+              )} */}
             </Box>
 
             {/* Message status */}

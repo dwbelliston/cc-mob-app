@@ -145,6 +145,8 @@ const en = {
     sending: "Sending...",
     compliance: "Compliance",
     autoreply: "Auto Reply",
+    campaign: "Campaign",
+    broadcast: "Broadcast",
   },
   phone: {
     landline: "Landline",
@@ -414,6 +416,9 @@ const en = {
     savedMedia: "Saved Media",
     vcards: "Contact Cards",
     selectResource: "Select Category",
+    selectUsecase: "Select Use Case",
+    galleryHeader: "Example discovery scenarios",
+    gallerySubHeader: "This gallery of templates is to help you find some inspiration. Any template can be customized and then used in your own campaign. What would you like to know about your clients?",
   },
 }
 

@@ -4,9 +4,9 @@ import { observer } from "mobx-react-lite"
 import { Box, HStack, Pressable, Skeleton, Stack, View } from "native-base"
 import React, { FC } from "react"
 import { ImageBackground } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 import appConfig from "../../../app-config"
-import { Screen, Text } from "../../components"
+import { Icon, Screen, Text } from "../../components"
+import { useStores } from "../../models"
 import { IClientFormTemplate } from "../../models/ClientFormTemplate"
 import { AppStackScreenProps } from "../../navigators"
 import useListClientFormTemplates from "../../services/api/clientformtemplates/queries/useListClientFormTemplates"
@@ -17,7 +17,7 @@ const CLIENT_APP_HOST = appConfig.Web.clientHost
 
 export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
   function TemplateGalleryScreen(_props) {
-    const { top: topInset } = useSafeAreaInsets()
+    const { libraryStore } = useStores()
 
     const bgBadge = useColor("bg.higher")
     const colorBadge = useColor("text")
@@ -32,15 +32,27 @@ export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
       WebBrowser.openBrowserAsync(urlToOpen)
     }
 
+    React.useEffect(() => {
+      const useCasesSet = new Set<string>()
+
+      dataTemplates?.records?.forEach((tmp) => useCasesSet.add(tmp.UseCase))
+      libraryStore.setUseCases(Array.from(useCasesSet))
+    }, [dataTemplates])
+
     return (
       <Screen
         preset="scroll"
         contentContainerStyle={{
-          paddingTop: spacing.small,
+          paddingTop: spacing.large,
           paddingBottom: spacing.small,
         }}
       >
         <Stack space={4}>
+          <Stack px={spacing.tiny}>
+            <Text fontSize="lg" preset="subheading" tx="library.galleryHeader"></Text>
+            <Text colorToken="text.softer" fontSize="md" tx="library.gallerySubHeader"></Text>
+          </Stack>
+
           {isLoadingTemplates ? (
             <Stack space={spacing.tiny} px={spacing.tiny}>
               <Skeleton h="48" rounded="lg" />
@@ -50,65 +62,76 @@ export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
           ) : null}
 
           <Stack space={spacing.small}>
-            {dataTemplates?.records.map((template) => {
-              const image = { uri: template.TemplateImageUrl }
-              return (
-                <Pressable
-                  key={template.ClientFormTemplateId}
-                  onPress={() => handleViewTemplate(template)}
-                >
-                  <Box px={spacing.tiny}>
-                    <Stack
-                      borderWidth={1}
-                      borderColor={borderCardColor}
-                      rounded="lg"
-                      overflow={"hidden"}
-                    >
-                      <ImageBackground
-                        source={image}
-                        resizeMode="cover"
-                        imageStyle={{ borderTopLeftRadius: 6, borderTopRightRadius: 6 }}
-                      >
-                        <View pb={spacing.huge} px={spacing.tiny} pt={spacing.tiny}></View>
-                      </ImageBackground>
+            {dataTemplates?.records
+              .filter((template) => {
+                if (!libraryStore.useCaseFilter) {
+                  return true
+                }
+                return template.UseCase === libraryStore.useCaseFilter
+              })
+              .map((template) => {
+                const image = { uri: template.TemplateImageUrl }
+                return (
+                  <Pressable
+                    key={template.ClientFormTemplateId}
+                    onPress={() => handleViewTemplate(template)}
+                  >
+                    <Box px={spacing.tiny}>
                       <Stack
-                        px={spacing.tiny}
-                        pt={spacing.tiny}
-                        space={spacing.micro}
-                        pb={spacing.extraSmall}
+                        borderWidth={1}
+                        borderColor={borderCardColor}
+                        rounded="lg"
+                        overflow={"hidden"}
                       >
-                        <Stack>
-                          <Text
-                            fontSize="lg"
-                            fontWeight="bold"
-                            text={template.TemplateTitle}
-                          ></Text>
-                          <Text fontSize="sm" text={template.TemplateDescription}></Text>
-                        </Stack>
-                        <HStack>
-                          <Box
-                            bg={bgBadge}
-                            rounded="sm"
-                            borderWidth={1}
-                            borderColor={borderCardColor}
-                            py={0.5}
-                            px={spacing.micro}
-                          >
+                        <ImageBackground
+                          source={image}
+                          resizeMode="cover"
+                          imageStyle={{ borderTopLeftRadius: 6, borderTopRightRadius: 6 }}
+                        >
+                          <View pb={spacing.huge} px={spacing.tiny} pt={spacing.tiny}></View>
+                        </ImageBackground>
+                        <Stack
+                          px={spacing.tiny}
+                          pt={spacing.tiny}
+                          space={spacing.tiny}
+                          pb={spacing.extraSmall}
+                        >
+                          <Stack>
                             <Text
-                              display="inline"
-                              fontFamily={"mono"}
-                              fontSize="xs"
-                              color={colorBadge}
-                              text={template.UseCase}
+                              fontSize="lg"
+                              fontWeight="bold"
+                              text={template.TemplateTitle}
                             ></Text>
-                          </Box>
-                        </HStack>
+                            <Text fontSize="sm" text={template.TemplateDescription}></Text>
+                          </Stack>
+                          <HStack justifyContent={"space-between"} alignItems="center">
+                            <Box
+                              bg={bgBadge}
+                              rounded="sm"
+                              borderWidth={1}
+                              borderColor={borderCardColor}
+                              py={0.5}
+                              px={spacing.micro}
+                            >
+                              <Text
+                                display="inline"
+                                fontFamily={"mono"}
+                                fontSize="xs"
+                                color={colorBadge}
+                                text={template.UseCase}
+                              ></Text>
+                            </Box>
+                            <Icon
+                              colorToken={"text.softer"}
+                              icon="arrow-top-right-on-square"
+                            ></Icon>
+                          </HStack>
+                        </Stack>
                       </Stack>
-                    </Stack>
-                  </Box>
-                </Pressable>
-              )
-            })}
+                    </Box>
+                  </Pressable>
+                )
+              })}
           </Stack>
         </Stack>
       </Screen>

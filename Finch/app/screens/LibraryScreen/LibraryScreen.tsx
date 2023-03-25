@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite"
 import { Box, FlatList, Stack, View } from "native-base"
 import React, { FC } from "react"
 
-import { Icon, IconProps, Screen, Text, TextProps } from "../../components"
+import { IconProps, Screen, Text, TextProps } from "../../components"
 import { useStores } from "../../models"
 import { useCustomToast } from "../../utils/useCustomToast"
 
@@ -28,6 +28,12 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
     isSoon: true,
   },
   {
+    icon: "squares2X2",
+    tx: "library.templateGallery",
+    navigateScreen: "TemplateGallery",
+    colorScheme: "indigo",
+  },
+  {
     icon: "chatBubbleBottomCenterText",
     tx: "library.smsTemplates",
     navigateScreen: "SmsTemplates",
@@ -40,12 +46,7 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
     colorScheme: "emerald",
     isSoon: true,
   },
-  {
-    icon: "squares2X2",
-    tx: "library.templateGallery",
-    navigateScreen: "TemplateGallery",
-    colorScheme: "indigo",
-  },
+
   {
     icon: "photo",
     tx: "library.savedMedia",
@@ -83,6 +84,7 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
             }}
             icon={{ icon: item.icon }}
             label={item.tx}
+            // colorScheme={item.colorScheme}
             colorScheme={item.isSoon ? "gray" : item.colorScheme}
           />
         </Box>
@@ -93,7 +95,7 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
       return (
         <View w="full" py={spacing.tiny}>
           <Stack space={1} px={spacing.tiny} rounded="md" alignItems="center">
-            <Icon colorToken={"text.softer"} size={32} icon="rectangleGroup" />
+            {/* <Icon colorToken={"text.softer"} size={32} icon="rectangleGroup" /> */}
             <Text
               textAlign={"center"}
               fontWeight="bold"

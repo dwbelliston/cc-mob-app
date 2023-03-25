@@ -12,6 +12,7 @@ import { useColor } from "../../theme/useColor"
 import { LibraryScreen } from "./LibraryScreen"
 import { SmsTemplatesScreen } from "./smstemplates/SmsTemplatesScreen"
 import { TemplateGalleryScreen } from "./TemplateGalleryScreen"
+import { TemplateUseCasePicker } from "./TemplateUseCasePicker"
 
 export type LibraryStackParamList = {
   Library: undefined
@@ -74,6 +75,7 @@ export const LibraryStack: FC<AppDrawerScreenProps<"LibraryStack">> = (_props) =
           headerStyle: {
             backgroundColor: headerBg,
           },
+          headerRight: () => <TemplateUseCasePicker />,
         }}
       />
       <Stack.Screen
