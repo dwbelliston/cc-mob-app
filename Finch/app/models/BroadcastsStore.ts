@@ -14,7 +14,7 @@ export const BroadcastsStoreModel = types
   })
   .views((store) => ({
     get viewLimit() {
-      return 15
+      return 100
     },
     get listviewText() {
 

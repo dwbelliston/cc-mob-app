@@ -1,7 +1,7 @@
 import * as Haptics from "expo-haptics"
 import * as WebBrowser from "expo-web-browser"
 import { observer } from "mobx-react-lite"
-import { Box, HStack, Pressable, Stack, View } from "native-base"
+import { Box, HStack, Pressable, Skeleton, Stack, View } from "native-base"
 import React, { FC } from "react"
 import { ImageBackground } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
@@ -17,15 +17,13 @@ const CLIENT_APP_HOST = appConfig.Web.clientHost
 
 export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
   function TemplateGalleryScreen(_props) {
-    // const { route, navigation } = _props
-
     const { top: topInset } = useSafeAreaInsets()
 
     const bgBadge = useColor("bg.higher")
     const colorBadge = useColor("text")
     const borderCardColor = useColor("text.softest")
 
-    const { data: dataTemplates } = useListClientFormTemplates()
+    const { data: dataTemplates, isLoading: isLoadingTemplates } = useListClientFormTemplates()
 
     const handleViewTemplate = (template: IClientFormTemplate) => {
       Haptics.selectionAsync()
@@ -37,10 +35,20 @@ export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
     return (
       <Screen
         preset="scroll"
-        safeAreaEdges={["top", "bottom"]}
-        contentContainerStyle={{ marginTop: topInset + spacing.large }}
+        contentContainerStyle={{
+          paddingTop: spacing.small,
+          paddingBottom: spacing.small,
+        }}
       >
-        <Stack space={4} py={spacing.extraSmall}>
+        <Stack space={4}>
+          {isLoadingTemplates ? (
+            <Stack space={spacing.tiny} px={spacing.tiny}>
+              <Skeleton h="48" rounded="lg" />
+              <Skeleton h="48" rounded="lg" />
+              <Skeleton h="48" rounded="lg" />
+            </Stack>
+          ) : null}
+
           <Stack space={spacing.small}>
             {dataTemplates?.records.map((template) => {
               const image = { uri: template.TemplateImageUrl }
@@ -61,11 +69,11 @@ export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
                         resizeMode="cover"
                         imageStyle={{ borderTopLeftRadius: 6, borderTopRightRadius: 6 }}
                       >
-                        <View pb={spacing.massive} px={spacing.tiny} pt={spacing.tiny}></View>
+                        <View pb={spacing.huge} px={spacing.tiny} pt={spacing.tiny}></View>
                       </ImageBackground>
                       <Stack
                         px={spacing.tiny}
-                        pt={spacing.micro}
+                        pt={spacing.tiny}
                         space={spacing.micro}
                         pb={spacing.extraSmall}
                       >

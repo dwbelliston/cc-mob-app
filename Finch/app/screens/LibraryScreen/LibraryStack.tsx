@@ -9,21 +9,24 @@ import { AppDrawerScreenProps } from "../../navigators"
 
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import { LibraryScreen } from "./LibraryScreen"
+import { SmsTemplatesScreen } from "./smstemplates/SmsTemplatesScreen"
 import { TemplateGalleryScreen } from "./TemplateGalleryScreen"
 
-export type TemplateGalleryStackParamList = {
+export type LibraryStackParamList = {
+  Library: undefined
   TemplateGallery: undefined
+  SmsTemplates: undefined
 }
 
-export type TemplateGalleryStackScreenProps<T extends keyof TemplateGalleryStackParamList> =
-  CompositeScreenProps<
-    NativeStackScreenProps<TemplateGalleryStackParamList, T>,
-    AppDrawerScreenProps<"TemplateGalleryStack">
-  >
+export type LibraryStackScreenProps<T extends keyof LibraryStackParamList> = CompositeScreenProps<
+  NativeStackScreenProps<LibraryStackParamList, T>,
+  AppDrawerScreenProps<"LibraryStack">
+>
 
-const Stack = createNativeStackNavigator<TemplateGalleryStackParamList>()
+const Stack = createNativeStackNavigator<LibraryStackParamList>()
 
-export const TemplateGalleryStack: FC<AppDrawerScreenProps<"TemplateGalleryStack">> = (_props) => {
+export const LibraryStack: FC<AppDrawerScreenProps<"LibraryStack">> = (_props) => {
   const { navigation } = _props
 
   const headerLargeBg = useColor("bg.largeHeader")
@@ -36,19 +39,11 @@ export const TemplateGalleryStack: FC<AppDrawerScreenProps<"TemplateGalleryStack
       }}
     >
       <Stack.Screen
-        name={"TemplateGallery"}
-        component={TemplateGalleryScreen}
+        name={"Library"}
+        component={LibraryScreen}
         options={{
-          headerLargeTitle: true,
-          headerLargeTitleShadowVisible: false,
-          headerLargeStyle: {
-            backgroundColor: headerLargeBg,
-          },
           headerStyle: {
             backgroundColor: headerBg,
-          },
-          headerLargeTitleStyle: {
-            ...HEADER_TITLE_STYLES,
           },
           headerTitleStyle: {
             ...HEADER_TITLE_STYLES,
@@ -67,7 +62,28 @@ export const TemplateGalleryStack: FC<AppDrawerScreenProps<"TemplateGalleryStack
 
             return <Icon colorToken="text.softer" onPress={handleOnPress} icon="home" />
           },
-          headerTitle: translate("navigator.gallery"),
+          headerTitle: translate("navigator.library"),
+        }}
+      />
+
+      <Stack.Screen
+        name={"TemplateGallery"}
+        component={TemplateGalleryScreen}
+        options={{
+          headerTitle: translate("library.templateGallery"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+      <Stack.Screen
+        name={"SmsTemplates"}
+        component={SmsTemplatesScreen}
+        options={{
+          headerTitle: translate("library.smsTemplates"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
         }}
       />
     </Stack.Navigator>

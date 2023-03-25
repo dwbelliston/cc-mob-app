@@ -125,11 +125,7 @@ const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = obs
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
                   <Text fontSize="lg" preset="subheading" tx="autoreplies.pageHeader"></Text>
-                  <Text
-                    colorToken="text.softer"
-                    fontSize="md"
-                    tx="autoreplies.pageSubheader"
-                  ></Text>
+                  <Text colorToken="text.softer" tx="autoreplies.pageSubheader"></Text>
                 </Stack>
 
                 <Stack space={spacing.small} px={spacing.tiny}>

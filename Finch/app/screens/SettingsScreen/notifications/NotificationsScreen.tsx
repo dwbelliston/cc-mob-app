@@ -348,11 +348,7 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
                   <Text fontSize="lg" preset="subheading" tx="notifications.pageHeader"></Text>
-                  <Text
-                    colorToken="text.softer"
-                    fontSize="md"
-                    tx="notifications.pageSubheader"
-                  ></Text>
+                  <Text colorToken="text.softer" tx="notifications.pageSubheader"></Text>
                 </Stack>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>

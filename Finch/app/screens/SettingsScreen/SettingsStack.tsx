@@ -23,7 +23,6 @@ import { DebugNotificationsScreen } from "./notifications/DebugNotificationsScre
 import { NotificationsScreen } from "./notifications/NotificationsScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
-import { SmsTemplatesScreen } from "./smstemplates/SmsTemplatesScreen"
 import { VoicemailScreen } from "./voicemail/VoicemailScreen"
 
 export type SettingsStackParamList = {
@@ -34,7 +33,6 @@ export type SettingsStackParamList = {
   MyPhone: undefined
   MySubscription: undefined
   CrmSync: undefined
-  SmsTemplates: undefined
   Compliance: undefined
   Callforwarding: undefined
   BusinessHours: undefined
@@ -163,16 +161,7 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
           },
         }}
       />
-      <Stack.Screen
-        name={"SmsTemplates"}
-        component={SmsTemplatesScreen}
-        options={{
-          headerTitle: translate("settings.smsTemplates"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
+
       <Stack.Screen
         name={"Compliance"}
         component={ComplianceScreen}

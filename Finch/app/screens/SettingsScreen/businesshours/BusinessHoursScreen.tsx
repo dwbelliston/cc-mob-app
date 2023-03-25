@@ -131,11 +131,7 @@ const BusinessHoursScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = o
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
                   <Text fontSize="lg" preset="subheading" tx="businessHours.pageHeader"></Text>
-                  <Text
-                    colorToken="text.softer"
-                    fontSize="md"
-                    tx="businessHours.pageSubheader"
-                  ></Text>
+                  <Text colorToken="text.softer" tx="businessHours.pageSubheader"></Text>
                 </Stack>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>

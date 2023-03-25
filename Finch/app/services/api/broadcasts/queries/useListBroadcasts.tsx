@@ -37,6 +37,16 @@ const useListBroadcasts = (props: IBroadcastsListFilterProps) => {
       })
     },
     {
+      select: (data) => {
+        data.pages[0].records.sort((a, b) => {
+          const bCreatedAt = new Date(b.CreatedAt)
+          const aCreatedAt = new Date(a.CreatedAt)
+
+          return bCreatedAt.getTime() - aCreatedAt.getTime()
+        })
+
+        return data
+      },
       getPreviousPageParam: (firstPage) => firstPage.meta.cursor ?? false,
       getNextPageParam: (lastPage) => lastPage.meta.cursor ?? false,
       refetchInterval: 1000 * 15,

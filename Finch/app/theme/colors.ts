@@ -344,6 +344,10 @@ export const colors = {
   errorBackground: palette.angry100,
 }
 
+
+type ColorOptionMap = typeof TAILDWIND_COLORS
+export type ColorOption = keyof ColorOptionMap
+
 interface RandomColorOptions {
   /**
    * If passed, string will be used to generate

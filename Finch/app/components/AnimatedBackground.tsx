@@ -10,23 +10,33 @@ import { ColorTokenOption, useColor } from "../theme/useColor"
 interface IAnimatedBackground {
   sharedValue: SharedValue<number>
   bgStart?: ColorTokenOption
+  bgStartColor?: string
   bgEnd?: ColorTokenOption
+  bgEndColor?: string
   styles?: any
   children?: React.ReactNode
 }
 
 export const AnimatedBackground = ({
   sharedValue,
-  bgStart = "bg.animStart",
-  bgEnd = "bg.animEnd",
+  bgStart,
+  bgStartColor,
+  bgEnd,
+  bgEndColor,
   styles,
   children,
 }: IAnimatedBackground) => {
-  const bgPill = useColor(bgStart)
-  const bgTempPill = useColor(bgEnd)
+  if (!bgStartColor) {
+    if (!bgStart) bgStart = "bg.animStart"
+    bgStartColor = useColor(bgStart)
+  }
+  if (!bgEndColor) {
+    if (!bgEnd) bgEnd = "bg.animEnd"
+    bgEndColor = useColor(bgEnd)
+  }
 
   const animatedBgStyles = useAnimatedStyle(() => {
-    const color = interpolateColor(sharedValue.value, [0, 1], [bgPill, bgTempPill])
+    const color = interpolateColor(sharedValue.value, [0, 1], [bgStartColor, bgEndColor])
 
     return {
       backgroundColor: withTiming(
@@ -48,7 +58,7 @@ export const AnimatedBackground = ({
       style={[
         {
           width: "100%",
-          backgroundColor: bgPill,
+          backgroundColor: bgStartColor,
           ...styles,
         },
         [animatedBgStyles],

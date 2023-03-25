@@ -7,12 +7,12 @@ import { spacing } from "../../../theme"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { BottomSheetFormControl } from "../../../components/FormControl"
-import { ISmsTemplate, ISmsTemplateCreate, ISmsTemplateUpdate } from "../../../models/SmsTemplate"
-import { FormHandle } from "../profile/ProfileScreen"
+import { ISmsTemplate, ISmsTemplateUpdate } from "../../../models/SmsTemplate"
+import { FormHandle } from "../../SettingsScreen/profile/ProfileScreen"
 
 interface IProps {
   data: ISmsTemplate
-  onSubmit: (data: ISmsTemplateCreate) => void
+  onSubmit: (data: ISmsTemplateUpdate) => void
 }
 
 const schema = yup.object({
@@ -20,14 +20,11 @@ const schema = yup.object({
   Message: yup.string().required(),
 })
 
-export const CreateSmsTemplateForm = React.forwardRef<FormHandle, IProps>(
+export const EditSmsTemplateForm = React.forwardRef<FormHandle, IProps>(
   ({ onSubmit, data }, ref) => {
-    const form = useForm<ISmsTemplateCreate>({
+    const form = useForm<ISmsTemplateUpdate>({
       resolver: yupResolver(schema),
-      defaultValues: {
-        Title: "",
-        Message: "",
-      },
+      defaultValues: data,
     })
 
     const handleOnInvalid = () => {}

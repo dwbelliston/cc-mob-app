@@ -113,7 +113,7 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
                   <Text fontSize="lg" preset="subheading" tx="crmSync.pageHeader"></Text>
-                  <Text colorToken="text.softer" fontSize="md" tx="crmSync.pageSubheader"></Text>
+                  <Text colorToken="text.softer" tx="crmSync.pageSubheader"></Text>
                 </Stack>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>

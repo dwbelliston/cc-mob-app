@@ -251,11 +251,7 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
           <Stack space={spacing.extraSmall}>
             <Stack px={spacing.tiny}>
               <Text fontSize="lg" preset="subheading" tx="notifications.pageHeaderDebug"></Text>
-              <Text
-                colorToken="text.softer"
-                fontSize="md"
-                tx="notifications.pageSubheaderDebug"
-              ></Text>
+              <Text colorToken="text.softer" tx="notifications.pageSubheaderDebug"></Text>
             </Stack>
 
             <Stack>

@@ -50,7 +50,7 @@ export const MySubscriptionScreen: FC<SettingsStackScreenProps<"MySubscription">
             <Stack space={spacing.extraSmall}>
               <Stack px={spacing.tiny}>
                 <Text fontSize="lg" preset="subheading" tx="billing.pageHeader"></Text>
-                <Text colorToken="text.softer" fontSize="md" tx="billing.pageSubheader"></Text>
+                <Text colorToken="text.softer" tx="billing.pageSubheader"></Text>
               </Stack>
               <Stack>
                 <PressableActionRow

@@ -126,28 +126,6 @@ const SETTINGS_LINKS: ISectionData[] = [
     ],
   },
   {
-    titleTx: "settings.library",
-    data: [
-      {
-        icon: "chatBubbleBottomCenterText",
-        tx: "settings.smsTemplates",
-        navigateScreen: "SmsTemplates",
-      },
-      {
-        icon: "photo",
-        tx: "settings.savedMedia",
-        colorToken: "text.softer",
-        isSoon: true,
-      },
-      {
-        icon: "link",
-        tx: "settings.shortUrls",
-        colorToken: "text.softer",
-        isSoon: true,
-      },
-    ],
-  },
-  {
     titleTx: "settings.currentClient",
     data: [
       {

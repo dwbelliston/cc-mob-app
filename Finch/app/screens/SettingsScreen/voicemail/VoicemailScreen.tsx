@@ -22,7 +22,7 @@ const VoicemailScreenBase: FC<SettingsStackScreenProps<"Voicemail">> = observer(
           <Stack space={spacing.extraSmall} px={spacing.tiny}>
             <Stack>
               <Text fontSize="lg" preset="subheading" tx="voicemail.pageHeader"></Text>
-              <Text colorToken="text.softer" fontSize="md" tx="voicemail.pageSubheader"></Text>
+              <Text colorToken="text.softer" tx="voicemail.pageSubheader"></Text>
             </Stack>
             <Box>
               <Butter.Warning

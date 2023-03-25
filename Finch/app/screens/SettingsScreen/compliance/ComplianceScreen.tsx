@@ -115,7 +115,7 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
                   <Text fontSize="lg" preset="subheading" tx="compliance.pageHeader"></Text>
-                  <Text colorToken="text.softer" fontSize="md" tx="compliance.pageSubheader"></Text>
+                  <Text colorToken="text.softer" tx="compliance.pageSubheader"></Text>
                 </Stack>
 
                 <PressableActionRow

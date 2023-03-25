@@ -20,6 +20,7 @@ import {
   BellIcon,
   BoltIcon,
   BriefcaseIcon,
+  BuildingLibraryIcon,
   CakeIcon,
   CalendarDaysIcon,
   CalendarIcon,
@@ -84,11 +85,15 @@ import {
   PlayIcon,
   PlusIcon,
   PuzzlePieceIcon,
+  RectangleGroupIcon,
+  RectangleStackIcon,
   RocketLaunchIcon,
   ScaleIcon,
   ShareIcon,
   ShieldCheckIcon,
   SparklesIcon,
+  Squares2X2Icon,
+  SquaresPlusIcon,
   StarIcon,
   StopIcon,
   TagIcon,
@@ -122,6 +127,7 @@ import {
   BellIcon as BellIconSolid,
   BoltIcon as BoltIconSolid,
   BriefcaseIcon as BriefcaseIconSolid,
+  BuildingLibraryIcon as BuildingLibraryIconSolid,
   CakeIcon as CakeIconSolid,
   CalendarDaysIcon as CalendarDaysIconSolid,
   CalendarIcon as CalendarIconSolid,
@@ -185,11 +191,15 @@ import {
   PlayIcon as PlayIconSolid,
   PlusIcon as PlusIconSolid,
   PuzzlePieceIcon as PuzzlePieceIconSolid,
+  RectangleGroupIcon as RectangleGroupIconSolid,
+  RectangleStackIcon as RectangleStackIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
   ScaleIcon as ScaleIconSolid,
   ShareIcon as ShareIconSolid,
   ShieldCheckIcon as ShieldCheckIconSolid,
   SparklesIcon as SparklesIconSolid,
+  Squares2X2Icon as Squares2X2IconSolid,
+  SquaresPlusIcon as SquaresPlusIconSolid,
   StarIcon as StarIconSolid,
   StopIcon as StopIconSolid,
   TagIcon as TagIconSolid,
@@ -300,6 +310,10 @@ export const iconRegistry = {
     outline: Cog6ToothIcon,
     solid: Cog6ToothIconSolid,
   },
+  squares2X2: {
+    outline: Squares2X2Icon,
+    solid: Squares2X2IconSolid,
+  },
   lockOpen: {
     outline: LockOpenIcon,
     solid: LockOpenIconSolid,
@@ -323,6 +337,10 @@ export const iconRegistry = {
   check: {
     outline: CheckIcon,
     solid: CheckIconSolid,
+  },
+  squaresPlus: {
+    outline: SquaresPlusIcon,
+    solid: SquaresPlusIconSolid,
   },
   globeAmericas: {
     outline: GlobeAmericasIcon,
@@ -488,6 +506,10 @@ export const iconRegistry = {
     outline: InformationCircleIcon,
     solid: InformationCircleIconSolid,
   },
+  rectangleGroup: {
+    outline: RectangleGroupIcon,
+    solid: RectangleGroupIconSolid,
+  },
   envelope: {
     outline: EnvelopeIcon,
     solid: EnvelopeIconSolid,
@@ -523,6 +545,10 @@ export const iconRegistry = {
   phone: {
     outline: PhoneIcon,
     solid: PhoneIconSolid,
+  },
+  rectangleStack: {
+    outline: RectangleStackIcon,
+    solid: RectangleStackIconSolid,
   },
   phoneXMark: {
     outline: PhoneXMarkIcon,
@@ -607,6 +633,10 @@ export const iconRegistry = {
   magnifyingGlass: {
     outline: MagnifyingGlassIcon,
     solid: MagnifyingGlassIconSolid,
+  },
+  buildingLibrary: {
+    outline: BuildingLibraryIcon,
+    solid: BuildingLibraryIconSolid,
   },
   inboxStack: {
     outline: InboxStackIcon,

@@ -21,11 +21,9 @@ import {
   BroadcastsStack,
   BroadcastsStackParamList,
 } from "../screens/BroadcastsScreen/BroadcastsStack"
+
+import { LibraryStack, LibraryStackParamList } from "../screens/LibraryScreen/LibraryStack"
 import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
-import {
-  TemplateGalleryStack,
-  TemplateGalleryStackParamList,
-} from "../screens/TemplateGalleryScreen/TemplateGalleryStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 import { useColor } from "../theme/useColor"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
@@ -34,7 +32,7 @@ export type AppDrawerParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   SettingsStack: NavigatorScreenParams<SettingsStackParamList>
   BroadcastsStack: NavigatorScreenParams<BroadcastsStackParamList>
-  TemplateGalleryStack: NavigatorScreenParams<TemplateGalleryStackParamList>
+  LibraryStack: NavigatorScreenParams<LibraryStackParamList>
 }
 
 export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
@@ -174,12 +172,12 @@ const AppDrawerNavigator = (_props) => {
         }}
       />
       <Drawer.Screen
-        name="TemplateGalleryStack"
-        component={TemplateGalleryStack}
+        name="LibraryStack"
+        component={LibraryStack}
         options={{
-          drawerIcon: ({ color }) => <Icon icon="paintBrush" size={20} color={color} />,
+          drawerIcon: ({ color }) => <Icon icon="rectangleGroup" size={20} color={color} />,
           drawerLabel: ({ color }) => (
-            <Text color={color} fontSize="sm" tx="navigator.gallery"></Text>
+            <Text color={color} fontSize="sm" tx="navigator.library"></Text>
           ),
         }}
       />

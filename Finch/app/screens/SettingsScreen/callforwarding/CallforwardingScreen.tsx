@@ -90,11 +90,7 @@ const CallforwardingScreenBase: FC<SettingsStackScreenProps<"Callforwarding">> =
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
                   <Text fontSize="lg" preset="subheading" tx="callforwarding.pageHeader"></Text>
-                  <Text
-                    colorToken="text.softer"
-                    fontSize="md"
-                    tx="callforwarding.pageSubheader"
-                  ></Text>
+                  <Text colorToken="text.softer" tx="callforwarding.pageSubheader"></Text>
                 </Stack>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>
