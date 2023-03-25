@@ -3,38 +3,39 @@ import { HStack, IconButton, Menu, Stack } from "native-base"
 import React from "react"
 import { Icon, Text } from "../../components"
 import { useStores } from "../../models"
-import { ConversationStatusEnum } from "../../models/Conversation"
 import { spacing } from "../../theme"
 
 import { StyleProp, ViewStyle } from "react-native"
 import { Dot } from "../../components/Dot"
 import { translate } from "../../i18n"
+import { BroadcastStatusEnum } from "../../models/Broadcast"
 import { useColor } from "../../theme/useColor"
 
-export interface ConversationInboxPickerProps {
+export interface BroadcastStatusPickerProps {
   /**
    * An optional style override useful for padding & margin.
    */
   style?: StyleProp<ViewStyle>
 }
 
-export const ConversationInboxPicker = observer(function ConversationInboxPicker(
-  props: ConversationInboxPickerProps,
+export const BroadcastStatusPicker = observer(function BroadcastStatusPicker(
+  props: BroadcastStatusPickerProps,
 ) {
-  const { conversationStore } = useStores()
+  const { broadcastsStore } = useStores()
 
   const txtColor = useColor("text.softer")
 
-  const handleOnUnread = () => {
-    conversationStore.setInboxView(ConversationStatusEnum.UNREAD)
-  }
-
   const handleOnActive = () => {
-    conversationStore.setInboxView(ConversationStatusEnum.OPEN)
+    broadcastsStore.setListView(BroadcastStatusEnum.ACTIVE)
   }
-
-  const handleOnClosed = () => {
-    conversationStore.setInboxView(ConversationStatusEnum.CLOSED)
+  const handleOnCompleted = () => {
+    broadcastsStore.setListView(BroadcastStatusEnum.COMPLETED)
+  }
+  const handleOnDraft = () => {
+    broadcastsStore.setListView(BroadcastStatusEnum.DRAFT)
+  }
+  const handleOnArchived = () => {
+    broadcastsStore.setListView(BroadcastStatusEnum.ARCHIVED)
   }
 
   return (
@@ -51,14 +52,14 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
                 color: txtColor,
               }}
               accessibilityLabel="Select inbox filter"
-              icon={<Icon icon="inbox"></Icon>}
+              icon={<Icon icon="funnel"></Icon>}
               {...triggerProps}
             ></IconButton>
           )
         }}
       >
         <Menu.Group
-          title={translate("inbox.selectFilter")}
+          title={translate("broadcasts.selectStatus")}
           _title={{
             textTransform: "none",
             _light: {
@@ -70,25 +71,32 @@ export const ConversationInboxPicker = observer(function ConversationInboxPicker
             textAlign: "center",
           }}
         >
-          <Menu.Item onPress={handleOnUnread}>
+          <Menu.Item onPress={handleOnDraft}>
             <HStack space={spacing.micro} alignItems="center">
-              <Dot.Error size="sm" />
-              <Text flex={1} colorToken={"text"} tx="inbox.unread"></Text>
-              <Icon size={20} colorToken={"text.softer"} icon="bellAlert"></Icon>
+              <Dot.Info size="sm" />
+              <Text flex={1} colorToken={"text"} tx="broadcasts.draft"></Text>
+              <Icon size={20} colorToken={"text.softer"} icon="pencil"></Icon>
             </HStack>
           </Menu.Item>
           <Menu.Item onPress={handleOnActive}>
             <HStack space={spacing.micro} alignItems="center">
-              <Dot.Info size="sm" />
-              <Text flex={1} colorToken={"text"} tx="inbox.active"></Text>
-              <Icon size={20} colorToken={"text.softer"} icon="chat"></Icon>
+              <Dot.Success size="sm" />
+              <Text flex={1} colorToken={"text"} tx="broadcasts.active"></Text>
+              <Icon size={20} colorToken={"text.softer"} icon="play"></Icon>
             </HStack>
           </Menu.Item>
-          <Menu.Item onPress={handleOnClosed}>
+          <Menu.Item onPress={handleOnCompleted}>
             <HStack space={spacing.micro} alignItems="center">
               <Dot.Neutral size="sm" />
-              <Text flex={1} colorToken={"text"} tx="inbox.completed"></Text>
+              <Text flex={1} colorToken={"text"} tx="broadcasts.completed"></Text>
               <Icon size={20} colorToken={"text.softer"} icon="checkCircle"></Icon>
+            </HStack>
+          </Menu.Item>
+          <Menu.Item onPress={handleOnArchived}>
+            <HStack space={spacing.micro} alignItems="center">
+              <Dot.Error size="sm" />
+              <Text flex={1} colorToken={"text"} tx="broadcasts.archived"></Text>
+              <Icon size={20} colorToken={"text.softer"} icon="archiveBox"></Icon>
             </HStack>
           </Menu.Item>
         </Menu.Group>

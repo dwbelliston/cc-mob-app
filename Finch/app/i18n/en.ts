@@ -117,6 +117,24 @@ const en = {
   },
   broadcasts: {
     viewBroadcast: "View Broadcast",
+    activeHeader: "Active",
+    completedHeader: "Completed",
+    archivedHeader: "Archived",
+    draftHeader: "In Draft",
+    noActiveTitle: "Nothing active",
+    noDraftTitle: "No drafts",
+    noCompletedTitle: "No completed",
+    noArchivedTitle: "Nothing archived",
+    noActiveDescription: "What could you offer to help your clients with?",
+    noDraftDescription: "You do not have any broadcasts in draft status",
+    noCompletedDescription: "Mark a active broadcast as complete when you are done using that message",
+    noArchivedDescription: "This is not common to use, but you can archive as you need",
+    active: "Active",
+    completed: "Completed",
+    archived: "Archived",
+    draft: "Draft",
+    selectStatus: "Select Status",
+
   },
   campaigns: {
     viewCampaign: "View Campaign",
@@ -384,7 +402,7 @@ const en = {
   legal: {
     terms: "By continuing, you acknowledge that you have read, understood, and agree to CurrentClient Terms of Service and Privacy Policy",
     contact: "By continuing, you acknowledge that you have consent to contact this individual and will contact them as appropriate."
-  }
+  },
 }
 
 export default en

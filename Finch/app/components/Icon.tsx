@@ -1,5 +1,6 @@
 import {
   AdjustmentsVerticalIcon,
+  ArchiveBoxIcon,
   ArrowDownLeftIcon,
   ArrowDownRightIcon,
   ArrowLeftIcon,
@@ -66,6 +67,7 @@ import {
   LockOpenIcon,
   MagnifyingGlassIcon,
   MapPinIcon,
+  MegaphoneIcon,
   NewspaperIcon,
   NoSymbolIcon,
   PaperAirplaneIcon,
@@ -99,6 +101,7 @@ import {
 } from "react-native-heroicons/outline"
 import {
   AdjustmentsVerticalIcon as AdjustmentsVerticalIconSolid,
+  ArchiveBoxIcon as ArchiveBoxIconSolid,
   ArrowDownLeftIcon as ArrowDownLeftIconSolid,
   ArrowDownRightIcon as ArrowDownRightIconSolid,
   ArrowLeftIcon as ArrowLeftIconSolid,
@@ -164,6 +167,7 @@ import {
   LockOpenIcon as LockOpenIconSolid,
   MagnifyingGlassIcon as MagnifyingGlassIconSolid,
   MapPinIcon as MapPinIconSolid,
+  MegaphoneIcon as MegaphoneIconSolid,
   NewspaperIcon as NewspaperIconSolid,
   NoSymbolIcon as NoSymbolIconSolid,
   PaperAirplaneIcon as PaperAirplaneIconSolid,
@@ -253,6 +257,14 @@ export const iconRegistry = {
   flag: {
     outline: FlagIcon,
     solid: FlagIconSolid,
+  },
+  archiveBox: {
+    outline: ArchiveBoxIcon,
+    solid: ArchiveBoxIconSolid,
+  },
+  megaphone: {
+    outline: MegaphoneIcon,
+    solid: MegaphoneIconSolid,
   },
   eye: {
     outline: EyeIcon,

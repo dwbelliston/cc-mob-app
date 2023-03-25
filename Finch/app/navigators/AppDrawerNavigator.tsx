@@ -17,6 +17,10 @@ import { colors, spacing } from "../theme"
 import { UserAvatar } from "../components/UserAvatar"
 import { UserPhone } from "../components/UserPhone"
 import { useUserName, useUserPhone } from "../models/UserProfile"
+import {
+  BroadcastsStack,
+  BroadcastsStackParamList,
+} from "../screens/BroadcastsScreen/BroadcastsStack"
 import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
@@ -24,6 +28,7 @@ import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
 export type AppDrawerParamList = {
   Home: NavigatorScreenParams<HomeTabParamList>
   SettingsStack: NavigatorScreenParams<SettingsStackParamList>
+  BroadcastsStack: NavigatorScreenParams<BroadcastsStackParamList>
 }
 
 export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
@@ -108,8 +113,8 @@ const AppDrawerNavigator = () => {
         headerRightContainerStyle: { paddingRight: spacing.small },
         headerTransparent: true,
         drawerItemStyle: {
-          paddingLeft: 16,
-          borderRadius: 8,
+          paddingLeft: spacing.tiny,
+          borderRadius: spacing.extraSmall,
         },
         headerTitleAlign: "center",
         // headerBackground: () => (
@@ -152,7 +157,16 @@ const AppDrawerNavigator = () => {
           ),
         }}
       />
-
+      <Drawer.Screen
+        name="BroadcastsStack"
+        component={BroadcastsStack}
+        options={{
+          drawerIcon: ({ color }) => <Icon icon="megaphone" size={20} color={color} />,
+          drawerLabel: ({ color }) => (
+            <Text color={color} fontSize="sm" tx="navigator.broadcasts"></Text>
+          ),
+        }}
+      />
       <Drawer.Screen
         name="SettingsStack"
         component={SettingsStack}
