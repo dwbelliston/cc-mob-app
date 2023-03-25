@@ -35,6 +35,7 @@ import {
   ClipboardDocumentCheckIcon,
   ClockIcon,
   CloudArrowDownIcon,
+  CloudArrowUpIcon,
   Cog6ToothIcon,
   CreditCardIcon,
   CubeIcon,
@@ -141,6 +142,7 @@ import {
   ClipboardDocumentCheckIcon as ClipboardDocumentCheckIconSolid,
   ClockIcon as ClockIconSolid,
   CloudArrowDownIcon as CloudArrowDownIconSolid,
+  CloudArrowUpIcon as CloudArrowUpIconSolid,
   Cog6ToothIcon as Cog6ToothIconSolid,
   CreditCardIcon as CreditCardIconSolid,
   CubeIcon as CubeIconSolid,
@@ -355,8 +357,8 @@ export const iconRegistry = {
     solid: DevicePhoneMobileIconSolid,
   },
   cloudArrowUp: {
-    outline: CloudArrowDownIcon,
-    solid: CloudArrowDownIconSolid,
+    outline: CloudArrowUpIcon,
+    solid: CloudArrowUpIconSolid,
   },
   noSymbol: {
     outline: NoSymbolIcon,

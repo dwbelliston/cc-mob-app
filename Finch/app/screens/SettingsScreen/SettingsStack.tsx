@@ -11,11 +11,9 @@ import { AppDrawerScreenProps } from "../../navigators"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { AutoRepliesScreen } from "./autoreplies/AutoRepliesScreen"
-import { BlockedScreen } from "./BlockedScreen"
 import { BusinessHoursScreen } from "./businesshours/BusinessHoursScreen"
 import { CallforwardingScreen } from "./callforwarding/CallforwardingScreen"
 import { ComplianceScreen } from "./compliance/ComplianceScreen"
-import { CrmSyncScreen } from "./crmsync/CrmSync"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MyPhoneScreen } from "./MyPhoneScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
@@ -29,10 +27,8 @@ export type SettingsStackParamList = {
   Settings: undefined
   Profile: undefined
   DeleteAccount: undefined
-  Blocked: undefined
   MyPhone: undefined
   MySubscription: undefined
-  CrmSync: undefined
   Compliance: undefined
   Callforwarding: undefined
   BusinessHours: undefined
@@ -121,16 +117,7 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
           },
         }}
       />
-      <Stack.Screen
-        name={"Blocked"}
-        component={BlockedScreen}
-        options={{
-          headerTitle: translate("settings.blocked"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
+
       <Stack.Screen
         name={"MyPhone"}
         component={MyPhoneScreen}
@@ -146,16 +133,6 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={MySubscriptionScreen}
         options={{
           headerTitle: translate("settings.mySubscription"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={"CrmSync"}
-        component={CrmSyncScreen}
-        options={{
-          headerTitle: translate("settings.crmSync"),
           headerStyle: {
             backgroundColor: headerBg,
           },

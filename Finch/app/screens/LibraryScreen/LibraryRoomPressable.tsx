@@ -18,7 +18,6 @@ export const LibraryRoomPressable = ({
   icon,
   colorScheme,
   onPress,
-
   ...rest
 }: ILibraryRoomPressableProps) => {
   const progress = useSharedValue(0)

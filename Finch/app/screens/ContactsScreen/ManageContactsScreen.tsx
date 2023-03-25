@@ -3,73 +3,65 @@ import { Box, FlatList, Stack, View } from "native-base"
 import React, { FC } from "react"
 
 import { IconProps, Screen, Text, TextProps } from "../../components"
-import { useStores } from "../../models"
 import { useCustomToast } from "../../utils/useCustomToast"
 
 import { translate } from "../../i18n"
 import { ColorOption, spacing } from "../../theme"
-import { LibraryRoomPressable } from "./LibraryRoomPressable"
-import { LibraryStackParamList, LibraryStackScreenProps } from "./LibraryStack"
+
+import { LibraryRoomPressable } from "../LibraryScreen/LibraryRoomPressable"
+import { ManageContactsStackParamList, ManageContactsStackScreenProps } from "./ManageContactsStack"
 
 interface ISectionDataItem {
   icon: IconProps["icon"]
   tx: TextProps["tx"]
-  navigateScreen?: keyof LibraryStackParamList
+  navigateScreen?: keyof ManageContactsStackParamList
   colorScheme?: ColorOption
   isSoon?: boolean
 }
 
 const LIBRARY_LINKS: ISectionDataItem[] = [
   {
-    icon: "squaresPlus",
-    tx: "library.discoverTemplates",
-
-    colorScheme: "blue",
+    icon: "tag",
+    tx: "contacts.tags",
+    colorScheme: "green",
     isSoon: true,
   },
   {
-    icon: "squares2X2",
-    tx: "library.templateGallery",
-    navigateScreen: "TemplateGallery",
-    colorScheme: "indigo",
-  },
-  {
-    icon: "chatBubbleBottomCenterText",
-    tx: "library.smsTemplates",
-    navigateScreen: "SmsTemplates",
-    colorScheme: "amber",
-  },
-  {
-    icon: "link",
-    tx: "library.shortUrls",
-    // navigateScreen: "TemplateGallery",
-    colorScheme: "emerald",
+    icon: "funnel",
+    tx: "contacts.segments",
+    colorScheme: "green",
     isSoon: true,
   },
-
   {
-    icon: "photo",
-    tx: "library.savedMedia",
-    // navigateScreen: "TemplateGallery",
+    icon: "cloudArrowUp",
+    tx: "contacts.uploads",
+    colorScheme: "green",
+    isSoon: true,
+  },
+  {
+    icon: "noSymbol",
+    tx: "contacts.blocked",
     colorScheme: "rose",
-    isSoon: true,
+    navigateScreen: "Blocked",
   },
-
   {
-    icon: "identification",
-    tx: "library.vcards",
-    // navigateScreen: "TemplateGallery",
-    colorScheme: "fuchsia",
+    icon: "arrowLeftRight",
+    tx: "contacts.crmSync",
+    colorScheme: "blue",
+    navigateScreen: "CrmSync",
+  },
+  {
+    icon: "clock",
+    colorScheme: "green",
+    tx: "contacts.history",
+    navigateScreen: "CrmSync",
     isSoon: true,
   },
 ]
 
-export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
-  function LibraryScreen(_props) {
+export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageContacts">> = observer(
+  function ManageContactsScreen(_props) {
     const { navigation } = _props
-    const {
-      authenticationStore: { logout },
-    } = useStores()
 
     const toast = useCustomToast()
 
@@ -100,7 +92,7 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
               textAlign={"center"}
               fontWeight="bold"
               fontSize="2xl"
-              tx={"library.selectResource"}
+              tx={"contacts.manageContacts"}
             ></Text>
           </Stack>
         </View>

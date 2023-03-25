@@ -69,11 +69,11 @@ export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
                 }
                 return template.UseCase === libraryStore.useCaseFilter
               })
-              .map((template) => {
+              .map((template, idx) => {
                 const image = { uri: template.TemplateImageUrl }
                 return (
                   <Pressable
-                    key={template.ClientFormTemplateId}
+                    key={`${template.ClientFormTemplateId}-${idx}`}
                     onPress={() => handleViewTemplate(template)}
                   >
                     <Box px={spacing.tiny}>

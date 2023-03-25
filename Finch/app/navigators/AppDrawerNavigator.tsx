@@ -22,6 +22,10 @@ import {
   BroadcastsStackParamList,
 } from "../screens/BroadcastsScreen/BroadcastsStack"
 
+import {
+  ManageContactsStack,
+  ManageContactsStackParamList,
+} from "../screens/ContactsScreen/ManageContactsStack"
 import { LibraryStack, LibraryStackParamList } from "../screens/LibraryScreen/LibraryStack"
 import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
@@ -33,6 +37,7 @@ export type AppDrawerParamList = {
   SettingsStack: NavigatorScreenParams<SettingsStackParamList>
   BroadcastsStack: NavigatorScreenParams<BroadcastsStackParamList>
   LibraryStack: NavigatorScreenParams<LibraryStackParamList>
+  ManageContactsStack: NavigatorScreenParams<ManageContactsStackParamList>
 }
 
 export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
@@ -178,6 +183,16 @@ const AppDrawerNavigator = (_props) => {
           drawerIcon: ({ color }) => <Icon icon="rectangleGroup" size={20} color={color} />,
           drawerLabel: ({ color }) => (
             <Text color={color} fontSize="sm" tx="navigator.library"></Text>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="ManageContactsStack"
+        component={ManageContactsStack}
+        options={{
+          drawerIcon: ({ color }) => <Icon icon="contacts" size={20} color={color} />,
+          drawerLabel: ({ color }) => (
+            <Text color={color} fontSize="sm" tx="navigator.contacts"></Text>
           ),
         }}
       />

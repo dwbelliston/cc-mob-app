@@ -86,46 +86,6 @@ const SETTINGS_LINKS: ISectionData[] = [
     ],
   },
   {
-    titleTx: "settings.contacts",
-    data: [
-      {
-        icon: "tag",
-        tx: "settings.tags",
-        colorToken: "text.softer",
-        isSoon: true,
-      },
-      {
-        icon: "funnel",
-        tx: "settings.segments",
-        colorToken: "text.softer",
-        isSoon: true,
-      },
-      {
-        icon: "cloudArrowUp",
-        tx: "settings.uploads",
-        colorToken: "text.softer",
-        isSoon: true,
-      },
-      {
-        icon: "noSymbol",
-        tx: "settings.blocked",
-
-        navigateScreen: "Blocked",
-      },
-      {
-        icon: "arrowLeftRight",
-        tx: "settings.crmSync",
-        navigateScreen: "CrmSync",
-      },
-      {
-        icon: "clock",
-        tx: "settings.history",
-        colorToken: "text.softer",
-        isSoon: true,
-      },
-    ],
-  },
-  {
     titleTx: "settings.currentClient",
     data: [
       {
