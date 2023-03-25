@@ -112,12 +112,14 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
         preset="fixed"
         contentContainerStyle={{
           flex: 1,
-          paddingHorizontal: spacing.extraSmall,
         }}
       >
         <Box flex={1}>
           <FlatList
-            contentContainerStyle={{ paddingBottom: spacing.medium }}
+            contentContainerStyle={{
+              paddingBottom: spacing.medium,
+              paddingHorizontal: spacing.extraSmall,
+            }}
             data={LIBRARY_LINKS}
             renderItem={renderItem}
             ListHeaderComponent={renderHeader}
