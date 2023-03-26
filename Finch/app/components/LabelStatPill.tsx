@@ -21,7 +21,7 @@ export const StatNumber = ({ label, icon, number, ...rest }: IStatNumberPillText
       </HStack>
 
       <HStack alignItems={"center"} justifyContent={"space-between"} space={spacing.tiny}>
-        {icon && <Icon colorToken={"text.soft"} size={16} {...icon} />}
+        {icon && <Icon colorToken={"text.soft"} size={24} {...icon} />}
         <Text flex={1} fontSize="2xl" fontWeight={"bold"} text={`${number}`}></Text>
       </HStack>
     </Stack>

@@ -32,6 +32,7 @@ export const LibraryStack: FC<AppDrawerScreenProps<"LibraryStack">> = (_props) =
 
   const headerLargeBg = useColor("bg.largeHeader")
   const headerBg = useColor("bg.header")
+  const bgMain = useColor("bg.main")
 
   return (
     <Stack.Navigator
@@ -44,7 +45,7 @@ export const LibraryStack: FC<AppDrawerScreenProps<"LibraryStack">> = (_props) =
         component={LibraryScreen}
         options={{
           headerStyle: {
-            backgroundColor: headerBg,
+            backgroundColor: bgMain,
           },
           headerTitleStyle: {
             ...HEADER_TITLE_STYLES,

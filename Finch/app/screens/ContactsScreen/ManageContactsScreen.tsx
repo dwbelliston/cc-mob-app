@@ -1,15 +1,19 @@
 import { observer } from "mobx-react-lite"
-import { Box, FlatList, Stack, View } from "native-base"
+import { Box, FlatList, Stack, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 
-import { IconProps, Screen, Text, TextProps } from "../../components"
+import { Icon, IconProps, Screen, Text, TextProps } from "../../components"
 import { useCustomToast } from "../../utils/useCustomToast"
 
 import { translate } from "../../i18n"
 import { ColorOption, spacing } from "../../theme"
 
+import { ImageBackground } from "react-native"
 import { LibraryRoomPressable } from "../LibraryScreen/LibraryRoomPressable"
 import { ManageContactsStackParamList, ManageContactsStackScreenProps } from "./ManageContactsStack"
+
+const imgLightSrc = require("../../../assets/images/img-lattice-fade-light.png")
+const imgDarkSrc = require("../../../assets/images/img-lattice-fade-dark.png")
 
 interface ISectionDataItem {
   icon: IconProps["icon"]
@@ -21,24 +25,6 @@ interface ISectionDataItem {
 
 const LIBRARY_LINKS: ISectionDataItem[] = [
   {
-    icon: "tag",
-    tx: "contacts.tags",
-    colorScheme: "green",
-    isSoon: true,
-  },
-  {
-    icon: "funnel",
-    tx: "contacts.segments",
-    colorScheme: "green",
-    isSoon: true,
-  },
-  {
-    icon: "cloudArrowUp",
-    tx: "contacts.uploads",
-    colorScheme: "green",
-    isSoon: true,
-  },
-  {
     icon: "noSymbol",
     tx: "contacts.blocked",
     colorScheme: "rose",
@@ -47,12 +33,31 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
   {
     icon: "arrowLeftRight",
     tx: "contacts.crmSync",
-    colorScheme: "blue",
+    colorScheme: "emerald",
     navigateScreen: "CrmSync",
   },
   {
+    icon: "tag",
+    tx: "contacts.tags",
+    colorScheme: "blue",
+    isSoon: true,
+  },
+  {
+    icon: "funnel",
+    tx: "contacts.segments",
+    colorScheme: "indigo",
+    isSoon: true,
+  },
+  {
+    icon: "cloudArrowUp",
+    tx: "contacts.uploads",
+    colorScheme: "amber",
+    isSoon: true,
+  },
+
+  {
     icon: "clock",
-    colorScheme: "green",
+    colorScheme: "fuchsia",
     tx: "contacts.history",
     navigateScreen: "CrmSync",
     isSoon: true,
@@ -65,37 +70,42 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
 
     const toast = useCustomToast()
 
+    const imgSrc = useColorModeValue(imgLightSrc, imgDarkSrc)
+
     const renderItem = React.useCallback(({ item }: { item: ISectionDataItem }) => {
       return (
-        <Box p={spacing.micro} flex={1} h="full" minH={48}>
-          <LibraryRoomPressable
-            flex={1}
-            h="full"
-            onPress={() => {
-              handleOnItemPress(item)
-            }}
-            icon={{ icon: item.icon }}
-            label={item.tx}
-            // colorScheme={item.colorScheme}
-            colorScheme={item.isSoon ? "gray" : item.colorScheme}
-          />
-        </Box>
+        <LibraryRoomPressable
+          onPress={() => {
+            handleOnItemPress(item)
+          }}
+          icon={{ icon: item.icon }}
+          label={item.tx}
+          colorScheme={item.colorScheme}
+          // colorScheme={item.isSoon ? "gray" : item.colorScheme}
+        />
       )
     }, [])
 
     const renderHeader = React.useCallback(() => {
       return (
-        <View w="full" py={spacing.tiny}>
-          <Stack space={1} px={spacing.tiny} rounded="md" alignItems="center">
-            {/* <Icon colorToken={"text.softer"} size={32} icon="rectangleGroup" /> */}
-            <Text
-              textAlign={"center"}
-              fontWeight="bold"
-              fontSize="2xl"
-              tx={"contacts.manageContacts"}
-            ></Text>
-          </Stack>
-        </View>
+        <ImageBackground source={imgSrc} resizeMode="cover">
+          <View w="full" py={spacing.small}>
+            <Stack space={1} px={spacing.tiny} rounded="md" alignItems="center">
+              <Icon colorToken={"text.softer"} size={32} icon="contacts" />
+              <Text
+                textAlign={"center"}
+                fontWeight="bold"
+                fontSize="2xl"
+                tx={"contacts.manageContactsHeader"}
+              ></Text>
+              <Text
+                textAlign={"center"}
+                colorToken="text.soft"
+                tx={"contacts.manageContactsSubheader"}
+              ></Text>
+            </Stack>
+          </View>
+        </ImageBackground>
       )
     }, [])
 
@@ -118,12 +128,12 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
           <FlatList
             contentContainerStyle={{
               paddingBottom: spacing.medium,
-              paddingHorizontal: spacing.extraSmall,
+              // paddingHorizontal: spacing.extraSmall,
             }}
             data={LIBRARY_LINKS}
             renderItem={renderItem}
             ListHeaderComponent={renderHeader}
-            numColumns={2}
+            // numColumns={2}
           />
         </Box>
       </Screen>

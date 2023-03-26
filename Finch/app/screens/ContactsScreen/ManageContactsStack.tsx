@@ -31,6 +31,7 @@ export const ManageContactsStack: FC<AppDrawerScreenProps<"ManageContactsStack">
   const { navigation } = _props
 
   const headerBg = useColor("bg.header")
+  const bgMain = useColor("bg.main")
 
   return (
     <Stack.Navigator
@@ -43,7 +44,7 @@ export const ManageContactsStack: FC<AppDrawerScreenProps<"ManageContactsStack">
         component={ManageContactsScreen}
         options={{
           headerStyle: {
-            backgroundColor: headerBg,
+            backgroundColor: bgMain,
           },
           headerTitleStyle: {
             ...HEADER_TITLE_STYLES,
@@ -62,7 +63,7 @@ export const ManageContactsStack: FC<AppDrawerScreenProps<"ManageContactsStack">
 
             return <Icon colorToken="text.softer" onPress={handleOnPress} icon="home" />
           },
-          headerTitle: translate("navigator.contacts"),
+          headerTitle: translate("contacts.manageContacts"),
         }}
       />
 

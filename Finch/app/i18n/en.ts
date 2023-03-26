@@ -171,6 +171,8 @@ const en = {
     blocked: "Blocked numbers",
     crmSync: "CRM Sync",
     manageContacts: "Manage Contacts",
+    manageContactsHeader: "Contact Resources",
+    manageContactsSubheader: "What would you like to review?",
     contacts: "Contacts",
     tags: "Tags",
     segments: "Segments",
@@ -420,7 +422,9 @@ const en = {
     selectResource: "Select Category",
     selectUsecase: "Select Use Case",
     galleryHeader: "Example discovery scenarios",
-    gallerySubHeader: "This gallery of templates is to help you find some inspiration. Any template can be customized and then used in your own campaign. What would you like to know about your clients?",
+    gallerySubHeader: "This gallery of templates is provided to help you find some inspiration. Any template can be customized and then used in your own campaign. What would you like to know about your clients?",
+    libraryHeader: "Library Resources",
+    librarySubheader: "This is a collection of the resources that are available to you or you have created. What would you like to review?",
   },
 }
 

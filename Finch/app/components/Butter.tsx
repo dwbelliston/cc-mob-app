@@ -1,6 +1,7 @@
 import { Box, Circle, HStack, Stack } from "native-base"
+import { ColorSchemeType } from "native-base/lib/typescript/components/types"
 import React from "react"
-import { Icon, IconTypes } from "./Icon"
+import { Icon, IconProps, IconTypes } from "./Icon"
 import { Text, TextProps } from "./Text"
 
 export interface IButterProps {
@@ -11,6 +12,39 @@ export interface IButterProps {
   children?: React.ReactNode
 }
 
+export interface IButterIcon {
+  colorScheme: ColorSchemeType
+  icon: IconProps
+}
+
+export const ButterIcon = ({ colorScheme, icon }: IButterIcon) => {
+  return (
+    <Circle
+      shadow={1}
+      p={1}
+      borderWidth={2}
+      rounded="lg"
+      _light={{
+        bg: `${colorScheme}.600`,
+        borderColor: `${colorScheme}.300`,
+      }}
+      _dark={{
+        bg: `${colorScheme}.600`,
+        borderColor: `${colorScheme}.700`,
+      }}
+    >
+      <Icon
+        _light={{
+          color: `${colorScheme}.50`,
+        }}
+        _dark={{
+          color: `${colorScheme}.100`,
+        }}
+        {...icon}
+      ></Icon>
+    </Circle>
+  )
+}
 const ButterError = (props: IButterProps) => {
   const { title = "Error", ...rest } = props
   return (
@@ -155,6 +189,7 @@ const ButterBase = ({
 }
 
 export const Butter = {
+  Icon: ButterIcon,
   Base: ButterBase,
   Success: ButterSuccess,
   Info: ButterInfo,

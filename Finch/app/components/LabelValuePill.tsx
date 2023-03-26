@@ -488,7 +488,7 @@ export const ValueBoolean = ({
             <HStack alignItems={"center"} space={spacing.tiny}>
               {value ? (
                 <>
-                  <Dot.Success {...dotProps} />
+                  <Dot.Success size="md" {...dotProps} />
                   <Text
                     tx={trueTx ? trueTx : !trueText ? "common.active" : null}
                     text={trueText}
@@ -496,7 +496,7 @@ export const ValueBoolean = ({
                 </>
               ) : (
                 <>
-                  <Dot.Warning {...dotProps} />
+                  <Dot.Warning size="md" {...dotProps} />
                   <Text
                     tx={falseTx ? falseTx : !falseText ? "common.inActive" : null}
                     text={falseText}
