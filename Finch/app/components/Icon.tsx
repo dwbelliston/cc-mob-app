@@ -104,6 +104,7 @@ import {
   UserGroupIcon,
   UserIcon,
   UserPlusIcon,
+  WrenchScrewdriverIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline"
 import {
@@ -211,6 +212,7 @@ import {
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
   UserPlusIcon as UserPlusIconSolid,
+  WrenchScrewdriverIcon as WrenchScrewdriverIconSolid,
   XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
 
@@ -611,6 +613,10 @@ export const iconRegistry = {
   user: {
     outline: UserIcon,
     solid: UserIconSolid,
+  },
+  wrenchScrewdriver: {
+    outline: WrenchScrewdriverIcon,
+    solid: WrenchScrewdriverIconSolid,
   },
   play: {
     outline: PlayIcon,

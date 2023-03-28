@@ -62,6 +62,7 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
     tx: "phoneSettings.voicemail",
     navigateScreen: "Voicemail",
     colorScheme: "fuchsia",
+    isSoon: true,
   },
 ]
 
@@ -94,7 +95,7 @@ export const ManagePhoneScreen: FC<ManagePhoneStackScreenProps<"ManagePhone">> =
         <ImageBackground source={imgSrc} resizeMode="cover">
           <View w="full" py={spacing.small}>
             <Stack space={1} px={spacing.tiny} rounded="md" alignItems="center">
-              <Icon colorToken={"text.softer"} size={32} icon="phone" />
+              <Icon colorToken={"text.softer"} size={32} icon="wrenchScrewdriver" />
               <Text
                 textAlign={"center"}
                 fontWeight="bold"

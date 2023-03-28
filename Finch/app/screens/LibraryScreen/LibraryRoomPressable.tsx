@@ -47,13 +47,13 @@ export const LibraryRoomPressable = ({
           alignItems="center"
         >
           {/* Icon */}
-          <HStack flex={2} space={spacing.tiny} alignItems="center">
+          <HStack flex={1} space={spacing.tiny} alignItems="center">
             <Butter.Icon colorScheme={colorScheme} icon={icon}></Butter.Icon>
             <Text flex={1} noOfLines={1} tx={label}></Text>
           </HStack>
           <HStack space={spacing.tiny} alignItems="center" justifyContent={"flex-end"}>
             {isSoon ? (
-              <Badge text={{ fontSize: "xs", tx: "common.soon" }} colorScheme={"gray"} />
+              <Badge text={{ fontSize: "xs", tx: "common.comingSoon" }} colorScheme={"gray"} />
             ) : null}
             {isNew ? (
               <Badge text={{ fontSize: "xs", tx: "common.new" }} colorScheme={"green"} />

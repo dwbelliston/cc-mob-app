@@ -1,6 +1,7 @@
 import * as SMS from "expo-sms"
+import * as WebBrowser from "expo-web-browser"
 import { observer } from "mobx-react-lite"
-import { Box, SectionList, View } from "native-base"
+import { Box, Divider, SectionList, View } from "native-base"
 import React, { FC } from "react"
 
 import appConfig from "../../../app-config"
@@ -12,8 +13,11 @@ import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
 
+import { Linking, Platform } from "react-native"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { SettingsStackParamList, SettingsStackScreenProps } from "./SettingsStack"
+
+const isIos = Platform.OS === "ios"
 
 interface ISectionDataItem {
   icon: IconProps["icon"]
@@ -23,6 +27,8 @@ interface ISectionDataItem {
   isLogout?: boolean
   isSoon?: boolean
   isTextSupport?: boolean
+  urlLink?: string
+  appLink?: string
 }
 interface ISectionData {
   titleTx: TextProps["tx"]
@@ -61,14 +67,18 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "lifebuoy",
         tx: "settings.helpCenter",
+        urlLink: "https://currentclient.com",
+        isSoon: true,
       },
       {
         icon: "shieldCheck",
         tx: "settings.privacy",
+        urlLink: "https://www.currentclient.com/privacy-policy",
       },
       {
         icon: "star",
         tx: "settings.leaveReview",
+        appLink: isIos ? "itms-apps://apps.apple.com/app/id6446603544?action=write-review" : "",
       },
       {
         icon: "arrow-left-on-rectangle",
@@ -95,6 +105,8 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
 
     const { data: userProfile } = useReadUserProfile()
 
+    const openAppStore = () => {}
+
     const handleOnItemPress = async (item: ISectionDataItem) => {
       if (item.navigateScreen) {
         navigation.navigate(item.navigateScreen)
@@ -113,6 +125,20 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
         } else {
           toast.warning({ title: "Not able to text" })
         }
+      } else if (item.urlLink) {
+        WebBrowser.openBrowserAsync(item.urlLink)
+      } else if (item.appLink) {
+        try {
+          const supported = await Linking.canOpenURL(item.appLink)
+
+          if (supported) {
+            Linking.openURL(item.appLink)
+          } else {
+            toast.warning({ title: "Please find us in app store" })
+          }
+        } catch (e) {
+          toast.warning({ title: "Please find us in App store" })
+        }
       }
     }
 
@@ -125,6 +151,7 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
           icon={{ icon: item.icon }}
           tx={item.tx}
           colorToken={item.colorToken}
+          isSoon={item.isSoon}
         />
       )
     }, [])
@@ -172,7 +199,7 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
             renderItem={renderItem}
             renderSectionHeader={renderSectionHeader}
             ListFooterComponent={renderFooter}
-            // SectionSeparatorComponent={() => <Divider mt={spacing.small} bg="transparent" />}
+            SectionSeparatorComponent={() => <Divider mt={spacing.micro} bg="transparent" />}
           />
         </Box>
       </Screen>

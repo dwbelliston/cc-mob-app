@@ -47,7 +47,7 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
     tx: "library.shortUrls",
     // navigateScreen: "TemplateGallery",
     colorScheme: "emerald",
-    isNew: true,
+    isSoon: true,
   },
 
   {

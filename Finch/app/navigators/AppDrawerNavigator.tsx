@@ -204,7 +204,7 @@ const AppDrawerNavigator = (_props) => {
         name="ManagePhoneStack"
         component={ManagePhoneStack}
         options={{
-          drawerIcon: ({ color }) => <Icon icon="phone" size={20} color={color} />,
+          drawerIcon: ({ color }) => <Icon icon="wrenchScrewdriver" size={20} color={color} />,
           drawerLabel: ({ color }) => (
             <Text color={color} fontSize="sm" tx="navigator.phone"></Text>
           ),

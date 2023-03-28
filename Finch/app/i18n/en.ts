@@ -39,6 +39,7 @@ const en = {
     desktopOnly: "Desktop Only",
     desktopOnlyMore: "Please visit the desktop app for this feature.",
     soon: "Soon",
+    comingSoon: "Coming Soon",
   },
   error: {
     saving: "Error saving",
@@ -234,7 +235,7 @@ const en = {
     contacts: "Contacts",
     broadcasts: "Broadcasts",
     notifications: "Notifications",
-    phone: "Phone Setup",
+    phone: "Phone Features",
     feedback: "Feedback",
     signout: "Sign out",
     settings: "Settings",
@@ -248,7 +249,7 @@ const en = {
     businessHours: "Business Hours",
     autoReplies: "Auto Replies",
     voicemail: "Voicemail",
-    pageHeader: "Phone Settings",
+    pageHeader: "Phone Features",
     pageSubheader: "You can do more with this phone. Setup automations and put this phone to work for you.",
     numberDetails: "Details about your number",
     numberDetailsInfo:
