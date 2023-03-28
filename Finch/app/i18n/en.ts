@@ -42,7 +42,8 @@ const en = {
     comingSoon: "Coming Soon",
     clearSearch: "Clear search",
     errorTitle: "Splat!",
-    errorDescription: "Something is not working and we are sorry. Please contact us if this persists."
+    errorDescription: "Something is not working and we are sorry. Please contact us if this persists.",
+    ideas: "Here are some ideas (tap to use)",
   },
   error: {
     saving: "Error saving",
@@ -342,7 +343,6 @@ const en = {
     autoSendIsOn: "Auto send is active",
     autoSendIsOff: "Auto send is off",
     message: "Compliance Message",
-    ideas: "Here are some ideas (tap to use)",
   },
   smsTemplates: {
     templates: "Templates",

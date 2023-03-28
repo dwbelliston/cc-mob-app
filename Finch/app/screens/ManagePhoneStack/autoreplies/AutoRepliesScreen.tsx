@@ -20,7 +20,7 @@ import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallF
 import { ManagePhoneStackScreenProps } from "../ManagePhoneStack"
 import { EditAutoReplyForm, IAutoReplyWorkingForm } from "./EditAutoReplyForm"
 
-enum EditFormModeEnum {
+export enum EditFormModeEnum {
   HOURS_MESSAGE = "HOURS_MESSAGE",
   HOURS_CALL = "HOURS_CALL",
   AWAY_MESSAGE = "AWAY_MESSAGE",
@@ -192,7 +192,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                       />
                       {dataCallFlow && dataCallFlow?.IsEnableAutoMissedCall ? (
                         <LabelValuePill.Text
-                          label="autoreplies.autoToIncomingCall"
+                          label="autoreplies.onMissedCall"
                           icon="bolt"
                           onEdit={() =>
                             handleOnEdit(
@@ -282,7 +282,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                       />
                       {dataCallFlow && dataCallFlow?.IsEnableAutoOutsideHoursMissedCall ? (
                         <LabelValuePill.Text
-                          label="autoreplies.autoToIncomingCall"
+                          label="autoreplies.onMissedCall"
                           icon="bolt"
                           onEdit={() =>
                             handleOnEdit(
@@ -358,6 +358,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
             {editMode ? (
               <EditAutoReplyForm
                 ref={formRef}
+                editMode={editMode}
                 data={{
                   IsEnabled: editIsEnabled,
                   Message: editMessage,

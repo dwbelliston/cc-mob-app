@@ -1,16 +1,14 @@
-import { HStack, Stack } from "native-base"
+import { Stack } from "native-base"
 import React from "react"
 import * as yup from "yup"
 
 import { spacing } from "../../../theme"
 
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Pressable } from "native-base"
 import { useForm } from "react-hook-form"
-import { useSharedValue } from "react-native-reanimated"
 import { Text } from "../../../components"
-import { AnimatedBackground } from "../../../components/AnimatedBackground"
 import { BottomSheetFormControl } from "../../../components/FormControl"
+import { MessageOptionPressable } from "../../../components/MessageOptionPressable"
 import { IComplianceMessageMessageUpdate } from "../../../models/ComplianceMessage"
 import { IUserProfile } from "../../../models/UserProfile"
 import { COMPLIANCE_MESSAGE_TEXT, REGEX_COMPLIANCE_MESSAGE_TEXT } from "../../../utils/constants"
@@ -29,30 +27,6 @@ const COMPLIANCE_LIBRAY = [
   "This is #firstname #lastname from #company. Feel free to reach out to me over text here! You can opt-out of text updates from me by replying STOP if you prefer.",
   "This is #firstname #lastname. I use this number for all my business texting. Please save it to your phone and reach out to me if you need anything. You can also opt-out by replying STOP if you prefer.",
 ]
-
-const MessageOptionPressable = ({ msgBody, onPress }) => {
-  const progress = useSharedValue(0)
-
-  const handleOnPress = () => {
-    progress.value = 1
-    onPress()
-  }
-
-  return (
-    <Pressable onPress={handleOnPress}>
-      <AnimatedBackground
-        sharedValue={progress}
-        bgStart="bg.high"
-        bgEnd={"bg.higher"}
-        styles={{ borderRadius: 12 }}
-      >
-        <HStack space={8} p={2} py={3} px={4}>
-          <Text>{msgBody}</Text>
-        </HStack>
-      </AnimatedBackground>
-    </Pressable>
-  )
-}
 
 export const schema = yup.object().shape({
   Message: yup
@@ -114,7 +88,7 @@ export const EditComplianceMessageForm = React.forwardRef<FormHandle, IProps>(
         ></BottomSheetFormControl>
 
         <Stack space={spacing.tiny}>
-          <Text tx={"compliance.ideas"} textAlign={"center"} colorToken="text.softer"></Text>
+          <Text tx={"common.ideas"} textAlign={"center"} colorToken="text.softer"></Text>
           <Stack space={spacing.tiny}>
             {renderedMessageLibrary.map((msgBody, idx) => {
               return (
