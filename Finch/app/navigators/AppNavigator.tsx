@@ -11,6 +11,7 @@ import { useColorModeValue } from "native-base"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
+import { translate } from "../i18n"
 import { useStores } from "../models"
 import {
   AltLoginScreen,
@@ -23,6 +24,7 @@ import {
 import { BroadcastDetailScreen } from "../screens/BroadcastsScreen/BroadcastDetailScreen"
 import { AddContactScreen } from "../screens/ContactsScreen/AddContactScreen"
 import { ConversationSteamDetailMenu } from "../screens/ConversationsScreen/ConversationSteamDetailMenu"
+import { NewMessageScreen } from "../screens/ConversationsScreen/NewMessageScreen"
 import { ResetPasswordConfirmScreen } from "../screens/ResetPasswordConfirmScreen"
 import { colors, HEADER_TITLE_STYLES } from "../theme"
 import { useColor } from "../theme/useColor"
@@ -59,6 +61,7 @@ export type AppStackParamList = {
     | undefined
   ContactDetail: { contactName: string; contactId: string } | undefined
   BroadcastDetail: { title: string; broadcastId: string } | undefined
+  NewMessage: undefined
   AddContact: { contactPhone?: string; assignConversationId?: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
@@ -85,8 +88,10 @@ const AppStack = observer(function AppStack() {
     authenticationStore: { isAuthenticated },
   } = useStores()
 
-  const headerLargeBg = useColor("bg.largeHeader")
   const headerDetailBg = useColor("bg.header")
+
+  const headerDetailNewBg = useColorModeValue(colors.primary[50], colors.primary[800])
+  const headerDetailNewColor = useColorModeValue(colors.primary[600], colors.primary[100])
   const contactBgColor = useColorModeValue(colors.primary[600], colors.primary[600])
 
   return (
@@ -165,11 +170,28 @@ const AppStack = observer(function AppStack() {
             component={AddContactScreen}
             options={({ route }) => ({
               headerShown: true,
-              headerTitle: "Create",
+              headerTitle: translate("contacts.newContact"),
               headerStyle: {
-                backgroundColor: headerDetailBg,
+                backgroundColor: headerDetailNewBg,
               },
               headerTitleStyle: {
+                color: headerDetailNewColor,
+                ...HEADER_TITLE_STYLES,
+              },
+              headerBackVisible: true,
+            })}
+          />
+          <Stack.Screen
+            name={"NewMessage"}
+            component={NewMessageScreen}
+            options={({ route }) => ({
+              headerShown: true,
+              headerTitle: translate("inbox.newMessage"),
+              headerStyle: {
+                backgroundColor: headerDetailNewBg,
+              },
+              headerTitleStyle: {
+                color: headerDetailNewColor,
                 ...HEADER_TITLE_STYLES,
               },
               headerBackVisible: true,

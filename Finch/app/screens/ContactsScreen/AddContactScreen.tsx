@@ -85,7 +85,6 @@ export const AddContactScreen: FC<AppStackScreenProps<"AddContact">> = observer(
     return (
       <Screen preset="scroll" keyboardOffset={headerHeight}>
         <Stack space={spacing.extraSmall} py={spacing.tiny} px={spacing.tiny}>
-          <Text fontSize="lg" preset="subheading" tx="contacts.createContact"></Text>
           <AddContactForm ref={formRef} phone={paramPhone} onSubmit={handleOnSubmitAddContact} />
           <Button
             isLoading={isLoadingCreate}

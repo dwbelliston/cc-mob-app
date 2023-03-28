@@ -1,11 +1,11 @@
 import { NavigationProp } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { Box, Divider, FlatList, useColorModeValue, View } from "native-base"
+import { Box, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
 import { AlertDialog, useDisclose } from "native-base"
-import { Button, ButtonGroup, Screen, Text } from "../../components"
+import { Button, ButtonGroup, Icon, Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IBlockedNumberCreate } from "../../models/BlockedNumber"
@@ -74,6 +74,10 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
   const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
 
   const { mutateAsync: mutateAsyncStatus, isLoading: isLoadingStatus } = usePostConversationStatus()
+
+  const handleOnCreateNew = () => {
+    navigation.getParent().navigate("NewMessage")
+  }
 
   const handleLoadMore = () => {
     if (!isFetchingConversations) {
@@ -278,13 +282,14 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
           initialNumToRender={10}
         />
       </View>
-      {/* <Fab
+      <Fab
         renderInPortal={false}
         shadow={0}
         p={3}
+        onPress={handleOnCreateNew}
         rounded="full"
         icon={<Icon color="white" size={28} icon="chatBubbleOvalLeftEllipsis" />}
-      /> */}
+      />
       <AlertDialog
         leastDestructiveRef={cancelRef}
         isOpen={isOpenConfirmBlock}

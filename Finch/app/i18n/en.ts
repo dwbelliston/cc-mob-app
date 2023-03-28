@@ -40,6 +40,9 @@ const en = {
     desktopOnlyMore: "Please visit the desktop app for this feature.",
     soon: "Soon",
     comingSoon: "Coming Soon",
+    clearSearch: "Clear search",
+    errorTitle: "Splat!",
+    errorDescription: "Something is not working and we are sorry. Please contact us if this persists."
   },
   error: {
     saving: "Error saving",
@@ -83,6 +86,8 @@ const en = {
     friday: "Friday",
     saturday: "Saturday",
     sunday: "Sunday",
+    searchByNamePhone: "Search by name or phone",
+    to: "To:",
   },
   inbox: {
     unread: "Unread",
@@ -112,6 +117,9 @@ const en = {
     contactCard: "Contact Card",
     startOfConversation: "Start of Conversation",
     errorAssigningConversation: "Failed to add contact to conversation",
+    newMessage: "New Message",
+    noDataNewMessageTitle: "No contacts found",
+    noDataNewMessageDescription: "You can try a new search or add a new contact",
   },
   stream: {
     noMessages: "No Messages",
@@ -162,6 +170,7 @@ const en = {
     address: "Address",
   },
   contacts: {
+    newContact: "New Contact",
     noDataTitle: "No contacts yet!",
     noDataDescription: "Head over to the desktop app to run an import or sync with a CRM.",
     noSearchTitle: "Nothing found",
@@ -169,6 +178,7 @@ const en = {
     loadingContacts: "Getting contacts...",
     backToContacts: "Back to contacts",
     createContact: "Create Contact",
+    addNewContact: "Add New Contact",
     viewContact: "View Contact",
     blocked: "Blocked numbers",
     crmSync: "CRM Sync",

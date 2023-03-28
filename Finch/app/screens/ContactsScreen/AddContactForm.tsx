@@ -53,51 +53,45 @@ export const AddContactForm = React.forwardRef<AddContactFormHandle, IProps>(
     }))
 
     return (
-      <Stack space={spacing.tiny}>
+      <Stack space={spacing.extraSmall}>
         {dataCrmSync?.IsEnabled ? (
           <Butter.Warning
             titleText={{ tx: "crmSync.warning" }}
             descriptionText={{ tx: "crmSync.warningMore", fontSize: "xs" }}
           ></Butter.Warning>
         ) : null}
-        <FormControl
-          name="FirstName"
-          control={form.control}
-          labelProps={{
-            tx: "fieldLabels.firstName",
-          }}
-        ></FormControl>
-        <FormControl
-          name="LastName"
-          control={form.control}
-          labelProps={{
-            tx: "fieldLabels.lastName",
-          }}
-        ></FormControl>
+        <Stack space={spacing.tiny}>
+          <FormControl
+            name="FirstName"
+            control={form.control}
+            placeholderTx={"fieldLabels.firstName"}
+          ></FormControl>
+          <FormControl
+            name="LastName"
+            control={form.control}
+            placeholderTx={"fieldLabels.lastName"}
+          ></FormControl>
 
-        <FormControl
-          name="Phone"
-          control={form.control}
-          multiline={false}
-          labelProps={{
-            tx: "fieldLabels.phone",
-          }}
-          textContentType="telephoneNumber"
-          keyboardType="phone-pad"
-          InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="phone" />}
-        ></FormControl>
+          <FormControl
+            name="Phone"
+            control={form.control}
+            multiline={false}
+            placeholderTx={"fieldLabels.phone"}
+            textContentType="telephoneNumber"
+            keyboardType="phone-pad"
+            InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="phone" />}
+          ></FormControl>
 
-        <FormControl
-          name="Email"
-          control={form.control}
-          labelProps={{
-            tx: "fieldLabels.email",
-          }}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoComplete="email"
-          InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="atSymbol" />}
-        ></FormControl>
+          <FormControl
+            name="Email"
+            control={form.control}
+            placeholderTx={"fieldLabels.email"}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoComplete="email"
+            InputLeftElement={<Icon ml={3} colorToken="text.softer" icon="atSymbol" />}
+          ></FormControl>
+        </Stack>
       </Stack>
     )
   },

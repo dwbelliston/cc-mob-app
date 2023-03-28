@@ -230,8 +230,8 @@ const ContactListItem = ({
       <Pressable onPress={handleOnClickContact}>
         <AnimatedBackground
           sharedValue={progress}
-          bgStart="bg.main"
-          bgEnd={"bg.high"}
+          bgStart="bg.animStart"
+          bgEnd="bg.animEnd"
           styles={{ borderRadius: 12 }}
         >
           <HStack
