@@ -52,9 +52,15 @@ interface IPressableDialKeyProps extends IPressableProps {
 const PressableDialKey = ({ dialKey, ...rest }: IPressableDialKeyProps) => {
   return (
     <Pressable {...rest}>
-      <Stack space={0} w="full" h="full" alignContent="center" pt={1}>
-        <Center w="full">
-          <Text fontSize="2xl" fontWeight={"semibold"} textAlign="center" maxFontSizeMultiplier={1}>
+      <Stack space={0} w="full" h="full" alignContent="center">
+        <Center w="full" flex={1}>
+          <Text
+            pt={dialKey.isCentered ? 0 : 2}
+            fontSize="2xl"
+            fontWeight={"semibold"}
+            textAlign="center"
+            maxFontSizeMultiplier={1}
+          >
             {dialKey.display}
           </Text>
         </Center>
@@ -63,6 +69,7 @@ const PressableDialKey = ({ dialKey, ...rest }: IPressableDialKeyProps) => {
             textAlign={"center"}
             color="gray.400"
             fontSize="10"
+            pb={2}
             fontWeight={"bold"}
             maxFontSizeMultiplier={1}
           >
@@ -110,7 +117,6 @@ export const DialPad = ({
                   bg={bgKey}
                   h={16}
                   w={16}
-                  display="block"
                   position={"relative"}
                   p={0}
                 />
@@ -146,7 +152,6 @@ export const DialPad = ({
             bg={bgDeleteKey}
             h={12}
             w={12}
-            display="block"
           >
             <Center w="full" h="full">
               <Icon color={colorDeleteKey} icon="backspace" />
