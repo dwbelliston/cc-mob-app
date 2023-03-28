@@ -5,7 +5,7 @@ import React, { FC } from "react"
 import { Screen, Text } from "../../../components"
 import { spacing } from "../../../theme"
 
-import { SettingsStackScreenProps } from "../SettingsStack"
+import { SettingsStackScreenProps } from "../../SettingsStack/SettingsStack"
 
 import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { Butter } from "../../../components/Butter"

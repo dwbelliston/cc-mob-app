@@ -2,33 +2,32 @@ import { Stack } from "native-base"
 import React from "react"
 import * as yup from "yup"
 
-import { spacing } from "../../../theme"
-
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { FormSingleSwitch } from "../../../components/FormSingleSwitch"
-import { IComplianceMessageEnabledUpdate } from "../../../models/ComplianceMessage"
-import { FormHandle } from "../profile/ProfileScreen"
+import { IBusinessHoursForm } from "../../../models/CallFlow"
+import { spacing } from "../../../theme"
+import { FormHandle } from "./BusinessHoursScreen"
 
 interface IProps {
-  data: IComplianceMessageEnabledUpdate
-  onSubmit: (data: IComplianceMessageEnabledUpdate) => void
+  data: IBusinessHoursForm
+  onSubmit: (data: IBusinessHoursForm) => void
 }
 
 const schema = yup.object({
-  IsEnabled: yup.boolean(),
+  IsEnableBusinessHours: yup.boolean(),
 })
 
-export const EditComplianceEnabledForm = React.forwardRef<FormHandle, IProps>(
+export const EditHoursEnabledForm = React.forwardRef<FormHandle, IProps>(
   ({ onSubmit, data }, ref) => {
-    const form = useForm<IComplianceMessageEnabledUpdate>({
+    const form = useForm<IBusinessHoursForm>({
       resolver: yupResolver(schema),
       defaultValues: data,
     })
 
     const handleOnInvalid = () => {}
 
-    const handleOnValid = (data: IComplianceMessageEnabledUpdate) => {
+    const handleOnValid = (data: IBusinessHoursForm) => {
       onSubmit(data)
     }
 
@@ -42,11 +41,11 @@ export const EditComplianceEnabledForm = React.forwardRef<FormHandle, IProps>(
     return (
       <Stack space={spacing.tiny} py={spacing.tiny} px={spacing.tiny}>
         <FormSingleSwitch
-          name="IsEnabled"
+          name="IsEnableBusinessHours"
           control={form.control}
           colorScheme="primary"
           errors={form.formState.errors}
-          labelTx="compliance.autoSendMessage"
+          labelTx="businessHours.turnOnHours"
         ></FormSingleSwitch>
       </Stack>
     )

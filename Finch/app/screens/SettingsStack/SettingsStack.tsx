@@ -10,30 +10,18 @@ import { AppDrawerScreenProps } from "../../navigators"
 
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
-import { AutoRepliesScreen } from "./autoreplies/AutoRepliesScreen"
-import { BusinessHoursScreen } from "./businesshours/BusinessHoursScreen"
-import { CallforwardingScreen } from "./callforwarding/CallforwardingScreen"
-import { ComplianceScreen } from "./compliance/ComplianceScreen"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
-import { MyPhoneScreen } from "./MyPhoneScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
 import { DebugNotificationsScreen } from "./notifications/DebugNotificationsScreen"
 import { NotificationsScreen } from "./notifications/NotificationsScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
 import { SettingsScreen } from "./SettingsScreen"
-import { VoicemailScreen } from "./voicemail/VoicemailScreen"
 
 export type SettingsStackParamList = {
   Settings: undefined
   Profile: undefined
   DeleteAccount: undefined
-  MyPhone: undefined
   MySubscription: undefined
-  Compliance: undefined
-  Callforwarding: undefined
-  BusinessHours: undefined
-  AutoReplies: undefined
-  Voicemail: undefined
   Notifications: undefined
   DebugNotifications: undefined
 }
@@ -117,17 +105,6 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
           },
         }}
       />
-
-      <Stack.Screen
-        name={"MyPhone"}
-        component={MyPhoneScreen}
-        options={{
-          headerTitle: translate("settings.myPhone"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
       <Stack.Screen
         name={"MySubscription"}
         component={MySubscriptionScreen}
@@ -139,56 +116,6 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         }}
       />
 
-      <Stack.Screen
-        name={"Compliance"}
-        component={ComplianceScreen}
-        options={{
-          headerTitle: translate("settings.compliance"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={"Callforwarding"}
-        component={CallforwardingScreen}
-        options={{
-          headerTitle: translate("settings.callForwarding"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={"BusinessHours"}
-        component={BusinessHoursScreen}
-        options={{
-          headerTitle: translate("settings.businessHours"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={"AutoReplies"}
-        component={AutoRepliesScreen}
-        options={{
-          headerTitle: translate("settings.autoReplies"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
-      <Stack.Screen
-        name={"Voicemail"}
-        component={VoicemailScreen}
-        options={{
-          headerTitle: translate("settings.voicemail"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
       <Stack.Screen
         name={"Notifications"}
         component={NotificationsScreen}

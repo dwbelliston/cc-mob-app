@@ -11,13 +11,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { translate } from "../../../i18n"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
-import { SettingsStackScreenProps } from "../SettingsStack"
 
 import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { Butter } from "../../../components/Butter"
 import { IAutoReplyForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
+import { ManagePhoneStackScreenProps } from "../ManagePhoneStack"
 import { EditAutoReplyForm, IAutoReplyWorkingForm } from "./EditAutoReplyForm"
 
 enum EditFormModeEnum {
@@ -31,7 +31,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-const AutoRepliesScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
+const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = observer(
   function AutoRepliesScreen(_props) {
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const [editMessage, setEditMessage] = React.useState<string>()

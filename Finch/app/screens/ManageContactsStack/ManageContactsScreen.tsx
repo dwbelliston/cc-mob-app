@@ -5,11 +5,12 @@ import React, { FC } from "react"
 import { Icon, IconProps, Screen, Text, TextProps } from "../../components"
 import { useCustomToast } from "../../utils/useCustomToast"
 
-import { ImageBackground } from "react-native"
 import { translate } from "../../i18n"
 import { ColorOption, spacing } from "../../theme"
-import { LibraryRoomPressable } from "./LibraryRoomPressable"
-import { LibraryStackParamList, LibraryStackScreenProps } from "./LibraryStack"
+
+import { ImageBackground } from "react-native"
+import { LibraryRoomPressable } from "../LibraryScreen/LibraryRoomPressable"
+import { ManageContactsStackParamList, ManageContactsStackScreenProps } from "./ManageContactsStack"
 
 const imgLightSrc = require("../../../assets/images/img-lattice-fade-light.png")
 const imgDarkSrc = require("../../../assets/images/img-lattice-fade-dark.png")
@@ -17,7 +18,7 @@ const imgDarkSrc = require("../../../assets/images/img-lattice-fade-dark.png")
 interface ISectionDataItem {
   icon: IconProps["icon"]
   tx: TextProps["tx"]
-  navigateScreen?: keyof LibraryStackParamList
+  navigateScreen?: keyof ManageContactsStackParamList
   colorScheme?: ColorOption
   isSoon?: boolean
   isNew?: boolean
@@ -25,55 +26,59 @@ interface ISectionDataItem {
 
 const LIBRARY_LINKS: ISectionDataItem[] = [
   {
-    icon: "squaresPlus",
-    tx: "library.discoverTemplates",
+    icon: "rectangleStack",
+    tx: "contacts.directory",
+    colorScheme: "gray",
+    navigateScreen: "ContactsList",
+  },
+  {
+    icon: "noSymbol",
+    tx: "contacts.blocked",
+    colorScheme: "rose",
+    navigateScreen: "Blocked",
+  },
+  {
+    icon: "arrowLeftRight",
+    tx: "contacts.crmSync",
+    colorScheme: "emerald",
+    navigateScreen: "CrmSync",
+    isNew: true,
+  },
+  {
+    icon: "tag",
+    tx: "contacts.tags",
     colorScheme: "blue",
     isSoon: true,
   },
   {
-    icon: "squares2X2",
-    tx: "library.templateGallery",
-    navigateScreen: "TemplateGallery",
+    icon: "funnel",
+    tx: "contacts.segments",
     colorScheme: "indigo",
+    isSoon: true,
   },
   {
-    icon: "chatBubbleBottomCenterText",
-    tx: "library.smsTemplates",
-    navigateScreen: "SmsTemplates",
+    icon: "cloudArrowUp",
+    tx: "contacts.uploads",
     colorScheme: "amber",
-  },
-  {
-    icon: "link",
-    tx: "library.shortUrls",
-    // navigateScreen: "TemplateGallery",
-    colorScheme: "emerald",
-    isNew: true,
-  },
-
-  {
-    icon: "photo",
-    tx: "library.savedMedia",
-    // navigateScreen: "TemplateGallery",
-    colorScheme: "rose",
     isSoon: true,
   },
 
   {
-    icon: "identification",
-    tx: "library.vcards",
-    // navigateScreen: "TemplateGallery",
+    icon: "clock",
     colorScheme: "fuchsia",
+    tx: "contacts.history",
+    navigateScreen: "CrmSync",
     isSoon: true,
   },
 ]
 
-export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
-  function LibraryScreen(_props) {
+export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageContacts">> = observer(
+  function ManageContactsScreen(_props) {
     const { navigation } = _props
 
-    const imgSrc = useColorModeValue(imgLightSrc, imgDarkSrc)
-
     const toast = useCustomToast()
+
+    const imgSrc = useColorModeValue(imgLightSrc, imgDarkSrc)
 
     const renderItem = React.useCallback(({ item }: { item: ISectionDataItem }) => {
       return (
@@ -95,17 +100,17 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
         <ImageBackground source={imgSrc} resizeMode="cover">
           <View w="full" py={spacing.small}>
             <Stack space={1} px={spacing.tiny} rounded="md" alignItems="center">
-              <Icon colorToken={"text.softer"} size={32} icon="rectangleGroup" />
+              <Icon colorToken={"text.softer"} size={32} icon="contacts" />
               <Text
                 textAlign={"center"}
                 fontWeight="bold"
                 fontSize="2xl"
-                tx={"library.libraryHeader"}
+                tx={"contacts.manageContactsHeader"}
               ></Text>
               <Text
                 textAlign={"center"}
                 colorToken="text.soft"
-                tx={"library.librarySubheader"}
+                tx={"contacts.manageContactsSubheader"}
               ></Text>
             </Stack>
           </View>
@@ -132,6 +137,7 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
           <FlatList
             contentContainerStyle={{
               paddingBottom: spacing.medium,
+              // paddingHorizontal: spacing.extraSmall,
             }}
             data={LIBRARY_LINKS}
             renderItem={renderItem}

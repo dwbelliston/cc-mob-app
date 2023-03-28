@@ -20,10 +20,10 @@ function variantSubtle(props: any) {
       _text: { color: `${colorScheme}.600` },
       _icon: { color: `${colorScheme}.600` },
       bg: `${colorScheme}.50`,
-      borderColor: `${colorScheme}.300`,
+      borderColor: `${colorScheme}.100`,
     },
     _dark: {
-      _text: { color: `${colorScheme}.100` },
+      _text: { color: `${colorScheme}.500` },
       _icon: { color: `${colorScheme}.100` },
       bg: `${colorScheme}.800`,
       borderColor: `${colorScheme}.600`,

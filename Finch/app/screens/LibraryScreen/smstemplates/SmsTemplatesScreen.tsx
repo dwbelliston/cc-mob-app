@@ -19,7 +19,7 @@ import useUpdateSmsTemplate from "../../../services/api/smstemplates/mutations/u
 import useListSmsTemplates from "../../../services/api/smstemplates/queries/useListSmsTemplates"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
-import { SettingsStackScreenProps } from "../../SettingsScreen/SettingsStack"
+import { SettingsStackScreenProps } from "../../SettingsStack/SettingsStack"
 import { CreateSmsTemplateForm } from "./CreateSmsTemplateForm"
 import { EditSmsTemplateForm } from "./EditSmsTemplateForm"
 

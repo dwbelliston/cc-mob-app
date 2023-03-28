@@ -1,8 +1,6 @@
-import * as WebBrowser from "expo-web-browser"
 import { observer } from "mobx-react-lite"
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
-import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 
 import { Button, Screen, Text } from "../../../components"
 import { LabelValuePill } from "../../../components/LabelValuePill"
@@ -10,32 +8,29 @@ import { spacing } from "../../../theme"
 
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { PressableActionRow } from "../../../components/PressableActionRow"
 import { translate } from "../../../i18n"
-import {
-  IComplianceMessageEnabledUpdate,
-  IComplianceMessageMessageUpdate,
-} from "../../../models/ComplianceMessage"
-import useUpdateComplianceMessage from "../../../services/api/compliancemessage/mutations/useUpdateComplianceMessage"
-import useReadComplianceMessage from "../../../services/api/compliancemessage/queries/useReadComplianceMessage"
+
+import { gestureHandlerRootHOC } from "react-native-gesture-handler"
+import { ICallForwardingForm } from "../../../models/CallFlow"
+import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
+import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
 import useReadUserProfile from "../../../services/api/userprofile/queries/useReadUserProfile"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
-import { SettingsStackScreenProps } from "../SettingsStack"
-import { EditComplianceEnabledForm } from "./EditComplianceEnabledForm"
-import { EditComplianceMessageForm } from "./EditComplianceMessageForm"
+import { runFormatPhoneSimple } from "../../../utils/useFormatPhone"
+import { SettingsStackScreenProps } from "../../SettingsStack/SettingsStack"
+import { EditCallforwardingForm } from "./EditCallforwardingForm"
 
 enum EditFormModeEnum {
-  ISENABLED = "ISENABLED",
-  MESSAGE = "MESSAGE",
+  EDIT = "EDIT",
 }
 
 export type FormHandle = {
   submitForm: () => void
 }
 
-const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observer(
-  function ComplianceScreen(_props) {
+const CallforwardingScreenBase: FC<SettingsStackScreenProps<"Callforwarding">> = observer(
+  function CallforwardingScreen(_props) {
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
     const bottomSheetModalRef = React.useRef<BottomSheetModal>(null)
     const formRef = React.useRef<FormHandle>(null)
@@ -51,43 +46,23 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
     const bgColor = useColor("bg.main")
 
     const { data: userProfile } = useReadUserProfile()
-    const { data: dataComplianceMessage, isLoading: isLoadingMessage } = useReadComplianceMessage()
-    const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } =
-      useUpdateComplianceMessage()
+    const { data: dataCallFlow, isLoading: isLoadingCallflow } = useReadCallFlow()
+    const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } = useUpdateCallFlow()
 
-    const onViewTCPA = () => {
-      WebBrowser.openBrowserAsync("https://www.fcc.gov/sites/default/files/tcpa-rules.pdf")
+    const handleOnUpdate = async (data: ICallForwardingForm) => {
+      try {
+        await mutateAsyncUpdate(data)
+
+        toast.success({ title: translate("common.saved") })
+        handleOnCancel()
+      } catch (e) {
+        toast.error({ title: "Error saving" })
+      }
     }
 
     const handleOnEdit = () => {
-      setEditMode(EditFormModeEnum.ISENABLED)
+      setEditMode(EditFormModeEnum.EDIT)
       bottomSheetModalRef.current?.present()
-    }
-
-    const handleOnEditMessage = () => {
-      setEditMode(EditFormModeEnum.MESSAGE)
-      bottomSheetModalRef.current?.present()
-    }
-
-    const handleOnSubmitEnabled = async (data: IComplianceMessageEnabledUpdate) => {
-      try {
-        await mutateAsyncUpdate(data)
-
-        toast.success({ title: translate("common.saved") })
-        handleOnCancel()
-      } catch (e) {
-        toast.error({ title: "Error saving" })
-      }
-    }
-    const handleOnSubmitMessage = async (data: IComplianceMessageMessageUpdate) => {
-      try {
-        await mutateAsyncUpdate(data)
-
-        toast.success({ title: translate("common.saved") })
-        handleOnCancel()
-      } catch (e) {
-        toast.error({ title: "Error saving" })
-      }
     }
 
     const handleOnCancel = () => {
@@ -109,38 +84,30 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
           style={{}}
         >
           <Box py={spacing.extraSmall}>
-            {isLoadingMessage ? (
+            {isLoadingCallflow ? (
               <Spinner></Spinner>
             ) : (
               <Stack space={spacing.extraSmall}>
                 <Stack px={spacing.tiny}>
-                  <Text fontSize="lg" preset="subheading" tx="compliance.pageHeader"></Text>
-                  <Text colorToken="text.softer" tx="compliance.pageSubheader"></Text>
+                  <Text fontSize="lg" preset="subheading" tx="callforwarding.pageHeader"></Text>
+                  <Text colorToken="text.softer" tx="callforwarding.pageSubheader"></Text>
                 </Stack>
-
-                <PressableActionRow
-                  tx="compliance.readMore"
-                  icon={{
-                    icon: "newspaper",
-                  }}
-                  onPress={onViewTCPA}
-                ></PressableActionRow>
 
                 <Stack space={spacing.extraSmall} px={spacing.tiny}>
                   <LabelValuePill.Boolean
-                    label="compliance.autoSendMessage"
-                    icon="arrowLeftRight"
+                    label="callforwarding.status"
+                    icon="phoneArrowUpRight"
                     onEdit={handleOnEdit}
-                    trueTx={"compliance.autoSendIsOn"}
-                    falseTx={"compliance.autoSendIsOff"}
-                    value={dataComplianceMessage && dataComplianceMessage?.IsEnabled}
+                    trueTx={"callforwarding.isOn"}
+                    falseTx={"callforwarding.isOff"}
+                    value={dataCallFlow && dataCallFlow?.IsEnableForwardCall}
                   />
 
                   <LabelValuePill.Text
-                    label="compliance.message"
-                    icon="chatBubbleLeft"
-                    onEdit={handleOnEditMessage}
-                    text={dataComplianceMessage && dataComplianceMessage?.Message}
+                    label="callforwarding.number"
+                    icon="hashtag"
+                    onEdit={handleOnEdit}
+                    text={runFormatPhoneSimple(dataCallFlow && dataCallFlow?.NumberForwardTo)}
                   />
                 </Stack>
               </Stack>
@@ -201,23 +168,14 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
               backgroundColor: bgColor,
             }}
           >
-            {editMode === EditFormModeEnum.ISENABLED ? (
-              <EditComplianceEnabledForm
+            {editMode === EditFormModeEnum.EDIT ? (
+              <EditCallforwardingForm
                 ref={formRef}
                 data={{
-                  IsEnabled: dataComplianceMessage.IsEnabled,
+                  IsEnableForwardCall: dataCallFlow.IsEnableForwardCall,
+                  NumberForwardTo: dataCallFlow.NumberForwardTo,
                 }}
-                onSubmit={handleOnSubmitEnabled}
-              />
-            ) : null}
-            {editMode === EditFormModeEnum.MESSAGE ? (
-              <EditComplianceMessageForm
-                ref={formRef}
-                userProfile={userProfile}
-                data={{
-                  Message: dataComplianceMessage.Message,
-                }}
-                onSubmit={handleOnSubmitMessage}
+                onSubmit={handleOnUpdate}
               />
             ) : null}
           </BottomSheetScrollView>
@@ -227,4 +185,4 @@ const ComplianceScreenBase: FC<SettingsStackScreenProps<"Compliance">> = observe
   },
 )
 
-export const ComplianceScreen = gestureHandlerRootHOC(ComplianceScreenBase)
+export const CallforwardingScreen = gestureHandlerRootHOC(CallforwardingScreenBase)

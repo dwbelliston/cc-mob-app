@@ -10,7 +10,7 @@ import { FormSingleSwitch } from "../../../components/FormSingleSwitch"
 
 import { BottomSheetFormControl } from "../../../components/FormControl"
 
-import { FormHandle } from "../profile/ProfileScreen"
+import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
 export interface IAutoReplyWorkingForm {
   IsEnabled: boolean

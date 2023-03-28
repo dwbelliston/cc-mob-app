@@ -30,7 +30,6 @@ const Stack = createNativeStackNavigator<LibraryStackParamList>()
 export const LibraryStack: FC<AppDrawerScreenProps<"LibraryStack">> = (_props) => {
   const { navigation } = _props
 
-  const headerLargeBg = useColor("bg.largeHeader")
   const headerBg = useColor("bg.header")
   const bgMain = useColor("bg.main")
 

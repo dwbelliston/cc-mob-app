@@ -22,12 +22,14 @@ import {
   BroadcastsStackParamList,
 } from "../screens/BroadcastsScreen/BroadcastsStack"
 
+import { LibraryStack, LibraryStackParamList } from "../screens/LibraryScreen/LibraryStack"
 import {
   ManageContactsStack,
   ManageContactsStackParamList,
-} from "../screens/ContactsScreen/ManageContactsStack"
-import { LibraryStack, LibraryStackParamList } from "../screens/LibraryScreen/LibraryStack"
-import { SettingsStack, SettingsStackParamList } from "../screens/SettingsScreen/SettingsStack"
+} from "../screens/ManageContactsStack/ManageContactsStack"
+
+import { ManagePhoneStack } from "../screens/ManagePhoneStack/ManagePhoneStack"
+import { SettingsStack, SettingsStackParamList } from "../screens/SettingsStack/SettingsStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 import { useColor } from "../theme/useColor"
 import { HomeTabNavigator, HomeTabParamList } from "./HomeTabNavigator"
@@ -38,6 +40,7 @@ export type AppDrawerParamList = {
   BroadcastsStack: NavigatorScreenParams<BroadcastsStackParamList>
   LibraryStack: NavigatorScreenParams<LibraryStackParamList>
   ManageContactsStack: NavigatorScreenParams<ManageContactsStackParamList>
+  ManagePhoneStack: NavigatorScreenParams<ManageContactsStackParamList>
 }
 
 export type AppDrawerScreenProps<T extends keyof AppDrawerParamList> = DrawerScreenProps<
@@ -186,6 +189,7 @@ const AppDrawerNavigator = (_props) => {
           ),
         }}
       />
+
       <Drawer.Screen
         name="ManageContactsStack"
         component={ManageContactsStack}
@@ -193,6 +197,16 @@ const AppDrawerNavigator = (_props) => {
           drawerIcon: ({ color }) => <Icon icon="contacts" size={20} color={color} />,
           drawerLabel: ({ color }) => (
             <Text color={color} fontSize="sm" tx="navigator.contacts"></Text>
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="ManagePhoneStack"
+        component={ManagePhoneStack}
+        options={{
+          drawerIcon: ({ color }) => <Icon icon="phone" size={20} color={color} />,
+          drawerLabel: ({ color }) => (
+            <Text color={color} fontSize="sm" tx="navigator.phone"></Text>
           ),
         }}
       />

@@ -10,10 +10,10 @@ import { spacing } from "../../theme"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { runFormatDateWithAt } from "../../utils/useFormatDate"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
-import { SettingsStackScreenProps } from "./SettingsStack"
+import { ManagePhoneStackScreenProps } from "./ManagePhoneStack"
 
-export const MyPhoneScreen: FC<SettingsStackScreenProps<"MyPhone">> = observer(
-  function MyPhoneScreen(_props) {
+export const PhoneDetailsScreen: FC<ManagePhoneStackScreenProps<"PhoneDetails">> = observer(
+  function PhoneDetailsScreen(_props) {
     const { bottom: bottomInset } = useSafeAreaInsets()
 
     const { data: userProfile, isLoading: isLoadingProfile } = useReadUserProfile()
@@ -32,8 +32,12 @@ export const MyPhoneScreen: FC<SettingsStackScreenProps<"MyPhone">> = observer(
           ) : (
             <Stack space={spacing.extraSmall} px={spacing.tiny}>
               <Stack>
-                <Text fontSize="lg" preset="subheading" tx="settings.numberDetails"></Text>
-                <Text colorToken="text.softer" fontSize="md" tx="settings.numberDetailsInfo"></Text>
+                <Text fontSize="lg" preset="subheading" tx="phoneSettings.numberDetails"></Text>
+                <Text
+                  colorToken="text.softer"
+                  fontSize="md"
+                  tx="phoneSettings.numberDetailsInfo"
+                ></Text>
               </Stack>
               <LabelValuePill.Text
                 label="fieldLabels.phone"

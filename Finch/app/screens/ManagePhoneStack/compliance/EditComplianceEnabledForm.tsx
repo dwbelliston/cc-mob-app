@@ -7,32 +7,28 @@ import { spacing } from "../../../theme"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { FormSingleSwitch } from "../../../components/FormSingleSwitch"
-import { ICrmSync } from "../../../models/CrmSync"
-import { FormHandle } from "../profile/ProfileScreen"
-
-export interface IEditCRMSyncEnabledFormInput {
-  IsEnabled: ICrmSync["IsEnabled"]
-}
+import { IComplianceMessageEnabledUpdate } from "../../../models/ComplianceMessage"
+import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
 interface IProps {
-  data: IEditCRMSyncEnabledFormInput
-  onSubmit: (data: IEditCRMSyncEnabledFormInput) => void
+  data: IComplianceMessageEnabledUpdate
+  onSubmit: (data: IComplianceMessageEnabledUpdate) => void
 }
 
 const schema = yup.object({
   IsEnabled: yup.boolean(),
 })
 
-export const EditCRMSyncEnabledForm = React.forwardRef<FormHandle, IProps>(
+export const EditComplianceEnabledForm = React.forwardRef<FormHandle, IProps>(
   ({ onSubmit, data }, ref) => {
-    const form = useForm<IEditCRMSyncEnabledFormInput>({
+    const form = useForm<IComplianceMessageEnabledUpdate>({
       resolver: yupResolver(schema),
       defaultValues: data,
     })
 
     const handleOnInvalid = () => {}
 
-    const handleOnValid = (data: IEditCRMSyncEnabledFormInput) => {
+    const handleOnValid = (data: IComplianceMessageEnabledUpdate) => {
       onSubmit(data)
     }
 
@@ -50,7 +46,7 @@ export const EditCRMSyncEnabledForm = React.forwardRef<FormHandle, IProps>(
           control={form.control}
           colorScheme="primary"
           errors={form.formState.errors}
-          labelTx="crmSync.enabled"
+          labelTx="compliance.autoSendMessage"
         ></FormSingleSwitch>
       </Stack>
     )

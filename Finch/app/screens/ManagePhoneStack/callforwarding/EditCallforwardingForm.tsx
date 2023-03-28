@@ -12,7 +12,7 @@ import { Icon } from "../../../components"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { ICallForwardingForm } from "../../../models/CallFlow"
 import { REGEX_PHONE } from "../../../utils/constants"
-import { FormHandle } from "../profile/ProfileScreen"
+import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
 interface IProps {
   data: ICallForwardingForm

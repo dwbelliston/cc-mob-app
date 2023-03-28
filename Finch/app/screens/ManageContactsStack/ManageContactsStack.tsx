@@ -9,13 +9,16 @@ import { AppDrawerScreenProps } from "../../navigators"
 
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
-import { BlockedScreen } from "../SettingsScreen/BlockedScreen"
-import { CrmSyncScreen } from "../SettingsScreen/crmsync/CrmSync"
+import { ContactsScreen } from "../ContactsScreen/ContactsScreen"
+import { BlockedScreen } from "./BlockedScreen"
+import { CrmSyncScreen } from "./crmsync/CrmSync"
+
 import { ManageContactsScreen } from "./ManageContactsScreen"
 
 export type ManageContactsStackParamList = {
   ManageContacts: undefined
   Blocked: undefined
+  ContactsList: undefined
   CrmSync: undefined
 }
 
@@ -63,7 +66,7 @@ export const ManageContactsStack: FC<AppDrawerScreenProps<"ManageContactsStack">
 
             return <Icon colorToken="text.softer" onPress={handleOnPress} icon="home" />
           },
-          headerTitle: translate("contacts.manageContacts"),
+          headerTitle: translate("contacts.contacts"),
         }}
       />
 
@@ -94,6 +97,17 @@ export const ManageContactsStack: FC<AppDrawerScreenProps<"ManageContactsStack">
         component={CrmSyncScreen}
         options={{
           headerTitle: translate("contacts.crmSync"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name={"ContactsList"}
+        component={ContactsScreen}
+        options={{
+          headerTitle: translate("contacts.directory"),
           headerStyle: {
             backgroundColor: headerBg,
           },

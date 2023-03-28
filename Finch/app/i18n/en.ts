@@ -38,6 +38,7 @@ const en = {
     closed: "Closed",
     desktopOnly: "Desktop Only",
     desktopOnlyMore: "Please visit the desktop app for this feature.",
+    soon: "Soon",
   },
   error: {
     saving: "Error saving",
@@ -173,6 +174,7 @@ const en = {
     manageContacts: "Manage Contacts",
     manageContactsHeader: "Contact Resources",
     manageContactsSubheader: "What would you like to review?",
+    directory: "Directory",
     contacts: "Contacts",
     tags: "Tags",
     segments: "Segments",
@@ -232,10 +234,25 @@ const en = {
     contacts: "Contacts",
     broadcasts: "Broadcasts",
     notifications: "Notifications",
+    phone: "Phone Setup",
     feedback: "Feedback",
     signout: "Sign out",
     settings: "Settings",
     keypad: "Keypad",
+  },
+  phoneSettings: {
+    managePhone: "Phone",
+    compliance: "Compliance",
+    callForwarding: "Call Forwarding",
+    phoneDetails: "Phone details",
+    businessHours: "Business Hours",
+    autoReplies: "Auto Replies",
+    voicemail: "Voicemail",
+    pageHeader: "Phone Settings",
+    pageSubheader: "You can do more with this phone. Setup automations and put this phone to work for you.",
+    numberDetails: "Details about your number",
+    numberDetailsInfo:
+      "If you would like to change your number, please reach out to us:\nadmin@currentclient.com",
   },
   settings: {
     myProfile: "My Profile",
@@ -249,11 +266,6 @@ const en = {
     leaveReview: "Leave a review",
     account: "Account",
     currentClient: "CurrentClient",
-    compliance: "Compliance",
-    callForwarding: "Call Forwarding",
-    businessHours: "Business Hours",
-    autoReplies: "Auto Replies",
-    voicemail: "Voicemail",
     textSupport: "Text us for help",
     notifications: "Notifications",
     debugNotifications: "Troubleshoot",
@@ -274,9 +286,7 @@ const en = {
     requestComplete: "Request complete",
     deleteRequestedHelp:
       "Please reach out to us if you have any questions at admin@currentclient.com",
-    numberDetails: "Details about your number",
-    numberDetailsInfo:
-      "If you would like to change your number, please reach out to us:\nadmin@currentclient.com",
+
   },
   billing: {
     pageHeader: "Details about your subscription",
@@ -422,9 +432,9 @@ const en = {
     selectResource: "Select Category",
     selectUsecase: "Select Use Case",
     galleryHeader: "Example discovery scenarios",
-    gallerySubHeader: "This gallery of templates is provided to help you find some inspiration. Any template can be customized and then used in your own campaign. What would you like to know about your clients?",
+    gallerySubHeader: "This gallery of templates should be used as inspiration. Any template can be customized and then used in your own campaign. What would you like to know about your clients?",
     libraryHeader: "Library Resources",
-    librarySubheader: "This is a collection of the resources that are available to you or you have created. What would you like to review?",
+    librarySubheader: "What would you like to review?",
   },
 }
 

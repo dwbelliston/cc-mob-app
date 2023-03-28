@@ -2,21 +2,21 @@ import { observer } from "mobx-react-lite"
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
 
-import { Button, Screen, Text } from "../../../components"
-import { LabelValuePill } from "../../../components/LabelValuePill"
-import { spacing } from "../../../theme"
-
 import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { translate } from "../../../i18n"
-import { useColor } from "../../../theme/useColor"
-import { useCustomToast } from "../../../utils/useCustomToast"
-import { SettingsStackScreenProps } from "../SettingsStack"
 
 import { gestureHandlerRootHOC } from "react-native-gesture-handler"
+
+import { Button, Screen, Text } from "../../../components"
+import { LabelValuePill } from "../../../components/LabelValuePill"
+import { translate } from "../../../i18n"
 import { BusinessHourDaySchedule, IBusinessHoursForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
+import { spacing } from "../../../theme"
+import { useColor } from "../../../theme/useColor"
+import { useCustomToast } from "../../../utils/useCustomToast"
+import { ManagePhoneStackScreenProps } from "../ManagePhoneStack"
 import { EditDayScheduleForm, SCHEDULE_DAYS } from "./EditDayScheduleForm"
 import { EditHoursEnabledForm } from "./EditHoursEnabledForm"
 import { EditTimezoneForm } from "./EditTimezoneForm"
@@ -31,7 +31,7 @@ export type FormHandle = {
   submitForm: () => void
 }
 
-const BusinessHoursScreenBase: FC<SettingsStackScreenProps<"BusinessHours">> = observer(
+const BusinessHoursScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = observer(
   function BusinessHoursScreen(_props) {
     const [editDayIndex, setEditDayIndex] = React.useState<number>()
     const [editMode, setEditMode] = React.useState<EditFormModeEnum>()

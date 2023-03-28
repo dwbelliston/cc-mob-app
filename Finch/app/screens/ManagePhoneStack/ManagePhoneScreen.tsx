@@ -10,7 +10,7 @@ import { ColorOption, spacing } from "../../theme"
 
 import { ImageBackground } from "react-native"
 import { LibraryRoomPressable } from "../LibraryScreen/LibraryRoomPressable"
-import { ManageContactsStackParamList, ManageContactsStackScreenProps } from "./ManageContactsStack"
+import { ManagePhoneStackParamList, ManagePhoneStackScreenProps } from "./ManagePhoneStack"
 
 const imgLightSrc = require("../../../assets/images/img-lattice-fade-light.png")
 const imgDarkSrc = require("../../../assets/images/img-lattice-fade-dark.png")
@@ -18,54 +18,55 @@ const imgDarkSrc = require("../../../assets/images/img-lattice-fade-dark.png")
 interface ISectionDataItem {
   icon: IconProps["icon"]
   tx: TextProps["tx"]
-  navigateScreen?: keyof ManageContactsStackParamList
+  navigateScreen?: keyof ManagePhoneStackParamList
   colorScheme?: ColorOption
   isSoon?: boolean
+  isNew?: boolean
 }
 
 const LIBRARY_LINKS: ISectionDataItem[] = [
   {
-    icon: "noSymbol",
-    tx: "contacts.blocked",
+    icon: "phone",
+    tx: "phoneSettings.phoneDetails",
+    colorScheme: "gray",
+    navigateScreen: "PhoneDetails",
+  },
+  {
+    icon: "scale",
+    tx: "phoneSettings.compliance",
     colorScheme: "rose",
-    navigateScreen: "Blocked",
+    navigateScreen: "Compliance",
   },
   {
-    icon: "arrowLeftRight",
-    tx: "contacts.crmSync",
+    icon: "phoneArrowUpRight",
+    tx: "phoneSettings.callForwarding",
     colorScheme: "emerald",
-    navigateScreen: "CrmSync",
+    navigateScreen: "Callforwarding",
   },
-  {
-    icon: "tag",
-    tx: "contacts.tags",
-    colorScheme: "blue",
-    isSoon: true,
-  },
-  {
-    icon: "funnel",
-    tx: "contacts.segments",
-    colorScheme: "indigo",
-    isSoon: true,
-  },
-  {
-    icon: "cloudArrowUp",
-    tx: "contacts.uploads",
-    colorScheme: "amber",
-    isSoon: true,
-  },
-
   {
     icon: "clock",
+    tx: "phoneSettings.businessHours",
+    colorScheme: "blue",
+    navigateScreen: "BusinessHours",
+    isNew: true,
+  },
+  {
+    icon: "bolt",
+    tx: "phoneSettings.autoReplies",
+    colorScheme: "amber",
+    navigateScreen: "AutoReplies",
+    isNew: true,
+  },
+  {
+    icon: "inbox",
+    tx: "phoneSettings.voicemail",
+    navigateScreen: "Voicemail",
     colorScheme: "fuchsia",
-    tx: "contacts.history",
-    navigateScreen: "CrmSync",
-    isSoon: true,
   },
 ]
 
-export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageContacts">> = observer(
-  function ManageContactsScreen(_props) {
+export const ManagePhoneScreen: FC<ManagePhoneStackScreenProps<"ManagePhone">> = observer(
+  function ManagePhoneScreen(_props) {
     const { navigation } = _props
 
     const toast = useCustomToast()
@@ -81,6 +82,8 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
           icon={{ icon: item.icon }}
           label={item.tx}
           colorScheme={item.colorScheme}
+          isSoon={item.isSoon}
+          isNew={item.isNew}
           // colorScheme={item.isSoon ? "gray" : item.colorScheme}
         />
       )
@@ -91,17 +94,17 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
         <ImageBackground source={imgSrc} resizeMode="cover">
           <View w="full" py={spacing.small}>
             <Stack space={1} px={spacing.tiny} rounded="md" alignItems="center">
-              <Icon colorToken={"text.softer"} size={32} icon="contacts" />
+              <Icon colorToken={"text.softer"} size={32} icon="phone" />
               <Text
                 textAlign={"center"}
                 fontWeight="bold"
                 fontSize="2xl"
-                tx={"contacts.manageContactsHeader"}
+                tx={"phoneSettings.pageHeader"}
               ></Text>
               <Text
                 textAlign={"center"}
                 colorToken="text.soft"
-                tx={"contacts.manageContactsSubheader"}
+                tx={"phoneSettings.pageSubheader"}
               ></Text>
             </Stack>
           </View>

@@ -133,7 +133,7 @@ const ButterBase = ({
       borderWidth={1}
       rounded="lg"
       px={4}
-      py={3}
+      py={2}
       _light={{
         bg: `${status}.50`,
         borderColor: `${status}.500`,
@@ -178,6 +178,7 @@ const ButterBase = ({
               color: `${status}.200`,
             }}
             fontWeight={"semibold"}
+            fontSize="sm"
             {...titleText}
           ></Text>
           {descriptionText && <Text colorToken="text" {...descriptionText}></Text>}

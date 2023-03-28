@@ -7,29 +7,32 @@ import { spacing } from "../../../theme"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { FormSingleSwitch } from "../../../components/FormSingleSwitch"
+import { ICrmSync } from "../../../models/CrmSync"
+import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
-import { IBusinessHoursForm } from "../../../models/CallFlow"
-import { FormHandle } from "../profile/ProfileScreen"
+export interface IEditCRMSyncEnabledFormInput {
+  IsEnabled: ICrmSync["IsEnabled"]
+}
 
 interface IProps {
-  data: IBusinessHoursForm
-  onSubmit: (data: IBusinessHoursForm) => void
+  data: IEditCRMSyncEnabledFormInput
+  onSubmit: (data: IEditCRMSyncEnabledFormInput) => void
 }
 
 const schema = yup.object({
-  IsEnableBusinessHours: yup.boolean(),
+  IsEnabled: yup.boolean(),
 })
 
-export const EditHoursEnabledForm = React.forwardRef<FormHandle, IProps>(
+export const EditCRMSyncEnabledForm = React.forwardRef<FormHandle, IProps>(
   ({ onSubmit, data }, ref) => {
-    const form = useForm<IBusinessHoursForm>({
+    const form = useForm<IEditCRMSyncEnabledFormInput>({
       resolver: yupResolver(schema),
       defaultValues: data,
     })
 
     const handleOnInvalid = () => {}
 
-    const handleOnValid = (data: IBusinessHoursForm) => {
+    const handleOnValid = (data: IEditCRMSyncEnabledFormInput) => {
       onSubmit(data)
     }
 
@@ -43,11 +46,11 @@ export const EditHoursEnabledForm = React.forwardRef<FormHandle, IProps>(
     return (
       <Stack space={spacing.tiny} py={spacing.tiny} px={spacing.tiny}>
         <FormSingleSwitch
-          name="IsEnableBusinessHours"
+          name="IsEnabled"
           control={form.control}
           colorScheme="primary"
           errors={form.formState.errors}
-          labelTx="businessHours.turnOnHours"
+          labelTx="crmSync.enabled"
         ></FormSingleSwitch>
       </Stack>
     )

@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { ISmsTemplate, ISmsTemplateUpdate } from "../../../models/SmsTemplate"
-import { FormHandle } from "../../SettingsScreen/profile/ProfileScreen"
+import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
 interface IProps {
   data: ISmsTemplate

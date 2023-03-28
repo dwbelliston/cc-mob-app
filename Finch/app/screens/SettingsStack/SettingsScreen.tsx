@@ -39,11 +39,6 @@ const SETTINGS_LINKS: ISectionData[] = [
         navigateScreen: "Profile",
       },
       {
-        icon: "phone",
-        tx: "settings.myPhone",
-        navigateScreen: "MyPhone",
-      },
-      {
         icon: "creditCard",
         tx: "settings.mySubscription",
         navigateScreen: "MySubscription",
@@ -52,36 +47,6 @@ const SETTINGS_LINKS: ISectionData[] = [
         icon: "bellAlert",
         tx: "settings.notifications",
         navigateScreen: "Notifications",
-      },
-    ],
-  },
-  {
-    titleTx: "settings.phone",
-    data: [
-      {
-        icon: "scale",
-        tx: "settings.compliance",
-        navigateScreen: "Compliance",
-      },
-      {
-        icon: "phoneArrowUpRight",
-        tx: "settings.callForwarding",
-        navigateScreen: "Callforwarding",
-      },
-      {
-        icon: "clock",
-        tx: "settings.businessHours",
-        navigateScreen: "BusinessHours",
-      },
-      {
-        icon: "bolt",
-        tx: "settings.autoReplies",
-        navigateScreen: "AutoReplies",
-      },
-      {
-        icon: "inbox",
-        tx: "settings.voicemail",
-        navigateScreen: "Voicemail",
       },
     ],
   },

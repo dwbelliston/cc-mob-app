@@ -14,7 +14,7 @@ import { spacing } from "../../theme"
 import { runFormatTimeFromNow } from "../../utils/useFormatDate"
 import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 
-import { SettingsStackScreenProps } from "./SettingsStack"
+import { ManageContactsStackScreenProps } from "./ManageContactsStack"
 
 interface IBlockedNumberDataItem {
   id: IBlockedNumber["BlockedNumberId"]
@@ -22,7 +22,7 @@ interface IBlockedNumberDataItem {
   created: string
 }
 
-export const BlockedScreen: FC<SettingsStackScreenProps<"Blocked">> = observer(
+export const BlockedScreen: FC<ManageContactsStackScreenProps<"Blocked">> = observer(
   function BlockedScreen(_props) {
     const {
       authenticationStore: { logout },

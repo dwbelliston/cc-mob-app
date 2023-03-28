@@ -15,7 +15,7 @@ import { IComplianceMessageMessageUpdate } from "../../../models/ComplianceMessa
 import { IUserProfile } from "../../../models/UserProfile"
 import { COMPLIANCE_MESSAGE_TEXT, REGEX_COMPLIANCE_MESSAGE_TEXT } from "../../../utils/constants"
 import { renderMessageWithUser } from "../../../utils/useMessage"
-import { FormHandle } from "../profile/ProfileScreen"
+import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
 interface IProps {
   data: IComplianceMessageMessageUpdate

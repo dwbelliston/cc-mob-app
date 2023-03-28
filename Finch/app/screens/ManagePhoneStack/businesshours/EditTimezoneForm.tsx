@@ -2,15 +2,12 @@ import { Stack } from "native-base"
 import React from "react"
 import * as yup from "yup"
 
-import { spacing } from "../../../theme"
-
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
-
 import { FormPicker } from "../../../components/FormPicker"
 import { IBusinessHoursForm, TIMEZONES } from "../../../models/CallFlow"
-import { FormHandle } from "../profile/ProfileScreen"
-
+import { spacing } from "../../../theme"
+import { FormHandle } from "./BusinessHoursScreen"
 interface IProps {
   data: IBusinessHoursForm
   onSubmit: (data: IBusinessHoursForm) => void

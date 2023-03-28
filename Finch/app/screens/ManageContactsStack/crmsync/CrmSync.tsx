@@ -19,7 +19,7 @@ import useUpdateCrmSync from "../../../services/api/crmsync/mutations/useUpdateC
 import useReadCrmSync from "../../../services/api/crmsync/queries/useReadCrmSync"
 import { useColor } from "../../../theme/useColor"
 import { useCustomToast } from "../../../utils/useCustomToast"
-import { SettingsStackScreenProps } from "../SettingsStack"
+import { SettingsStackScreenProps } from "../../SettingsStack/SettingsStack"
 import { EditCRMSyncEnabledForm, IEditCRMSyncEnabledFormInput } from "./EditCRMSyncEnabledForm"
 
 const SUPPORTED_CRM_URLS = [
