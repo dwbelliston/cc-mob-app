@@ -1,4 +1,3 @@
-import { useHeaderHeight } from "@react-navigation/elements"
 import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
@@ -144,7 +143,6 @@ export const NewMessageScreen: FC<AppStackScreenProps<"NewMessage">> = observer(
     })
     const userNumber = useUserPhone(userProfile)
 
-    const headerHeight = useHeaderHeight()
     const bgHigh = useColor("bg.high")
 
     const handleOnChange = (textIn: string) => {
@@ -156,7 +154,7 @@ export const NewMessageScreen: FC<AppStackScreenProps<"NewMessage">> = observer(
 
       const contactName = `${contact.FirstName} ${contact.LastName}`
       const conversationId = getConversationId(userNumber, contact.Phone)
-      navigation.navigate("ConversationStream", {
+      navigation.replace("ConversationStream", {
         contactId: contact.ContactId,
         contactName,
         conversationNumber: contact.Phone,
@@ -170,7 +168,7 @@ export const NewMessageScreen: FC<AppStackScreenProps<"NewMessage">> = observer(
     }
 
     const createNewContact = () => {
-      navigation.navigate("AddContact", { contactPhone: searchInput })
+      navigation.replace("AddContact", { contactPhone: searchInput })
     }
 
     React.useEffect(() => {

@@ -69,8 +69,6 @@ export const AddContactScreen: FC<AppStackScreenProps<"AddContact">> = observer(
               contactName: `${newContact.FirstName} ${newContact.LastName}`,
               contactId: newContact.ContactId,
             })
-            // navigation.navigate("ContactDetail", {
-            // })
           }
         }
       } catch (e) {
