@@ -131,8 +131,7 @@ export const ManagePhoneScreen: FC<ManagePhoneStackScreenProps<"ManagePhone">> =
         <Box flex={1}>
           <FlatList
             contentContainerStyle={{
-              paddingBottom: spacing.medium,
-              // paddingHorizontal: spacing.extraSmall,
+              paddingBottom: spacing.large,
             }}
             data={LIBRARY_LINKS}
             renderItem={renderItem}

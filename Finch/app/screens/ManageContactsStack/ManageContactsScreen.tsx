@@ -136,8 +136,7 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
         <Box flex={1}>
           <FlatList
             contentContainerStyle={{
-              paddingBottom: spacing.medium,
-              // paddingHorizontal: spacing.extraSmall,
+              paddingBottom: spacing.large,
             }}
             data={LIBRARY_LINKS}
             renderItem={renderItem}

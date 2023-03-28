@@ -131,7 +131,7 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
         <Box flex={1}>
           <FlatList
             contentContainerStyle={{
-              paddingBottom: spacing.medium,
+              paddingBottom: spacing.large,
             }}
             data={LIBRARY_LINKS}
             renderItem={renderItem}
