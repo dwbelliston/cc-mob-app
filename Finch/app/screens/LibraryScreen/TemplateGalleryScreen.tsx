@@ -114,7 +114,6 @@ export const TemplateGalleryScreen: FC<AppStackScreenProps<"Login">> = observer(
                               px={spacing.micro}
                             >
                               <Text
-                                display="inline"
                                 fontFamily={"mono"}
                                 fontSize="xs"
                                 color={colorBadge}
