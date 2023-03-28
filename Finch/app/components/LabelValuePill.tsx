@@ -50,7 +50,7 @@ interface IAnimateBackground {
 const AnimateBackground = ({
   sharedValue,
   bgStart = "bg.high",
-  bgEnd = "bg.higher",
+  bgEnd = "bg.animEnd",
   children,
 }: IAnimateBackground) => {
   const bgPill = useColor(bgStart)

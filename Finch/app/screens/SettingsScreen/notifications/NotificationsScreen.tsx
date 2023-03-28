@@ -288,26 +288,28 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
       deviceConnector: IConnector,
       dataRoutingRules: IRoutingRule[],
     ) => {
-      const thisConnectorsRules = dataRoutingRules.filter(
-        (connector) => connector.ConnectorId === deviceConnector.ConnectorId,
+      const thisConnectorsRealtimeRules = dataRoutingRules.filter(
+        (connector) =>
+          connector.ConnectorId === deviceConnector.ConnectorId &&
+          connector.Frequency === IRoutingFrequencyEnum.STREAM,
       )
 
-      let foundRuleIncomingMessage = thisConnectorsRules.find(
+      let foundRuleIncomingMessage = thisConnectorsRealtimeRules.find(
         (connector) => connector.EventName == IRoutingEventNameEnum.MESSAGE_INCOMING,
       )
       setRuleIncomingMessage(foundRuleIncomingMessage)
 
-      let foundRuleMissedCall = thisConnectorsRules.find(
+      let foundRuleMissedCall = thisConnectorsRealtimeRules.find(
         (connector) => connector.EventName == IRoutingEventNameEnum.CALL_MISSED,
       )
       setRuleMissedCall(foundRuleMissedCall)
 
-      let foundRuleNewLead = thisConnectorsRules.find(
+      let foundRuleNewLead = thisConnectorsRealtimeRules.find(
         (connector) => connector.EventName == IRoutingEventNameEnum.NEW_LEAD,
       )
       setRuleNewLead(foundRuleNewLead)
 
-      let foundRuleNewSubmission = thisConnectorsRules.find(
+      let foundRuleNewSubmission = thisConnectorsRealtimeRules.find(
         (connector) => connector.EventName == IRoutingEventNameEnum.NEW_SUBMISSION,
       )
       setRuleNewSubmission(foundRuleNewSubmission)
@@ -382,7 +384,9 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                     trueTx={"notifications.isOn"}
                     falseTx={"notifications.isOff"}
                     value={!!ruleIncomingMessage?.IsEnabled}
-                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_MESSAGE)}
+                    onEdit={
+                      deviceConnector ? () => handleOnEditRule(EditFormModeEnum.EDIT_MESSAGE) : null
+                    }
                   />
                   <LabelValuePill.Boolean
                     label="notifications.allowMissedCallAlert"
@@ -390,7 +394,9 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                     trueTx={"notifications.isOn"}
                     falseTx={"notifications.isOff"}
                     value={!!ruleMissedCall?.IsEnabled}
-                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_CALL)}
+                    onEdit={
+                      deviceConnector ? () => handleOnEditRule(EditFormModeEnum.EDIT_CALL) : null
+                    }
                   />
                   <LabelValuePill.Boolean
                     label="notifications.allowCampaignSubmittedAlert"
@@ -398,7 +404,11 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                     trueTx={"notifications.isOn"}
                     falseTx={"notifications.isOff"}
                     value={!!ruleNewSubmission?.IsEnabled}
-                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_CAMPAIGN)}
+                    onEdit={
+                      deviceConnector
+                        ? () => handleOnEditRule(EditFormModeEnum.EDIT_CAMPAIGN)
+                        : null
+                    }
                   />
                   <LabelValuePill.Boolean
                     label="notifications.allowNewLeadAlert"
@@ -406,7 +416,9 @@ export const NotificationsScreenBase: FC<SettingsStackScreenProps<"MySubscriptio
                     trueTx={"notifications.isOn"}
                     falseTx={"notifications.isOff"}
                     value={!!ruleNewLead?.IsEnabled}
-                    onEdit={() => handleOnEditRule(EditFormModeEnum.EDIT_LEAD)}
+                    onEdit={
+                      deviceConnector ? () => handleOnEditRule(EditFormModeEnum.EDIT_LEAD) : null
+                    }
                   />
                 </Stack>
 

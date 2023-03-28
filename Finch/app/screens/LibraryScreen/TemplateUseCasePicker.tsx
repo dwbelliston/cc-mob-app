@@ -64,7 +64,7 @@ export const TemplateUseCasePicker = observer(function TemplateUseCasePicker(
         >
           {libraryStore?.useCases?.map((useCaseOption) => {
             return (
-              <Menu.Item onPress={() => handleOnSetUsecase(useCaseOption)}>
+              <Menu.Item key={useCaseOption} onPress={() => handleOnSetUsecase(useCaseOption)}>
                 <HStack space={spacing.micro} alignItems="center">
                   {libraryStore.useCaseFilter === useCaseOption ? (
                     <Dot.Success size="md" />

@@ -37,7 +37,7 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     dark: colors.gray[900],
   },
   "bg.animEnd": {
-    light: colors.gray[100],
+    light: colors.gray[200],
     dark: colors.gray[800],
   },
   contactSmudgeBgStart: {
