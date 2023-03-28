@@ -45,6 +45,7 @@ export const LibraryRoomPressable = ({
           py={spacing.tiny}
           px={spacing.tiny}
           alignItems="center"
+          space={spacing.micro}
         >
           {/* Icon */}
           <HStack flex={1} space={spacing.tiny} alignItems="center">

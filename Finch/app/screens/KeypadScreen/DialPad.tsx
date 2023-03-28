@@ -1,6 +1,7 @@
-import { Center, HStack, Stack } from "native-base"
+import { Center, HStack, IPressableProps, Pressable, Stack, useColorModeValue } from "native-base"
 import React from "react"
-import { Button, Icon, IconButton, Text } from "../../components"
+
+import { Icon, IconButton, Text } from "../../components"
 import { spacing } from "../../theme"
 
 // https://www.twilio.com/docs/voice/sdks/javascript/twiliocall#callsenddigitsdigits
@@ -44,6 +45,35 @@ const KEYS: IKey[][] = [
   ],
 ]
 
+interface IPressableDialKeyProps extends IPressableProps {
+  dialKey: IKey
+}
+
+const PressableDialKey = ({ dialKey, ...rest }: IPressableDialKeyProps) => {
+  return (
+    <Pressable {...rest}>
+      <Stack space={0} w="full" h="full" alignContent="center" pt={1}>
+        <Center w="full">
+          <Text fontSize="2xl" fontWeight={"semibold"} textAlign="center" maxFontSizeMultiplier={1}>
+            {dialKey.display}
+          </Text>
+        </Center>
+        {!dialKey.isCentered ? (
+          <Text
+            textAlign={"center"}
+            color="gray.400"
+            fontSize="10"
+            fontWeight={"bold"}
+            maxFontSizeMultiplier={1}
+          >
+            {dialKey.subDisplay}
+          </Text>
+        ) : null}
+      </Stack>
+    </Pressable>
+  )
+}
+
 export const DialPad = ({
   trackedKeys,
   onKeyPress,
@@ -53,6 +83,10 @@ export const DialPad = ({
   isCallButtonDisabled,
   isMessageButtonDisabled,
 }: IProps) => {
+  const bgKey = useColorModeValue("gray.100", "gray.800")
+  const bgDeleteKey = useColorModeValue("rose.50", "error.800")
+  const colorDeleteKey = useColorModeValue("rose.500", "error.800")
+
   const handleOnKey = (key: IKey) => {
     onKeyPress(key.display)
   }
@@ -68,40 +102,18 @@ export const DialPad = ({
           <HStack key={idx} space={spacing.extraSmall}>
             {keyList.map((key) => {
               return (
-                <Button
+                <PressableDialKey
                   key={key.display}
+                  dialKey={key}
+                  onPress={() => handleOnKey(key)}
                   rounded="full"
+                  bg={bgKey}
                   h={16}
                   w={16}
-                  shadow={"none"}
-                  onPress={() => handleOnKey(key)}
+                  display="block"
                   position={"relative"}
                   p={0}
-                >
-                  <Stack space={0}>
-                    <Center>
-                      <Text
-                        fontSize="2xl"
-                        fontWeight={"semibold"}
-                        textAlign="center"
-                        maxFontSizeMultiplier={1}
-                      >
-                        {key.display}
-                      </Text>
-                    </Center>
-                    {!key.isCentered ? (
-                      <Text
-                        bottom="1"
-                        color="gray.400"
-                        fontSize="8"
-                        fontWeight={"bold"}
-                        maxFontSizeMultiplier={1}
-                      >
-                        {key.subDisplay}
-                      </Text>
-                    ) : null}
-                  </Stack>
-                </Button>
+                />
               )
             })}
           </HStack>
@@ -127,12 +139,19 @@ export const DialPad = ({
           rounded="full"
         ></IconButton>
         <Center>
-          <IconButton
+          <Pressable
             isDisabled={trackedKeys?.length < 1}
-            onPress={handleOnDelete}
-            icon={<Icon colorToken="text" icon="backspace" />}
             rounded="full"
-          ></IconButton>
+            onPress={handleOnDelete}
+            bg={bgDeleteKey}
+            h={12}
+            w={12}
+            display="block"
+          >
+            <Center w="full" h="full">
+              <Icon color={colorDeleteKey} icon="backspace" />
+            </Center>
+          </Pressable>
         </Center>
       </HStack>
     </Stack>

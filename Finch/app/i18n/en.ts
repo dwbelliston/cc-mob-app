@@ -424,7 +424,7 @@ const en = {
     contact: "By continuing, you acknowledge that you have consent to contact this individual and will contact them as appropriate."
   },
   library: {
-    discoverTemplates: "Discovery Templates",
+    discoverTemplates: "Discovery Templates Templates",
     smsTemplates: "SMS Templates",
     shortUrls: "Shortened Urls",
     templateGallery: "Template Gallery",

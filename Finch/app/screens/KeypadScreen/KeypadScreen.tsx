@@ -106,16 +106,17 @@ const KeypadScreenBase: FC<HomeTabScreenProps<"Keypad">> = observer(function Con
     })
   }
 
-  const handleOnKeyPress = (value: string) => {
-    Haptics.selectionAsync()
+  const handleOnKeyPress = async (value: string) => {
+    await Haptics.selectionAsync()
     setTrackedDialerKeys((prevValues) => [...prevValues, value])
   }
 
   const onClearAll = () => {
     setTrackedDialerKeys([])
   }
-  const handleOnDeletePress = () => {
-    Haptics.selectionAsync()
+
+  const handleOnDeletePress = async () => {
+    await Haptics.selectionAsync()
     setTrackedDialerKeys((prevValues) => {
       prevValues.pop()
       return [...prevValues]
