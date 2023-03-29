@@ -116,7 +116,7 @@ export const ManageContactsScreen: FC<ManageContactsStackScreenProps<"ManageCont
           </View>
         </ImageBackground>
       )
-    }, [])
+    }, [imgSrc])
 
     const handleOnItemPress = async (item: ISectionDataItem) => {
       if (item.isSoon) {

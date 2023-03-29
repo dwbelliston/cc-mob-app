@@ -111,7 +111,7 @@ export const LibraryScreen: FC<LibraryStackScreenProps<"Library">> = observer(
           </View>
         </ImageBackground>
       )
-    }, [])
+    }, [imgSrc])
 
     const handleOnItemPress = async (item: ISectionDataItem) => {
       if (item.isSoon) {

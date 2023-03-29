@@ -111,7 +111,7 @@ export const ManagePhoneScreen: FC<ManagePhoneStackScreenProps<"ManagePhone">> =
           </View>
         </ImageBackground>
       )
-    }, [])
+    }, [imgSrc])
 
     const handleOnItemPress = async (item: ISectionDataItem) => {
       if (item.isSoon) {
