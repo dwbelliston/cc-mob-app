@@ -91,8 +91,8 @@ export const DialPad = ({
   isMessageButtonDisabled,
 }: IProps) => {
   const bgKey = useColorModeValue("gray.100", "gray.800")
-  const bgDeleteKey = useColorModeValue("rose.50", "error.800")
-  const colorDeleteKey = useColorModeValue("rose.500", "error.800")
+  const bgDeleteKey = useColorModeValue("rose.50", "error.900")
+  const colorDeleteKey = useColorModeValue("error.500", "error.200")
 
   const handleOnKey = (key: IKey) => {
     onKeyPress(key.display)

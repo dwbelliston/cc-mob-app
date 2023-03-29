@@ -192,6 +192,9 @@ const en = {
     segments: "Segments",
     uploads: "Uploads",
     history: "History",
+    addContactHeader: "Add Contact",
+    addContactSubheader: "Enter name and number, you can review more details after creating.",
+    addContactAction: "Add Contact",
   },
   loginScreen: {
     login: "Login",
@@ -331,7 +334,7 @@ const en = {
     edit: "Edit",
     enabled: "Enabled",
     warning: "CRM sync is active",
-    warningMore: "Please create this contact in your CRM since that is your source of truth.",
+    warningMore: "Please create this contact in your CRM to avoid duplicate contacts.",
   },
   compliance: {
     pageHeader: "Compliance Message Setup",
