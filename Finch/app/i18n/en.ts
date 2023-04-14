@@ -450,6 +450,10 @@ const en = {
     libraryHeader: "Library Resources",
     librarySubheader: "What would you like to review?",
   },
+  scheduledMessages: {
+    scheduled: "Scheduled",
+    noMessages: "No messages",
+  }
 }
 
 export default en

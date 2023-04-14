@@ -26,6 +26,7 @@ import {
   makeConversationStreamItemMessage,
   PureConversationStreamItem,
 } from "./ConversationStreamItem"
+import { NumberScheduledMessagesButton } from "./NumberScheduledMessagesButton"
 import SendMessageFloaterInput from "./SendMessageFloaterInput"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
@@ -278,6 +279,10 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           onEndReachedThreshold={0.5}
           initialNumToRender={10}
         />
+        <NumberScheduledMessagesButton
+          contactName={contactName}
+          contactNumber={contactNumber}
+        ></NumberScheduledMessagesButton>
         <SendMessageFloaterInput
           contactName={contactName}
           contactId={contactId}

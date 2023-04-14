@@ -1,7 +1,7 @@
 import Auth from "@aws-amplify/auth"
 
 import {
-  REACT_APP_API_CAMPAIGNS_HOST, REACT_APP_API_CONTACTS_HOST, REACT_APP_API_OUTBOUNDS_HOST,
+  REACT_APP_API_CAMPAIGNS_HOST, REACT_APP_API_CONTACTS_HOST, REACT_APP_API_OUTBOUNDS_HOST, REACT_APP_API_SHED_HOST,
   REACT_APP_API_USERS_HOST, REACT_APP_CLIENT_HOST, REACT_APP_ENV, REACT_APP_STRIPE_RETURN_URL, REACT_APP_USERPOOL_CLIENT,
   REACT_APP_USERPOOL_ID,
   REACT_APP_USERPOOL_REGION,
@@ -42,6 +42,16 @@ const appConfig = {
         name: APIEndpoints.authenticatedOutbounds,
         // endpoint: "http://0.0.0.0:8001",
         endpoint: REACT_APP_API_OUTBOUNDS_HOST,
+        custom_header: async () => {
+          return {
+            Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+          }
+        },
+      },
+      {
+        name: APIEndpoints.authenticatedShed,
+        // endpoint: "http://0.0.0.0:8001",
+        endpoint: REACT_APP_API_SHED_HOST,
         custom_header: async () => {
           return {
             Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,

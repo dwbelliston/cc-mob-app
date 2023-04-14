@@ -3,6 +3,7 @@ export enum APIEndpoints {
   authenticatedUsers = "authenticatedUsers",
   publicUsers = "publicUsers",
   authenticatedOutbounds = "authenticatedOutbounds",
+  authenticatedShed = "authenticatedShed",
   authenticatedContacts = "authenticatedContacts",
   authenticatedCampaigns = "authenticatedCampaigns",
   private = "private",
