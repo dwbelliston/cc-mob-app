@@ -17,10 +17,7 @@ import { colors, spacing } from "../theme"
 import { UserAvatar } from "../components/UserAvatar"
 import { UserPhone } from "../components/UserPhone"
 import { useUserName, useUserPhone } from "../models/UserProfile"
-import {
-  BroadcastsStack,
-  BroadcastsStackParamList,
-} from "../screens/BroadcastsScreen/BroadcastsStack"
+import { BroadcastsStackParamList } from "../screens/BroadcastsScreen/BroadcastsStack"
 
 import { LibraryStack, LibraryStackParamList } from "../screens/LibraryScreen/LibraryStack"
 import {
@@ -169,7 +166,7 @@ const AppDrawerNavigator = (_props) => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="BroadcastsStack"
         component={BroadcastsStack}
         options={{
@@ -178,7 +175,7 @@ const AppDrawerNavigator = (_props) => {
             <Text color={color} fontSize="sm" tx="navigator.broadcasts"></Text>
           ),
         }}
-      />
+      /> */}
       <Drawer.Screen
         name="LibraryStack"
         component={LibraryStack}
