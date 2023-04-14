@@ -1,9 +1,11 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as LocalAuthentication from "expo-local-authentication"
 import { observer } from "mobx-react-lite"
-import { Box, HStack, Image, Stack } from "native-base"
+import { Box, HStack, Image, Stack, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 import { useForm } from "react-hook-form"
+import { ImageBackground } from "react-native"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 import * as Sentry from "sentry-expo"
 import * as yup from "yup"
 import appConfig from "../../app-config"
@@ -25,7 +27,11 @@ import { useCustomToast } from "../utils/useCustomToast"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../models"
 
-const welcomeLogo = require("../../assets/images/img-concentric.png")
+// const welcomeLogo = require("../../assets/images/img-concentric.png")
+const welcomeLogo = require("../../assets/images/img-logo-center.png")
+
+const imgLightSrc = require("../../assets/images/img-lattice-fade-light.png")
+const imgDarkSrc = require("../../assets/images/img-lattice-fade-dark.png")
 
 const STORAGE_KEY_REMEMBERLOGIN = "v1.rememberlogin"
 const STORAGE_KEY_USERNAME = "v1.username"
@@ -52,9 +58,13 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
 
   const appVersion = `App version: ${appConfig.version}`
 
+  const imgSrc = useColorModeValue(imgLightSrc, imgDarkSrc)
+
   const {
     authenticationStore: { loginError, login, resetErrors },
   } = useStores()
+
+  const { top: insetTop, bottom: insetBottom } = useSafeAreaInsets()
 
   // Pull in navigation via hook
   // const navigation = useNavigation()
@@ -171,16 +181,18 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
 
   return (
     <Screen preset="scroll" safeAreaEdges={["top", "bottom"]}>
-      <Stack space={4} py={spacing.extraSmall}>
-        <Box>
-          <Image
-            height="48"
-            width="100%"
-            source={welcomeLogo}
-            resizeMode="contain"
-            alt="CurrentClient logo"
-          />
-        </Box>
+      <Stack space={4} pb={spacing.extraSmall}>
+        <ImageBackground source={imgSrc} resizeMode="cover">
+          <Box>
+            <Image
+              height="48"
+              width="100%"
+              source={welcomeLogo}
+              resizeMode="contain"
+              alt="CurrentClient logo"
+            />
+          </Box>
+        </ImageBackground>
 
         <Stack space={12} px={spacing.extraSmall}>
           <Text colorToken="text" textAlign={"center"} preset="heading" tx="loginScreen.enter" />
