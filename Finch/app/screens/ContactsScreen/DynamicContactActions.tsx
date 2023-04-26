@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/native"
 import * as Haptics from "expo-haptics"
 import * as Linking from "expo-linking"
-import { Button as NBButton, HStack, Skeleton, View } from "native-base"
+import { HStack, Button as NBButton, Skeleton, View } from "native-base"
 import React from "react"
-import Animated, { interpolateColor, SharedValue, useAnimatedStyle } from "react-native-reanimated"
+import Animated, { SharedValue, interpolateColor, useAnimatedStyle } from "react-native-reanimated"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon, IconButton } from "../../components"
 import { OpenEmailButton } from "../../components/OpenEmailButton"
@@ -87,8 +87,8 @@ export const DynamicContactActions = ({ scrollY, bgColor, contactId }: IProps) =
       ]}
     >
       <View
-        roundedTopLeft="2xl"
-        roundedTopRight="2xl"
+        roundedTopLeft="sm"
+        roundedTopRight="sm"
         backgroundColor={bgMain}
         pb={spacing.extraSmall}
         style={[
