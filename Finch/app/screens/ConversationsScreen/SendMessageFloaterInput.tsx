@@ -4,7 +4,7 @@ SendMessageFloaterInput
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Haptics from "expo-haptics"
-import { Box, Button as NBButton, HStack, Spinner, Stack, useColorModeValue } from "native-base"
+import { Box, HStack, Button as NBButton, Spinner, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { Keyboard } from "react-native"
@@ -13,10 +13,10 @@ import * as yup from "yup"
 import { Icon, IconButton } from "../../components"
 import { FormControl } from "../../components/FormControl"
 import {
-  formatPhoneNumberForMessage,
   IMessageCreate,
   IMessageMediaItem,
   MessageTypeEnum,
+  formatPhoneNumberForMessage,
 } from "../../models/Message"
 import { ISmsTemplate } from "../../models/SmsTemplate"
 import { IUserMediaItem } from "../../models/UserMediaItem"
@@ -201,6 +201,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
 
       <Box>
         <FormControl
+          py={3}
           isDisabled={isLoadingSend}
           name="message"
           control={control}
