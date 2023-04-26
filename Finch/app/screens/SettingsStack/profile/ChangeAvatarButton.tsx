@@ -175,7 +175,7 @@ export const ChangeAvatarButton = ({
 
   return (
     <Stack space={spacing.micro}>
-      <UserAvatar isShowLoading={false} size="xl" onPress={handleOnAttach}></UserAvatar>
+      <UserAvatar size="xl" onPress={handleOnAttach}></UserAvatar>
       <Text colorToken={"text.softer"} textAlign="center" tx="common.tapToEdit"></Text>
       {isLoadingUpload && (
         <Box>

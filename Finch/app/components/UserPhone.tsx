@@ -4,7 +4,6 @@ import useReadUserProfile from "../services/api/userprofile/queries/useReadUserP
 
 import { spacing } from "../theme"
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
-import { Dot } from "./Dot"
 import { Text, TextProps } from "./Text"
 
 interface IProps extends IHStackProps {
@@ -19,11 +18,11 @@ export const UserPhone = (props: IProps) => {
     <HStack px={spacing.micro} space={2} alignItems="center" {...rest}>
       {!isLoadingProfile ? (
         <>
-          {userProfile?.IsPhoneRegistered ? (
+          {/* {userProfile?.IsPhoneRegistered ? (
             <Dot.Success></Dot.Success>
           ) : (
             <Dot.Warning></Dot.Warning>
-          )}
+          )} */}
           <Text
             fontSize="lg"
             maxFontSizeMultiplier={1}

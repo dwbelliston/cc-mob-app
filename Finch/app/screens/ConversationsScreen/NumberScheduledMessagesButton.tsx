@@ -1,7 +1,7 @@
 import { useActionSheet } from "@expo/react-native-action-sheet"
 import { BottomSheetFlatList, BottomSheetModal } from "@gorhom/bottom-sheet"
 import * as Haptics from "expo-haptics"
-import { Box, Divider, HStack, Pressable, Stack, useColorModeValue, View } from "native-base"
+import { Box, Divider, HStack, Pressable, Stack, View, useColorModeValue } from "native-base"
 
 import { IBoxProps } from "native-base"
 import React from "react"
@@ -66,7 +66,7 @@ const TemplateOptionPressable = ({
     <Pressable onPress={handleOnPress} px={spacing.tiny}>
       <Stack space={spacing.micro}>
         <HStack space={2}>
-          <UserAvatar size="sm" mt={spacing.micro} isShowLoading={false}></UserAvatar>
+          <UserAvatar size="sm" mt={spacing.micro}></UserAvatar>
           <Stack flex={1} space={2}>
             <AnimatedBackground
               sharedValue={progress}

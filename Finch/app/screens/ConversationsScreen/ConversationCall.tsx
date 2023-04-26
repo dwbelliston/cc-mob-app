@@ -74,7 +74,7 @@ const ConversationCall = ({
 
           <Box ml={isUserCall ? 1 : 0} mr={!isUserCall ? 1 : 0}>
             {isUserCall ? (
-              <UserAvatar isShowLoading={false} size="sm"></UserAvatar>
+              <UserAvatar size="sm"></UserAvatar>
             ) : (
               <ContactAvatar
                 avatarColor={contactColor}

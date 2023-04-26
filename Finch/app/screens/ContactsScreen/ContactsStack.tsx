@@ -1,5 +1,5 @@
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
-import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
 import { Stack } from "native-base"
 

@@ -11,7 +11,7 @@ interface IProps extends IAvatarProps {
   onPress?: () => void
 }
 export const UserAvatar = (props: IProps) => {
-  const { onPress, isShowLoading = true, ...rest } = props
+  const { onPress, isShowLoading = false, ...rest } = props
 
   const isQFetching = useIsFetching()
 

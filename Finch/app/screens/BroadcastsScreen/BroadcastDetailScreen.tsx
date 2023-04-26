@@ -136,8 +136,8 @@ const BroadcastDetailScreenBase: FC<AppStackScreenProps<"BroadcastDetail">> = ob
             {/* Content */}
             <View backgroundColor={bgColor}>
               <Stack
-                roundedTopLeft="2xl"
-                roundedTopRight="2xl"
+                roundedTopLeft="sm"
+                roundedTopRight="sm"
                 px={spacing.tiny}
                 bg={bgMain}
                 flex={1}

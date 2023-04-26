@@ -181,7 +181,7 @@ const ConversationMessage = ({
                       <CurrentClientAvatar size="sm" />
                     </Box>
                   ) : (
-                    <UserAvatar isShowLoading={false} size="sm"></UserAvatar>
+                    <UserAvatar size="sm"></UserAvatar>
                   )}
                 </>
               ) : (
