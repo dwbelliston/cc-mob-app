@@ -5,11 +5,13 @@ import { AutoImage, Icon, IconButton } from "../../components"
 import { IMessageMediaItem } from "../../models/Message"
 
 import * as FileSystem from "expo-file-system"
+import * as Haptics from "expo-haptics"
 import * as MediaLibrary from "expo-media-library"
+import * as WebBrowser from "expo-web-browser"
+import { Pressable } from "react-native"
 import { colors } from "../../theme"
 import { useCustomToast } from "../../utils/useCustomToast"
 import VCardMediaDisplay from "./VCardMediaDisplay"
-
 interface IProps extends IStackProps {
   mediaItems: IMessageMediaItem[]
   isUserMessage?: boolean
@@ -28,6 +30,13 @@ const MessageMediaItemsPreview = ({
   const toast = useCustomToast()
 
   const borderError = useColorModeValue(colors.error[300], colors.error[600])
+
+  const handleOnViewItem = (mediaUrl: string) => {
+    Haptics.selectionAsync()
+    if (mediaUrl) {
+      WebBrowser.openBrowserAsync(mediaUrl)
+    }
+  }
 
   const handleDownload = async (mediaUrl: string, mediaType: string) => {
     const fileName = mediaUrl.split("/").pop()
@@ -79,22 +88,24 @@ const MessageMediaItemsPreview = ({
                   mediaItem={mediaItem}
                 ></VCardMediaDisplay>
               ) : (
-                <Box
-                  borderWidth={isMessageError ? 1 : 0}
-                  borderColor={isMessageError ? borderError : "transparent"}
-                  rounded="lg"
-                  overflow={"hidden"}
-                >
-                  <AutoImage
-                    resizeMode="cover"
-                    source={{
-                      uri: isPdfFile
-                        ? "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/pdf-file.png"
-                        : mediaItem.MediaUrl,
-                    }}
-                    maxWidth={200}
-                  />
-                </Box>
+                <Pressable onPress={() => handleOnViewItem(mediaItem.MediaUrl)}>
+                  <Box
+                    borderWidth={isMessageError ? 1 : 0}
+                    borderColor={isMessageError ? borderError : "transparent"}
+                    rounded="lg"
+                    overflow={"hidden"}
+                  >
+                    <AutoImage
+                      resizeMode="cover"
+                      source={{
+                        uri: isPdfFile
+                          ? "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/pdf-file.png"
+                          : mediaItem.MediaUrl,
+                      }}
+                      maxWidth={200}
+                    />
+                  </Box>
+                </Pressable>
               )}
 
               {isDownloadable ? (
