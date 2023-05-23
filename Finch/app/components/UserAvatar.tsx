@@ -34,15 +34,15 @@ export const UserAvatar = (props: IProps) => {
         initials={userInitials}
         avatarProps={{
           _light: {
-            bg: !isLoading ? "primary.700" : null,
+            bg: !isLoading ? "gray.50" : null,
             _text: {
-              color: "white",
+              color: "gray.500",
             },
           },
           _dark: {
-            bg: !isLoading ? "primary.200" : null,
+            bg: !isLoading ? "gray.700" : null,
             _text: {
-              color: "black",
+              color: "gray.200",
             },
           },
           source: {
