@@ -61,8 +61,12 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
     const { data: dataConnector } = useReadConnector(dataCrmSync?.ConnectorId)
 
     const handleOnEdit = () => {
-      setEditMode(EditFormModeEnum.ISENABLED)
-      bottomSheetModalRef.current?.present()
+      if (dataCrmSync) {
+        setEditMode(EditFormModeEnum.ISENABLED)
+        bottomSheetModalRef.current?.present()
+      } else {
+        toast.info({ title: translate("crmSync.pleaseCreateInDesktop") })
+      }
     }
 
     const createNewSync = async () => {
@@ -249,7 +253,7 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
               <EditCRMSyncEnabledForm
                 ref={formRef}
                 data={{
-                  IsEnabled: dataCrmSync.IsEnabled,
+                  IsEnabled: dataCrmSync?.IsEnabled,
                 }}
                 onSubmit={handleOnSubmitEnabled}
               />

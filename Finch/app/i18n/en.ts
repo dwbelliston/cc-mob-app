@@ -333,6 +333,7 @@ const en = {
     isAllowNotes: "Add conversations as notes to CRM",
     edit: "Edit",
     enabled: "Enabled",
+    pleaseCreateInDesktop: "Please setup in desktop app",
     warning: "CRM sync is active",
     warningMore: "Please create this contact in your CRM to avoid duplicate contacts.",
   },
