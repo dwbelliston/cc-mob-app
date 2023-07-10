@@ -5,7 +5,6 @@ import { Box, HStack, Pressable, Stack, useColorModeValue, View } from "native-b
 import React from "react"
 import Swipeable from "react-native-gesture-handler/Swipeable"
 import { Icon, Text } from "../../components"
-import { AvatarRing } from "../../components/AvatarRing"
 import {
   ConversationStatusEnum,
   getConversationContactNumber,
@@ -24,6 +23,7 @@ import { runFormatPhoneSimple } from "../../utils/useFormatPhone"
 import { useActionSheet } from "@expo/react-native-action-sheet"
 import { useSharedValue } from "react-native-reanimated"
 import { AnimatedBackground } from "../../components/AnimatedBackground"
+import { ContactAvatar } from "../../components/ContactAvatar"
 import { Dot } from "../../components/Dot"
 import { AppStackParamList } from "../../navigators"
 import { getInitials } from "../../utils/getInitials"
@@ -368,13 +368,13 @@ const ConversationListItem = ({
             space={2}
             alignItems="center"
           >
-            <AvatarRing
-              // outerRingColor={!isRead ? errorColor : cardBg}
-              innerRingColor={cardBg}
+            <ContactAvatar
+              contactId={contactId}
+              // avatarColor={avatarColor}
               initials={initials}
               avatarProps={{ size: "sm" }}
               sourceBadge={!isRead ? <Dot.Error size="md" /> : null}
-            ></AvatarRing>
+            ></ContactAvatar>
 
             <Stack flex={1}>
               <HStack alignItems="center" justifyContent={"space-between"} space={spacing.micro}>

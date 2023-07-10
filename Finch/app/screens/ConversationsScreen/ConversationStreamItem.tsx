@@ -2,9 +2,10 @@
 
 import { View } from "native-base"
 import React from "react"
-import { getIsUserCall, ICall } from "../../models/Call"
+import { getCallContactId, getIsUserCall, ICall } from "../../models/Call"
 import { IConversationItem } from "../../models/Conversation"
 import {
+  getContactId,
   getIsAutoReply,
   getIsCompliance,
   getIsMessageBlocked,
@@ -70,6 +71,7 @@ export const makeConversationStreamItemMessage = (
     isCompliance: getIsCompliance(message),
     isUserMessage: getIsUserMessage(message),
     contactInitials: getInitials(contactName),
+    contactId: getContactId(message),
     contactColor: getAvatarColor(contactName),
     messageBroadcastId: getMessageBroadcastId(message),
     messageCampaignId: getMessageDispatchId(message),
@@ -87,6 +89,7 @@ export const makeConversationStreamItemCall = (
     contactColor: getAvatarColor(contactName),
     contactInitials: getInitials(contactName),
     isUserCall: getIsUserCall(call),
+    contactId: getCallContactId(call),
     callIsForwarded: call.IsForwarded,
     callNumberForwardedTo: call.NumberForwardedTo,
     callIsOutsideHours: call.IsOutsideHours,

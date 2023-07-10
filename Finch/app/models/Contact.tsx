@@ -18,6 +18,70 @@ export enum ContactSourceTypeEnum {
   HUBSPOT = "HUBSPOT",
 }
 
+export const CRM_LOGO_MAP = {
+  WEALTHBOX: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/wealthbox-small.png",
+    name: "Wealthbox",
+    props: {},
+    avatarProps: {},
+  },
+  AGENTCORE: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/agentcore_logo_small.png",
+    name: "AgentCore",
+    props: {
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderColor: "gray.200",
+    },
+  },
+  RADIUSBOB: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/radiusbob_logo_small.png",
+    name: "RadiusBob",
+    props: {},
+    avatarProps: {},
+  },
+  REDTAIL: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/redtail_logo_small.png",
+    name: "Redtail",
+    props: {},
+    avatarProps: {},
+  },
+  HUBSPOT: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/hubspot_logo_small.png",
+    name: "HubSpot",
+    avatarProps: {
+      bg: "white",
+    },
+    props: {
+      borderStyle: "solid",
+      bg: "white",
+      borderWidth: 2,
+      borderColor: "orange.100",
+    },
+  },
+  AGENCYBLOC: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/agencybloc_logo_small.png",
+    name: "AgencyBloc",
+    avatarProps: {},
+    props: {
+      borderStyle: "solid",
+      bg: "white",
+      borderWidth: "1px",
+      borderColor: "gray.800",
+    },
+  },
+  MEDICAREPRO: {
+    url: "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/medicarepro_logo_small.png",
+    name: "MedicarePro",
+    avatarProps: {},
+    props: {
+      bg: "white",
+      borderWidth: "1px",
+      borderColor: "#2095FE",
+    },
+  },
+}
+
 export interface IContactBase {
   FirstName: string
   LastName: string
@@ -34,6 +98,7 @@ export interface IContactBase {
   SourceMeta?: any
   SourceType?: ContactSourceTypeEnum
   LastSyncTime?: string
+  AvatarUrl?: string
 }
 
 export interface IContactUpdate extends IContactBase {}

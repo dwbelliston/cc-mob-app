@@ -58,6 +58,8 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
   const {
     data: dataConversations,
     isFetching: isFetchingConversations,
+    // error: errorConversations,
+    // isError: isErrorConversations,
     isLoading: isLoadingConversations,
     fetchNextPage,
   } = useListConversations({

@@ -222,6 +222,10 @@ export const getIsAutoReply = (message: IMessage): boolean => {
   return isAutoReply
 }
 
+export const getContactId = (message: IMessage): string | undefined => {
+  return message.ContactId
+}
+
 export const getIsCompliance = (message: IMessage): boolean => {
   let isCompliance = false
 

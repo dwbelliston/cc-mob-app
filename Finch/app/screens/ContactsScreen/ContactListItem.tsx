@@ -247,6 +247,7 @@ const ContactListItem = ({
               innerRingColor={cardBg}
               initials={initials}
               avatarProps={{ size: "sm" }}
+              contactId={contactId}
               contactSource={contactSourceType}
               onPress={handleOnClickContactAvatar}
             ></ContactAvatar>

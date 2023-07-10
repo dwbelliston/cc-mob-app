@@ -26,6 +26,7 @@ export interface IConversationCallProps {
   callDurationTime?: ICall["CallDurationTime"]
   callRecordingUrl?: ICall["RecordingUrl"]
   callTranscriptionText?: ICall["TranscriptionText"]
+  contactId?: string
 }
 
 const ConversationCall = ({
@@ -41,6 +42,7 @@ const ConversationCall = ({
   callDurationTime,
   callRecordingUrl,
   callTranscriptionText,
+  contactId,
 }: IConversationCallProps) => {
   return (
     <View
@@ -77,7 +79,8 @@ const ConversationCall = ({
               <UserAvatar size="sm"></UserAvatar>
             ) : (
               <ContactAvatar
-                avatarColor={contactColor}
+                // avatarColor={contactColor}
+                contactId={contactId}
                 initials={contactInitials}
                 avatarProps={{ size: "sm" }}
               ></ContactAvatar>

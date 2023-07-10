@@ -29,6 +29,7 @@ export interface IConversationMessageProps {
   messageCampaignId?: string
   contactColor?: ColorType
   contactInitials?: string
+  contactId?: string
   messageStatus?: string
 }
 
@@ -46,6 +47,7 @@ const ConversationMessage = ({
   messageCampaignId,
   contactColor,
   contactInitials,
+  contactId,
   messageStatus,
 }: IConversationMessageProps) => {
   const isRobot = isAutoReply || isCompliance || !!messageBroadcastId || messageCampaignId
@@ -188,6 +190,7 @@ const ConversationMessage = ({
                 <ContactAvatar
                   // innerRingColor={"red.400"}
                   avatarColor={contactColor}
+                  contactId={contactId}
                   initials={contactInitials}
                   avatarProps={{ size: "sm" }}
                 ></ContactAvatar>

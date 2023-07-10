@@ -60,3 +60,7 @@ export const getIsUserCall = (call: ICall): boolean => {
 
   return isUserCall
 }
+
+export const getCallContactId = (message: ICall): string | undefined => {
+  return message.ContactId
+}
