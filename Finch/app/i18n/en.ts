@@ -59,6 +59,7 @@ const en = {
     password: "Password",
     rememberDevice: "Remember login",
     phone: "Phone",
+    oneTimeCode: "One-Time Code",
     message: "Message",
     birthdate: "Birthdate",
     address: "Address",
@@ -198,10 +199,14 @@ const en = {
   },
   loginScreen: {
     login: "Login",
+    verify: "Verify",
     enter: "Please Login",
     enterAlt: "Alt Login",
     enterAltDescription:
       "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
+      enterVerify: "Verify Login",
+      enterVerifyDescription:
+        "Please enter your secure One-Time Code to verify login.",
     createAccount: "Create Account",
     enterResetCode: "Have a code already? Enter here",
     forgotPassword: "Forgot password?",

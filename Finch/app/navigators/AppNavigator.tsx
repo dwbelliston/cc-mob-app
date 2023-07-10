@@ -5,7 +5,7 @@
  * and a "main" flow which the user will use once logged in.
  */
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
 import { useColorModeValue } from "native-base"
 import React from "react"
@@ -26,11 +26,13 @@ import { AddContactScreen } from "../screens/ContactsScreen/AddContactScreen"
 import { ConversationSteamDetailMenu } from "../screens/ConversationsScreen/ConversationSteamDetailMenu"
 import { NewMessageScreen } from "../screens/ConversationsScreen/NewMessageScreen"
 import { ResetPasswordConfirmScreen } from "../screens/ResetPasswordConfirmScreen"
-import { colors, HEADER_TITLE_STYLES } from "../theme"
+import { HEADER_TITLE_STYLES, colors } from "../theme"
 import { useColor } from "../theme/useColor"
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import AppDrawerNavigator from "./AppDrawerNavigator"
 
+import { CognitoUser } from "amazon-cognito-identity-js"
+import { VerifyLoginScreen } from "../screens/VerifyLoginScreen"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
 const imgSrc = require("../../assets/images/img-lines-header-light.png")
@@ -65,6 +67,7 @@ export type AppStackParamList = {
   AddContact: { contactPhone?: string; assignConversationId?: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
+  VerifyLogin: { user: CognitoUser } | undefined
   ResetPassword: { email?: string } | undefined
   ResetPasswordConfirm: { email?: string } | undefined
 }
@@ -203,6 +206,7 @@ const AppStack = observer(function AppStack() {
         <Stack.Group>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="AltLogin" component={AltLoginScreen} />
+          <Stack.Screen name="VerifyLogin" component={VerifyLoginScreen} />
           <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
           <Stack.Screen name="ResetPasswordConfirm" component={ResetPasswordConfirmScreen} />
         </Stack.Group>

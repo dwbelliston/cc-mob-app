@@ -101,10 +101,17 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
 
     setIsSubmitting(true)
     setAttemptsCount(attemptsCount + 1)
+
     try {
-      await login(data.email, data.password)
-    } catch (e) {}
-    setIsSubmitting(false)
+      const authRes = await login(data.email, data.password)
+      setIsSubmitting(false)
+
+      if (authRes?.status === "VERIFY") {
+        navigation.navigate("VerifyLogin", { user: authRes.user })
+      }
+    } catch (e) {
+      setIsSubmitting(false)
+    }
   }
 
   const handleOnReset = () => {

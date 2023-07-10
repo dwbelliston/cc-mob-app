@@ -86,6 +86,7 @@ import {
   PlayIcon,
   PlusIcon,
   PuzzlePieceIcon,
+  QrCodeIcon,
   RectangleGroupIcon,
   RectangleStackIcon,
   RocketLaunchIcon,
@@ -194,6 +195,7 @@ import {
   PlayIcon as PlayIconSolid,
   PlusIcon as PlusIconSolid,
   PuzzlePieceIcon as PuzzlePieceIconSolid,
+  QrCodeIcon as QrCodeIconSolid,
   RectangleGroupIcon as RectangleGroupIconSolid,
   RectangleStackIcon as RectangleStackIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
@@ -216,7 +218,7 @@ import {
   XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
 
-import { Icon as NBIcon, IIconProps as INBIconProps } from "native-base"
+import { IIconProps as INBIconProps, Icon as NBIcon } from "native-base"
 import * as React from "react"
 import KeyPadIcon from "../../assets/icons/KeypadIcon"
 import { ColorTokenOption, useColor } from "../theme/useColor"
@@ -317,6 +319,10 @@ export const iconRegistry = {
   squares2X2: {
     outline: Squares2X2Icon,
     solid: Squares2X2IconSolid,
+  },
+  qrCode: {
+    outline: QrCodeIcon,
+    solid: QrCodeIconSolid,
   },
   lockOpen: {
     outline: LockOpenIcon,
