@@ -62,7 +62,7 @@ export const AvatarRing = (props: IAvatarRingProps) => {
         </Avatar>
       ) : (
         <>
-          {initials ? (
+          {initials || avatarUrl ? (
             <Avatar
               borderWidth={1}
               borderColor={borderAvatar}

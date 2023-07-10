@@ -7,6 +7,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated"
 import { Icon, IconButton, Text } from "../../components"
+import { ContactAvatar } from "../../components/ContactAvatar"
 import { ContactSourceAvatar } from "../../components/ContactSourceAvatar"
 import { Phone } from "../../components/Phone"
 import { spacing } from "../../theme"
@@ -86,7 +87,13 @@ export const DynamicContactHeader = ({
           )}
 
           {dataContact && (
-            <Stack space={spacing.micro}>
+            <Stack space={spacing.micro} alignItems={"flex-start"}>
+              {dataContact.AvatarUrl && (
+                <ContactAvatar
+                  avatarProps={{ size: "xl" }}
+                  contactId={dataContact.ContactId}
+                ></ContactAvatar>
+              )}
               <Animated.Text
                 style={[
                   { fontSize: 30, color: textColor, fontWeight: "bold" },
