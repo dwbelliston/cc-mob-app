@@ -283,6 +283,8 @@ const en = {
     helpCenter: "Help Center",
     business: "Resources",
     privacy: "Privacy",
+    allPolicies: "All Policies",
+    blog: "Blog Articles",
     leaveReview: "Leave a review",
     account: "Account",
     currentClient: "CurrentClient",

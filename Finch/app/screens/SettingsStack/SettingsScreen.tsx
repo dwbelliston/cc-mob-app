@@ -67,13 +67,18 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "lifebuoy",
         tx: "settings.helpCenter",
-        urlLink: "https://currentclient.com",
-        isSoon: true,
+        urlLink: "https://www.currentclient.com/learn",
+        // isSoon: true,
       },
       {
         icon: "shieldCheck",
         tx: "settings.privacy",
-        urlLink: "https://www.currentclient.com/privacy-policy",
+        urlLink: "https://www.currentclient.com/privacy",
+      },
+      {
+        icon: "newspaper",
+        tx: "settings.blog",
+        urlLink: "https://www.currentclient.com/blog",
       },
       {
         icon: "star",
