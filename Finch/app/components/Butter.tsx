@@ -20,22 +20,22 @@ export interface IButterIcon {
 export const ButterIcon = ({ colorScheme, icon }: IButterIcon) => {
   return (
     <Circle
-      shadow={1}
+      // shadow={1}
       p={1}
-      borderWidth={2}
+      borderWidth={1}
       rounded="lg"
       _light={{
-        bg: `${colorScheme}.600`,
-        borderColor: `${colorScheme}.300`,
+        bg: `${colorScheme}.50`,
+        borderColor: `${colorScheme}.100`,
       }}
       _dark={{
-        bg: `${colorScheme}.600`,
-        borderColor: `${colorScheme}.700`,
+        bg: `${colorScheme}.700`,
+        borderColor: `${colorScheme}.600`,
       }}
     >
       <Icon
         _light={{
-          color: `${colorScheme}.50`,
+          color: `${colorScheme}.700`,
         }}
         _dark={{
           color: `${colorScheme}.100`,
