@@ -357,7 +357,7 @@ const ConversationListItem = ({
           sharedValue={progress}
           bgStart="bg.animStart"
           bgEnd="bg.animEnd"
-          styles={{ borderRadius: 12 }}
+          styles={{ borderRadius: 10 }}
         >
           <HStack
             borderColor={cardBorder}
