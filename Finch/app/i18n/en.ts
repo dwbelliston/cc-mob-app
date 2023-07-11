@@ -283,6 +283,7 @@ const en = {
     myPhone: "My Phone",
     mySubscription: "My Subscription",
     helpCenter: "Help Center",
+    security: "Security",
     business: "Resources",
     privacy: "Privacy",
     allPolicies: "All Policies",
@@ -329,6 +330,14 @@ const en = {
     editSubscription: "Edit Subscription",
     viewInvoices: "View Invoices",
     failedToOpen: "Error Loading",
+  },
+  security: {
+    pageHeader: "Account Security",
+    pageSubheader:
+      "Manage login and add MFA to make your account more secure. To make changes please open the desktop app.",
+    email: "Username login",
+    multiFactorAuth: "Multi-Factor Authentication",
+    subscriptionStatus: "Subscription Status",
   },
   crmSync: {
     pageHeader: "CRM Sync",

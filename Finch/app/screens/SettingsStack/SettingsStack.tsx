@@ -1,5 +1,5 @@
 import { CompositeScreenProps, DrawerActions } from "@react-navigation/native"
-import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
+import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 
 import React, { FC } from "react"
 import { Icon } from "../../components"
@@ -12,16 +12,18 @@ import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
+import { SecurityScreen } from "./SecurityScreen"
+import { SettingsScreen } from "./SettingsScreen"
 import { DebugNotificationsScreen } from "./notifications/DebugNotificationsScreen"
 import { NotificationsScreen } from "./notifications/NotificationsScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
-import { SettingsScreen } from "./SettingsScreen"
 
 export type SettingsStackParamList = {
   Settings: undefined
   Profile: undefined
   DeleteAccount: undefined
   MySubscription: undefined
+  Security: undefined
   Notifications: undefined
   DebugNotifications: undefined
 }
@@ -110,6 +112,17 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         component={MySubscriptionScreen}
         options={{
           headerTitle: translate("settings.mySubscription"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
+
+      <Stack.Screen
+        name={"Security"}
+        component={SecurityScreen}
+        options={{
+          headerTitle: translate("settings.security"),
           headerStyle: {
             backgroundColor: headerBg,
           },

@@ -50,6 +50,11 @@ const SETTINGS_LINKS: ISectionData[] = [
         navigateScreen: "MySubscription",
       },
       {
+        icon: "lockClosed",
+        tx: "settings.security",
+        navigateScreen: "Security",
+      },
+      {
         icon: "bellAlert",
         tx: "settings.notifications",
         navigateScreen: "Notifications",
