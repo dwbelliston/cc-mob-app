@@ -9,11 +9,12 @@ import { Icon, Text } from "../../components"
 import { ContactAvatar } from "../../components/ContactAvatar"
 import { CurrentClientAvatar } from "../../components/CurrentClientAvatar"
 import { UserAvatar } from "../../components/UserAvatar"
-import { IMessage } from "../../models/Message"
+import { IMessage, IMessageVideoDetails } from "../../models/Message"
 import { spacing } from "../../theme"
 import { runFormatMinuteTime } from "../../utils/useFormatDate"
 import MessageMediaItemsPreview from "./MessageMediaItemsPreview"
 import TextMessageBubble from "./TextMessageBubble"
+import VideoMessageDetailsPreview from "./VideoMessageDetailsPreview"
 
 export interface IConversationMessageProps {
   mediaItems?: IMessage["MessageMediaItems"]
@@ -31,6 +32,7 @@ export interface IConversationMessageProps {
   contactInitials?: string
   contactId?: string
   messageStatus?: string
+  videoDetails?: IMessageVideoDetails
 }
 
 const ConversationMessage = ({
@@ -49,6 +51,7 @@ const ConversationMessage = ({
   contactInitials,
   contactId,
   messageStatus,
+  videoDetails,
 }: IConversationMessageProps) => {
   const isRobot = isAutoReply || isCompliance || !!messageBroadcastId || messageCampaignId
 
@@ -82,6 +85,14 @@ const ConversationMessage = ({
           />
         ) : null}
 
+        {/* Video */}
+        {videoDetails && (
+          <VideoMessageDetailsPreview
+            isUserMessage={isUserMessage}
+            isMessageError={isMessageError || isMessageBlocked}
+            videoDetails={videoDetails}
+          ></VideoMessageDetailsPreview>
+        )}
         {/* Meta */}
         {isMessageSending ? (
           <HStack

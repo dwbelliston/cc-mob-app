@@ -131,6 +131,37 @@ export const getMessageDispatchId = (message: IMessage): string | null => {
   return metaDispatch
 }
 
+export interface IMessageVideoDetails {
+  videoId: string
+  videoThumbnail: string
+  videoUrl: string
+  videoDisplayTitle: string
+}
+export const getMessageVideoDetails = (message: IMessage): IMessageVideoDetails | null => {
+  const meta = message.Meta
+  const messageBody = message.Message
+  let metaVideoDict: IMessageVideoDetails | null = null
+
+  if (meta && meta["isVideoLink"]) {
+    const videoUrl = meta["videoUrl"]
+    const videoId = meta["videoId"]
+    const videoThumbnail = meta["videoThumbail"]
+    const videoDisplayTitle = meta["videoDisplayTitle"]
+
+    // is the video url in the message?
+    if (messageBody && messageBody.includes(videoUrl)) {
+      metaVideoDict = {
+        videoId: videoId,
+        videoThumbnail: videoThumbnail,
+        videoUrl: videoUrl,
+        videoDisplayTitle: videoDisplayTitle,
+      }
+    }
+  }
+
+  return metaVideoDict
+}
+
 export const getMessageBroadcastId = (message: IMessage): string | null => {
   const meta = message.Meta
   let metaBroadcastId = null

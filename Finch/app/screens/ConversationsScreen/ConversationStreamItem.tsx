@@ -15,6 +15,7 @@ import {
   getMessageBroadcastId,
   getMessageDispatchId,
   getMessageStatusDisplay,
+  getMessageVideoDetails,
   IMessage,
 } from "../../models/Message"
 import { getAvatarColor, spacing } from "../../theme"
@@ -75,6 +76,7 @@ export const makeConversationStreamItemMessage = (
     contactColor: getAvatarColor(contactName),
     messageBroadcastId: getMessageBroadcastId(message),
     messageCampaignId: getMessageDispatchId(message),
+    videoDetails: getMessageVideoDetails(message),
     messageStatus: getMessageStatusDisplay(message.Status),
   }
 }

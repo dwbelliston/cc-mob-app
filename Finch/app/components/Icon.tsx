@@ -106,6 +106,8 @@ import {
   UserGroupIcon,
   UserIcon,
   UserPlusIcon,
+  VideoCameraIcon,
+  VideoCameraSlashIcon,
   WrenchScrewdriverIcon,
   XMarkIcon,
 } from "react-native-heroicons/outline"
@@ -216,6 +218,8 @@ import {
   UserGroupIcon as UserGroupIconSolid,
   UserIcon as UserIconSolid,
   UserPlusIcon as UserPlusIconSolid,
+  VideoCameraIcon as VideoCameraIconSolid,
+  VideoCameraSlashIcon as VideoCameraSlashIconSolid,
   WrenchScrewdriverIcon as WrenchScrewdriverIconSolid,
   XMarkIcon as XMarkIconSolid,
 } from "react-native-heroicons/solid"
@@ -365,6 +369,14 @@ export const iconRegistry = {
   globeAlt: {
     outline: GlobeAltIcon,
     solid: GlobeAltIconSolid,
+  },
+  videoCamera: {
+    outline: VideoCameraIcon,
+    solid: VideoCameraIconSolid,
+  },
+  videoCameraSlash: {
+    outline: VideoCameraSlashIcon,
+    solid: VideoCameraSlashIconSolid,
   },
   devicePhoneMobile: {
     outline: DevicePhoneMobileIcon,
