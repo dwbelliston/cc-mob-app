@@ -1,5 +1,4 @@
 import { Auth } from "@aws-amplify/auth"
-import { CognitoUser } from "amazon-cognito-identity-js"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { IAuthLoginResponse } from "./Login"
 import { withSetPropAction } from "./helpers/withSetPropAction"
@@ -16,6 +15,7 @@ export const AuthenticationStoreModel = types
     validateError: types.maybe(types.string),
     resetPasswordError: types.maybe(types.string),
     resetPasswordConfirmError: types.maybe(types.string),
+    challengeUser: types.maybe(types.frozen()),
     challengeName: types.maybe(types.string),
   })
   .views((store) => ({
@@ -49,9 +49,9 @@ export const AuthenticationStoreModel = types
         const user = await Auth.signIn(username, password)
 
         if (user.challengeName === "SMS_MFA" || user.challengeName === "SOFTWARE_TOKEN_MFA") {
+          store.setProp("challengeUser", user)
           store.setProp("challengeName", user.challengeName)
           authRes = {
-            user: user,
             status: "VERIFY"
           }
         } else {
@@ -81,8 +81,10 @@ export const AuthenticationStoreModel = types
 
       return authRes
     },
-    async confirmLogin(user: CognitoUser, code: string, mfaType: "SOFTWARE_TOKEN_MFA" | "SMS_MFA") {
+    async confirmLogin(code: string, mfaType: "SOFTWARE_TOKEN_MFA" | "SMS_MFA") {
       try {
+
+        const user = store.challengeUser
 
         const activeUser = await Auth.confirmSignIn(
           user, // Return object from Auth.signIn()
@@ -90,6 +92,7 @@ export const AuthenticationStoreModel = types
           mfaType, // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         )
 
+        store.setProp("challengeUser", undefined)
         store.setProp("challengeName", undefined)
         store.setProp("loginError", undefined)
         store.setProp("userId", activeUser.username)

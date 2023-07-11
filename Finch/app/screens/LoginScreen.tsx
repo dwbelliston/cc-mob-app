@@ -107,7 +107,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
       setIsSubmitting(false)
 
       if (authRes?.status === "VERIFY") {
-        navigation.navigate("VerifyLogin", { user: authRes.user })
+        navigation.navigate("VerifyLogin")
       }
     } catch (e) {
       setIsSubmitting(false)

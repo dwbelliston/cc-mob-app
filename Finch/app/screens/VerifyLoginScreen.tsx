@@ -1,5 +1,4 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { CognitoUser } from "amazon-cognito-identity-js"
 import * as Haptics from "expo-haptics"
 import { observer } from "mobx-react-lite"
 import { HStack, Stack } from "native-base"
@@ -30,7 +29,6 @@ export const VerifyLoginScreen: FC<AppStackScreenProps<"VerifyLogin">> = observe
     const { route, navigation } = _props
 
     const [isSubmitting, setIsSubmitting] = React.useState(false)
-    const [challengeUser, setChallengeUser] = React.useState<CognitoUser>()
 
     const {
       authenticationStore: { setLoginError, loginError, confirmLogin },
@@ -64,18 +62,10 @@ export const VerifyLoginScreen: FC<AppStackScreenProps<"VerifyLogin">> = observe
       setIsSubmitting(true)
 
       try {
-        await confirmLogin(challengeUser, data.oneTimeCode, "SOFTWARE_TOKEN_MFA")
+        await confirmLogin(data.oneTimeCode, "SOFTWARE_TOKEN_MFA")
       } catch (e) {}
       setIsSubmitting(false)
     }
-
-    React.useEffect(() => {
-      // Here is where you could fetch credentials from keychain or storage
-      // and pre-fill the form fields.
-      if (route.params?.user) {
-        setChallengeUser(route.params.user)
-      }
-    }, [route])
 
     return (
       <Screen preset="scroll" safeAreaEdges={["top", "bottom"]}>

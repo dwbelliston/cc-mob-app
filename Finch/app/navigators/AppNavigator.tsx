@@ -31,7 +31,6 @@ import { useColor } from "../theme/useColor"
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import AppDrawerNavigator from "./AppDrawerNavigator"
 
-import { CognitoUser } from "amazon-cognito-identity-js"
 import { VerifyLoginScreen } from "../screens/VerifyLoginScreen"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -67,7 +66,7 @@ export type AppStackParamList = {
   AddContact: { contactPhone?: string; assignConversationId?: string } | undefined
   Login: { username?: string; password?: string } | undefined
   AltLogin: undefined
-  VerifyLogin: { user: CognitoUser } | undefined
+  VerifyLogin: undefined
   ResetPassword: { email?: string } | undefined
   ResetPasswordConfirm: { email?: string } | undefined
 }
