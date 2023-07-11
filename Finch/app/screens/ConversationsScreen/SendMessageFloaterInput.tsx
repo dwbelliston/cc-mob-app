@@ -202,6 +202,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
       <Box>
         <FormControl
           py={3}
+          maxH={32}
           isDisabled={isLoadingSend}
           name="message"
           control={control}
