@@ -23,11 +23,11 @@ interface IProps {
 }
 
 const schema = yup.object({
-  Address1: yup.string(),
-  Address2: yup.string(),
-  City: yup.string(),
-  State: yup.string(),
-  Zip: yup.string(),
+  Address1: yup.string().nullable(),
+  Address2: yup.string().nullable(),
+  City: yup.string().nullable(),
+  State: yup.string().nullable(),
+  Zip: yup.string().nullable(),
 })
 
 export const EditProfileAddressForm = React.forwardRef<FormHandle, IProps>(
