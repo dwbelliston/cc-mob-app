@@ -1,4 +1,9 @@
-const ACTIVE_SUBSCTIPTION_STATUS = ["active"]
+import { runFormatTimeFromNow } from "../utils/useFormatDate"
+
+const PAID_SUBSCRIPTION_STATUS = ["active"]
+const ACTIVE_SUBSCRIPTION_STATUS = ["active", "trialing"]
+const TRIAL_SUBSCRIPTION_STATUS = ["trialing"]
+const INACTIVE_SUBSCRIPTION_STATUS = ["inactive", "canceled"]
 
 export const INDUSTRY_FIELDS: Array<string> = [
   "Financial Services",
@@ -212,16 +217,55 @@ export const initialFormUserProfileCallForwarding: IUserProfileCallForwardingFor
 // }
 // const person: IContact = new Contact('John', 'Doe', 44);
 
-export const useIsAccountActive = (userProfile: IUserProfile): boolean => {
+export const useIsAccountPaid = (userProfile: IUserProfile): boolean => {
   let isAccountActive = false
 
   if (userProfile && userProfile.Billing && userProfile.Billing.SubscriptionStatus) {
-    if (ACTIVE_SUBSCTIPTION_STATUS.includes(userProfile.Billing.SubscriptionStatus)) {
+    if (PAID_SUBSCRIPTION_STATUS.includes(userProfile.Billing.SubscriptionStatus)) {
       isAccountActive = true
     }
   }
 
   return isAccountActive
+}
+
+export const useIsAccountActive = (userProfile: IUserProfile): boolean => {
+  let isAccountActive = false
+
+  if (
+    userProfile &&
+    userProfile.Billing &&
+    userProfile.Billing.SubscriptionStatus &&
+    userProfile.Billing.SubscriptionId
+  ) {
+    if (ACTIVE_SUBSCRIPTION_STATUS.includes(userProfile.Billing.SubscriptionStatus)) {
+      isAccountActive = true
+    }
+  }
+
+  return isAccountActive
+}
+export const useIsAccountTrial = (userProfile: IUserProfile): boolean => {
+  let isAccountTrial = false
+
+  if (userProfile && userProfile.Billing && userProfile.Billing.SubscriptionStatus) {
+    if (TRIAL_SUBSCRIPTION_STATUS.includes(userProfile.Billing.SubscriptionStatus)) {
+      isAccountTrial = true
+    }
+  }
+
+  return isAccountTrial
+}
+export const useIsAccountInactive = (userProfile: IUserProfile): boolean => {
+  let isAccountInactive = false
+
+  if (userProfile && userProfile.Billing && userProfile.Billing.SubscriptionStatus) {
+    if (INACTIVE_SUBSCRIPTION_STATUS.includes(userProfile.Billing.SubscriptionStatus)) {
+      isAccountInactive = true
+    }
+  }
+
+  return isAccountInactive
 }
 
 export const useIsHasSubscription = (userProfile: IUserProfile): boolean => {
@@ -294,4 +338,14 @@ export const useUserName = (userProfile: IUserProfile | undefined): string => {
 
 export const useUserPhone = (userProfile: IUserProfile): string => {
   return userProfile?.RegisteredNumber?.PhoneNumber
+}
+
+export const useSubscriptionEndsFromNow = (userProfile: IUserProfile): string => {
+  let subscriptionEndFromNow = ""
+
+  if (userProfile && userProfile.Billing && userProfile.Billing.CurrentPeriodEndTime) {
+    subscriptionEndFromNow = runFormatTimeFromNow(userProfile.Billing.CurrentPeriodEndTime)
+  }
+
+  return subscriptionEndFromNow
 }

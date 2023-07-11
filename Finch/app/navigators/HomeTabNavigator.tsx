@@ -10,12 +10,13 @@ import { translate } from "../i18n"
 
 import { UserAvatar } from "../components/UserAvatar"
 import { UserPhone } from "../components/UserPhone"
+import { AccountStatusBanner } from "../providers/AccountStatusBanner"
 import { ContactsStack } from "../screens/ContactsScreen/ContactsStack"
 import { ConversationsStack } from "../screens/ConversationsScreen/ConversationsStack"
 import { KeypadScreen } from "../screens/KeypadScreen/KeypadScreen"
 import useGetCountUnreadConversations from "../services/api/conversations/queries/useGetCountUnreadConversations"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
-import { colors, HEADER_TITLE_STYLES, spacing } from "../theme"
+import { HEADER_TITLE_STYLES, colors, spacing } from "../theme"
 import { useColor } from "../theme/useColor"
 import { AppDrawerScreenProps } from "./AppDrawerNavigator"
 
@@ -88,7 +89,8 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
         name="ConversationsStack"
         component={ConversationsStack}
         options={{
-          headerShown: false,
+          headerShown: true,
+          header: () => <AccountStatusBanner></AccountStatusBanner>,
           title: "Inbox",
           tabBarAccessibilityLabel: translate("navigator.inboxTab"),
           tabBarLabel: translate("navigator.inboxTab"),

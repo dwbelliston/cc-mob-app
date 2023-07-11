@@ -44,6 +44,8 @@ const en = {
     errorTitle: "Splat!",
     errorDescription: "Something is not working and we are sorry. Please contact us if this persists.",
     ideas: "Here are some ideas (tap to use)",
+    trial: "Trial",
+    inactive: "Inactive",
   },
   error: {
     saving: "Error saving",
@@ -313,7 +315,7 @@ const en = {
   billing: {
     pageHeader: "Details about your subscription",
     pageSubheader:
-      "CurrentClient uses a very popular online payment provider called Stripe to handle all of our billing. We do not store credit cards or charge them.",
+      "View and manage your subscription plan and billing details.",
     billingType: "Billing Type",
     subscriptionStatus: "Subscription Status",
     productName: "Product Name",
@@ -323,8 +325,9 @@ const en = {
     currentBillingIntervalEnd: "Next Invoice Charge",
     canceledAt: "Canceled",
     willCancelAt: "Will Cancel",
-    changePayment: "Change Payment",
+    changePayment: "Edit Payment Method",
     editSubscription: "Edit Subscription",
+    viewInvoices: "View Invoices",
     failedToOpen: "Error Loading",
   },
   crmSync: {

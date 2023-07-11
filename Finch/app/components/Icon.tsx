@@ -87,6 +87,7 @@ import {
   PlusIcon,
   PuzzlePieceIcon,
   QrCodeIcon,
+  ReceiptPercentIcon,
   RectangleGroupIcon,
   RectangleStackIcon,
   RocketLaunchIcon,
@@ -196,6 +197,7 @@ import {
   PlusIcon as PlusIconSolid,
   PuzzlePieceIcon as PuzzlePieceIconSolid,
   QrCodeIcon as QrCodeIconSolid,
+  ReceiptPercentIcon as ReceiptPercentIconSolid,
   RectangleGroupIcon as RectangleGroupIconSolid,
   RectangleStackIcon as RectangleStackIconSolid,
   RocketLaunchIcon as RocketLaunchIconSolid,
@@ -327,6 +329,10 @@ export const iconRegistry = {
   lockOpen: {
     outline: LockOpenIcon,
     solid: LockOpenIconSolid,
+  },
+  receiptPercent: {
+    outline: ReceiptPercentIcon,
+    solid: ReceiptPercentIconSolid,
   },
   arrowPath: {
     outline: ArrowPathIcon,

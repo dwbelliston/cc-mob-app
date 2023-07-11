@@ -11,6 +11,7 @@ import * as WebBrowser from "expo-web-browser"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { PressableActionRow } from "../../components/PressableActionRow"
 import { translate } from "../../i18n"
+import { IBillingPortalConfiguration } from "../../models/Billing"
 import { useCreatePortalSession } from "../../services/api/userprofile/mutations/useCreatePortalSession"
 import { useCustomToast } from "../../utils/useCustomToast"
 import { runFormatTimeWithAt } from "../../utils/useFormatDate"
@@ -23,15 +24,42 @@ export const MySubscriptionScreen: FC<SettingsStackScreenProps<"MySubscription">
 
     const { data: userProfile, isLoading: isLoadingProfile } = useReadUserProfile()
 
-    const { mutateAsync: mutateAsyncPortal } = useCreatePortalSession()
+    // const isHasSubscription = useIsHasSubscription(userProfile)
+    // const isHasPaidAccount = useIsAccountPaid(userProfile)
+    // const isHasTrialAccount = useIsAccountTrial(userProfile)
 
-    const createPortalSession = async () => {
-      const res = await mutateAsyncPortal(null)
+    const { mutateAsync: mutateAsyncPortal, error } = useCreatePortalSession()
 
-      if (res) {
-        WebBrowser.openBrowserAsync(res)
-      } else {
-        toast.warning({ title: translate("billing.failedToOpen") })
+    const handleOnViewMethod = async () => {
+      const configuration: IBillingPortalConfiguration = {
+        IsPaymentMethodPortal: true,
+      }
+      createPortalSession(configuration)
+    }
+
+    const handleOnViewSub = async () => {
+      const configuration: IBillingPortalConfiguration = {}
+      createPortalSession(configuration)
+    }
+
+    const handleOnViewInvoiceHistory = async () => {
+      const configuration: IBillingPortalConfiguration = {
+        IsInvoiceHistoryPortal: true,
+      }
+      createPortalSession(configuration)
+    }
+
+    const createPortalSession = async (configuration: IBillingPortalConfiguration) => {
+      try {
+        const res = await mutateAsyncPortal(configuration)
+
+        if (res) {
+          WebBrowser.openBrowserAsync(res)
+        } else {
+          toast.warning({ title: translate("billing.failedToOpen") })
+        }
+      } catch (e) {
+        toast.error({ title: translate("common.error") })
       }
     }
 
@@ -58,14 +86,21 @@ export const MySubscriptionScreen: FC<SettingsStackScreenProps<"MySubscription">
                   icon={{
                     icon: "creditCard",
                   }}
-                  onPress={createPortalSession}
+                  onPress={handleOnViewMethod}
                 ></PressableActionRow>
                 <PressableActionRow
                   tx="billing.editSubscription"
                   icon={{
                     icon: "pencilSquare",
                   }}
-                  onPress={createPortalSession}
+                  onPress={handleOnViewSub}
+                ></PressableActionRow>
+                <PressableActionRow
+                  tx="billing.viewInvoices"
+                  icon={{
+                    icon: "receiptPercent",
+                  }}
+                  onPress={handleOnViewInvoiceHistory}
                 ></PressableActionRow>
               </Stack>
               <Stack space={spacing.extraSmall} px={spacing.tiny}>
