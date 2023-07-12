@@ -8,12 +8,14 @@ import {
   useSubscriptionEndsFromNow,
 } from "../models/UserProfile"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
+import { useColor } from "../theme/useColor"
 
 export const AccountStatusBanner = (props: any) => {
   const { data: userProfile } = useReadUserProfile()
 
   const navigation = useNavigation<any>()
 
+  const bgMain = useColor("bg.main")
   const isHasInactiveAccount = useIsAccountInactive(userProfile)
   const isHasTrialAccount = useIsAccountTrial(userProfile)
   const subscriptionEndsFromNow = useSubscriptionEndsFromNow(userProfile)
@@ -49,5 +51,5 @@ export const AccountStatusBanner = (props: any) => {
     )
   }
 
-  return null
+  return <View bg={bgMain} style={{ paddingTop: top + 4 }}></View>
 }
