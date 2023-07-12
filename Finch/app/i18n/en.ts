@@ -46,6 +46,7 @@ const en = {
     ideas: "Here are some ideas (tap to use)",
     trial: "Trial",
     inactive: "Inactive",
+    inactiveAccount: "Inactive Account",
   },
   error: {
     saving: "Error saving",

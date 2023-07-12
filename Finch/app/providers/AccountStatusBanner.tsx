@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native"
 import { HStack, Pressable, View } from "native-base"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Text } from "../components"
-import { Badge } from "../components/Badge"
 import {
   useIsAccountInactive,
   useIsAccountTrial,
@@ -28,13 +27,9 @@ export const AccountStatusBanner = (props: any) => {
 
   if (isHasTrialAccount) {
     return (
-      <View bg="primary.700" style={{ paddingTop: top }} px={4} py={4}>
+      <View bg="primary.700" style={{ paddingTop: top + 4 }} px={4} py={4}>
         <Pressable onPress={handleOnPress}>
           <HStack space={4} justifyContent={"center"} alignItems={"center"}>
-            <Badge
-              text={{ fontSize: "xs", fontWeight: "semibold", tx: "common.trial" }}
-              colorScheme={"amber"}
-            />
             <Text text={`Trial ends ${subscriptionEndsFromNow}`} color={"primary.100"}></Text>
           </HStack>
         </Pressable>
@@ -44,14 +39,10 @@ export const AccountStatusBanner = (props: any) => {
 
   if (isHasInactiveAccount) {
     return (
-      <View bg="red.700" style={{ paddingTop: top }} px={4} py={4}>
+      <View bg="red.700" style={{ paddingTop: top + 4 }} px={4} py={4}>
         <Pressable onPress={handleOnPress}>
           <HStack space={4} justifyContent={"center"} alignItems={"center"}>
-            <Badge
-              text={{ fontSize: "xs", fontWeight: "semibold", tx: "common.inactive" }}
-              colorScheme={"red"}
-            />
-            <Text text={"Please renew plan"} color={"red.100"}></Text>
+            <Text tx="common.inactiveAccount" color={"red.100"}></Text>
           </HStack>
         </Pressable>
       </View>
