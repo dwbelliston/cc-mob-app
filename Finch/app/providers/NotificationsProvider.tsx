@@ -85,7 +85,11 @@ export const NotificationsProvider = (props: IProps) => {
   const notificationListener = React.useRef<any>()
   const responseListener = React.useRef<any>()
 
-  const { data: dataCountUnreadConversations } = useGetCountUnreadConversations()
+  const {
+    data: dataCountUnreadConversations,
+    isFetching: isFetchingUnread,
+    isLoading: isLoadingUnread,
+  } = useGetCountUnreadConversations()
 
   // const toast = useCustomToast()
 
@@ -139,7 +143,7 @@ export const NotificationsProvider = (props: IProps) => {
   React.useEffect(() => {
     const unreadCountBadge = parseInt(dataCountUnreadConversations)
     handleSetBadgeCountForeground(unreadCountBadge)
-  }, [dataCountUnreadConversations])
+  }, [dataCountUnreadConversations, isFetchingUnread, isLoadingUnread])
 
   return <>{props.children}</>
 }

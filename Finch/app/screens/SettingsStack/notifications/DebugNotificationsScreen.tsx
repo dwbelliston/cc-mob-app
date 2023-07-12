@@ -69,6 +69,8 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
         },
         body: JSON.stringify(message),
       })
+
+      toast.info({ title: "Sent..." })
     }
 
     const registerForPushNotificationsAsync = async () => {
@@ -154,7 +156,10 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
       }
 
       if (token) {
-        setDebugLog((prevValues) => [...prevValues, { message: "Ready to test!", isSuccess: true }])
+        setDebugLog((prevValues) => [
+          ...prevValues,
+          { message: "Ready to test! Contact us to attempt test.", isSuccess: true },
+        ])
       } else {
         setDebugLog((prevValues) => [
           ...prevValues,
@@ -174,6 +179,7 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
     }
     const runTaskCheck = async () => {
       const isRegistered = await TaskManager.isTaskRegisteredAsync(BACKGROUND_NOTIFICATION_TASK)
+
       setIsBackgroungTaskRunning(isRegistered)
     }
 
