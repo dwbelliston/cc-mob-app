@@ -100,7 +100,8 @@
           "photosPermission": "The app accesses your photos to let you share them with your clients."
         }
       ],
-      "sentry-expo"
+      "sentry-expo",
+      "expo-localization"
     ],
     "extra": {
       "eas": {
@@ -119,7 +120,5 @@
         }
       ]
     }
-
-
   }
 }
