@@ -12,7 +12,7 @@ import {
 import { APIEndpoints } from "./app/services/api/config"
 
 const appConfig = {
-  version: "0.8.1 (Beta)",
+  version: "0.8.2 (Beta)",
   env: REACT_APP_ENV,
   isDev: REACT_APP_ENV === "DEV",
   Auth: {

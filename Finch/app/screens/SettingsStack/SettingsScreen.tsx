@@ -88,7 +88,9 @@ const SETTINGS_LINKS: ISectionData[] = [
       {
         icon: "star",
         tx: "settings.leaveReview",
-        appLink: isIos ? "itms-apps://apps.apple.com/app/id6446603544?action=write-review" : "",
+        appLink: isIos
+          ? "itms-apps://apps.apple.com/app/id6446603544?action=write-review"
+          : "https://play.google.com/store/apps/details?id=com.currentclient.app",
       },
       {
         icon: "arrow-left-on-rectangle",
