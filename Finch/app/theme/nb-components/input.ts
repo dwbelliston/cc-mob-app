@@ -31,7 +31,7 @@ const baseStyle = (props: InterfaceInputProps & { theme: any }) => {
       borderColor: "gray.300",
       bg: "white",
       placeholderTextColor: 'gray.400',
-      color: 'text.800',
+      color: 'gray.800',
       _focus: {
         bg: "primary.50",
         borderColor: 'primary.600',

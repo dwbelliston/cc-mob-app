@@ -35,9 +35,9 @@ export const MenuGroup = {
     _title: {
       fontSize: 'xs',
       textTransform: 'uppercase',
-      color: 'text.500',
+      color: 'gray.500',
       _dark: {
-        color: 'text.400',
+        color: 'gray.400',
       },
     },
     p: 3,
@@ -63,12 +63,12 @@ export const MenuItem = {
       color: 'gray.500',
     },
     _text: {
-      color: 'text.800',
+      color: 'gray.800',
       fontSize: 'md',
     },
     _disabled: {
       _text: {
-        color: 'text.400',
+        color: 'gray.400',
       },
     },
     _hover: {
@@ -93,7 +93,7 @@ export const MenuItem = {
       },
       _disabled: {
         _text: {
-          color: 'text.600',
+          color: 'gray.600',
         },
       },
       _hover: {
