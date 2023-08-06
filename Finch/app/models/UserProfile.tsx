@@ -176,7 +176,7 @@ export interface IUserProfile extends IUserProfileBase {
   // Branding
   BrandImageUrl?: string
   // Number
-  IsPhoneRegistered: boolean
+  IsLegalRegistered: boolean
   RegisteredNumber?: IRegisteredNumber
   MessagingServiceId?: string
   CallForwarding?: ICallForwarding

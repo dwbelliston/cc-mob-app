@@ -1,4 +1,4 @@
-import { HStack } from "native-base"
+import { HStack, Skeleton } from "native-base"
 import { IHStackProps } from "native-base/lib/typescript/components/primitives/Stack/HStack"
 import useReadUserProfile from "../services/api/userprofile/queries/useReadUserProfile"
 
@@ -18,7 +18,7 @@ export const UserPhone = (props: IProps) => {
     <HStack px={spacing.micro} space={2} alignItems="center" {...rest}>
       {!isLoadingProfile ? (
         <>
-          {/* {userProfile?.IsPhoneRegistered ? (
+          {/* {userProfile?.IsLegalRegistered ? (
             <Dot.Success></Dot.Success>
           ) : (
             <Dot.Warning></Dot.Warning>
@@ -34,7 +34,9 @@ export const UserPhone = (props: IProps) => {
             {runFormatPhoneSimple(userProfile?.RegisteredNumber.PhoneNumber)}
           </Text>
         </>
-      ) : null}
+      ) : (
+        <Skeleton h={6} rounded={"lg"} />
+      )}
     </HStack>
   )
 }
