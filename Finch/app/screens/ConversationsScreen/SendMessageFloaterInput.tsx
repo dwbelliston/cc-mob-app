@@ -210,7 +210,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
           textContentType="username"
           placeholderTx="inbox.enterMessage"
           autoCapitalize="sentences"
-          autoComplete="email"
+          autoComplete="off"
           autoCorrect={true}
         ></FormControl>
       </Box>
