@@ -99,6 +99,7 @@ const TextMessageBubble = (props: IProps) => {
               {...textProps}
               key={idx}
               fontFamily="plain"
+              selectable={true}
             >
               {part.message}
             </Text>

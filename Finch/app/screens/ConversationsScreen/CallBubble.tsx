@@ -100,7 +100,7 @@ const CallBubble = (props: IProps) => {
         {callTranscriptionText && (
           <Stack space={1}>
             <Text colorToken="text.soft" preset="label" tx={"inbox.transcript"}></Text>
-            <Text fontFamily={"plain"} text={callTranscriptionText}></Text>
+            <Text fontFamily={"plain"} selectable={true} text={callTranscriptionText}></Text>
           </Stack>
         )}
 
