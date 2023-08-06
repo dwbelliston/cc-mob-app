@@ -53,7 +53,7 @@ export const PhoneDetailsScreen: FC<ManagePhoneStackScreenProps<"PhoneDetails">>
               <LabelValuePill.Boolean
                 label="fieldLabels.registrationStatus"
                 icon="fingerPrint"
-                value={userProfile.IsPhoneRegistered}
+                value={userProfile.IsLegalRegistered}
                 trueTx={"common.complete"}
                 falseTx={"common.inProgress"}
               />
