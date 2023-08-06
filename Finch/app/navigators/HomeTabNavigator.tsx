@@ -10,7 +10,6 @@ import { translate } from "../i18n"
 
 import { UserAvatar } from "../components/UserAvatar"
 import { UserPhone } from "../components/UserPhone"
-import { AccountStatusBanner } from "../providers/AccountStatusBanner"
 import { ContactsStack } from "../screens/ContactsScreen/ContactsStack"
 import { ConversationsStack } from "../screens/ConversationsScreen/ConversationsStack"
 import { KeypadScreen } from "../screens/KeypadScreen/KeypadScreen"
@@ -89,8 +88,8 @@ export const HomeTabNavigator: FC<AppDrawerScreenProps<"Home">> = (_props) => {
         name="ConversationsStack"
         component={ConversationsStack}
         options={{
-          headerShown: true,
-          header: () => <AccountStatusBanner></AccountStatusBanner>,
+          headerShown: false,
+          // header: () => <AccountStatusBanner></AccountStatusBanner>,
           title: "Inbox",
           tabBarAccessibilityLabel: translate("navigator.inboxTab"),
           tabBarLabel: translate("navigator.inboxTab"),
