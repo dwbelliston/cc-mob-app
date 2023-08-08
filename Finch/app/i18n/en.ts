@@ -129,6 +129,8 @@ const en = {
   stream: {
     noMessages: "No Messages",
     noMessagesDescription: "Send a message to start the converstion",
+    transcriptOptions: "Transcript Options",
+    messageOptions: "Message Options",
   },
   broadcasts: {
     viewBroadcast: "View Broadcast",

@@ -2,6 +2,9 @@
 CallBubble
 */
 
+import { useActionSheet } from "@expo/react-native-action-sheet"
+import * as Clipboard from "expo-clipboard"
+import * as Haptics from "expo-haptics"
 import { Box, HStack, IBoxProps, Stack, useColorModeValue } from "native-base"
 import React from "react"
 import { Text } from "../../components"
@@ -9,6 +12,7 @@ import { AudioRecording } from "../../components/AudioRecording"
 import CallDirection from "../../components/CallDirection"
 import { CallDuration } from "../../components/CallDuration"
 import CallStatus from "../../components/CallStatus"
+import { translate } from "../../i18n"
 import { ICall } from "../../models/Call"
 import { colors, spacing } from "../../theme"
 
@@ -46,6 +50,45 @@ const CallBubble = (props: IProps) => {
 
   const bgLeft = useColorModeValue(colors.white, colors.gray[800])
   const borderLeft = useColorModeValue(colors.gray[200], colors.gray[700])
+
+  const { showActionSheetWithOptions } = useActionSheet()
+
+  const onCopyText = async () => {
+    await Clipboard.setStringAsync(callTranscriptionText)
+    Haptics.notificationAsync()
+  }
+
+  // const handleOnLongPress = () => {
+  //   console.log("handleOnLongPress")
+  //   toast.success({ title: "test" })
+  // }
+
+  const handleOnLongPress = () => {
+    Haptics.selectionAsync()
+    const options = ["Copy", "Cancel"]
+    const destructiveButtonIndex = 0
+    const cancelButtonIndex = 1
+
+    showActionSheetWithOptions(
+      {
+        title: translate("stream.transcriptOptions"),
+        options,
+        cancelButtonIndex,
+        // destructiveButtonIndex,
+      },
+      (selectedIndex: number) => {
+        switch (selectedIndex) {
+          case 0:
+            // View Contact
+            onCopyText()
+            break
+
+          case cancelButtonIndex:
+          // Canceled
+        }
+      },
+    )
+  }
 
   return (
     <Box
@@ -100,7 +143,13 @@ const CallBubble = (props: IProps) => {
         {callTranscriptionText && (
           <Stack space={1}>
             <Text colorToken="text.soft" preset="label" tx={"inbox.transcript"}></Text>
-            <Text fontFamily={"plain"} selectable={true} text={callTranscriptionText}></Text>
+            <Text
+              fontFamily={"plain"}
+              // selectable={true}
+              onLongPress={handleOnLongPress}
+              suppressHighlighting={true}
+              text={callTranscriptionText}
+            ></Text>
           </Stack>
         )}
 

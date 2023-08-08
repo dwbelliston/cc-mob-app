@@ -2,8 +2,12 @@
 TextMessageBubble
 */
 
+import { useActionSheet } from "@expo/react-native-action-sheet"
+import * as Clipboard from "expo-clipboard"
+import * as Haptics from "expo-haptics"
 import { Box, IBoxProps, ITextProps, Link, Stack, Text, useColorModeValue } from "native-base"
 import React from "react"
+import { translate } from "../../i18n"
 import { colors } from "../../theme"
 
 interface IProps extends IBoxProps {
@@ -34,6 +38,45 @@ const TextMessageBubble = (props: IProps) => {
   const bgLeft = useColorModeValue(colors.white, colors.gray[800])
   const borderLeft = useColorModeValue(colors.gray[200], colors.gray[700])
   const colorLeft = useColorModeValue(colors.gray[800], colors.white)
+
+  const { showActionSheetWithOptions } = useActionSheet()
+
+  const onCopyText = async () => {
+    await Clipboard.setStringAsync(message)
+    Haptics.notificationAsync()
+  }
+
+  // const handleOnLongPress = () => {
+  //   console.log("handleOnLongPress")
+  //   toast.success({ title: "test" })
+  // }
+
+  const handleOnLongPress = () => {
+    Haptics.selectionAsync()
+    const options = ["Copy", "Cancel"]
+    const destructiveButtonIndex = 0
+    const cancelButtonIndex = 1
+
+    showActionSheetWithOptions(
+      {
+        title: translate("stream.messageOptions"),
+        options,
+        cancelButtonIndex,
+        // destructiveButtonIndex,
+      },
+      (selectedIndex: number) => {
+        switch (selectedIndex) {
+          case 0:
+            // View Contact
+            onCopyText()
+            break
+
+          case cancelButtonIndex:
+          // Canceled
+        }
+      },
+    )
+  }
 
   React.useEffect(() => {
     let messagePartsUpdate: IMessagePart[] = []
@@ -99,7 +142,9 @@ const TextMessageBubble = (props: IProps) => {
               {...textProps}
               key={idx}
               fontFamily="plain"
-              selectable={true}
+              onLongPress={handleOnLongPress}
+              suppressHighlighting={true}
+              // selectable={true}
             >
               {part.message}
             </Text>
