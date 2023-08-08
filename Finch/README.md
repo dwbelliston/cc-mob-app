@@ -139,3 +139,13 @@ https://medium.com/@nickopops/keyboardavoidingview-not-working-properly-c413c0a2
 ## Android Emuluator
 
 try to put the DNS server as 8.8.8.8 and 8.8.4.4
+
+
+
+
+## EAS
+
+https://github.com/expo/eas-cli
+
+
+eas secret:create --scope project --name SENTRY_AUTH_TOKEN --value cda1175605160ee88e648f00d9bbee6db65a82881309b8a785421cd723ede3b8 --type string

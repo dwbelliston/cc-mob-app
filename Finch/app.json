@@ -100,8 +100,8 @@
           "photosPermission": "The app accesses your photos to let you share them with your clients."
         }
       ],
-      "sentry-expo",
-      "expo-localization"
+      "expo-localization",
+      "sentry-expo"
     ],
     "extra": {
       "eas": {
@@ -114,8 +114,7 @@
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
             "organization": "currentclient",
-            "project": "finch",
-            "authToken": false
+            "project": "finch"
           }
         }
       ]
