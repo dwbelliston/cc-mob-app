@@ -136,18 +136,18 @@ const ButterBase = ({
       py={2}
       _light={{
         bg: `${status}.50`,
-        borderColor: `${status}.500`,
+        borderColor: `${status}.200`,
       }}
       _dark={{
         bg: `${status}.900`,
-        borderColor: `${status}.600`,
+        borderColor: `${status}.700`,
       }}
     >
       <HStack space={4} w="full" alignItems={"center"}>
         {/* Icon */}
         <Circle
           shadow={1}
-          p={1}
+          p={0.5}
           borderWidth={2}
           rounded="lg"
           _light={{
