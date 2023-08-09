@@ -65,7 +65,7 @@ const CustomDrawerContent = (props: any) => {
         <Stack space={spacing.extraSmall} px={spacing.tiny}>
           <Box pt={spacing.micro}>
             <HStack space={spacing.tiny} alignItems="center">
-              <UserAvatar onPress={handleOnPressSettings}></UserAvatar>
+              <UserAvatar isShowLoading={true} onPress={handleOnPressSettings}></UserAvatar>
               <Stack flex={1}>
                 <Text
                   colorToken={"text"}
