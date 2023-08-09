@@ -207,7 +207,6 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
           name="message"
           control={control}
           multiline={true}
-          textContentType="username"
           placeholderTx="inbox.enterMessage"
           autoCapitalize="sentences"
           autoComplete="off"
