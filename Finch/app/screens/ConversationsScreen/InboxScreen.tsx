@@ -1,6 +1,6 @@
 import { NavigationProp } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { Box, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
+import { Box, Center, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
@@ -144,6 +144,14 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
     })
   }, [])
 
+  const handleOnViewActive = () => {
+    conversationStore.setInboxView(ConversationStatusEnum.OPEN)
+  }
+
+  const handleOnViewClosed = () => {
+    conversationStore.setInboxView(ConversationStatusEnum.CLOSED)
+  }
+
   const handleOnMarkRead = React.useCallback(async (conversationId: string) => {
     const updates: IConversationUpdate = {
       IsRead: true,
@@ -275,6 +283,40 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
                   icon={conversationStore.noDataIcon}
                   colorScheme={conversationStore.noDataColorScheme}
                 />
+                {conversationStore.inboxSearch ? (
+                  <React.Fragment>
+                    {conversationStore.isViewingOpen && (
+                      <Center key={"ibx-search-open"}>
+                        <Button
+                          onPress={handleOnViewClosed}
+                          size="sm"
+                          variant={"subtle"}
+                          tx={"inbox.searchCompleted"}
+                        ></Button>
+                      </Center>
+                    )}
+                    {conversationStore.isViewingUnread && (
+                      <Center key={"ibx-search-unread"}>
+                        <Button
+                          onPress={handleOnViewActive}
+                          size="sm"
+                          variant={"subtle"}
+                          tx={"inbox.searchActive"}
+                        ></Button>
+                      </Center>
+                    )}
+                    {conversationStore.isViewingClosed && (
+                      <Center key={"ibx-search-closed"}>
+                        <Button
+                          onPress={handleOnViewActive}
+                          size="sm"
+                          variant={"subtle"}
+                          tx={"inbox.searchActive"}
+                        ></Button>
+                      </Center>
+                    )}
+                  </React.Fragment>
+                ) : null}
               </Box>
             )
           }

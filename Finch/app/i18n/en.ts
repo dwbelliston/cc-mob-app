@@ -125,6 +125,8 @@ const en = {
     newMessage: "New Message",
     noDataNewMessageTitle: "No contacts found",
     noDataNewMessageDescription: "You can try a new search or add a new contact",
+    searchCompleted: "Search in completed",
+    searchActive: "Search in active",
   },
   stream: {
     noMessages: "No Messages",
