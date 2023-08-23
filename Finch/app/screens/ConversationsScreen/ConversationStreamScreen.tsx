@@ -9,9 +9,9 @@ import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { ICall } from "../../models/Call"
 import {
-  getConversationContactNumber,
   IConversationItem,
   IConversationUpdate,
+  getConversationContactNumber,
 } from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
@@ -22,9 +22,9 @@ import { colors, spacing } from "../../theme"
 import { runFormatLongTime } from "../../utils/useFormatDate"
 import ConversationDivider from "./ConversationDivider"
 import {
+  PureConversationStreamItem,
   makeConversationStreamItemCall,
   makeConversationStreamItemMessage,
-  PureConversationStreamItem,
 } from "./ConversationStreamItem"
 import { NumberScheduledMessagesButton } from "./NumberScheduledMessagesButton"
 import SendMessageFloaterInput from "./SendMessageFloaterInput"

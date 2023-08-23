@@ -1,6 +1,7 @@
 import { API } from "@aws-amplify/api"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { AxiosError } from "axios"
+import { getConversationId } from "../../../../models/Conversation"
 import { IMessage, IMessageCreate } from "../../../../models/Message"
 import { APIEndpoints } from "../../config"
 import { conversationKeys } from "../conversations"
@@ -54,10 +55,9 @@ const useCreateSendMessage = () => {
       //   // Return a context object with the snapshotted value
       //   return { previousRecord: streamMessage }
       // },
-      onSettled: () => {
-        queryClient.invalidateQueries(conversationKeys.streams(), {
-          exact: false,
-        })
+      onSettled: (data, error, variables) => {
+        const conversationId = getConversationId(variables.UserNumber, variables.ContactNumber)
+        queryClient.refetchQueries(conversationKeys.stream(conversationId, null))
       },
     },
   )
