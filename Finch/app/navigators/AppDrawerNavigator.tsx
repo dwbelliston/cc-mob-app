@@ -10,7 +10,7 @@ import React from "react"
 
 import { DrawerActions, NavigatorScreenParams, useNavigation } from "@react-navigation/native"
 
-import { Box, HStack, Stack, useColorModeValue } from "native-base"
+import { Box, HStack, Skeleton, Stack, useColorModeValue } from "native-base"
 import { Icon, Text } from "../components"
 import { colors, spacing } from "../theme"
 
@@ -50,7 +50,7 @@ const Drawer = createDrawerNavigator<AppDrawerParamList>()
 const CustomDrawerContent = (props: any) => {
   const navigation = useNavigation()
 
-  const { data: userProfile } = useReadUserProfile()
+  const { data: userProfile, isLoading: isLoadingProfile } = useReadUserProfile()
 
   const userNumber = useUserPhone(userProfile)
   const userUserName = useUserName(userProfile)
@@ -66,20 +66,29 @@ const CustomDrawerContent = (props: any) => {
           <Box pt={spacing.micro}>
             <HStack space={spacing.tiny} alignItems="center">
               <UserAvatar isShowLoading={true} onPress={handleOnPressSettings}></UserAvatar>
+
               <Stack flex={1}>
-                <Text
-                  colorToken={"text"}
-                  noOfLines={1}
-                  fontSize="md"
-                  fontWeight={"semibold"}
-                  text={userUserName}
-                ></Text>
-                <Text
-                  noOfLines={1}
-                  fontSize="sm"
-                  colorToken={"text.softer"}
-                  text={userProfile?.CompanyName}
-                ></Text>
+                {!isLoadingProfile ? (
+                  <Text
+                    colorToken={"text"}
+                    noOfLines={1}
+                    fontSize="md"
+                    fontWeight={"semibold"}
+                    text={userUserName}
+                  ></Text>
+                ) : (
+                  <Skeleton h={6} rounded={"lg"} />
+                )}
+                {!isLoadingProfile ? (
+                  <Text
+                    noOfLines={1}
+                    fontSize="sm"
+                    colorToken={"text.softer"}
+                    text={userProfile?.CompanyName}
+                  ></Text>
+                ) : (
+                  <Skeleton w="2/3" mt={1} h={5} rounded={"lg"} />
+                )}
               </Stack>
             </HStack>
           </Box>
