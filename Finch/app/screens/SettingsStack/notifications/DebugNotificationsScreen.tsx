@@ -1,8 +1,8 @@
+import Constants from "expo-constants"
 import * as Device from "expo-device"
 import * as Notifications from "expo-notifications"
 import * as TaskManager from "expo-task-manager"
 import { observer } from "mobx-react-lite"
-
 import { Box, HStack, Stack, View } from "native-base"
 import React, { FC } from "react"
 
@@ -134,7 +134,9 @@ export const DebugNotificationsScreen: FC<SettingsStackScreenProps<"DebugNotific
         ])
 
         try {
-          const res = await Notifications.getExpoPushTokenAsync()
+          const projectId = Constants.expoConfig.extra.eas.projectId
+
+          const res = await Notifications.getExpoPushTokenAsync({ projectId: projectId })
           token = res.data
           setDebugLog((prevValues) => [
             ...prevValues,
