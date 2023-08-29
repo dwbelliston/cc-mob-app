@@ -60,7 +60,8 @@ const en = {
     lastName: "Last Name",
     email: "Email",
     password: "Password",
-    rememberDevice: "Remember login",
+    rememberMe: "Remember me",
+    rememberDevice: "Remember device",
     phone: "Phone",
     oneTimeCode: "One-Time Code",
     message: "Message",
@@ -231,7 +232,7 @@ const en = {
     number: "1 Number",
     pleaseImprovePassword: "Please improve password",
     useLogin:"Use saved login",
-    bioNotAvailable:"BioAuth not supported",
+    bioNotAvailable:"Bio Auth not supported",
   },
   welcomeScreen: {
     postscript: "hey there",
@@ -343,6 +344,8 @@ const en = {
     email: "Username login",
     multiFactorAuth: "Multi-Factor Authentication",
     subscriptionStatus: "Subscription Status",
+    rememberedDevices: "Remembered Devices",
+    forgetThisDevice: "Forget This Device"
   },
   crmSync: {
     pageHeader: "CRM Sync",
@@ -355,6 +358,7 @@ const en = {
     isAllowCreate: "Push new contacts to CRM",
     isAllowUpdate: "Push contact edits to CRM",
     isAllowNotes: "Add conversations as notes to CRM",
+    isAllowSubmission: "Add survey response as a note to CRM",
     edit: "Edit",
     enabled: "Enabled",
     pleaseCreateInDesktop: "Please setup in desktop app",
@@ -478,7 +482,7 @@ const en = {
   scheduledMessages: {
     scheduled: "Scheduled",
     noMessages: "No messages",
-  }
+  },
 }
 
 export default en
