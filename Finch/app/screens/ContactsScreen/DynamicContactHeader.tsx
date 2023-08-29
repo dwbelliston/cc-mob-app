@@ -57,7 +57,7 @@ export const DynamicContactHeader = ({
           paddingTop: topInset,
         }}
         source={imgSrc}
-        resizeMode="cover"
+        resizeMode="repeat"
       >
         <Stack
           h="full"
