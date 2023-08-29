@@ -215,9 +215,8 @@ const en = {
     enterAlt: "Alt Login",
     enterAltDescription:
       "If you have two accounts, you can use use this login form to save your other set of credentials for quick access.",
-      enterVerify: "Verify Login",
-      enterVerifyDescription:
-        "Please enter your secure One-Time Code to verify login.",
+    enterVerify: "Verify Login",
+    enterVerifyDescription: "Please enter your secure One-Time Code to verify login.",
     createAccount: "Create Account",
     enterResetCode: "Have a code already? Enter here",
     forgotPassword: "Forgot password?",
@@ -236,6 +235,8 @@ const en = {
     pleaseImprovePassword: "Please improve password",
     useLogin:"Use saved login",
     bioNotAvailable:"Bio Auth not supported",
+    deviceWillBeRemembered:"Note: Since this device will be remembered you will not need to enter your code every time.",
+    pleaseAddMfa:"Please enter your MFA token",
   },
   welcomeScreen: {
     postscript: "hey there",

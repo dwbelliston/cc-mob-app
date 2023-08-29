@@ -31,7 +31,7 @@ export const VerifyLoginScreen: FC<AppStackScreenProps<"VerifyLogin">> = observe
     const [isSubmitting, setIsSubmitting] = React.useState(false)
 
     const {
-      authenticationStore: { setLoginError, loginError, confirmLogin },
+      authenticationStore: { setLoginError, loginError, confirmLogin, isRememberDevice },
     } = useStores()
 
     // Pull in navigation via hook
@@ -90,8 +90,15 @@ export const VerifyLoginScreen: FC<AppStackScreenProps<"VerifyLogin">> = observe
               <Text
                 colorToken="text.softer"
                 textAlign={"center"}
-                tx="loginScreen.enterVerifyDescription"
+                tx={"loginScreen.enterVerifyDescription"}
               />
+              {isRememberDevice ? (
+                <Text
+                  colorToken="text.softer"
+                  textAlign={"center"}
+                  tx={"loginScreen.deviceWillBeRemembered"}
+                />
+              ) : null}
             </Stack>
             <Stack space={4}>
               <FormControl

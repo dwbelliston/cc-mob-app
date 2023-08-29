@@ -42,6 +42,15 @@ export const AuthenticationStoreModel = types
     setLoginError(loginError: string) {
       store.loginError = loginError
     },
+    setIsRememberDevice(isRememberDevice: boolean) {
+      store.isRememberDevice = isRememberDevice
+    },
+    setChallengeUser(challengeUser: any) {
+      store.challengeUser = challengeUser
+    },
+    setChallengeName(challengeName: string | undefined) {
+      store.challengeName = challengeName
+    },
     async rememberDevice() {
 
       try {
@@ -67,14 +76,13 @@ export const AuthenticationStoreModel = types
     ): Promise<IAuthLoginResponse | undefined> {
       let authRes: IAuthLoginResponse | undefined = undefined
 
-      store.setProp("isRememberDevice", isRememberDevice)
-
       try {
         const user = await Auth.signIn(username, password)
 
         if (user.challengeName === "SMS_MFA" || user.challengeName === "SOFTWARE_TOKEN_MFA") {
-          store.setProp("challengeUser", user)
-          store.setProp("challengeName", user.challengeName)
+          store.setChallengeUser(user)
+          store.setIsRememberDevice(isRememberDevice)
+          store.setChallengeName(user.challengeName)
           authRes = {
             status: "VERIFY",
           }
@@ -83,7 +91,7 @@ export const AuthenticationStoreModel = types
             status: "LOGIN",
           }
 
-          if (store.isRememberDevice) {
+          if (isRememberDevice) {
             await store.rememberDevice()
           } else {
             await store.forgetDevice()
@@ -128,12 +136,15 @@ export const AuthenticationStoreModel = types
           await store.forgetDevice()
         }
 
-        store.setProp("challengeUser", undefined)
         store.setProp("isRememberDevice", undefined)
-        store.setProp("challengeName", undefined)
+        store.setChallengeUser(undefined)
+        store.setChallengeName(undefined)
         store.setProp("loginError", undefined)
         store.setProp("userId", activeUser.username)
       } catch (error: any) {
+        console.error(error)
+        Sentry.Native.captureException(error)
+
         let errorMessage = "Failed login"
 
         if (error.code === "CodeMismatchException") {
