@@ -251,15 +251,15 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
                 <Stack space={spacing.tiny} w="full">
                   <Skeleton w="3/4" rounded={"xl"} h={24}></Skeleton>
                   <HStack space={spacing.micro} alignItems={"center"}>
-                    <Skeleton w={8} h={8} rounded={"full"} />
-                    <Skeleton w={10} h={4} rounded={"xl"} />
+                    <Skeleton w={8} h={8} rounded={"full"} key="v1-loading-stream-001" />
+                    <Skeleton w={10} h={4} rounded={"xl"} key="v1-loading-stream-002" />
                   </HStack>
                 </Stack>
                 <Stack space={spacing.tiny} alignItems={"flex-end"} w="full">
                   <Skeleton w="3/4" rounded={"xl"} h={24}></Skeleton>
                   <HStack space={spacing.micro} alignItems={"center"}>
-                    <Skeleton w={10} h={4} rounded={"xl"} />
-                    <Skeleton w={8} h={8} rounded={"full"} />
+                    <Skeleton w={10} h={4} rounded={"xl"} key="v1-loading-stream-001" />
+                    <Skeleton w={8} h={8} rounded={"full"} key="v1-loading-stream-002" />
                   </HStack>
                 </Stack>
               </Stack>

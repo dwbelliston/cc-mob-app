@@ -43,6 +43,7 @@ import { ConversationStackScreenProps } from "./ConversationsStack"
 export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(function InboxScreen(
   _props,
 ) {
+  const [isProcessingData, setIsProcessingData] = React.useState<boolean>(true)
   const [flatData, setFlatData] = React.useState<IConversationListItemData[]>()
   const [blockCreate, setBlockCreate] = React.useState<IBlockedNumberCreate>()
   const cancelRef = React.useRef<any>(null)
@@ -241,6 +242,7 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
           page.records.flatMap((conversation, idx) => makeConversationListItemData(conversation)),
       )
       setFlatData(flatDataUpdate)
+      setIsProcessingData(false)
     }
   }, [dataConversations])
 
@@ -280,7 +282,7 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
           data={flatData}
           renderItem={renderItem}
           ListEmptyComponent={
-            isLoadingConversations || dataConversations?.pages?.length ? (
+            isLoadingConversations || isProcessingData ? (
               <Box h="full">
                 <Stack
                   px={spacing.tiny}

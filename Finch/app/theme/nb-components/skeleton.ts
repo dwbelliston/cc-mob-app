@@ -2,8 +2,8 @@
 export const Skeleton = {
     baseStyle: () => {
       return {
-        startColor: 'gray.50',
-        endColor: 'gray.100',
+        startColor: 'gray.100',
+        endColor: 'gray.200',
         _dark: {
             startColor: 'gray.800',
             endColor: 'gray.700',
@@ -21,8 +21,8 @@ export const Skeleton = {
   export const SkeletonText = {
     baseStyle: () => {
       return {
-        startColor: 'gray.50',
-        endColor: 'gray.100',
+        startColor: 'gray.100',
+        endColor: 'gray.200',
         _dark: {
             startColor: 'gray.800',
             endColor: 'gray.700',
