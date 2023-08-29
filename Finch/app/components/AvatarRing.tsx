@@ -4,7 +4,7 @@ import {
   Circle,
   IAvatarProps,
   ICircleProps,
-  Spinner,
+  Skeleton,
   useColorModeValue,
 } from "native-base"
 import { ColorType } from "native-base/lib/typescript/components/types"
@@ -58,7 +58,7 @@ export const AvatarRing = (props: IAvatarRingProps) => {
     >
       {isLoading ? (
         <Avatar size="md" bg={bgLoading} {...avatarProps}>
-          <Spinner></Spinner>
+          <Skeleton h={12} w={12} rounded="full"></Skeleton>
         </Avatar>
       ) : (
         <>
