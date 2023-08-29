@@ -1,9 +1,8 @@
 import { Auth } from "@aws-amplify/auth"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import * as Sentry from "sentry-expo"
 import { IAuthLoginResponse } from "./Login"
 import { withSetPropAction } from "./helpers/withSetPropAction"
-
-
 
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
@@ -44,27 +43,31 @@ export const AuthenticationStoreModel = types
       store.loginError = loginError
     },
     async rememberDevice() {
-      console.log('Remember', );
+
       try {
         await Auth.rememberDevice()
       } catch (error: any) {
-        console.log('Remember',error );
+        Sentry.Native.captureException(error)
       }
     },
     async forgetDevice() {
-      console.log('Forget');
+
       try {
         await Auth.forgetDevice()
       } catch (error: any) {
-        console.log('Forget',error );
-
+        Sentry.Native.captureException(error)
       }
     },
   }))
-    .actions((store) => ({
-    async login(username: string, password: string, isRememberDevice: boolean): Promise<IAuthLoginResponse | undefined> {
-      let authRes:IAuthLoginResponse | undefined = undefined
+  .actions((store) => ({
+    async login(
+      username: string,
+      password: string,
+      isRememberDevice: boolean,
+    ): Promise<IAuthLoginResponse | undefined> {
+      let authRes: IAuthLoginResponse | undefined = undefined
 
+      store.setProp("isRememberDevice", isRememberDevice)
 
       try {
         const user = await Auth.signIn(username, password)
@@ -72,14 +75,20 @@ export const AuthenticationStoreModel = types
         if (user.challengeName === "SMS_MFA" || user.challengeName === "SOFTWARE_TOKEN_MFA") {
           store.setProp("challengeUser", user)
           store.setProp("challengeName", user.challengeName)
-          store.setProp("isRememberDevice", isRememberDevice)
           authRes = {
-            status: "VERIFY"
+            status: "VERIFY",
           }
         } else {
           authRes = {
-            status: "LOGIN"
+            status: "LOGIN",
           }
+
+          if (store.isRememberDevice) {
+            await store.rememberDevice()
+          } else {
+            await store.forgetDevice()
+          }
+
           store.setProp("userId", user.username)
           store.setProp("loginError", undefined)
         }
@@ -104,11 +113,8 @@ export const AuthenticationStoreModel = types
       return authRes
     },
     async confirmLogin(code: string, mfaType: "SOFTWARE_TOKEN_MFA" | "SMS_MFA") {
-
       try {
-
         const user = store.challengeUser
-
 
         const activeUser = await Auth.confirmSignIn(
           user, // Return object from Auth.signIn()
@@ -117,9 +123,9 @@ export const AuthenticationStoreModel = types
         )
 
         if (store.isRememberDevice) {
-          store.rememberDevice()
+          await store.rememberDevice()
         } else {
-          store.forgetDevice()
+          await store.forgetDevice()
         }
 
         store.setProp("challengeUser", undefined)
