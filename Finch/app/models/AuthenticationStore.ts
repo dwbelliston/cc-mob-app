@@ -193,7 +193,6 @@ export const AuthenticationStoreModel = types
       const user = await Auth.signOut()
 
       store.setProp("userId", undefined)
-      store.setProp("isRememberDevice", undefined)
       store.setProp("registerError", undefined)
       store.setProp("loginError", undefined)
     },
