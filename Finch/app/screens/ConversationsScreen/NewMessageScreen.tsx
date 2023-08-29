@@ -175,11 +175,14 @@ export const NewMessageScreen: FC<AppStackScreenProps<"NewMessage">> = observer(
       // Update search filters
 
       if (debouncedTextSearch) {
+        // [\w\d\s._@/#&+-]
+        const cleanSearch = debouncedTextSearch.replace(/[^\w\d]/g, "")
+
         let allFilters: IContactFilter[] = [
           {
             field: "Searchable",
             operator: "like",
-            value: debouncedTextSearch.toLowerCase(),
+            value: cleanSearch.toLowerCase(),
           },
         ]
 
