@@ -4,5 +4,6 @@ import { FormControlErrorMessage } from "./form-control"
 import IconButton from "./icon-button"
 import Input from "./input"
 import { Menu, MenuGroup, MenuItem } from "./menu"
+import { Skeleton } from "./skeleton"
 
-export { Badge, Button, IconButton, Input, FormControlErrorMessage, Menu, MenuGroup, MenuItem }
+export { Badge, Button, FormControlErrorMessage, IconButton, Input, Menu, MenuGroup, MenuItem, Skeleton }

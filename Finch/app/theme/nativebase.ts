@@ -4,7 +4,8 @@ import {
   Button,
   FormControlErrorMessage, IconButton, Input,
   Menu, MenuGroup,
-  MenuItem
+  MenuItem,
+  Skeleton
 } from "./nb-components"
 import { typography } from "./typography"
 
@@ -14,7 +15,7 @@ export const finchTheme = {
     initialColorMode: "dark",
   },
   components: {
-    Button,
+    Button,Skeleton,
     Badge,
     Input,
     FormControlErrorMessage,
