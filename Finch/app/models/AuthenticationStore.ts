@@ -17,6 +17,7 @@ export const AuthenticationStoreModel = types
     resetPasswordConfirmError: types.maybe(types.string),
     challengeUser: types.maybe(types.frozen()),
     challengeName: types.maybe(types.string),
+    isRememberDevice: types.maybe(types.boolean),
   })
   .views((store) => ({
     get isAuthenticated() {
@@ -42,8 +43,28 @@ export const AuthenticationStoreModel = types
     setLoginError(loginError: string) {
       store.loginError = loginError
     },
-    async login(username: string, password: string): Promise<IAuthLoginResponse | undefined> {
+    async rememberDevice() {
+      console.log('Remember', );
+      try {
+        await Auth.rememberDevice()
+      } catch (error: any) {
+        console.log('Remember',error );
+      }
+    },
+    async forgetDevice() {
+      console.log('Forget');
+      try {
+        await Auth.forgetDevice()
+      } catch (error: any) {
+        console.log('Forget',error );
+
+      }
+    },
+  }))
+    .actions((store) => ({
+    async login(username: string, password: string, isRememberDevice: boolean): Promise<IAuthLoginResponse | undefined> {
       let authRes:IAuthLoginResponse | undefined = undefined
+
 
       try {
         const user = await Auth.signIn(username, password)
@@ -51,6 +72,7 @@ export const AuthenticationStoreModel = types
         if (user.challengeName === "SMS_MFA" || user.challengeName === "SOFTWARE_TOKEN_MFA") {
           store.setProp("challengeUser", user)
           store.setProp("challengeName", user.challengeName)
+          store.setProp("isRememberDevice", isRememberDevice)
           authRes = {
             status: "VERIFY"
           }
@@ -82,9 +104,11 @@ export const AuthenticationStoreModel = types
       return authRes
     },
     async confirmLogin(code: string, mfaType: "SOFTWARE_TOKEN_MFA" | "SMS_MFA") {
+
       try {
 
         const user = store.challengeUser
+
 
         const activeUser = await Auth.confirmSignIn(
           user, // Return object from Auth.signIn()
@@ -92,7 +116,14 @@ export const AuthenticationStoreModel = types
           mfaType, // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         )
 
+        if (store.isRememberDevice) {
+          store.rememberDevice()
+        } else {
+          store.forgetDevice()
+        }
+
         store.setProp("challengeUser", undefined)
+        store.setProp("isRememberDevice", undefined)
         store.setProp("challengeName", undefined)
         store.setProp("loginError", undefined)
         store.setProp("userId", activeUser.username)
@@ -145,6 +176,7 @@ export const AuthenticationStoreModel = types
       const user = await Auth.signOut()
 
       store.setProp("userId", undefined)
+      store.setProp("isRememberDevice", undefined)
       store.setProp("registerError", undefined)
       store.setProp("loginError", undefined)
     },

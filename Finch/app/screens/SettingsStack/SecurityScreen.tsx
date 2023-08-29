@@ -1,31 +1,105 @@
 import { Auth } from "@aws-amplify/auth"
 import { observer } from "mobx-react-lite"
-import { Box, Spinner, Stack } from "native-base"
+import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
 
-import { Screen, Text } from "../../components"
+import { Button, Icon, Screen, Text } from "../../components"
 import { LabelValuePill } from "../../components/LabelValuePill"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { translate } from "../../i18n"
+import { useStores } from "../../models"
+import { useColor } from "../../theme/useColor"
+import { useCustomToast } from "../../utils/useCustomToast"
 import { SettingsStackScreenProps } from "./SettingsStack"
 
 export const SecurityScreen: FC<SettingsStackScreenProps<"Security">> = observer(
   function MySubscriptionScreen(_props) {
     const [isMfaEnabled, setIsMfaEnabled] = React.useState(false)
+    const [myDevices, setMyDevices] = React.useState([])
     const { bottom: bottomInset } = useSafeAreaInsets()
+
+    const borderColor = useColor("text.softest")
+    const toast = useCustomToast()
+
+    const {
+      authenticationStore: { forgetDevice },
+    } = useStores()
 
     const { data: userProfile, isLoading: isLoadingProfile } = useReadUserProfile()
 
-    const handleSetUser = async () => {
+    const handleSetUser = React.useCallback(async () => {
       const aUser = await Auth.currentAuthenticatedUser()
       setIsMfaEnabled(aUser?.preferredMFA !== "NOMFA")
+    }, [])
+
+    const handleUpdateDevices = async () => {
+      const devices = await Auth.fetchDevices()
+      console.log("devices", devices)
+
+      if (devices) {
+        const updateDevices = []
+        devices.forEach((device) => {
+          const mDevId = device["id"].slice(-5)
+
+          const mFullId = `********${mDevId}`
+
+          const mDevice = {
+            id: mFullId,
+          }
+          updateDevices.push(mDevice)
+        })
+        setMyDevices(updateDevices)
+      }
+    }
+
+    const handleForgetDevice = async () => {
+      try {
+        await forgetDevice()
+        toast.success({ title: translate("security.removedDevice") })
+      } catch (e) {
+        console.log(e)
+      }
+
+      handleUpdateDevices()
     }
 
     React.useEffect(() => {
       handleSetUser(), []
     })
+
+    React.useEffect(
+      () => {
+        console.log("RUND")
+
+        const getDevice = async () => {
+          const devices = await Auth.fetchDevices()
+          console.log("devices", devices)
+
+          if (devices) {
+            const updateDevices = []
+            devices.forEach((device) => {
+              const mDevId = device["id"].slice(-5)
+
+              const mFullId = `********${mDevId}`
+
+              const mDevice = {
+                id: mFullId,
+              }
+              updateDevices.push(mDevice)
+            })
+            setMyDevices(updateDevices)
+          }
+        }
+
+        console.log("hey")
+        getDevice()
+      },
+      [],
+      // handleSetDevices(), []
+    )
 
     return (
       <Screen
@@ -58,6 +132,40 @@ export const SecurityScreen: FC<SettingsStackScreenProps<"Security">> = observer
                   trueText={"Enabled"}
                   falseText={"Disabled"}
                 />
+              </Stack>
+
+              <Stack space={spacing.extraSmall} px={spacing.tiny} pt={spacing.small}>
+                <Text fontSize="lg" preset="subheading" tx="security.rememberedDevices"></Text>
+
+                {myDevices && myDevices.length ? (
+                  <Stack space={spacing.tiny}>
+                    {myDevices.map((myDevice) => (
+                      <HStack
+                        borderWidth={1}
+                        rounded="lg"
+                        borderColor={borderColor}
+                        px={spacing.micro}
+                        key={myDevice.id}
+                        py={spacing.tiny}
+                        overflow={"hidden"}
+                        space={spacing.tiny}
+                      >
+                        <Icon icon="devicePhoneMobile" />
+                        <Text>{myDevice.id}</Text>
+                      </HStack>
+                    ))}
+                    <Button
+                      colorScheme={"red"}
+                      // variant={"outline"}
+                      size="sm"
+                      onPress={handleForgetDevice}
+                      rightIcon={<Icon icon="trash" size={12} />}
+                      tx="security.forgetThisDevice"
+                    ></Button>
+                  </Stack>
+                ) : (
+                  <Text colorToken="text.softer" tx="security.noRememberedDevices"></Text>
+                )}
               </Stack>
             </Stack>
           )}

@@ -344,8 +344,10 @@ const en = {
     email: "Username login",
     multiFactorAuth: "Multi-Factor Authentication",
     subscriptionStatus: "Subscription Status",
+    noRememberedDevices: "No devices remembered on your account.",
     rememberedDevices: "Remembered Devices",
-    forgetThisDevice: "Forget This Device"
+    forgetThisDevice: "Forget This Device",
+    removedDevice: "Removed device",
   },
   crmSync: {
     pageHeader: "CRM Sync",

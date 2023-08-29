@@ -40,13 +40,13 @@ const STORAGE_KEY_PASSWORD = "v1.password"
 type IFormInputs = {
   email: string
   password: string
-  rememberDevice: boolean
+  rememberMe: boolean
 }
 
 const schema = yup.object({
   email: yup.string().required("Required"),
   password: yup.string().required("Required"),
-  rememberDevice: yup.boolean(),
+  rememberMe: yup.boolean(),
 })
 
 export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function LoginScreen(_props) {
@@ -81,17 +81,19 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
     defaultValues: {
       email: "",
       password: "",
-      rememberDevice: true,
+      rememberMe: true,
+      // email: "dustin+wealthbox@currentclient.com",
+      // password: "Mangoes1!",
     },
   })
 
   const onSubmit = async (data: IFormInputs) => {
     resetErrors()
 
-    await secureStorageSave(STORAGE_KEY_REMEMBERLOGIN, data.rememberDevice ? "true" : "false")
+    await secureStorageSave(STORAGE_KEY_REMEMBERLOGIN, data.rememberMe ? "true" : "false")
 
     // If remember device
-    if (data.rememberDevice) {
+    if (data.rememberMe) {
       await secureStorageSave(STORAGE_KEY_USERNAME, data.email)
       await secureStorageSave(STORAGE_KEY_PASSWORD, data.password)
     } else {
@@ -103,7 +105,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
     setAttemptsCount(attemptsCount + 1)
 
     try {
-      const authRes = await login(data.email, data.password)
+      const authRes = await login(data.email, data.password, data.rememberMe)
       setIsSubmitting(false)
 
       if (authRes?.status === "VERIFY") {
@@ -180,7 +182,7 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
 
       const rememberlogin = await secureStorageRead(STORAGE_KEY_REMEMBERLOGIN)
       if (rememberlogin === "true" && compatible) {
-        setValue("rememberDevice", true)
+        setValue("rememberMe", true)
         // handleFillInWithBio()
       }
     })()
@@ -236,10 +238,10 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
             {isBiometricSupported && (
               <HStack justifyContent={"space-between"} alignItems="center">
                 <FormSingleCheckbox
-                  name="rememberDevice"
+                  name="rememberMe"
                   control={control}
                   errors={errors}
-                  labelTx="fieldLabels.rememberDevice"
+                  labelTx="fieldLabels.rememberMe"
                 ></FormSingleCheckbox>
                 <IconButton
                   size="sm"
