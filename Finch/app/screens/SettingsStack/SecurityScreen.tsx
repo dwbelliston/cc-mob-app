@@ -3,13 +3,12 @@ import { observer } from "mobx-react-lite"
 import { Box, HStack, Spinner, Stack } from "native-base"
 import React, { FC } from "react"
 
-import { Button, Icon, Screen, Text } from "../../components"
+import { Icon, Screen, Text } from "../../components"
 import { LabelValuePill } from "../../components/LabelValuePill"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 
 import { useSafeAreaInsets } from "react-native-safe-area-context"
-import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
@@ -54,16 +53,16 @@ export const SecurityScreen: FC<SettingsStackScreenProps<"Security">> = observer
       }
     }
 
-    const handleForgetDevice = async () => {
-      try {
-        await forgetDevice()
-        toast.success({ title: translate("security.removedDevice") })
-      } catch (e) {
-        console.log(e)
-      }
+    // const handleForgetDevice = async () => {
+    //   try {
+    //     await forgetDevice()
+    //     toast.success({ title: translate("security.removedDevice") })
+    //   } catch (e) {
+    //     console.log(e)
+    //   }
 
-      handleUpdateDevices()
-    }
+    //   handleUpdateDevices()
+    // }
 
     React.useEffect(() => {
       handleSetUser(), []
@@ -144,14 +143,14 @@ export const SecurityScreen: FC<SettingsStackScreenProps<"Security">> = observer
                         <Text>{myDevice.id}</Text>
                       </HStack>
                     ))}
-                    <Button
+                    {/* <Button
                       colorScheme={"red"}
                       // variant={"outline"}
                       size="sm"
                       onPress={handleForgetDevice}
                       rightIcon={<Icon icon="trash" size={12} />}
                       tx="security.forgetThisDevice"
-                    ></Button>
+                    ></Button> */}
                   </Stack>
                 ) : (
                   <Text colorToken="text.softer" tx="security.noRememberedDevices"></Text>
