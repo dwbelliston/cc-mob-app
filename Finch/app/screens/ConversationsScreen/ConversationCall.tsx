@@ -26,6 +26,7 @@ export interface IConversationCallProps {
   callDurationTime?: ICall["CallDurationTime"]
   callRecordingUrl?: ICall["RecordingUrl"]
   callTranscriptionText?: ICall["TranscriptionText"]
+  callNote?: ICall["Note"]
   contactId?: string
 }
 
@@ -42,6 +43,7 @@ const ConversationCall = ({
   callDurationTime,
   callRecordingUrl,
   callTranscriptionText,
+  callNote,
   contactId,
 }: IConversationCallProps) => {
   return (
@@ -63,6 +65,7 @@ const ConversationCall = ({
           callDurationTime={callDurationTime}
           callRecordingUrl={callRecordingUrl}
           callTranscriptionText={callTranscriptionText}
+          callNote={callNote}
         />
         {/* Meta */}
         <HStack alignItems={"center"} direction={isUserCall ? "row" : "row-reverse"}>

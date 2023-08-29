@@ -120,6 +120,7 @@ const en = {
     voicemail: "Voicemail",
     recording: "Recording",
     transcript: "Transcript",
+    notes: "Notes",
     contactCard: "Contact Card",
     startOfConversation: "Start of Conversation",
     errorAssigningConversation: "Failed to add contact to conversation",
@@ -133,6 +134,8 @@ const en = {
     noMessages: "No Messages",
     noMessagesDescription: "Send a message to start the converstion",
     transcriptOptions: "Transcript Options",
+    options: "Options",
+    copyOptions: "Copy Options",
     messageOptions: "Message Options",
   },
   broadcasts: {

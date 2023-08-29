@@ -26,6 +26,7 @@ interface IProps extends IBoxProps {
   callDurationTime?: ICall["CallDurationTime"]
   callRecordingUrl?: ICall["RecordingUrl"]
   callTranscriptionText?: ICall["TranscriptionText"]
+  callNote?: ICall["Note"]
 }
 
 const CallBubble = (props: IProps) => {
@@ -38,6 +39,7 @@ const CallBubble = (props: IProps) => {
     callNumberForwardedTo,
     callIsOutsideHours,
     callTranscriptionText,
+    callNote,
     callRecordingUrl,
     ...rest
   } = props
@@ -58,20 +60,55 @@ const CallBubble = (props: IProps) => {
     Haptics.notificationAsync()
   }
 
+  const onCopyNote = async () => {
+    await Clipboard.setStringAsync(callNote)
+    Haptics.notificationAsync()
+  }
+
   // const handleOnLongPress = () => {
   //   console.log("handleOnLongPress")
   //   toast.success({ title: "test" })
   // }
 
-  const handleOnLongPress = () => {
+  const handleOnLongPressNote = () => {
     Haptics.selectionAsync()
-    const options = ["Copy", "Cancel"]
+
+    const options = ["Copy Note", "Cancel"]
     const destructiveButtonIndex = 0
     const cancelButtonIndex = 1
 
     showActionSheetWithOptions(
       {
-        title: translate("stream.transcriptOptions"),
+        title: translate("stream.options"),
+        options,
+        cancelButtonIndex,
+        // destructiveButtonIndex,
+      },
+      (selectedIndex: number) => {
+        switch (selectedIndex) {
+          case 0:
+            // View Contact
+            onCopyText()
+            break
+          case 1:
+            // View Contact
+            onCopyNote()
+            break
+
+          case cancelButtonIndex:
+          // Canceled
+        }
+      },
+    )
+  }
+  const handleOnLongPressTranscript = () => {
+    const options = ["Copy Transcript", "Cancel"]
+    const destructiveButtonIndex = 0
+    const cancelButtonIndex = 1
+
+    showActionSheetWithOptions(
+      {
+        title: translate("stream.options"),
         options,
         cancelButtonIndex,
         // destructiveButtonIndex,
@@ -105,7 +142,7 @@ const CallBubble = (props: IProps) => {
       borderWidth={1}
       {...rest}
     >
-      <Stack space={spacing.micro}>
+      <Stack space={spacing.tiny}>
         <HStack space={spacing.tiny} alignItems="center">
           <Box>
             <CallStatus.Icon status={callStatus} direction={callDirection}></CallStatus.Icon>
@@ -146,7 +183,7 @@ const CallBubble = (props: IProps) => {
             <Text
               fontFamily={"plain"}
               // selectable={true}
-              onLongPress={handleOnLongPress}
+              onLongPress={handleOnLongPressTranscript}
               suppressHighlighting={true}
               text={callTranscriptionText}
             ></Text>
@@ -157,6 +194,19 @@ const CallBubble = (props: IProps) => {
           <Stack space={1}>
             <Text colorToken="text.soft" preset="label" tx={"inbox.recording"}></Text>
             <AudioRecording recordingUrl={callRecordingUrl} />
+          </Stack>
+        )}
+
+        {callNote && (
+          <Stack space={1}>
+            <Text colorToken="text.soft" preset="label" tx={"inbox.notes"}></Text>
+            <Text
+              fontFamily={"plain"}
+              // selectable={true}
+              onLongPress={handleOnLongPressNote}
+              suppressHighlighting={true}
+              text={callNote}
+            ></Text>
           </Stack>
         )}
       </Stack>

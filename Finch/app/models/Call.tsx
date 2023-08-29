@@ -45,6 +45,7 @@ export interface ICall {
   IsForwarded?: boolean
   IsOutsideHours?: boolean
   NumberForwardedTo?: string
+  Note?: string
 }
 
 export interface IPaginatedCalls extends IPaginatedResponse {

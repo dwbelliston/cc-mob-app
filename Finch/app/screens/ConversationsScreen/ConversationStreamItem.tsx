@@ -98,6 +98,7 @@ export const makeConversationStreamItemCall = (
     callDurationTime: call.CallDurationTime,
     callRecordingUrl: call.RecordingUrl,
     callTranscriptionText: call.TranscriptionText,
+    callNote: call.Note,
   }
 }
 
