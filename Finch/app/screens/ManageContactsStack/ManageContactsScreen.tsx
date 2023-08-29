@@ -42,7 +42,7 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
     tx: "contacts.crmSync",
     colorScheme: "emerald",
     navigateScreen: "CrmSync",
-    isNew: true,
+    // isNew: true,
   },
   {
     icon: "tag",

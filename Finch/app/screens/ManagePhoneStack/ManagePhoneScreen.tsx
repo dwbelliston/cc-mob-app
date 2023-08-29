@@ -48,14 +48,14 @@ const LIBRARY_LINKS: ISectionDataItem[] = [
     tx: "phoneSettings.businessHours",
     colorScheme: "blue",
     navigateScreen: "BusinessHours",
-    isNew: true,
+    // isNew: true,
   },
   {
     icon: "bolt",
     tx: "phoneSettings.autoReplies",
     colorScheme: "amber",
     navigateScreen: "AutoReplies",
-    isNew: true,
+    // isNew: true,
   },
   {
     icon: "inbox",
