@@ -37,7 +37,6 @@ export const SecurityScreen: FC<SettingsStackScreenProps<"Security">> = observer
 
     const handleUpdateDevices = async () => {
       const devices = await Auth.fetchDevices()
-      console.log("devices", devices)
 
       if (devices) {
         const updateDevices = []
@@ -70,36 +69,27 @@ export const SecurityScreen: FC<SettingsStackScreenProps<"Security">> = observer
       handleSetUser(), []
     })
 
-    React.useEffect(
-      () => {
-        console.log("RUND")
+    React.useEffect(() => {
+      const getDevice = async () => {
+        const devices = await Auth.fetchDevices()
 
-        const getDevice = async () => {
-          const devices = await Auth.fetchDevices()
-          console.log("devices", devices)
+        if (devices) {
+          const updateDevices = []
+          devices.forEach((device) => {
+            const mDevId = device["id"].slice(-5)
 
-          if (devices) {
-            const updateDevices = []
-            devices.forEach((device) => {
-              const mDevId = device["id"].slice(-5)
+            const mFullId = `********${mDevId}`
 
-              const mFullId = `********${mDevId}`
-
-              const mDevice = {
-                id: mFullId,
-              }
-              updateDevices.push(mDevice)
-            })
-            setMyDevices(updateDevices)
-          }
+            const mDevice = {
+              id: mFullId,
+            }
+            updateDevices.push(mDevice)
+          })
+          setMyDevices(updateDevices)
         }
-
-        console.log("hey")
-        getDevice()
-      },
-      [],
-      // handleSetDevices(), []
-    )
+      }
+      getDevice()
+    }, [])
 
     return (
       <Screen
