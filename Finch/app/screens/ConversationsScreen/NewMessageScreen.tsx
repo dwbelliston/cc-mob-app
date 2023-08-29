@@ -76,6 +76,8 @@ const PressableContact = ({ contact, ...rest }: IPressableContactProps) => {
             innerRingColor={cardBg}
             initials={getInitials(`${contact.FirstName} ${contact.LastName}`)}
             avatarProps={{ size: "sm" }}
+            contactId={contact.ContactId}
+            contactSource={contact.SourceType}
             onPress={handleOnPress}
           ></ContactAvatar>
 
@@ -176,7 +178,16 @@ export const NewMessageScreen: FC<AppStackScreenProps<"NewMessage">> = observer(
 
       if (debouncedTextSearch) {
         // [\w\d\s._@/#&+-]
-        const cleanSearch = debouncedTextSearch.replace(/[^\w\d]/g, "")
+
+        // Clean for search by name
+        let cleanSearch = debouncedTextSearch.replace(/[^\w\d\s]/g, "")
+
+        // If a number is in here, they are prob searhcing by number
+        if (/\d/.test(debouncedTextSearch)) {
+          console.log("SERCH BY NUMBER", debouncedTextSearch)
+
+          cleanSearch = debouncedTextSearch.replace(/[^\w\d]/g, "")
+        }
 
         let allFilters: IContactFilter[] = [
           {
