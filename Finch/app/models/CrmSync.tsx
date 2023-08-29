@@ -9,6 +9,7 @@ export interface ICrmSync extends ICrmSyncUpdate {
   IsAllowCreate: boolean
   IsAllowUpdate: boolean
   IsAllowNotes: boolean
+  IsAllowSubmissionNote?: boolean
   ConnectorId: string
 }
 

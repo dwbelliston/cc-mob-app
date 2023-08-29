@@ -23,12 +23,13 @@ import { SettingsStackScreenProps } from "../../SettingsStack/SettingsStack"
 import { EditCRMSyncEnabledForm, IEditCRMSyncEnabledFormInput } from "./EditCRMSyncEnabledForm"
 
 const SUPPORTED_CRM_URLS = [
-  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/agencybloc_logo.png",
-  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/agentcore_logo.png",
-  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/hubspot_logo.png",
-  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/radiusbob_logo.png",
-  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/redtail_logo.png",
   "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/wealthbox_logo.png",
+  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/medicarepro_logo.png",
+  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/redtail_logo.png",
+  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/hubspot_logo.png",
+  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/agentcore_logo.png",
+  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/radiusbob_logo.png",
+  "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/agencybloc_logo.png",
 ]
 
 enum EditFormModeEnum {
@@ -152,6 +153,11 @@ export const CrmSyncScreenBase: FC<SettingsStackScreenProps<"MySubscription">> =
                         label="crmSync.isAllowNotes"
                         icon="settings"
                         value={dataCrmSync && dataCrmSync?.IsAllowNotes}
+                      />
+                      <LabelValuePill.Boolean
+                        label="crmSync.isAllowSubmission"
+                        icon="settings"
+                        value={dataCrmSync && dataCrmSync?.IsAllowSubmissionNote}
                       />
                     </>
                   ) : null}
