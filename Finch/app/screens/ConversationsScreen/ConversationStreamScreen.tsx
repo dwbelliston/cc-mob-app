@@ -1,6 +1,6 @@
 import { useHeaderHeight } from "@react-navigation/elements"
 import { observer } from "mobx-react-lite"
-import { Box, SectionList, useColorModeValue } from "native-base"
+import { Box, HStack, SectionList, Skeleton, Stack, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 
 import { Screen, Text } from "../../components"
@@ -240,10 +240,29 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           renderItem={renderItem}
           renderSectionHeader={renderSectionHeader}
           ListEmptyComponent={
-            isLoadingStream && !isError ? (
-              <Box px={spacing.tiny} py={spacing.small} h="full">
-                <Text textAlign={"center"} colorToken="text.softer" tx="common.oneMoment"></Text>
-              </Box>
+            (isLoadingStream && !isError) || dataStreamItems?.pages?.length ? (
+              <Stack
+                px={spacing.tiny}
+                py={spacing.tiny}
+                h="full"
+                space={spacing.tiny}
+                justifyContent={"flex-end"}
+              >
+                <Stack space={spacing.tiny} w="full">
+                  <Skeleton w="3/4" rounded={"xl"} h={24}></Skeleton>
+                  <HStack space={spacing.micro} alignItems={"center"}>
+                    <Skeleton w={8} h={8} rounded={"full"} />
+                    <Skeleton w={10} h={4} rounded={"xl"} />
+                  </HStack>
+                </Stack>
+                <Stack space={spacing.tiny} alignItems={"flex-end"} w="full">
+                  <Skeleton w="3/4" rounded={"xl"} h={24}></Skeleton>
+                  <HStack space={spacing.micro} alignItems={"center"}>
+                    <Skeleton w={10} h={4} rounded={"xl"} />
+                    <Skeleton w={8} h={8} rounded={"full"} />
+                  </HStack>
+                </Stack>
+              </Stack>
             ) : (
               <Box px={spacing.tiny} py={spacing.small} h="full">
                 <DataStatus

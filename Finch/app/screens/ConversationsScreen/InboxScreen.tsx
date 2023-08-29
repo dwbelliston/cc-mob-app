@@ -1,6 +1,16 @@
 import { NavigationProp } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
-import { Box, Center, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
+import {
+  Box,
+  Center,
+  Divider,
+  Fab,
+  FlatList,
+  Skeleton,
+  Stack,
+  useColorModeValue,
+  View,
+} from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
@@ -230,7 +240,6 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
         (page, idx) =>
           page.records.flatMap((conversation, idx) => makeConversationListItemData(conversation)),
       )
-
       setFlatData(flatDataUpdate)
     }
   }, [dataConversations])
@@ -271,9 +280,20 @@ export const InboxScreen: FC<ConversationStackScreenProps<"Inbox">> = observer(f
           data={flatData}
           renderItem={renderItem}
           ListEmptyComponent={
-            isLoadingConversations ? (
-              <Box px={spacing.tiny} py={spacing.small} h="full">
-                <Text textAlign={"center"} colorToken="text.softer" tx="common.oneMoment"></Text>
+            isLoadingConversations || dataConversations?.pages?.length ? (
+              <Box h="full">
+                <Stack
+                  px={spacing.tiny}
+                  py={spacing.micro}
+                  h="full"
+                  space={spacing.tiny}
+                  justifyContent={"flex-end"}
+                >
+                  <Skeleton rounded={"xl"} h={20}></Skeleton>
+                  <Skeleton rounded={"xl"} h={20}></Skeleton>
+                  <Skeleton rounded={"xl"} h={20}></Skeleton>
+                  <Skeleton rounded={"xl"} h={20}></Skeleton>
+                </Stack>
               </Box>
             ) : (
               <Box px={spacing.tiny} py={spacing.small} h="full">
