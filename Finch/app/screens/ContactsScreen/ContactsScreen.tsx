@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite"
-import { Box, Divider, Fab, FlatList, useColorModeValue, View } from "native-base"
+import { Box, Divider, Fab, FlatList, Skeleton, Stack, useColorModeValue, View } from "native-base"
 import React, { FC } from "react"
 import { useDebounce } from "use-debounce"
 
 import * as MailComposer from "expo-mail-composer"
-import { Icon, Screen, Text } from "../../components"
+import { Icon, Screen } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
 import { useStores } from "../../models"
 import { IContactFilter } from "../../models/Contact"
@@ -26,6 +26,7 @@ import { ContactsStackScreenProps } from "./ContactsStack"
 
 export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = observer(
   function ContactsScreen(_props) {
+    const [isProcessingData, setIsProcessingData] = React.useState<boolean>(true)
     const [isEmailEnabled, setIsEmailEnabled] = React.useState<boolean>(false)
     const [flatData, setFlatData] = React.useState<IContactListItemData[]>()
 
@@ -163,6 +164,7 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
         )
 
         setFlatData(flatDataUpdate)
+        setIsProcessingData(false)
       }
     }, [dataContacts])
 
@@ -223,13 +225,20 @@ export const ContactsScreen: FC<ContactsStackScreenProps<"ContactsList">> = obse
             data={flatData}
             renderItem={renderItem}
             ListEmptyComponent={
-              isLoadingContacts ? (
-                <Box px={spacing.tiny} py={spacing.small} h="full">
-                  <Text
-                    textAlign={"center"}
-                    colorToken="text.softer"
-                    tx="contacts.loadingContacts"
-                  ></Text>
+              isLoadingContacts || isProcessingData ? (
+                <Box h="full">
+                  <Stack
+                    px={spacing.tiny}
+                    py={spacing.micro}
+                    h="full"
+                    space={spacing.tiny}
+                    justifyContent={"flex-end"}
+                  >
+                    <Skeleton rounded={"xl"} h={20}></Skeleton>
+                    <Skeleton rounded={"xl"} h={20}></Skeleton>
+                    <Skeleton rounded={"xl"} h={20}></Skeleton>
+                    <Skeleton rounded={"xl"} h={20}></Skeleton>
+                  </Stack>
                 </Box>
               ) : (
                 <Box px={spacing.tiny} py={spacing.small} h="full">
