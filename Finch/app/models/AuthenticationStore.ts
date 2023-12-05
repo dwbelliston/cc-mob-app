@@ -4,6 +4,11 @@ import * as Sentry from "sentry-expo"
 import { IAuthLoginResponse } from "./Login"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 
+const AuthChallenge = types.model({
+  username: types.string,
+  password: types.string
+})
+
 export const AuthenticationStoreModel = types
   .model("AuthenticationStore")
   .props({
@@ -14,7 +19,7 @@ export const AuthenticationStoreModel = types
     validateError: types.maybe(types.string),
     resetPasswordError: types.maybe(types.string),
     resetPasswordConfirmError: types.maybe(types.string),
-    challengeUser: types.maybe(types.frozen()),
+    challengeUser: types.maybe(AuthChallenge),
     challengeName: types.maybe(types.string),
     isRememberDevice: types.maybe(types.boolean),
   })
@@ -80,7 +85,7 @@ export const AuthenticationStoreModel = types
         const user = await Auth.signIn(username, password)
 
         if (user.challengeName === "SMS_MFA" || user.challengeName === "SOFTWARE_TOKEN_MFA") {
-          store.setChallengeUser(user)
+          store.setChallengeUser({username, password})
           store.setIsRememberDevice(isRememberDevice)
           store.setChallengeName(user.challengeName)
           authRes = {
@@ -122,10 +127,12 @@ export const AuthenticationStoreModel = types
     },
     async confirmLogin(code: string, mfaType: "SOFTWARE_TOKEN_MFA" | "SMS_MFA") {
       try {
-        const user = store.challengeUser
+        const challengeUserCreds = store.challengeUser
+
+        const userSesh = await Auth.signIn(challengeUserCreds.username, challengeUserCreds.password)
 
         const activeUser = await Auth.confirmSignIn(
-          user, // Return object from Auth.signIn()
+          userSesh, // Return object from Auth.signIn()
           code, // Confirmation code
           mfaType, // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
         )
