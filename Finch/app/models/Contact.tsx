@@ -85,6 +85,7 @@ export const CRM_LOGO_MAP = {
 export interface IContactBase {
   FirstName: string
   LastName: string
+  Nickname?: string
   Phone: string
   Email?: string
   Address1?: string

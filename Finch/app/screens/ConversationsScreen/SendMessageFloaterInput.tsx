@@ -173,6 +173,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
           messageBodyUpdate,
           dataContact.FirstName,
           dataContact.LastName,
+          dataContact.Nickname,
         )
       } else {
         messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Client", "Friend")
