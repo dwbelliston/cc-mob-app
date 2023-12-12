@@ -8,6 +8,7 @@ export enum APIEndpoints {
   authenticatedCampaigns = "authenticatedCampaigns",
   private = "private",
   public = "public",
+  teamMembers = "teamMembers",
 }
 
 enum QueryKeysEnum {

@@ -6,6 +6,8 @@ const en = {
     myNumber: "My Number",
     mySubscription: "My Subscription",
     myCCNumber: "CurrentClient Number",
+    invited: "Invited",
+    admin: "Admin",
     loading: "Loading...",
     oneMoment: "One moment...",
     reset: "Reset",
@@ -293,6 +295,7 @@ const en = {
     myPhone: "My Phone",
     mySubscription: "My Subscription",
     helpCenter: "Help Center",
+    team: "Team",
     security: "Security",
     business: "Resources",
     privacy: "Privacy",
@@ -352,6 +355,12 @@ const en = {
     rememberedDevices: "Remembered Devices",
     forgetThisDevice: "Forget This Device",
     removedDevice: "Removed device",
+  },
+  team: {
+    pageHeader: "Team Members",
+    pageSubheader:
+      "You can manage your team members in the desktop app",
+    noTeamMembers: "No team members",
   },
   crmSync: {
     pageHeader: "CRM Sync",

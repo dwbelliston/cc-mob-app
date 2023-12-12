@@ -55,6 +55,11 @@ const SETTINGS_LINKS: ISectionData[] = [
         navigateScreen: "Security",
       },
       {
+        icon: "contacts",
+        tx: "settings.team",
+        navigateScreen: "Team",
+      },
+      {
         icon: "bellAlert",
         tx: "settings.notifications",
         navigateScreen: "Notifications",

@@ -129,6 +129,7 @@ export interface IActiveSubscriptionFeatures {
   IsTextBroadcastActive: boolean
   IsVoicemailDropActive: boolean
   IsVoiceActive?: boolean
+  IsTeamsActive: boolean
 }
 
 export interface ICallForwarding {
@@ -165,6 +166,8 @@ export interface IUserProfileBase {
   City?: string
   State?: string
   Zip?: string
+  IsTeamMember?: boolean // if team member account, we do things different
+  TeamMemberUserId?: string // if team member account, this is the cognito user id for the team member
 }
 
 export interface IUserProfile extends IUserProfileBase {
@@ -175,14 +178,23 @@ export interface IUserProfile extends IUserProfileBase {
   Billing: IBilling
   // Branding
   BrandImageUrl?: string
+  // Integrations?: IIntegrations;
   // Number
-  IsLegalRegistered: boolean
   RegisteredNumber?: IRegisteredNumber
   MessagingServiceId?: string
-  CallForwarding?: ICallForwarding
   Milestones?: IMilestones
-  // Governance?: { [organizationId: string]: IUserGovernance }
+  // Governance?: { [organizationId: string]: IUserGovernance };
+  // Legal
+  IsLegalSubmitted?: boolean
+  IsLegalProcessing?: boolean
+  IsLegalRegistered?: boolean
   IsDeleteRequested?: boolean
+  // Some additional vals for the member users
+  AdminEmail?: string
+  AdminFirstName?: string
+  AdminLastName?: string
+  AdminBrandImageUrl?: string
+  AdminImageUrl?: string
 }
 
 export interface IUserProfileCallForwardingForm {
@@ -290,19 +302,6 @@ export const useIsHasPhone = (userProfile: IUserProfile): boolean => {
   return isHasPhone
 }
 
-export const useIsHasCallForwarding = (userProfile: IUserProfile): boolean => {
-  let isHasCallForwarding = false
-
-  if (
-    userProfile?.CallForwarding?.NumberForwardTo &&
-    userProfile?.CallForwarding?.IsOnboardingConfirm
-  ) {
-    isHasCallForwarding = true
-  }
-
-  return isHasCallForwarding
-}
-
 export const useIsHasCompletedOnboarding = (userProfile: IUserProfile): boolean => {
   let isHasCompletedOnboarding = false
 
@@ -348,4 +347,62 @@ export const useSubscriptionEndsFromNow = (userProfile: IUserProfile): string =>
   }
 
   return subscriptionEndFromNow
+}
+
+export const runGetDefaultAdminUserName = (userProfile?: IUserProfile): string | undefined => {
+  // If its a teammember, the admins name is on the profile
+  // if its not an admin, then its just the profile name
+  let userName
+
+  if (userProfile) {
+    if (userProfile.IsTeamMember) {
+      userName = `${userProfile.AdminFirstName} ${userProfile.AdminLastName}`
+    } else {
+      userName = `${userProfile.FirstName} ${userProfile.LastName}`
+    }
+  }
+
+  return userName
+}
+
+export const runGetTeammemberUserId = (userProfile?: IUserProfile): string | undefined => {
+  let teammemberUserId = userProfile?.UserId
+
+  if (userProfile && userProfile.IsTeamMember) {
+    teammemberUserId = userProfile.TeamMemberUserId
+  }
+
+  return teammemberUserId
+}
+
+export const runGetDefaultAdminBrandImageUrl = (userProfile?: IUserProfile): string | undefined => {
+  // If its a teammember, the admins name is on the profile
+  // if its not an admin, then its just the profile name
+  let brandImageUrl = userProfile?.BrandImageUrl
+
+  if (userProfile && userProfile.IsTeamMember) {
+    brandImageUrl = userProfile.AdminBrandImageUrl
+  }
+
+  return brandImageUrl
+}
+
+export const runGetUserName = (userProfile?: IUserProfile): string | undefined => {
+  let userName
+
+  if (userProfile) {
+    userName = `${userProfile.FirstName} ${userProfile.LastName}`
+  }
+
+  return userName
+}
+
+export const useIsAdminMember = (userProfile?: IUserProfile): boolean => {
+  let isAdmin = true
+
+  if (userProfile?.IsTeamMember) {
+    isAdmin = false
+  }
+
+  return isAdmin
 }

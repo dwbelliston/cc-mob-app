@@ -14,6 +14,7 @@ import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
 import { SecurityScreen } from "./SecurityScreen"
 import { SettingsScreen } from "./SettingsScreen"
+import { TeamScreen } from "./TeamScreen"
 import { DebugNotificationsScreen } from "./notifications/DebugNotificationsScreen"
 import { NotificationsScreen } from "./notifications/NotificationsScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
@@ -23,6 +24,7 @@ export type SettingsStackParamList = {
   Profile: undefined
   DeleteAccount: undefined
   MySubscription: undefined
+  Team: undefined
   Security: undefined
   Notifications: undefined
   DebugNotifications: undefined
@@ -118,6 +120,16 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
         }}
       />
 
+      <Stack.Screen
+        name={"Team"}
+        component={TeamScreen}
+        options={{
+          headerTitle: translate("settings.team"),
+          headerStyle: {
+            backgroundColor: headerBg,
+          },
+        }}
+      />
       <Stack.Screen
         name={"Security"}
         component={SecurityScreen}

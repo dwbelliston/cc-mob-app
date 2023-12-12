@@ -89,6 +89,10 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: "error.600",
     dark: "error.300",
   },
+  "error.soft": {
+    light: "error.500",
+    dark: "error.400",
+  },
   warning: {
     light: "warning.600",
     dark: "warning.300",
