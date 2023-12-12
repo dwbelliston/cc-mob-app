@@ -4,6 +4,14 @@ export interface BusinessHourDaySchedule {
   start: string | null // 0830
   end: string | null // 2200
 }
+
+export enum AutorepliesEditFormModeEnum {
+  HOURS_MESSAGE = "HOURS_MESSAGE",
+  HOURS_CALL = "HOURS_CALL",
+  AWAY_MESSAGE = "AWAY_MESSAGE",
+  AWAY_CALL = "AWAY_CALL",
+}
+
 export const TIMEZONES = [
   { label: "Honolulu", value: "Pacific/Honolulu" },
   { label: "Anchorage", value: "America/Anchorage" },

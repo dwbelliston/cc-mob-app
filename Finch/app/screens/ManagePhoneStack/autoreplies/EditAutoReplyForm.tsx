@@ -12,8 +12,8 @@ import { BottomSheetFormControl } from "../../../components/FormControl"
 
 import { Text } from "../../../components"
 import { MessageOptionPressable } from "../../../components/MessageOptionPressable"
+import { AutorepliesEditFormModeEnum } from "../../../models/CallFlow"
 import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
-import { EditFormModeEnum } from "./AutoRepliesScreen"
 
 export interface IAutoReplyWorkingForm {
   IsEnabled: boolean
@@ -22,7 +22,7 @@ export interface IAutoReplyWorkingForm {
 
 interface IProps {
   data: IAutoReplyWorkingForm
-  editMode: EditFormModeEnum
+  editMode: AutorepliesEditFormModeEnum
   onSubmit: (data: IAutoReplyWorkingForm) => void
 }
 
@@ -63,7 +63,7 @@ export const EditAutoReplyForm = React.forwardRef<FormHandle, IProps>(
     React.useEffect(() => {
       let messageIdeaUpdate = []
       // Edit during message
-      if (EditFormModeEnum.HOURS_MESSAGE === editMode) {
+      if (AutorepliesEditFormModeEnum.HOURS_MESSAGE === editMode) {
         messageIdeaUpdate = [
           "We got your message and will be right with you!",
           "Thanks for messaging us, we will be right with you.",
@@ -71,7 +71,7 @@ export const EditAutoReplyForm = React.forwardRef<FormHandle, IProps>(
         ]
       }
       // Edit during call
-      else if (EditFormModeEnum.HOURS_CALL === editMode) {
+      else if (AutorepliesEditFormModeEnum.HOURS_CALL === editMode) {
         messageIdeaUpdate = [
           "Thanks for calling. Give me a second and I'll be right with you.",
           "Sorry I missed you call! I can return it in a moment, or if its easier you can message me here.",
@@ -79,14 +79,14 @@ export const EditAutoReplyForm = React.forwardRef<FormHandle, IProps>(
         ]
       }
       // Edit away message
-      else if (EditFormModeEnum.AWAY_MESSAGE === editMode) {
+      else if (AutorepliesEditFormModeEnum.AWAY_MESSAGE === editMode) {
         messageIdeaUpdate = [
           "Thanks for messaging us! We are away right now. Once we get back we will be right with you.",
           "Hey thanks for messaging us. We are out of the office, but will respond once we return!",
         ]
       }
       // Edit away call
-      else if (EditFormModeEnum.AWAY_CALL === editMode) {
+      else if (AutorepliesEditFormModeEnum.AWAY_CALL === editMode) {
         messageIdeaUpdate = [
           "Thanks for calling us! We are away right now. Once we get back we will be right with you.",
           "Hey sorry we missed your call. We are away from the office right now, but will respond once we return!",
