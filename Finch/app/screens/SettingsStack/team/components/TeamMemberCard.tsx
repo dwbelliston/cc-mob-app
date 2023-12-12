@@ -54,10 +54,9 @@ export const TeamMemberCard = ({ teamMember }: ITeamMemberCardProps) => {
           <Avatar.Badge bg={`${badgeColor}.500`} />
         </Avatar>
         <Stack space={0} flex={1}>
-          <HStack space={4} alignItems={"center"} flex={1}>
+          <HStack space={4} alignItems={"center"} flex={1} flexWrap="wrap">
             {teamMember.FirstName ? (
               <Text
-                flex={1}
                 noOfLines={1}
                 fontSize="lg"
               >{`${teamMember.FirstName} ${teamMember.LastName}`}</Text>
