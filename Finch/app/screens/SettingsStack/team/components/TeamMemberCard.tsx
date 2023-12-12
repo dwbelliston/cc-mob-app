@@ -25,7 +25,7 @@ export const TeamMemberCard = ({ teamMember }: ITeamMemberCardProps) => {
   return (
     <HStack
       space={4}
-      px={6}
+      px={4}
       py={4}
       justifyContent="space-between"
       borderWidth={1}
