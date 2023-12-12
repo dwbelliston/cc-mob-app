@@ -14,6 +14,7 @@ import {
   getConversationIsLastAMessage,
   getConversationLastMessage,
   IConversation,
+  runGetLatestConversationTimestamp,
 } from "../../models/Conversation"
 import { getAvatarColor, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
@@ -27,6 +28,7 @@ import { ContactAvatar } from "../../components/ContactAvatar"
 import { Dot } from "../../components/Dot"
 import { AppStackParamList } from "../../navigators"
 import { getInitials } from "../../utils/getInitials"
+import ConversationViewers from "./ConversationViewers"
 
 const CARD_MARGIN = spacing.tiny
 
@@ -67,6 +69,8 @@ export interface IConversationListItemData {
   isIncoming: boolean
   isMessage: boolean
   isCall: boolean
+  latestConversationTime: string
+  viewers: IConversation["Viewers"]
 }
 
 export interface IConversationListItem extends IConversationListItemData {
@@ -121,6 +125,8 @@ export const makeConversationListItemData = (
   const isClosed = conversation.Status === ConversationStatusEnum.CLOSED
   const contactName = conversation.ContactName
   const contactId = conversation.ContactId
+  const viewers = conversation.Viewers
+  const latestConversationTime = runGetLatestConversationTimestamp(conversation)
 
   return {
     conversationId,
@@ -135,6 +141,8 @@ export const makeConversationListItemData = (
     conversationMessage,
     isIncoming,
     isMessage,
+    viewers,
+    latestConversationTime,
     isCall,
   }
 }
@@ -267,9 +275,11 @@ const ConversationListItem = ({
   contactId,
   conversationNumber,
   conversationMessage,
+  latestConversationTime,
   isIncoming,
   isMessage,
   isCall,
+  viewers,
   onViewConversation,
   onBlock,
   onViewContact,
@@ -299,6 +309,7 @@ const ConversationListItem = ({
     closeSwipeable()
     onMarkUnread(conversationId)
   }
+
   const handleOnBlock = () => {
     closeSwipeable()
     onBlock(conversationNumber)
@@ -372,8 +383,14 @@ const ConversationListItem = ({
               contactId={contactId}
               // avatarColor={avatarColor}
               initials={initials}
-              avatarProps={{ size: "sm" }}
-              sourceBadge={!isRead ? <Dot.Error size="md" /> : null}
+              avatarProps={{ size: "md" }}
+              sourceBadge={
+                !isRead ? (
+                  <Box mb={1} mr={1}>
+                    <Dot.Error size="lg" />
+                  </Box>
+                ) : null
+              }
             ></ContactAvatar>
 
             <Stack flex={1}>
@@ -422,13 +439,15 @@ const ConversationListItem = ({
                     text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
                   ></Text>
                 )}
-                {isRead && isClosed && <Dot.Neutral size="sm" />}
+                <Box alignItems="center">
+                  <ConversationViewers
+                    latestTime={latestConversationTime}
+                    viewers={viewers}
+                    size="xs"
+                  />
+                </Box>
               </HStack>
             </Stack>
-
-            <Box alignItems="center">
-              <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
-            </Box>
           </HStack>
         </AnimatedBackground>
       </Pressable>

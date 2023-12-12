@@ -15,11 +15,13 @@ export enum ConversationStatusEnum {
 export interface IConversation {
   LatestMessage?: IMessage
   LatestCall?: ICall
+  Viewers?: { [teammemberId: string]: string }
   UserId: string
   IsRead: boolean
   ConversationId: string
   ConversationFolderId: string
   CreatedAt: string
+  UpdatedTime?: string
   ContactId: string
   ContactName: string
   Status: ConversationStatusEnum
@@ -38,6 +40,10 @@ export interface IConversationUpdate {
 export interface IConversationStatusUpdate {
   status: ConversationStatusEnum
   conversationId: string
+}
+
+export interface IConversationViewers {
+  Viewers?: { [teammemberId: string]: string }
 }
 
 export interface IPaginatedConversationStream extends IPaginatedResponse {
@@ -129,4 +135,18 @@ export const getConversationId = (userNumber: string, contactNumber: string): st
   const cNumber = runFormatPhoneDigitsStripTo10(contactNumber)
 
   return `1${uNumber}TO1${cNumber}`
+}
+
+export const runGetLatestConversationTimestamp = (conversation: IConversation | null) => {
+  let latestCreatedTimestamp = ""
+
+  if (conversation) {
+    if (conversation.LatestMessage) {
+      latestCreatedTimestamp = conversation.LatestMessage.CreatedTime
+    } else if (conversation.LatestCall) {
+      latestCreatedTimestamp = conversation.LatestCall.CreatedTime
+    }
+  }
+
+  return latestCreatedTimestamp
 }
