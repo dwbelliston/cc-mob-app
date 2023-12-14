@@ -2,7 +2,13 @@
 
 import { View } from "native-base"
 import React from "react"
-import { getCallContactId, getIsUserCall, ICall } from "../../models/Call"
+import {
+  getCallCallerMemberId,
+  getCallCallerName,
+  getCallContactId,
+  getIsUserCall,
+  ICall,
+} from "../../models/Call"
 import { IConversationItem } from "../../models/Conversation"
 import {
   getContactId,
@@ -103,6 +109,8 @@ export const makeConversationStreamItemCall = (
     callRecordingUrl: call.RecordingUrl,
     callTranscriptionText: call.TranscriptionText,
     callNote: call.Note,
+    callerMemberId: getCallCallerMemberId(call),
+    callerName: getCallCallerName(call),
   }
 }
 

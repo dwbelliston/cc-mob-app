@@ -6,12 +6,11 @@ import { Box, HStack, Stack, View } from "native-base"
 import { ColorType } from "native-base/lib/typescript/components/types"
 import React from "react"
 import { Text } from "../../components"
-import { ContactAvatar } from "../../components/ContactAvatar"
-import { UserAvatar } from "../../components/UserAvatar"
 import { ICall } from "../../models/Call"
 import { spacing } from "../../theme"
 import { runFormatMinuteTime } from "../../utils/useFormatDate"
 import CallBubble from "./CallBubble"
+import { SenderAvatar } from "./SenderAvatar"
 
 export interface IConversationCallProps {
   callCreatedTime: ICall["CreatedTime"]
@@ -28,6 +27,8 @@ export interface IConversationCallProps {
   callTranscriptionText?: ICall["TranscriptionText"]
   callNote?: ICall["Note"]
   contactId?: string
+  callerMemberId?: string
+  callerName?: string
 }
 
 const ConversationCall = ({
@@ -45,6 +46,8 @@ const ConversationCall = ({
   callTranscriptionText,
   callNote,
   contactId,
+  callerMemberId,
+  callerName,
 }: IConversationCallProps) => {
   return (
     <View
@@ -68,26 +71,36 @@ const ConversationCall = ({
           callNote={callNote}
         />
         {/* Meta */}
-        <HStack alignItems={"center"} direction={isUserCall ? "row" : "row-reverse"}>
+        <HStack
+          alignItems={"center"}
+          direction={isUserCall ? "row" : "row-reverse"}
+          space={spacing.micro}
+        >
           <HStack alignItems={"center"} space={spacing.micro}>
+            {isUserCall ? (
+              <Text
+                fontSize="sm"
+                fontWeight={"normal"}
+                colorToken={"text.softer"}
+                text={callerName}
+              ></Text>
+            ) : null}
+
             <Text
               colorToken={"text.softer"}
-              fontSize="xs"
+              fontSize="sm"
               text={runFormatMinuteTime(callCreatedTime)}
             ></Text>
           </HStack>
 
           <Box ml={isUserCall ? 1 : 0} mr={!isUserCall ? 1 : 0}>
-            {isUserCall ? (
-              <UserAvatar size="sm"></UserAvatar>
-            ) : (
-              <ContactAvatar
-                // avatarColor={contactColor}
-                contactId={contactId}
-                initials={contactInitials}
-                avatarProps={{ size: "sm" }}
-              ></ContactAvatar>
-            )}
+            <SenderAvatar
+              isUserMessage={isUserCall}
+              senderMemberId={callerMemberId}
+              senderName={callerName}
+              contactId={contactId}
+              contactInitials={contactInitials}
+            ></SenderAvatar>
           </Box>
         </HStack>
       </Stack>

@@ -46,6 +46,8 @@ export interface ICall {
   IsOutsideHours?: boolean
   NumberForwardedTo?: string
   Note?: string
+  CallerMemberId?: string
+  CallerName?: string
 }
 
 export interface IPaginatedCalls extends IPaginatedResponse {
@@ -62,6 +64,14 @@ export const getIsUserCall = (call: ICall): boolean => {
   return isUserCall
 }
 
-export const getCallContactId = (message: ICall): string | undefined => {
-  return message.ContactId
+export const getCallContactId = (call: ICall): string | undefined => {
+  return call.ContactId
+}
+
+export const getCallCallerMemberId = (call: ICall): string | undefined => {
+  return call.CallerMemberId
+}
+
+export const getCallCallerName = (call: ICall): string | undefined => {
+  return call.CallerName
 }
