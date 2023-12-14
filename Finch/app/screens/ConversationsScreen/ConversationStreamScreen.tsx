@@ -12,6 +12,7 @@ import {
   IConversationItem,
   IConversationUpdate,
   getConversationContactNumber,
+  runGetLatestConversationTimestamp,
 } from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
@@ -20,6 +21,7 @@ import useUpdateConversation from "../../services/api/conversations/mutations/us
 import useListConversationStream from "../../services/api/conversations/queries/useListConversationStream"
 import { useReadConversation } from "../../services/api/conversations/queries/useReadConversation"
 import { colors, spacing } from "../../theme"
+import { useColor } from "../../theme/useColor"
 import { runFormatLongTime } from "../../utils/useFormatDate"
 import ConversationDivider from "./ConversationDivider"
 import {
@@ -27,6 +29,7 @@ import {
   makeConversationStreamItemCall,
   makeConversationStreamItemMessage,
 } from "./ConversationStreamItem"
+import ConversationViewers from "./ConversationViewers"
 import { NumberScheduledMessagesButton } from "./NumberScheduledMessagesButton"
 import SendMessageFloaterInput from "./SendMessageFloaterInput"
 // import { useNavigation } from "@react-navigation/native"
@@ -45,6 +48,8 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const { conversationStore } = useStores()
 
     const headerHeight = useHeaderHeight()
+    const bgDetail = useColor("bg.header")
+    const borderDetail = useColor("border.header")
     const unreadBg = useColorModeValue("error.200", "error.300")
     const unreadColor = useColorModeValue("error.900", "error.900")
     const bgStream = useColorModeValue(colors.gray[50], colors.gray[900])
@@ -58,6 +63,9 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
 
     const { data: dataConversation, isLoading: isLoadingConversation } =
       useReadConversation(conversationId)
+
+    const latestConversationTime = runGetLatestConversationTimestamp(dataConversation)
+    const viewers = dataConversation?.Viewers
 
     const {
       status,
@@ -254,6 +262,27 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
         }}
         keyboardOffset={headerHeight}
       >
+        <Box
+          bg={bgDetail}
+          py={spacing.micro}
+          px={spacing.tiny}
+          borderBottomWidth={1}
+          borderBottomColor={borderDetail}
+        >
+          <HStack alignItems={"center"} justifyContent={"flex-end"} space={spacing.tiny}>
+            <Text colorToken={"text.softer"} tx="inbox.teamMembersInChat"></Text>
+
+            <Box>
+              <ConversationViewers
+                borderWidth={0}
+                latestTime={latestConversationTime}
+                viewers={viewers}
+                size="xs"
+                maxViewers={10}
+              />
+            </Box>
+          </HStack>
+        </Box>
         {!dataConversation?.IsRead ? (
           <Box bg={unreadBg} py={spacing.micro}>
             <Text

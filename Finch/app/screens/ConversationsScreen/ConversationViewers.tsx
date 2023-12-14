@@ -12,6 +12,7 @@ import {
 interface IProps extends IAvatarProps {
   viewers: IConversation["Viewers"]
   latestTime: IConversation["UpdatedTime"]
+  maxViewers?: number
 }
 
 interface IViewerAvatar {
@@ -50,7 +51,7 @@ const ConversationViewerAvatar = ({
     </Avatar>
   )
 }
-const ConversationViewers = ({ viewers, latestTime, ...rest }: IProps) => {
+const ConversationViewers = ({ viewers, latestTime, maxViewers = 5, ...rest }: IProps) => {
   const [viewerAvatars, setViewerAvatars] = React.useState<IViewerAvatar[]>([])
 
   const { data: dataTeammembers } = useListTeamMembers()
@@ -118,7 +119,7 @@ const ConversationViewers = ({ viewers, latestTime, ...rest }: IProps) => {
   }, [viewers, dataTeammembers])
 
   return (
-    <Avatar.Group space={-1} max={5}>
+    <Avatar.Group space={-1} max={maxViewers}>
       {viewerAvatars
         ?.sort((aa, bb) =>
           aa.isViewedLatest === bb.isViewedLatest ? 0 : aa.isViewedLatest ? -1 : 1,

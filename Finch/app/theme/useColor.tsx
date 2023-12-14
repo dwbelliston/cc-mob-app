@@ -93,6 +93,10 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: colors.gray[200],
     dark: colors.gray[700],
   },
+  "border.header": {
+    light: colors.gray[200],
+    dark: colors.gray[700],
+  },
   error: {
     light: "error.600",
     dark: "error.300",

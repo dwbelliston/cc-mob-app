@@ -133,6 +133,7 @@ const en = {
     noDataNewMessageDescription: "You can try a new search or add a new contact",
     searchCompleted: "Search in completed",
     searchActive: "Search in active",
+    teamMembersInChat: "Team in chat",
   },
   stream: {
     noMessages: "No Messages",
