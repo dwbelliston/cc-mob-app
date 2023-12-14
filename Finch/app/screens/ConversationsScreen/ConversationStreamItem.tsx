@@ -14,6 +14,8 @@ import {
   getIsUserMessage,
   getMessageBroadcastId,
   getMessageDispatchId,
+  getMessageSenderId,
+  getMessageSenderName,
   getMessageStatusDisplay,
   getMessageVideoDetails,
   IMessage,
@@ -78,6 +80,8 @@ export const makeConversationStreamItemMessage = (
     messageCampaignId: getMessageDispatchId(message),
     videoDetails: getMessageVideoDetails(message),
     messageStatus: getMessageStatusDisplay(message.Status),
+    senderMemberId: getMessageSenderId(message),
+    senderName: getMessageSenderName(message),
   }
 }
 export const makeConversationStreamItemCall = (

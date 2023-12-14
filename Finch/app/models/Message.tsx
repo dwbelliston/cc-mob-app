@@ -209,6 +209,14 @@ export const getMessageBroadcastId = (message: IMessage): string | null => {
   return metaBroadcastId
 }
 
+export const getMessageSenderId = (message: IMessage): string | undefined => {
+  return message.SenderMemberId
+}
+
+export const getMessageSenderName = (message: IMessage): string | undefined => {
+  return message.SenderName
+}
+
 export const getMessageMetaVideoDetails = (
   messageMeta: any,
   messageBody: string = "",

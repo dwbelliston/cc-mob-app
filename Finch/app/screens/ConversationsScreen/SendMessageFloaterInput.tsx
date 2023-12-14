@@ -20,7 +20,7 @@ import {
 } from "../../models/Message"
 import { ISmsTemplate } from "../../models/SmsTemplate"
 import { IUserMediaItem } from "../../models/UserMediaItem"
-import { useUserPhone } from "../../models/UserProfile"
+import { runGetUserName, useUserPhone } from "../../models/UserProfile"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
 import useCreateSendMessage from "../../services/api/conversations/mutations/useCreateSendMessage"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
@@ -121,6 +121,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
 
       try {
         const contactScrubbedNumber = formatPhoneNumberForMessage(contactNumber)
+        const senderName = runGetUserName(userProfile)
 
         let messageMediaItemsSend: IMessageMediaItem[] = messageMediaItems.map((mediaItem) => {
           return {
@@ -142,6 +143,8 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
             Source: "mobile",
             Type: MessageTypeEnum.CONVERSATION,
           },
+          SenderMemberId: userProfile.TeamMemberUserId,
+          SenderName: senderName,
         }
 
         try {
