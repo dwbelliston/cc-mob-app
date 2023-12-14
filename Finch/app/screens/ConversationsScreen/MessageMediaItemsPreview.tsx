@@ -17,6 +17,7 @@ interface IProps extends IStackProps {
   isUserMessage?: boolean
   isMessageError?: boolean
   isDownloadable?: boolean
+  maxWidth?: number
 }
 
 const MessageMediaItemsPreview = ({
@@ -24,6 +25,7 @@ const MessageMediaItemsPreview = ({
   isUserMessage = false,
   isMessageError = false,
   isDownloadable = false,
+  maxWidth = 200,
   ...stackProps
 }: IProps) => {
   const [isDownloading, setIsDownloading] = React.useState(false)
@@ -102,7 +104,7 @@ const MessageMediaItemsPreview = ({
                           ? "https://cc-west-prd-bucket-users.s3.us-west-2.amazonaws.com/public/general/media/pdf-file.png"
                           : mediaItem.MediaUrl,
                       }}
-                      maxWidth={200}
+                      maxWidth={maxWidth}
                     />
                   </Box>
                 </Pressable>

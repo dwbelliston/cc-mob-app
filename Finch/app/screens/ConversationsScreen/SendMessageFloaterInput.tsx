@@ -59,7 +59,9 @@ export interface ISelectedFile {
 const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent }: IProps) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
-  const [messageMediaItems, setMessageMediaItems] = React.useState<IUserMediaItem[]>([])
+  const [messageMediaItems, setMessageMediaItems] = React.useState<
+    (IUserMediaItem | IMessageMediaItem)[]
+  >([])
 
   const bgMain = useColor("bg.main")
   const borderColor = useColorModeValue("gray.300", "gray.700")
@@ -184,6 +186,9 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
       }
 
       setValue("message", messageBodyUpdate, { shouldValidate: true })
+      if (smsTemplate.MessageMediaItems) {
+        setMessageMediaItems(smsTemplate.MessageMediaItems)
+      }
     },
     [dataContact],
   )

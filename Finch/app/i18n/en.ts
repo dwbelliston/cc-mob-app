@@ -82,6 +82,7 @@ const en = {
     supportsVoice: "Voice features",
     assignedOn: "Assigned On",
     title: "Title",
+    attachedImages: "Attached Images",
     number: "Number",
     template: "Template",
     code: "Code",
