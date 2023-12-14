@@ -373,9 +373,9 @@ const ConversationListItem = ({
           <HStack
             borderColor={cardBorder}
             borderWidth={1}
-            rounded="lg"
-            py={spacing.tiny}
-            px={spacing.micro}
+            rounded="xl"
+            py={spacing.tiny + 2}
+            px={spacing.tiny}
             space={2}
             alignItems="center"
           >
