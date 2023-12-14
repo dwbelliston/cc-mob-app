@@ -25,7 +25,7 @@ export interface IChangeAvatarButtonProps extends IconButtonProps {
   documentPickerOptions?: DocumentPicker.DocumentPickerOptions
 }
 
-const MAXALLOWEDSIZE = 5 * 1024 * 1024
+const MAXALLOWEDSIZE = 1 * 1024 * 1024
 
 export interface ISelectedFile {
   file?: File
