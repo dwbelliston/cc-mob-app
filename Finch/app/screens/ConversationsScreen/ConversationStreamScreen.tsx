@@ -15,6 +15,7 @@ import {
 } from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
+import usePostConversationViewed from "../../services/api/conversations/mutations/usePostConversationViewed"
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversationStream from "../../services/api/conversations/queries/useListConversationStream"
 import { useReadConversation } from "../../services/api/conversations/queries/useReadConversation"
@@ -37,12 +38,15 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const [contactId, setContactId] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
     const [refetchInterval, setRefetchInterval] = React.useState(5000)
+
     // React.useState<SectionListProps<any, any>>()
     // React.useState<SectionBase<IConversationItem[]>>()
 
     const { conversationStore } = useStores()
 
     const headerHeight = useHeaderHeight()
+    const unreadBg = useColorModeValue("error.200", "error.300")
+    const unreadColor = useColorModeValue("error.900", "error.900")
     const bgStream = useColorModeValue(colors.gray[50], colors.gray[900])
 
     const viewLimit = 15
@@ -77,6 +81,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     )
 
     const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
+    const { mutateAsync: mutateAsyncConversationViewed } = usePostConversationViewed()
 
     const handleOnSent = () => {
       // If a message is sent to a new contact the refetch is set to 0, this turns it back on
@@ -93,6 +98,15 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
             fetchNextPage()
           }
         }
+      }
+    }
+
+    const handleMarkViewed = async () => {
+      // Update the viewed status
+      if (dataConversation?.ConversationId) {
+        await mutateAsyncConversationViewed({
+          conversationId: dataConversation?.ConversationId,
+        })
       }
     }
 
@@ -206,18 +220,27 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     }, [dataConversation])
 
     React.useEffect(() => {
-      if (dataConversation) {
-        if (!dataConversation.IsRead) {
-          handleOnMarkRead(dataConversation.ConversationId)
-        }
+      // Mark read if automark on and if not read
+      if (conversationStore.isAutoMarkRead && dataConversation && !dataConversation.IsRead) {
+        handleOnMarkRead(dataConversation.ConversationId)
       }
     }, [dataConversation])
+
+    React.useEffect(() => {
+      // Update the viewed status when we have new messages come in
+      handleMarkViewed()
+    }, [dataStreamItems])
 
     React.useEffect(() => {
       if (isError) {
         setRefetchInterval(0)
       }
     }, [isError])
+
+    React.useEffect(() => {
+      // If the conversation id changes, allow the auto mark read to start
+      conversationStore.setIsAutoMarkRead(true)
+    }, [conversationId])
 
     return (
       <Screen
@@ -231,6 +254,16 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
         }}
         keyboardOffset={headerHeight}
       >
+        {!dataConversation?.IsRead ? (
+          <Box bg={unreadBg} py={spacing.micro}>
+            <Text
+              fontWeight={"semibold"}
+              color={unreadColor}
+              textAlign={"center"}
+              tx="inbox.unread"
+            ></Text>
+          </Box>
+        ) : null}
         <SectionList
           sections={sectionConversationItems}
           inverted={true}

@@ -5,7 +5,7 @@ import i18n from "i18n-js"
 import { ITextProps as NBITextProps, Text as NBText } from "native-base"
 import { ColorType } from "native-base/lib/typescript/components/types"
 import React from "react"
-import { translate, TxKeyPath } from "../i18n"
+import { TxKeyPath, translate } from "../i18n"
 import { ColorTokenOption, useColor } from "../theme/useColor"
 
 type Presets = keyof typeof $presets

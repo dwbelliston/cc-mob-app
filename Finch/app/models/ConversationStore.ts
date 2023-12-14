@@ -1,7 +1,7 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { ColorType } from "native-base/lib/typescript/components/types"
 import { IconTypes } from "../components"
-import { translate, TxKeyPath } from "../i18n"
+import { TxKeyPath, translate } from "../i18n"
 import { ConversationStatusEnum } from "./Conversation"
 import { withSetPropAction } from "./helpers/withSetPropAction"
 
@@ -11,6 +11,7 @@ export const ConversationStoreModel = types
     inboxView: types.maybe(types.string),
     inboxSearch: types.maybe(types.string),
     isHeaderSearchOpen: types.maybe(types.boolean),
+    isAutoMarkRead: types.maybe(types.boolean),
   })
   .views((store) => ({
     get viewLimit() {
@@ -105,6 +106,9 @@ export const ConversationStoreModel = types
   .actions((store) => ({
     setInboxView(inboxView: string) {
       store.inboxView = inboxView
+    },
+    setIsAutoMarkRead(isAutoMarkRead: boolean) {
+      store.isAutoMarkRead = isAutoMarkRead
     },
     setInboxSearch(inboxSearch: string) {
       store.inboxSearch = inboxSearch

@@ -24,6 +24,14 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: "white",
     dark: colors.gray[800],
   },
+  "bg.header.soft": {
+    light: colors.gray[50],
+    dark: colors.gray[700],
+  },
+  "bg.header.danger": {
+    light: colors.error[50],
+    dark: colors.error[700],
+  },
   "bg.largeHeader": {
     light: "white",
     dark: colors.gray[900],

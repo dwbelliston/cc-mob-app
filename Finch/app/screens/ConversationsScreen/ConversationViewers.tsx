@@ -1,4 +1,4 @@
-import { Avatar, Box, IAvatarProps } from "native-base"
+import { Avatar, Box, IAvatarProps, useColorModeValue } from "native-base"
 import React from "react"
 import { IConversation } from "../../models/Conversation"
 import { ITeamMember } from "../../models/TeamMember"
@@ -22,6 +22,34 @@ interface IViewerAvatar {
   tooltip: string
 }
 
+interface IConversationViewerAvatarProps {
+  opacity: any
+  avatarUrl?: string
+  avatarName?: string
+}
+
+const ConversationViewerAvatar = ({
+  opacity,
+  avatarUrl,
+  avatarName,
+  ...rest
+}: IConversationViewerAvatarProps) => {
+  const colorAvatar = useColorModeValue("gray.500", "gray.500")
+
+  // Display the avatar... do a hard return to make sure it refreshes... native base bug? idk
+  if (avatarUrl) {
+    return (
+      <Avatar source={{ uri: avatarUrl }} opacity={opacity} {...rest}>
+        {avatarName}
+      </Avatar>
+    )
+  }
+  return (
+    <Avatar color={colorAvatar} opacity={opacity} {...rest}>
+      {avatarName}
+    </Avatar>
+  )
+}
 const ConversationViewers = ({ viewers, latestTime, ...rest }: IProps) => {
   const [viewerAvatars, setViewerAvatars] = React.useState<IViewerAvatar[]>([])
 
@@ -98,17 +126,12 @@ const ConversationViewers = ({ viewers, latestTime, ...rest }: IProps) => {
         .map((viewerAvatar) => {
           return (
             <Box key={viewerAvatar.id}>
-              <Avatar
-                source={{ uri: viewerAvatar.avatarUrl }}
-                // borderWidth={1}
-                // borderColor={
-                //   viewerAvatar.isViewedLatest ? "primary.700" : "rose.700"
-                // }
-                opacity={viewerAvatar.isViewedLatest ? 1 : 0.35}
+              <ConversationViewerAvatar
+                opacity={viewerAvatar.isViewedLatest ? 100 : 30}
+                avatarUrl={viewerAvatar.avatarUrl}
+                avatarName={viewerAvatar.name}
                 {...rest}
-              >
-                {viewerAvatar.name}
-              </Avatar>
+              ></ConversationViewerAvatar>
             </Box>
           )
         })}

@@ -21,6 +21,7 @@ export const useReadConversation = (conversationId) => {
     () => makeApiRequest(conversationId),
     {
       retry: 2,
+      refetchInterval: 5000,
       enabled: !!conversationId,
     },
   )

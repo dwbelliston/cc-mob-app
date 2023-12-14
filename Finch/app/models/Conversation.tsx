@@ -150,3 +150,43 @@ export const runGetLatestConversationTimestamp = (conversation: IConversation | 
 
   return latestCreatedTimestamp
 }
+
+export const runGetLatestConversationTimestampNum = (
+  conversation: IConversation | null,
+): number | null => {
+  let resNum: number | null = null
+  let latestCreatedTimestamp = runGetLatestConversationTimestamp(conversation)
+
+  if (latestCreatedTimestamp) {
+    resNum = parseInt(latestCreatedTimestamp)
+  }
+  return resNum
+}
+
+export const runGetLatestViewedTimestamp = (
+  teammemberId: string,
+  conversation: IConversation | null,
+) => {
+  let latestViewedTimestamp = ""
+
+  if (conversation) {
+    if (conversation.Viewers && conversation.Viewers[teammemberId]) {
+      latestViewedTimestamp = conversation.Viewers[teammemberId]
+    }
+  }
+
+  return latestViewedTimestamp
+}
+
+export const runGetLatestViewedTimestampNum = (
+  teammemberId: string,
+  conversation: IConversation | null,
+): number | null => {
+  let resNum: number | null = null
+  let latestCreatedTimestamp = runGetLatestViewedTimestamp(teammemberId, conversation)
+
+  if (latestCreatedTimestamp) {
+    resNum = parseInt(latestCreatedTimestamp)
+  }
+  return resNum
+}

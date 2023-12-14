@@ -103,6 +103,8 @@ const en = {
     completed: "Completed",
     activeHeader: "Inbox",
     unreadHeader: "Unread",
+    markUnread: "Mark Unread",
+    markRead: "Mark Read",
     completedHeader: "Completed",
     selectFilter: "Select Inbox Filter",
     inbox: "Inbox",
