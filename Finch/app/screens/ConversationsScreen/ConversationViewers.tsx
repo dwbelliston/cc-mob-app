@@ -126,7 +126,7 @@ const ConversationViewers = ({ viewers, latestTime, maxViewers = 5, ...rest }: I
         )
         .map((viewerAvatar) => {
           return (
-            <Box key={viewerAvatar.id}>
+            <Box key={viewerAvatar.id} borderWidth={0}>
               <ConversationViewerAvatar
                 opacity={viewerAvatar.isViewedLatest ? 100 : 30}
                 avatarUrl={viewerAvatar.avatarUrl}
