@@ -121,6 +121,8 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     if (contactNumber && userNumber) {
       setIsSubmitting(true)
 
+      let messageBodyCleaned = fillinPlaceholdersInMessage(messageValue)
+
       try {
         const contactScrubbedNumber = formatPhoneNumberForMessage(contactNumber)
         const senderName = runGetUserName(userProfile)
@@ -139,7 +141,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
           ContactId: contactId,
           ContactNumber: contactScrubbedNumber,
           ContactName: contactName,
-          Message: messageValue,
+          Message: messageBodyCleaned,
           MessageMediaItems: messageMediaItemsSend,
           Meta: {
             Source: "mobile",
@@ -171,27 +173,37 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
 
   const handleOnTemplateSelected = React.useCallback(
     (smsTemplate: ISmsTemplate) => {
-      let messageBodyUpdate = smsTemplate.Message
+      let messageBodyUpdate = fillinPlaceholdersInMessage(smsTemplate.Message)
 
-      if (dataContact) {
-        messageBodyUpdate = renderMessageWithContact(
-          messageBodyUpdate,
-          dataContact.FirstName,
-          dataContact.LastName,
-          dataContact.Nickname,
-        )
-      } else {
-        messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Client", "Friend")
-        toast.warning({ title: "Check Message" })
+      if (!dataContact) {
+        toast.warning({ title: "Review Message" })
       }
 
       setValue("message", messageBodyUpdate, { shouldValidate: true })
+
       if (smsTemplate.MessageMediaItems) {
         setMessageMediaItems(smsTemplate.MessageMediaItems)
       }
     },
     [dataContact],
   )
+
+  const fillinPlaceholdersInMessage = (messageBody: string) => {
+    let messageBodyUpdate = messageBody
+
+    if (dataContact) {
+      messageBodyUpdate = renderMessageWithContact(
+        messageBodyUpdate,
+        dataContact.FirstName,
+        dataContact.LastName,
+        dataContact.Nickname,
+      )
+    } else {
+      messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Friend", "Friend")
+    }
+
+    return messageBodyUpdate
+  }
 
   return (
     <Stack
