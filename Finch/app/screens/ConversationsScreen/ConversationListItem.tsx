@@ -14,7 +14,6 @@ import {
   getConversationIsLastAMessage,
   getConversationLastMessage,
   IConversation,
-  runGetLatestConversationTimestamp,
 } from "../../models/Conversation"
 import { getAvatarColor, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
@@ -28,7 +27,7 @@ import { ContactAvatar } from "../../components/ContactAvatar"
 import { Dot } from "../../components/Dot"
 import { AppStackParamList } from "../../navigators"
 import { getInitials } from "../../utils/getInitials"
-import ConversationViewers from "./ConversationViewers"
+import ConversationRealtimeViewers from "./ConversationRealtimeViewers"
 
 const CARD_MARGIN = spacing.tiny
 
@@ -69,8 +68,6 @@ export interface IConversationListItemData {
   isIncoming: boolean
   isMessage: boolean
   isCall: boolean
-  latestConversationTime: string
-  viewers: IConversation["Viewers"]
 }
 
 export interface IConversationListItem extends IConversationListItemData {
@@ -125,8 +122,6 @@ export const makeConversationListItemData = (
   const isClosed = conversation.Status === ConversationStatusEnum.CLOSED
   const contactName = conversation.ContactName
   const contactId = conversation.ContactId
-  const viewers = conversation.Viewers
-  const latestConversationTime = runGetLatestConversationTimestamp(conversation)
 
   return {
     conversationId,
@@ -141,8 +136,6 @@ export const makeConversationListItemData = (
     conversationMessage,
     isIncoming,
     isMessage,
-    viewers,
-    latestConversationTime,
     isCall,
   }
 }
@@ -275,11 +268,9 @@ const ConversationListItem = ({
   contactId,
   conversationNumber,
   conversationMessage,
-  latestConversationTime,
   isIncoming,
   isMessage,
   isCall,
-  viewers,
   onViewConversation,
   onBlock,
   onViewContact,
@@ -440,11 +431,7 @@ const ConversationListItem = ({
                   ></Text>
                 )}
                 <Box alignItems="center">
-                  <ConversationViewers
-                    latestTime={latestConversationTime}
-                    viewers={viewers}
-                    size="xs"
-                  />
+                  <ConversationRealtimeViewers conversationId={conversationId} size="xs" />
                 </Box>
               </HStack>
             </Stack>

@@ -270,7 +270,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           borderBottomColor={borderDetail}
         >
           <HStack alignItems={"center"} justifyContent={"flex-end"} space={spacing.tiny}>
-            <Text colorToken={"text.softer"} tx="inbox.teamMembersInChat"></Text>
+            <Text colorToken={"text.softer"} tx="inbox.viewedBy"></Text>
 
             <Box>
               <ConversationViewers
