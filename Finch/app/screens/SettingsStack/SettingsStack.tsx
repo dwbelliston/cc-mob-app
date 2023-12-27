@@ -8,6 +8,8 @@ import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { AppDrawerScreenProps } from "../../navigators"
 
+import { useIsAdminMember } from "../../models/UserProfile"
+import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
@@ -43,6 +45,9 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
   const { contactsStore } = useStores()
   const headerLargeBg = useColor("bg.largeHeader")
   const headerBg = useColor("bg.header")
+
+  const { data: userProfile } = useReadUserProfile()
+  const isAdminUser = useIsAdminMember(userProfile)
 
   return (
     <Stack.Navigator
@@ -109,16 +114,18 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
           },
         }}
       />
-      <Stack.Screen
-        name={"MySubscription"}
-        component={MySubscriptionScreen}
-        options={{
-          headerTitle: translate("settings.mySubscription"),
-          headerStyle: {
-            backgroundColor: headerBg,
-          },
-        }}
-      />
+      {isAdminUser ? (
+        <Stack.Screen
+          name={"MySubscription"}
+          component={MySubscriptionScreen}
+          options={{
+            headerTitle: translate("settings.mySubscription"),
+            headerStyle: {
+              backgroundColor: headerBg,
+            },
+          }}
+        />
+      ) : null}
 
       <Stack.Screen
         name={"Team"}
