@@ -363,7 +363,7 @@ const en = {
   team: {
     pageHeader: "Team Members",
     pageSubheader:
-      "You can manage your team members in the desktop app",
+      "You can manage your team members in the desktop app. Green means they are online, red means they are offline and orange means they have a pending invitation.",
     noTeamMembers: "No team members",
   },
   crmSync: {
