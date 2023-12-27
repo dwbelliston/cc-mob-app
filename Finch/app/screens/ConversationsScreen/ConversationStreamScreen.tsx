@@ -374,9 +374,11 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           contactName={contactName}
           contactNumber={contactNumber}
         ></NumberScheduledMessagesButton>
+
         <SendMessageFloaterInput
           contactName={contactName}
           contactId={contactId}
+          conversationId={conversationId}
           contactNumber={contactNumber}
           onSent={handleOnSent}
           onEmitChange={handleOnEmit}

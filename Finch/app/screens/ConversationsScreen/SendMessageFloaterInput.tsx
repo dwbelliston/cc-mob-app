@@ -29,12 +29,14 @@ import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
 import { renderMessageClean, renderMessageWithContact } from "../../utils/useFormatMessage"
 import { AttachFileButton } from "./AttachFileButton"
+import ConversationRealtimeTyping from "./ConversationRealtimeTyping"
 import MessageMediaItemsThumbnails from "./MessageMediaItemsThumbnails"
 import { SelectTemplateButton } from "./SelectTemplateButton"
 
 interface IProps {
   contactName: string
   contactNumber: string
+  conversationId: string
   contactId?: string
   onSent?: () => void
   onEmitChange?: (message: string) => void
@@ -59,6 +61,7 @@ export interface ISelectedFile {
 
 const SendMessageFloaterInput = ({
   contactName,
+  conversationId,
   contactNumber,
   contactId,
   onSent,
@@ -237,6 +240,8 @@ const SendMessageFloaterInput = ({
       borderTopWidth={1}
       borderColor={borderColor}
     >
+      <ConversationRealtimeTyping color="amber.600" conversationId={conversationId} />
+
       <MessageMediaItemsThumbnails
         mediaItems={messageMediaItems}
         setMediaItems={setMessageMediaItems}
