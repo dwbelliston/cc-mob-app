@@ -271,7 +271,6 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
         >
           <HStack alignItems={"center"} justifyContent={"flex-end"} space={spacing.tiny}>
             <Text colorToken={"text.softer"} tx="inbox.viewedBy"></Text>
-
             <Box>
               <ConversationViewers
                 borderWidth={0}
@@ -283,7 +282,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
             </Box>
           </HStack>
         </Box>
-        {!dataConversation?.IsRead ? (
+        {!isLoadingConversation && !dataConversation?.IsRead ? (
           <Box bg={unreadBg} py={spacing.micro}>
             <Text
               fontWeight={"semibold"}
