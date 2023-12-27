@@ -3,8 +3,10 @@ import { observer } from "mobx-react-lite"
 import { Box, HStack, SectionList, Skeleton, Stack, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 
+import { useDebounce } from "use-debounce"
 import { Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
+import useTrackRollCallConversation from "../../hooks/useTrackRollCallConversation"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { ICall } from "../../models/Call"
@@ -40,7 +42,9 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const [sectionConversationItems, setSectionConversationItems] = React.useState<any>([])
     const [contactId, setContactId] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
+    const [isTyping, setIsTyping] = React.useState(false)
     const [refetchInterval, setRefetchInterval] = React.useState(5000)
+    const [debouncedIsTyping] = useDebounce(isTyping, 3000)
 
     // React.useState<SectionListProps<any, any>>()
     // React.useState<SectionBase<IConversationItem[]>>()
@@ -63,6 +67,8 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
 
     const { data: dataConversation, isLoading: isLoadingConversation } =
       useReadConversation(conversationId)
+
+    useTrackRollCallConversation(conversationId, debouncedIsTyping)
 
     const latestConversationTime = runGetLatestConversationTimestamp(dataConversation)
     const viewers = dataConversation?.Viewers
@@ -107,6 +113,11 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           }
         }
       }
+    }
+
+    const handleOnEmit = (messageEmitted: string) => {
+      const isTypingUpdate = messageEmitted?.length > 0
+      setIsTyping(isTypingUpdate)
     }
 
     const handleMarkViewed = async () => {
@@ -368,6 +379,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           contactId={contactId}
           contactNumber={contactNumber}
           onSent={handleOnSent}
+          onEmitChange={handleOnEmit}
         />
       </Screen>
     )

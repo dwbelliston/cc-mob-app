@@ -1,11 +1,9 @@
 import { Avatar, Box, Fade, IAvatarProps } from "native-base"
 import React from "react"
-import { Icon } from "../../components"
 import { IRollCallCreateViewerStatus } from "../../models/RollCall"
 import { ITeamMember } from "../../models/TeamMember"
 import useReadRollCall from "../../services/api/rollcall/queries/useReadRollCall"
 import useListTeamMembers from "../../services/api/teammembers/queries/useListTeamMembers"
-import { runFormatTimeFromNowSpecial } from "../../utils/useFormatDate"
 
 interface IProps extends IAvatarProps {
   conversationId: string
@@ -14,7 +12,6 @@ interface IProps extends IAvatarProps {
 interface IViewerAvatar {
   id: string
   isInConversation: boolean
-  isTyping: boolean
   name: string
   avatarUrl?: string
 }
@@ -33,7 +30,6 @@ const ConversationRealtimeViewers = ({ conversationId, ...rest }: IProps) => {
     conversationConfig: IRollCallCreateViewerStatus,
   ): IViewerAvatar | null => {
     const lastViewedInt = parseInt(conversationConfig.ViewedTime)
-    const timeFromNow = runFormatTimeFromNowSpecial(conversationConfig.ViewedTime)
 
     const isInConversation = currentTimeSecs - lastViewedInt <= TIME_OFFSET_SECONDS
 
@@ -62,7 +58,6 @@ const ConversationRealtimeViewers = ({ conversationId, ...rest }: IProps) => {
     return {
       id: teammemberId,
       isInConversation: isInConversation,
-      isTyping: conversationConfig.IsTyping,
       name: avatarNameUpdate,
       avatarUrl: avatarUrlUpdate,
     }
@@ -104,11 +99,6 @@ const ConversationRealtimeViewers = ({ conversationId, ...rest }: IProps) => {
                 {...rest}
               >
                 {viewerAvatar.name}
-                {viewerAvatar.isTyping ? (
-                  <Avatar.Badge borderWidth={1} bottom={"-3.5em"} boxSize="2em" bg="warning.100">
-                    <Icon colorToken={"warning"} icon="documentDuplicate" size={16} />
-                  </Avatar.Badge>
-                ) : null}
               </Avatar>
             </Fade>
           </Box>

@@ -37,6 +37,7 @@ interface IProps {
   contactNumber: string
   contactId?: string
   onSent?: () => void
+  onEmitChange?: (message: string) => void
 }
 
 type IFormInputs = {
@@ -56,7 +57,13 @@ export interface ISelectedFile {
   name: string
 }
 
-const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent }: IProps) => {
+const SendMessageFloaterInput = ({
+  contactName,
+  contactNumber,
+  contactId,
+  onSent,
+  onEmitChange,
+}: IProps) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const [messageMediaItems, setMessageMediaItems] = React.useState<
@@ -86,6 +93,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     setValue,
     setError,
     reset,
+    watch,
     formState: { errors, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
@@ -94,10 +102,18 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     },
   })
 
+  const messageVal = watch("message")
+
   const resetInputs = () => {
     reset()
     setMessageMediaItems([])
     Keyboard.dismiss()
+  }
+
+  const handleEmitChange = (emitValue: string) => {
+    if (onEmitChange) {
+      onEmitChange(emitValue)
+    }
   }
 
   const handleOnFileSelected = (newMediaItem: IUserMediaItem) => {
@@ -206,6 +222,10 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
 
     return messageBodyUpdate
   }
+
+  React.useEffect(() => {
+    handleEmitChange(messageVal)
+  }, [messageVal])
 
   return (
     <Stack
