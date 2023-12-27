@@ -27,7 +27,7 @@ import useReadUserProfile from "../../services/api/userprofile/queries/useReadUs
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
-import { renderMessageWithContact } from "../../utils/useFormatMessage"
+import { renderMessageClean, renderMessageWithContact } from "../../utils/useFormatMessage"
 import { AttachFileButton } from "./AttachFileButton"
 import MessageMediaItemsThumbnails from "./MessageMediaItemsThumbnails"
 import { SelectTemplateButton } from "./SelectTemplateButton"
@@ -201,6 +201,8 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     } else {
       messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Friend", "Friend")
     }
+
+    messageBodyUpdate = renderMessageClean(messageBodyUpdate)
 
     return messageBodyUpdate
   }
