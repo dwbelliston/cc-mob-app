@@ -372,3 +372,10 @@ export const runFormat24Hrto12Hr = (hoursIn: string): string => {
 
   return formattedDate
 }
+
+export const runCompareIsFirstBeforeSecond = (timestamp1: string, timestamp2: string) => {
+  if (parseInt(timestamp1, 10) < parseInt(timestamp2, 10)) {
+    return true
+  }
+  return false
+}

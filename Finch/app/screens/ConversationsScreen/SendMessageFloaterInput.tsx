@@ -20,23 +20,26 @@ import {
 } from "../../models/Message"
 import { ISmsTemplate } from "../../models/SmsTemplate"
 import { IUserMediaItem } from "../../models/UserMediaItem"
-import { useUserPhone } from "../../models/UserProfile"
+import { runGetUserName, useUserPhone } from "../../models/UserProfile"
 import useReadContact from "../../services/api/contacts/queries/useReadContact"
 import useCreateSendMessage from "../../services/api/conversations/mutations/useCreateSendMessage"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
-import { renderMessageWithContact } from "../../utils/useFormatMessage"
+import { renderMessageClean, renderMessageWithContact } from "../../utils/useFormatMessage"
 import { AttachFileButton } from "./AttachFileButton"
+import ConversationRealtimeTyping from "./ConversationRealtimeTyping"
 import MessageMediaItemsThumbnails from "./MessageMediaItemsThumbnails"
 import { SelectTemplateButton } from "./SelectTemplateButton"
 
 interface IProps {
   contactName: string
   contactNumber: string
+  conversationId: string
   contactId?: string
   onSent?: () => void
+  onEmitChange?: (message: string) => void
 }
 
 type IFormInputs = {
@@ -56,10 +59,19 @@ export interface ISelectedFile {
   name: string
 }
 
-const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent }: IProps) => {
+const SendMessageFloaterInput = ({
+  contactName,
+  conversationId,
+  contactNumber,
+  contactId,
+  onSent,
+  onEmitChange,
+}: IProps) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
-  const [messageMediaItems, setMessageMediaItems] = React.useState<IUserMediaItem[]>([])
+  const [messageMediaItems, setMessageMediaItems] = React.useState<
+    (IUserMediaItem | IMessageMediaItem)[]
+  >([])
 
   const bgMain = useColor("bg.main")
   const borderColor = useColorModeValue("gray.300", "gray.700")
@@ -84,6 +96,7 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     setValue,
     setError,
     reset,
+    watch,
     formState: { errors, isValid },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
@@ -92,10 +105,18 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     },
   })
 
+  const messageVal = watch("message")
+
   const resetInputs = () => {
     reset()
     setMessageMediaItems([])
     Keyboard.dismiss()
+  }
+
+  const handleEmitChange = (emitValue: string) => {
+    if (onEmitChange) {
+      onEmitChange(emitValue)
+    }
   }
 
   const handleOnFileSelected = (newMediaItem: IUserMediaItem) => {
@@ -119,8 +140,11 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
     if (contactNumber && userNumber) {
       setIsSubmitting(true)
 
+      let messageBodyCleaned = fillinPlaceholdersInMessage(messageValue)
+
       try {
         const contactScrubbedNumber = formatPhoneNumberForMessage(contactNumber)
+        const senderName = runGetUserName(userProfile)
 
         let messageMediaItemsSend: IMessageMediaItem[] = messageMediaItems.map((mediaItem) => {
           return {
@@ -136,12 +160,14 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
           ContactId: contactId,
           ContactNumber: contactScrubbedNumber,
           ContactName: contactName,
-          Message: messageValue,
+          Message: messageBodyCleaned,
           MessageMediaItems: messageMediaItemsSend,
           Meta: {
             Source: "mobile",
             Type: MessageTypeEnum.CONVERSATION,
           },
+          SenderMemberId: userProfile.TeamMemberUserId,
+          SenderName: senderName,
         }
 
         try {
@@ -166,24 +192,43 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
 
   const handleOnTemplateSelected = React.useCallback(
     (smsTemplate: ISmsTemplate) => {
-      let messageBodyUpdate = smsTemplate.Message
+      let messageBodyUpdate = fillinPlaceholdersInMessage(smsTemplate.Message)
 
-      if (dataContact) {
-        messageBodyUpdate = renderMessageWithContact(
-          messageBodyUpdate,
-          dataContact.FirstName,
-          dataContact.LastName,
-          dataContact.Nickname,
-        )
-      } else {
-        messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Client", "Friend")
-        toast.warning({ title: "Check Message" })
+      if (!dataContact) {
+        toast.warning({ title: "Review Message" })
       }
 
       setValue("message", messageBodyUpdate, { shouldValidate: true })
+
+      if (smsTemplate.MessageMediaItems) {
+        setMessageMediaItems(smsTemplate.MessageMediaItems)
+      }
     },
     [dataContact],
   )
+
+  const fillinPlaceholdersInMessage = (messageBody: string) => {
+    let messageBodyUpdate = messageBody
+
+    if (dataContact) {
+      messageBodyUpdate = renderMessageWithContact(
+        messageBodyUpdate,
+        dataContact.FirstName,
+        dataContact.LastName,
+        dataContact.Nickname,
+      )
+    } else {
+      messageBodyUpdate = renderMessageWithContact(messageBodyUpdate, "Friend", "Friend")
+    }
+
+    messageBodyUpdate = renderMessageClean(messageBodyUpdate)
+
+    return messageBodyUpdate
+  }
+
+  React.useEffect(() => {
+    handleEmitChange(messageVal)
+  }, [messageVal])
 
   return (
     <Stack
@@ -195,6 +240,8 @@ const SendMessageFloaterInput = ({ contactName, contactNumber, contactId, onSent
       borderTopWidth={1}
       borderColor={borderColor}
     >
+      <ConversationRealtimeTyping color="amber.600" conversationId={conversationId} />
+
       <MessageMediaItemsThumbnails
         mediaItems={messageMediaItems}
         setMediaItems={setMessageMediaItems}

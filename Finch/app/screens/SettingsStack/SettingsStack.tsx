@@ -8,12 +8,15 @@ import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { AppDrawerScreenProps } from "../../navigators"
 
+import { useIsAdminMember } from "../../models/UserProfile"
+import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { HEADER_TITLE_STYLES } from "../../theme"
 import { useColor } from "../../theme/useColor"
 import { DeleteAccountScreen } from "./DeleteAccountScreen"
 import { MySubscriptionScreen } from "./MySubscriptionScreen"
 import { SecurityScreen } from "./SecurityScreen"
 import { SettingsScreen } from "./SettingsScreen"
+import { TeamScreen } from "./TeamScreen"
 import { DebugNotificationsScreen } from "./notifications/DebugNotificationsScreen"
 import { NotificationsScreen } from "./notifications/NotificationsScreen"
 import { ProfileScreen } from "./profile/ProfileScreen"
@@ -23,6 +26,7 @@ export type SettingsStackParamList = {
   Profile: undefined
   DeleteAccount: undefined
   MySubscription: undefined
+  Team: undefined
   Security: undefined
   Notifications: undefined
   DebugNotifications: undefined
@@ -41,6 +45,9 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
   const { contactsStore } = useStores()
   const headerLargeBg = useColor("bg.largeHeader")
   const headerBg = useColor("bg.header")
+
+  const { data: userProfile } = useReadUserProfile()
+  const isAdminUser = useIsAdminMember(userProfile)
 
   return (
     <Stack.Navigator
@@ -107,17 +114,29 @@ export const SettingsStack: FC<AppDrawerScreenProps<"SettingsStack">> = (_props)
           },
         }}
       />
+      {isAdminUser ? (
+        <Stack.Screen
+          name={"MySubscription"}
+          component={MySubscriptionScreen}
+          options={{
+            headerTitle: translate("settings.mySubscription"),
+            headerStyle: {
+              backgroundColor: headerBg,
+            },
+          }}
+        />
+      ) : null}
+
       <Stack.Screen
-        name={"MySubscription"}
-        component={MySubscriptionScreen}
+        name={"Team"}
+        component={TeamScreen}
         options={{
-          headerTitle: translate("settings.mySubscription"),
+          headerTitle: translate("settings.team"),
           headerStyle: {
             backgroundColor: headerBg,
           },
         }}
       />
-
       <Stack.Screen
         name={"Security"}
         component={SecurityScreen}

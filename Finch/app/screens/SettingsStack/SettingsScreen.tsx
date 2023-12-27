@@ -14,6 +14,7 @@ import { useColor } from "../../theme/useColor"
 import { useCustomToast } from "../../utils/useCustomToast"
 
 import { Linking, Platform } from "react-native"
+import { useIsAdminMember } from "../../models/UserProfile"
 import useReadUserProfile from "../../services/api/userprofile/queries/useReadUserProfile"
 import { SettingsStackParamList, SettingsStackScreenProps } from "./SettingsStack"
 
@@ -35,72 +36,102 @@ interface ISectionData {
   data: ISectionDataItem[]
 }
 
-const SETTINGS_LINKS: ISectionData[] = [
-  {
-    titleTx: "settings.account",
-    data: [
-      {
-        icon: "userCircle",
-        tx: "settings.myProfile",
-        navigateScreen: "Profile",
-      },
-      {
-        icon: "creditCard",
-        tx: "settings.mySubscription",
-        navigateScreen: "MySubscription",
-      },
-      {
-        icon: "lockClosed",
-        tx: "settings.security",
-        navigateScreen: "Security",
-      },
-      {
-        icon: "bellAlert",
-        tx: "settings.notifications",
-        navigateScreen: "Notifications",
-      },
-    ],
-  },
-  {
-    titleTx: "settings.currentClient",
-    data: [
-      {
-        icon: "handRaised",
-        tx: "settings.textSupport",
-        isTextSupport: true,
-      },
-      {
-        icon: "lifebuoy",
-        tx: "settings.helpCenter",
-        urlLink: "https://www.currentclient.com/learn",
-        // isSoon: true,
-      },
-      {
-        icon: "shieldCheck",
-        tx: "settings.privacy",
-        urlLink: "https://www.currentclient.com/privacy",
-      },
-      {
-        icon: "newspaper",
-        tx: "settings.blog",
-        urlLink: "https://www.currentclient.com/blog",
-      },
-      {
-        icon: "star",
-        tx: "settings.leaveReview",
-        appLink: isIos
-          ? "itms-apps://apps.apple.com/app/id6446603544?action=write-review"
-          : "https://play.google.com/store/apps/details?id=com.currentclient.app",
-      },
-      {
-        icon: "arrow-left-on-rectangle",
-        tx: "settings.logOut",
-        colorToken: "error",
-        isLogout: true,
-      },
-    ],
-  },
-]
+const SETTINGS_LINKS_01_ADMIN: ISectionData = {
+  titleTx: "settings.account",
+  data: [
+    {
+      icon: "userCircle",
+      tx: "settings.myProfile",
+      navigateScreen: "Profile",
+    },
+    {
+      icon: "creditCard",
+      tx: "settings.mySubscription",
+      navigateScreen: "MySubscription",
+    },
+    {
+      icon: "lockClosed",
+      tx: "settings.security",
+      navigateScreen: "Security",
+    },
+    {
+      icon: "contacts",
+      tx: "settings.team",
+      navigateScreen: "Team",
+    },
+    {
+      icon: "bellAlert",
+      tx: "settings.notifications",
+      navigateScreen: "Notifications",
+    },
+  ],
+}
+
+const SETTINGS_LINKS_01_NOADMIN: ISectionData = {
+  titleTx: "settings.account",
+  data: [
+    {
+      icon: "userCircle",
+      tx: "settings.myProfile",
+      navigateScreen: "Profile",
+    },
+    {
+      icon: "lockClosed",
+      tx: "settings.security",
+      navigateScreen: "Security",
+    },
+    {
+      icon: "contacts",
+      tx: "settings.team",
+      navigateScreen: "Team",
+    },
+    {
+      icon: "bellAlert",
+      tx: "settings.notifications",
+      navigateScreen: "Notifications",
+    },
+  ],
+}
+
+const SETTINGS_LINKS_02: ISectionData = {
+  titleTx: "settings.currentClient",
+  data: [
+    {
+      icon: "handRaised",
+      tx: "settings.textSupport",
+      isTextSupport: true,
+    },
+    {
+      icon: "lifebuoy",
+      tx: "settings.helpCenter",
+      urlLink: "https://www.currentclient.com/learn",
+      // isSoon: true,
+    },
+    {
+      icon: "shieldCheck",
+      tx: "settings.privacy",
+      urlLink: "https://www.currentclient.com/privacy",
+    },
+    {
+      icon: "newspaper",
+      tx: "settings.blog",
+      urlLink: "https://www.currentclient.com/blog",
+    },
+    {
+      icon: "star",
+      tx: "settings.leaveReview",
+      appLink: isIos
+        ? "itms-apps://apps.apple.com/app/id6446603544?action=write-review"
+        : "https://play.google.com/store/apps/details?id=com.currentclient.app",
+    },
+    {
+      icon: "arrow-left-on-rectangle",
+      tx: "settings.logOut",
+      colorToken: "error",
+      isLogout: true,
+    },
+  ],
+}
 
 export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer(
   function SettingsScreen(_props) {
@@ -116,8 +147,12 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
     const appVersion = `App version: ${appConfig.version}`
 
     const { data: userProfile } = useReadUserProfile()
+    const isAdminUser = useIsAdminMember(userProfile)
 
-    const openAppStore = () => {}
+    const links_to_show = [
+      isAdminUser ? SETTINGS_LINKS_01_ADMIN : SETTINGS_LINKS_01_NOADMIN,
+      SETTINGS_LINKS_02,
+    ]
 
     const handleOnItemPress = async (item: ISectionDataItem) => {
       if (item.navigateScreen) {
@@ -205,7 +240,7 @@ export const SettingsScreen: FC<SettingsStackScreenProps<"Settings">> = observer
       >
         <Box flex={1}>
           <SectionList
-            sections={SETTINGS_LINKS}
+            sections={links_to_show}
             stickySectionHeadersEnabled={true}
             contentInsetAdjustmentBehavior="automatic"
             renderItem={renderItem}

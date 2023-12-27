@@ -1,3 +1,4 @@
+import { IMessageMediaItem } from "./Message"
 import { IPaginatedResponse } from "./PaginatedResponse"
 
 export interface ISmsTemplateUpdate {
@@ -17,6 +18,8 @@ export interface ISmsTemplate extends ISmsTemplateUpdate {
   CreatedByUserBrandImageUrl?: string
   CreatedByUserName?: string
   IsManaged?: boolean
+  MessageMediaItems?: IMessageMediaItem[]
+  MessageMeta?: any
 }
 
 // In the form, we change it to allow mode

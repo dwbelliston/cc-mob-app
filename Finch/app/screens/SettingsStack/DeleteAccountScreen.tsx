@@ -71,26 +71,38 @@ export const DeleteAccountScreen: FC<SettingsStackScreenProps<"DeleteAccount">> 
                   ></Butter.Info>
                 </Box>
               ) : (
-                <>
-                  <FormControl
-                    name="delete"
-                    control={form.control}
-                    multiline={false}
-                    labelProps={{
-                      tx: "settings.deleteAccountExplainConfirm",
-                      colorToken: "warning",
-                    }}
-                  ></FormControl>
-                  <Box pt={spacing.small}>
-                    <Button
-                      onPress={handleOnDelete}
-                      isLoading={isLoadingUpdate}
-                      colorScheme={"error"}
-                      isDisabled={!form.formState.isValid}
-                      tx="settings.deleteAccount"
-                    ></Button>
-                  </Box>
-                </>
+                <Box>
+                  {userProfile?.IsTeamMember ? (
+                    <Stack>
+                      <Text colorToken="warning">
+                        Since you are a member of a team, your account admin needs to intiate the
+                        request to delete your account
+                      </Text>
+                      <Text>{userProfile.AdminEmail}</Text>
+                    </Stack>
+                  ) : (
+                    <>
+                      <FormControl
+                        name="delete"
+                        control={form.control}
+                        multiline={false}
+                        labelProps={{
+                          tx: "settings.deleteAccountExplainConfirm",
+                          colorToken: "warning",
+                        }}
+                      ></FormControl>
+                      <Box pt={spacing.small}>
+                        <Button
+                          onPress={handleOnDelete}
+                          isLoading={isLoadingUpdate}
+                          colorScheme={"error"}
+                          isDisabled={!form.formState.isValid}
+                          tx="settings.deleteAccount"
+                        ></Button>
+                      </Box>
+                    </>
+                  )}
+                </Box>
               )}
             </Stack>
           )}

@@ -6,8 +6,10 @@ import { spacing } from "../../../theme"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
+import { Text } from "../../../components"
 import { BottomSheetFormControl } from "../../../components/FormControl"
 import { ISmsTemplate, ISmsTemplateUpdate } from "../../../models/SmsTemplate"
+import MessageMediaItemsPreview from "../../ConversationsScreen/MessageMediaItemsPreview"
 import { FormHandle } from "../../SettingsStack/profile/ProfileScreen"
 
 interface IProps {
@@ -59,6 +61,18 @@ export const EditSmsTemplateForm = React.forwardRef<FormHandle, IProps>(
             tx: "fieldLabels.template",
           }}
         ></BottomSheetFormControl>
+
+        {/* Display media */}
+        {data?.MessageMediaItems ? (
+          <Stack space={spacing.micro}>
+            <Text tx="fieldLabels.attachedImages"></Text>
+            <MessageMediaItemsPreview
+              isUserMessage={false}
+              maxWidth={160}
+              mediaItems={data?.MessageMediaItems}
+            ></MessageMediaItemsPreview>
+          </Stack>
+        ) : null}
       </Stack>
     )
   },

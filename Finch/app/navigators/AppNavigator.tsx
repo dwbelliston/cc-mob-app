@@ -7,7 +7,7 @@
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
 import { NativeStackScreenProps, createNativeStackNavigator } from "@react-navigation/native-stack"
 import { observer } from "mobx-react-lite"
-import { useColorModeValue } from "native-base"
+import { View, useColorModeValue } from "native-base"
 import React from "react"
 import { useColorScheme } from "react-native"
 import Config from "../config"
@@ -31,6 +31,8 @@ import { useColor } from "../theme/useColor"
 import { runFormatPhoneSimple } from "../utils/useFormatPhone"
 import AppDrawerNavigator from "./AppDrawerNavigator"
 
+import { AppRollCall } from "../components/AppRollCall"
+import useIsAppStateActive from "../hooks/useIsAppStateActive"
 import { VerifyLoginScreen } from "../screens/VerifyLoginScreen"
 import { navigationRef, useBackButtonHandler } from "./navigationUtilities"
 
@@ -90,6 +92,8 @@ const AppStack = observer(function AppStack() {
     authenticationStore: { isAuthenticated },
   } = useStores()
 
+  const isAppActive = useIsAppStateActive()
+
   const headerDetailBg = useColor("bg.header")
 
   const headerDetailNewBg = useColorModeValue(colors.primary[50], colors.primary[800])
@@ -97,120 +101,124 @@ const AppStack = observer(function AppStack() {
   const contactBgColor = useColorModeValue(colors.primary[600], colors.primary[600])
 
   return (
-    <Stack.Navigator
-      screenOptions={{ headerShown: false }}
-      initialRouteName={isAuthenticated ? "AppDrawer" : "Login"}
-    >
-      {isAuthenticated ? (
-        <Stack.Group>
-          <Stack.Screen name="AppDrawer" component={AppDrawerNavigator} />
-          <Stack.Screen
-            name={"ConversationStream"}
-            component={ConversationStreamScreen}
-            options={({ route }) => ({
-              headerShown: true,
-              headerTitle:
-                route.params?.contactName ||
-                runFormatPhoneSimple(route.params?.conversationNumber) ||
-                "Conversation",
-              // headerLargeTitle: true,
-              headerStyle: {
-                backgroundColor: headerDetailBg,
-              },
-              headerTitleStyle: {
-                ...HEADER_TITLE_STYLES,
-              },
-              headerBackVisible: true,
-              headerRight: () => (
-                <ConversationSteamDetailMenu
-                  contactId={route.params.contactId}
-                  contactName={route.params.contactName}
-                  conversationNumber={route.params.conversationNumber}
-                  conversationId={route.params.conversationId}
-                />
-              ),
-            })}
-          />
+    <View h="full">
+      {isAppActive && isAuthenticated ? <AppRollCall></AppRollCall> : null}
 
-          <Stack.Screen
-            name={"ContactDetail"}
-            component={ContactDetailScreen}
-            options={({ route }) => ({
-              headerShown: false,
-              headerTitle: route.params?.contactName || "Contact",
-              // headerLargeTitle: true,
-              headerStyle: {
-                backgroundColor: contactBgColor,
-              },
-              headerTitleStyle: {
-                color: "white",
-                ...HEADER_TITLE_STYLES,
-              },
-              headerBackVisible: true,
-            })}
-          />
-          <Stack.Screen
-            name={"BroadcastDetail"}
-            component={BroadcastDetailScreen}
-            options={({ route }) => ({
-              headerShown: false,
-              headerTitle: route.params?.title || "Broadcast",
-              // headerLargeTitle: true,
-              headerStyle: {
-                backgroundColor: contactBgColor,
-              },
-              headerTitleStyle: {
-                color: "white",
-                ...HEADER_TITLE_STYLES,
-              },
-              headerBackVisible: true,
-            })}
-          />
+      <Stack.Navigator
+        screenOptions={{ headerShown: false }}
+        initialRouteName={isAuthenticated ? "AppDrawer" : "Login"}
+      >
+        {isAuthenticated ? (
+          <Stack.Group>
+            <Stack.Screen name="AppDrawer" component={AppDrawerNavigator} />
+            <Stack.Screen
+              name={"ConversationStream"}
+              component={ConversationStreamScreen}
+              options={({ route }) => ({
+                headerShown: true,
+                headerTitle:
+                  route.params?.contactName ||
+                  runFormatPhoneSimple(route.params?.conversationNumber) ||
+                  "Conversation",
+                // headerLargeTitle: true,
+                headerStyle: {
+                  backgroundColor: headerDetailBg,
+                },
+                headerTitleStyle: {
+                  ...HEADER_TITLE_STYLES,
+                },
+                headerBackVisible: true,
+                headerRight: () => (
+                  <ConversationSteamDetailMenu
+                    contactId={route.params.contactId}
+                    contactName={route.params.contactName}
+                    conversationNumber={route.params.conversationNumber}
+                    conversationId={route.params.conversationId}
+                  />
+                ),
+              })}
+            />
 
-          <Stack.Screen
-            name={"AddContact"}
-            component={AddContactScreen}
-            options={({ route }) => ({
-              headerShown: true,
-              headerTitle: translate("contacts.newContact"),
-              headerStyle: {
-                backgroundColor: headerDetailNewBg,
-              },
-              headerTitleStyle: {
-                color: headerDetailNewColor,
-                ...HEADER_TITLE_STYLES,
-              },
-              headerBackVisible: true,
-            })}
-          />
-          <Stack.Screen
-            name={"NewMessage"}
-            component={NewMessageScreen}
-            options={({ route }) => ({
-              headerShown: true,
-              headerTitle: translate("inbox.newMessage"),
-              headerStyle: {
-                backgroundColor: headerDetailNewBg,
-              },
-              headerTitleStyle: {
-                color: headerDetailNewColor,
-                ...HEADER_TITLE_STYLES,
-              },
-              headerBackVisible: true,
-            })}
-          />
-          <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        </Stack.Group>
-      ) : (
-        <Stack.Group>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="AltLogin" component={AltLoginScreen} />
-          <Stack.Screen name="VerifyLogin" component={VerifyLoginScreen} />
-          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
-          <Stack.Screen name="ResetPasswordConfirm" component={ResetPasswordConfirmScreen} />
-        </Stack.Group>
-      )}
-    </Stack.Navigator>
+            <Stack.Screen
+              name={"ContactDetail"}
+              component={ContactDetailScreen}
+              options={({ route }) => ({
+                headerShown: false,
+                headerTitle: route.params?.contactName || "Contact",
+                // headerLargeTitle: true,
+                headerStyle: {
+                  backgroundColor: contactBgColor,
+                },
+                headerTitleStyle: {
+                  color: "white",
+                  ...HEADER_TITLE_STYLES,
+                },
+                headerBackVisible: true,
+              })}
+            />
+            <Stack.Screen
+              name={"BroadcastDetail"}
+              component={BroadcastDetailScreen}
+              options={({ route }) => ({
+                headerShown: false,
+                headerTitle: route.params?.title || "Broadcast",
+                // headerLargeTitle: true,
+                headerStyle: {
+                  backgroundColor: contactBgColor,
+                },
+                headerTitleStyle: {
+                  color: "white",
+                  ...HEADER_TITLE_STYLES,
+                },
+                headerBackVisible: true,
+              })}
+            />
+
+            <Stack.Screen
+              name={"AddContact"}
+              component={AddContactScreen}
+              options={({ route }) => ({
+                headerShown: true,
+                headerTitle: translate("contacts.newContact"),
+                headerStyle: {
+                  backgroundColor: headerDetailNewBg,
+                },
+                headerTitleStyle: {
+                  color: headerDetailNewColor,
+                  ...HEADER_TITLE_STYLES,
+                },
+                headerBackVisible: true,
+              })}
+            />
+            <Stack.Screen
+              name={"NewMessage"}
+              component={NewMessageScreen}
+              options={({ route }) => ({
+                headerShown: true,
+                headerTitle: translate("inbox.newMessage"),
+                headerStyle: {
+                  backgroundColor: headerDetailNewBg,
+                },
+                headerTitleStyle: {
+                  color: headerDetailNewColor,
+                  ...HEADER_TITLE_STYLES,
+                },
+                headerBackVisible: true,
+              })}
+            />
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+          </Stack.Group>
+        ) : (
+          <Stack.Group>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="AltLogin" component={AltLoginScreen} />
+            <Stack.Screen name="VerifyLogin" component={VerifyLoginScreen} />
+            <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+            <Stack.Screen name="ResetPasswordConfirm" component={ResetPasswordConfirmScreen} />
+          </Stack.Group>
+        )}
+      </Stack.Navigator>
+    </View>
   )
 })
 

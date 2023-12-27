@@ -80,7 +80,17 @@ export const AvatarRing = (props: IAvatarRingProps) => {
               {initials}
             </Avatar>
           ) : (
-            <GenericAvatarIcon size="md" {...avatarProps} />
+            <GenericAvatarIcon
+              borderWidth={1}
+              borderColor={borderAvatar}
+              bg={bgAvatar}
+              _text={{
+                color: colorAvatar,
+                allowFontScaling: false,
+              }}
+              size="md"
+              {...avatarProps}
+            />
           )}
         </>
       )}

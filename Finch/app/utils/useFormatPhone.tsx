@@ -16,7 +16,7 @@ export const runFormatPhoneSimple = (phone: string = "") => {
   if (match) {
     return ["(", match[2], ") ", match[3], "-", match[4]].join("")
   }
-  return null
+  return cleaned
 }
 
 export const runFormatPhoneDigits = (phone: string = "") => {

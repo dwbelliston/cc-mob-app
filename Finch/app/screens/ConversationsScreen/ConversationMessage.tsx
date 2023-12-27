@@ -6,13 +6,11 @@ import { Box, Center, HStack, Stack, View } from "native-base"
 import { ColorType } from "native-base/lib/typescript/components/types"
 import React from "react"
 import { Icon, Text } from "../../components"
-import { ContactAvatar } from "../../components/ContactAvatar"
-import { CurrentClientAvatar } from "../../components/CurrentClientAvatar"
-import { UserAvatar } from "../../components/UserAvatar"
 import { IMessage, IMessageVideoDetails } from "../../models/Message"
 import { spacing } from "../../theme"
 import { runFormatMinuteTime } from "../../utils/useFormatDate"
 import MessageMediaItemsPreview from "./MessageMediaItemsPreview"
+import { SenderAvatar } from "./SenderAvatar"
 import TextMessageBubble from "./TextMessageBubble"
 import VideoMessageDetailsPreview from "./VideoMessageDetailsPreview"
 
@@ -33,6 +31,8 @@ export interface IConversationMessageProps {
   contactId?: string
   messageStatus?: string
   videoDetails?: IMessageVideoDetails
+  senderMemberId?: string
+  senderName?: string
 }
 
 const ConversationMessage = ({
@@ -52,8 +52,10 @@ const ConversationMessage = ({
   contactId,
   messageStatus,
   videoDetails,
+  senderMemberId,
+  senderName,
 }: IConversationMessageProps) => {
-  const isRobot = isAutoReply || isCompliance || !!messageBroadcastId || messageCampaignId
+  const isRobot = isAutoReply || isCompliance || !!messageBroadcastId || !!messageCampaignId
 
   const isError = isMessageError || isMessageBlocked
 
@@ -93,6 +95,7 @@ const ConversationMessage = ({
             videoDetails={videoDetails}
           ></VideoMessageDetailsPreview>
         )}
+
         {/* Meta */}
         {isMessageSending ? (
           <HStack
@@ -107,6 +110,7 @@ const ConversationMessage = ({
         ) : (
           <HStack
             color="gray.400"
+            space={2}
             alignItems={"center"}
             direction={isUserMessage ? "row" : "row-reverse"}
           >
@@ -161,7 +165,7 @@ const ConversationMessage = ({
             </Box>
 
             {/* Message status */}
-            <HStack space={2}>
+            <HStack space={2} alignItems={"center"}>
               {isError && messageStatus ? (
                 <Text colorToken={"error"} fontSize="xs" text={messageStatus}></Text>
               ) : null}
@@ -178,8 +182,18 @@ const ConversationMessage = ({
                 </Center>
               ) : null}
 
+              {/* Sender */}
+              {isUserMessage ? (
+                <Text
+                  fontSize="sm"
+                  fontWeight={"normal"}
+                  colorToken={"text.softer"}
+                  text={senderName}
+                ></Text>
+              ) : null}
+
               <Text
-                fontSize="xs"
+                fontSize="sm"
                 fontWeight={"normal"}
                 colorToken={"text.softer"}
                 text={runFormatMinuteTime(createdTime)}
@@ -187,25 +201,14 @@ const ConversationMessage = ({
             </HStack>
 
             <Box ml={isUserMessage ? 1 : 0} mr={!isUserMessage ? 1 : 0}>
-              {isUserMessage ? (
-                <>
-                  {isRobot ? (
-                    <Box p={1}>
-                      <CurrentClientAvatar size="sm" />
-                    </Box>
-                  ) : (
-                    <UserAvatar size="sm"></UserAvatar>
-                  )}
-                </>
-              ) : (
-                <ContactAvatar
-                  // innerRingColor={"red.400"}
-                  avatarColor={contactColor}
-                  contactId={contactId}
-                  initials={contactInitials}
-                  avatarProps={{ size: "sm" }}
-                ></ContactAvatar>
-              )}
+              <SenderAvatar
+                isRobotMessage={isRobot}
+                isUserMessage={isUserMessage}
+                senderMemberId={senderMemberId}
+                senderName={senderName}
+                contactId={contactId}
+                contactInitials={contactInitials}
+              ></SenderAvatar>
             </Box>
           </HStack>
         )}

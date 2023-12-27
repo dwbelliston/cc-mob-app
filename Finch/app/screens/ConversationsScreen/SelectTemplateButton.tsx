@@ -18,6 +18,7 @@ import { ISmsTemplate } from "../../models/SmsTemplate"
 import useListSmsTemplates from "../../services/api/smstemplates/queries/useListSmsTemplates"
 import { colors, spacing } from "../../theme"
 import { useColor } from "../../theme/useColor"
+import MessageMediaItemsPreview from "./MessageMediaItemsPreview"
 
 export interface ISelectTemplateButtonProps extends IconButtonProps {
   onTemplateSelect: (template: ISmsTemplate) => void
@@ -52,6 +53,13 @@ const TemplateOptionPressable = ({
             </Text>
           </HStack>
           <Text fontSize="xs">{template.Message}</Text>
+          {template?.MessageMediaItems ? (
+            <MessageMediaItemsPreview
+              isUserMessage={false}
+              mediaItems={template?.MessageMediaItems}
+              maxWidth={100}
+            ></MessageMediaItemsPreview>
+          ) : null}
         </Stack>
       </AnimatedBackground>
     </Pressable>

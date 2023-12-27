@@ -2,7 +2,13 @@
 
 import { View } from "native-base"
 import React from "react"
-import { getCallContactId, getIsUserCall, ICall } from "../../models/Call"
+import {
+  getCallCallerMemberId,
+  getCallCallerName,
+  getCallContactId,
+  getIsUserCall,
+  ICall,
+} from "../../models/Call"
 import { IConversationItem } from "../../models/Conversation"
 import {
   getContactId,
@@ -14,6 +20,8 @@ import {
   getIsUserMessage,
   getMessageBroadcastId,
   getMessageDispatchId,
+  getMessageSenderId,
+  getMessageSenderName,
   getMessageStatusDisplay,
   getMessageVideoDetails,
   IMessage,
@@ -78,6 +86,8 @@ export const makeConversationStreamItemMessage = (
     messageCampaignId: getMessageDispatchId(message),
     videoDetails: getMessageVideoDetails(message),
     messageStatus: getMessageStatusDisplay(message.Status),
+    senderMemberId: getMessageSenderId(message),
+    senderName: getMessageSenderName(message),
   }
 }
 export const makeConversationStreamItemCall = (
@@ -99,6 +109,8 @@ export const makeConversationStreamItemCall = (
     callRecordingUrl: call.RecordingUrl,
     callTranscriptionText: call.TranscriptionText,
     callNote: call.Note,
+    callerMemberId: getCallCallerMemberId(call),
+    callerName: getCallCallerName(call),
   }
 }
 

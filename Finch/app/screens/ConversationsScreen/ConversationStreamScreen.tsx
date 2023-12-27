@@ -3,8 +3,10 @@ import { observer } from "mobx-react-lite"
 import { Box, HStack, SectionList, Skeleton, Stack, useColorModeValue } from "native-base"
 import React, { FC } from "react"
 
+import { useDebounce } from "use-debounce"
 import { Screen, Text } from "../../components"
 import { DataStatus } from "../../components/DataStatus"
+import useTrackRollCallConversation from "../../hooks/useTrackRollCallConversation"
 import { translate } from "../../i18n"
 import { useStores } from "../../models"
 import { ICall } from "../../models/Call"
@@ -12,13 +14,16 @@ import {
   IConversationItem,
   IConversationUpdate,
   getConversationContactNumber,
+  runGetLatestConversationTimestamp,
 } from "../../models/Conversation"
 import { IMessage } from "../../models/Message"
 import { AppStackScreenProps } from "../../navigators"
+import usePostConversationViewed from "../../services/api/conversations/mutations/usePostConversationViewed"
 import useUpdateConversation from "../../services/api/conversations/mutations/useUpdateConversation"
 import useListConversationStream from "../../services/api/conversations/queries/useListConversationStream"
 import { useReadConversation } from "../../services/api/conversations/queries/useReadConversation"
 import { colors, spacing } from "../../theme"
+import { useColor } from "../../theme/useColor"
 import { runFormatLongTime } from "../../utils/useFormatDate"
 import ConversationDivider from "./ConversationDivider"
 import {
@@ -26,6 +31,7 @@ import {
   makeConversationStreamItemCall,
   makeConversationStreamItemMessage,
 } from "./ConversationStreamItem"
+import ConversationViewers from "./ConversationViewers"
 import { NumberScheduledMessagesButton } from "./NumberScheduledMessagesButton"
 import SendMessageFloaterInput from "./SendMessageFloaterInput"
 // import { useNavigation } from "@react-navigation/native"
@@ -36,13 +42,20 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     const [sectionConversationItems, setSectionConversationItems] = React.useState<any>([])
     const [contactId, setContactId] = React.useState("")
     const [contactNumber, setContactNumber] = React.useState("")
+    const [isTyping, setIsTyping] = React.useState(false)
     const [refetchInterval, setRefetchInterval] = React.useState(5000)
+    const [debouncedIsTyping] = useDebounce(isTyping, 3000)
+
     // React.useState<SectionListProps<any, any>>()
     // React.useState<SectionBase<IConversationItem[]>>()
 
     const { conversationStore } = useStores()
 
     const headerHeight = useHeaderHeight()
+    const bgDetail = useColor("bg.header")
+    const borderDetail = useColor("border.header")
+    const unreadBg = useColorModeValue("error.200", "error.300")
+    const unreadColor = useColorModeValue("error.900", "error.900")
     const bgStream = useColorModeValue(colors.gray[50], colors.gray[900])
 
     const viewLimit = 15
@@ -54,6 +67,11 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
 
     const { data: dataConversation, isLoading: isLoadingConversation } =
       useReadConversation(conversationId)
+
+    useTrackRollCallConversation(conversationId, debouncedIsTyping)
+
+    const latestConversationTime = runGetLatestConversationTimestamp(dataConversation)
+    const viewers = dataConversation?.Viewers
 
     const {
       status,
@@ -77,6 +95,7 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     )
 
     const { mutateAsync: mutateAsyncConversation } = useUpdateConversation()
+    const { mutateAsync: mutateAsyncConversationViewed } = usePostConversationViewed()
 
     const handleOnSent = () => {
       // If a message is sent to a new contact the refetch is set to 0, this turns it back on
@@ -93,6 +112,20 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
             fetchNextPage()
           }
         }
+      }
+    }
+
+    const handleOnEmit = (messageEmitted: string) => {
+      const isTypingUpdate = messageEmitted?.length > 0
+      setIsTyping(isTypingUpdate)
+    }
+
+    const handleMarkViewed = async () => {
+      // Update the viewed status
+      if (dataConversation?.ConversationId) {
+        await mutateAsyncConversationViewed({
+          conversationId: dataConversation?.ConversationId,
+        })
       }
     }
 
@@ -206,18 +239,27 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
     }, [dataConversation])
 
     React.useEffect(() => {
-      if (dataConversation) {
-        if (!dataConversation.IsRead) {
-          handleOnMarkRead(dataConversation.ConversationId)
-        }
+      // Mark read if automark on and if not read
+      if (conversationStore.isAutoMarkRead && dataConversation && !dataConversation.IsRead) {
+        handleOnMarkRead(dataConversation.ConversationId)
       }
     }, [dataConversation])
+
+    React.useEffect(() => {
+      // Update the viewed status when we have new messages come in
+      handleMarkViewed()
+    }, [dataStreamItems])
 
     React.useEffect(() => {
       if (isError) {
         setRefetchInterval(0)
       }
     }, [isError])
+
+    React.useEffect(() => {
+      // If the conversation id changes, allow the auto mark read to start
+      conversationStore.setIsAutoMarkRead(true)
+    }, [conversationId])
 
     return (
       <Screen
@@ -231,6 +273,36 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
         }}
         keyboardOffset={headerHeight}
       >
+        <Box
+          bg={bgDetail}
+          py={spacing.micro}
+          px={spacing.tiny}
+          borderBottomWidth={1}
+          borderBottomColor={borderDetail}
+        >
+          <HStack alignItems={"center"} justifyContent={"flex-end"} space={spacing.tiny}>
+            <Text colorToken={"text.softer"} tx="inbox.viewedBy"></Text>
+            <Box>
+              <ConversationViewers
+                borderWidth={0}
+                latestTime={latestConversationTime}
+                viewers={viewers}
+                size="xs"
+                maxViewers={10}
+              />
+            </Box>
+          </HStack>
+        </Box>
+        {!isLoadingConversation && !dataConversation?.IsRead ? (
+          <Box bg={unreadBg} py={spacing.micro}>
+            <Text
+              fontWeight={"semibold"}
+              color={unreadColor}
+              textAlign={"center"}
+              tx="inbox.unread"
+            ></Text>
+          </Box>
+        ) : null}
         <SectionList
           sections={sectionConversationItems}
           inverted={true}
@@ -302,11 +374,14 @@ export const ConversationStreamScreen: FC<AppStackScreenProps<"ConversationStrea
           contactName={contactName}
           contactNumber={contactNumber}
         ></NumberScheduledMessagesButton>
+
         <SendMessageFloaterInput
           contactName={contactName}
           contactId={contactId}
+          conversationId={conversationId}
           contactNumber={contactNumber}
           onSent={handleOnSent}
+          onEmitChange={handleOnEmit}
         />
       </Screen>
     )

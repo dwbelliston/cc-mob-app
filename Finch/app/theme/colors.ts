@@ -302,6 +302,7 @@ export const colors = {
   /**
    * Status colors messages.
    */
+  text: TAILDWIND_COLORS.coolGray,
   success: TAILDWIND_COLORS.emerald,
   info: TAILDWIND_COLORS.indigo,
   error: TAILDWIND_COLORS.rose,
@@ -319,7 +320,6 @@ export const colors = {
   /**
    * The default text color in many components.
    */
-  text: palette.neutral200,
   /**
    * Secondary text information.
    */

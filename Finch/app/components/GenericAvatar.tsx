@@ -11,7 +11,7 @@ export const GenericAvatarIcon = (props: IAvatarProps) => {
 
   return (
     <Avatar bg={bg} {...props}>
-      <Icon colorToken={"text"} icon="user"></Icon>
+      <Icon colorToken={"text.softer"} icon="user"></Icon>
     </Avatar>
   )
 }

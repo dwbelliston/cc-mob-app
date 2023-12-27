@@ -24,6 +24,14 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: "white",
     dark: colors.gray[800],
   },
+  "bg.header.soft": {
+    light: colors.gray[50],
+    dark: colors.gray[700],
+  },
+  "bg.header.danger": {
+    light: colors.error[50],
+    dark: colors.error[700],
+  },
   "bg.largeHeader": {
     light: "white",
     dark: colors.gray[900],
@@ -85,9 +93,17 @@ const COLOR_TOKENS: { [token: string]: IColorToken } = {
     light: colors.gray[200],
     dark: colors.gray[700],
   },
+  "border.header": {
+    light: colors.gray[200],
+    dark: colors.gray[700],
+  },
   error: {
     light: "error.600",
     dark: "error.300",
+  },
+  "error.soft": {
+    light: "error.500",
+    dark: "error.400",
   },
   warning: {
     light: "warning.600",

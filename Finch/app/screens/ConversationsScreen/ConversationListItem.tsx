@@ -27,6 +27,7 @@ import { ContactAvatar } from "../../components/ContactAvatar"
 import { Dot } from "../../components/Dot"
 import { AppStackParamList } from "../../navigators"
 import { getInitials } from "../../utils/getInitials"
+import ConversationRealtimeViewers from "./ConversationRealtimeViewers"
 
 const CARD_MARGIN = spacing.tiny
 
@@ -299,6 +300,7 @@ const ConversationListItem = ({
     closeSwipeable()
     onMarkUnread(conversationId)
   }
+
   const handleOnBlock = () => {
     closeSwipeable()
     onBlock(conversationNumber)
@@ -362,9 +364,9 @@ const ConversationListItem = ({
           <HStack
             borderColor={cardBorder}
             borderWidth={1}
-            rounded="lg"
-            py={spacing.tiny}
-            px={spacing.micro}
+            rounded="xl"
+            py={spacing.tiny + 2}
+            px={spacing.tiny}
             space={2}
             alignItems="center"
           >
@@ -372,8 +374,14 @@ const ConversationListItem = ({
               contactId={contactId}
               // avatarColor={avatarColor}
               initials={initials}
-              avatarProps={{ size: "sm" }}
-              sourceBadge={!isRead ? <Dot.Error size="md" /> : null}
+              avatarProps={{ size: "md" }}
+              sourceBadge={
+                !isRead ? (
+                  <Box mb={1} mr={1}>
+                    <Dot.Error size="lg" />
+                  </Box>
+                ) : null
+              }
             ></ContactAvatar>
 
             <Stack flex={1}>
@@ -422,13 +430,11 @@ const ConversationListItem = ({
                     text={isIncoming ? `${conversationMessage}` : `You: ${conversationMessage}`}
                   ></Text>
                 )}
-                {isRead && isClosed && <Dot.Neutral size="sm" />}
+                <Box alignItems="center">
+                  <ConversationRealtimeViewers conversationId={conversationId} size="xs" />
+                </Box>
               </HStack>
             </Stack>
-
-            <Box alignItems="center">
-              <Icon colorToken={"text.softer"} icon="ellipsisVertical"></Icon>
-            </Box>
           </HStack>
         </AnimatedBackground>
       </Pressable>

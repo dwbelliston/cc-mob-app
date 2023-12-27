@@ -14,18 +14,11 @@ import { useCustomToast } from "../../../utils/useCustomToast"
 
 import { gestureHandlerRootHOC } from "react-native-gesture-handler"
 import { Butter } from "../../../components/Butter"
-import { IAutoReplyForm } from "../../../models/CallFlow"
+import { AutorepliesEditFormModeEnum, IAutoReplyForm } from "../../../models/CallFlow"
 import useUpdateCallFlow from "../../../services/api/callflow/mutations/useUpdateCallFlow"
 import useReadCallFlow from "../../../services/api/callflow/queries/useReadCallFlow"
 import { ManagePhoneStackScreenProps } from "../ManagePhoneStack"
 import { EditAutoReplyForm, IAutoReplyWorkingForm } from "./EditAutoReplyForm"
-
-export enum EditFormModeEnum {
-  HOURS_MESSAGE = "HOURS_MESSAGE",
-  HOURS_CALL = "HOURS_CALL",
-  AWAY_MESSAGE = "AWAY_MESSAGE",
-  AWAY_CALL = "AWAY_CALL",
-}
 
 export type FormHandle = {
   submitForm: () => void
@@ -33,7 +26,7 @@ export type FormHandle = {
 
 const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = observer(
   function AutoRepliesScreen(_props) {
-    const [editMode, setEditMode] = React.useState<EditFormModeEnum>()
+    const [editMode, setEditMode] = React.useState<AutorepliesEditFormModeEnum>()
     const [editMessage, setEditMessage] = React.useState<string>()
     const [editIsEnabled, setEditIsEnabled] = React.useState<boolean>()
 
@@ -54,7 +47,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
     const { mutateAsync: mutateAsyncUpdate, isLoading: isLoadingUpdate } = useUpdateCallFlow()
 
     const handleOnEdit = (
-      mode: EditFormModeEnum,
+      mode: AutorepliesEditFormModeEnum,
       isEnabled: boolean | undefined,
       message: string | undefined,
     ) => {
@@ -68,22 +61,22 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
       const updateForm: IAutoReplyForm = {}
 
       // Edit during message
-      if (EditFormModeEnum.HOURS_MESSAGE === editMode) {
+      if (AutorepliesEditFormModeEnum.HOURS_MESSAGE === editMode) {
         updateForm.IsEnableAutoIncomingMessage = data.IsEnabled
         updateForm.TextAutoIncomingMessage = data.Message
       }
       // Edit during call
-      else if (EditFormModeEnum.HOURS_CALL === editMode) {
+      else if (AutorepliesEditFormModeEnum.HOURS_CALL === editMode) {
         updateForm.IsEnableAutoMissedCall = data.IsEnabled
         updateForm.TextAutoMissedCall = data.Message
       }
       // Edit away message
-      else if (EditFormModeEnum.AWAY_MESSAGE === editMode) {
+      else if (AutorepliesEditFormModeEnum.AWAY_MESSAGE === editMode) {
         updateForm.IsEnableAutoOutsideHoursIncomingMessage = data.IsEnabled
         updateForm.TextAutoOutsideHoursIncomingMessage = data.Message
       }
       // Edit away call
-      else if (EditFormModeEnum.AWAY_CALL === editMode) {
+      else if (AutorepliesEditFormModeEnum.AWAY_CALL === editMode) {
         updateForm.IsEnableAutoOutsideHoursMissedCall = data.IsEnabled
         updateForm.TextAutoAutoOutsideHoursMissedCall = data.Message
       }
@@ -144,7 +137,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                         icon="chatBubbleLeftEllipsis"
                         onEdit={() =>
                           handleOnEdit(
-                            EditFormModeEnum.HOURS_MESSAGE,
+                            AutorepliesEditFormModeEnum.HOURS_MESSAGE,
                             dataCallFlow.IsEnableAutoIncomingMessage,
                             dataCallFlow.TextAutoIncomingMessage,
                           )
@@ -159,7 +152,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                           icon="bolt"
                           onEdit={() =>
                             handleOnEdit(
-                              EditFormModeEnum.HOURS_MESSAGE,
+                              AutorepliesEditFormModeEnum.HOURS_MESSAGE,
                               dataCallFlow.IsEnableAutoIncomingMessage,
                               dataCallFlow.TextAutoIncomingMessage,
                             )
@@ -181,7 +174,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                         icon="phoneArrowDownLeft"
                         onEdit={() =>
                           handleOnEdit(
-                            EditFormModeEnum.HOURS_CALL,
+                            AutorepliesEditFormModeEnum.HOURS_CALL,
                             dataCallFlow.IsEnableAutoMissedCall,
                             dataCallFlow.TextAutoMissedCall,
                           )
@@ -196,7 +189,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                           icon="bolt"
                           onEdit={() =>
                             handleOnEdit(
-                              EditFormModeEnum.HOURS_CALL,
+                              AutorepliesEditFormModeEnum.HOURS_CALL,
                               dataCallFlow.IsEnableAutoMissedCall,
                               dataCallFlow.TextAutoMissedCall,
                             )
@@ -233,7 +226,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                         icon="chatBubbleLeftEllipsis"
                         onEdit={() =>
                           handleOnEdit(
-                            EditFormModeEnum.AWAY_MESSAGE,
+                            AutorepliesEditFormModeEnum.AWAY_MESSAGE,
                             dataCallFlow.IsEnableAutoOutsideHoursIncomingMessage,
                             dataCallFlow.TextAutoOutsideHoursIncomingMessage,
                           )
@@ -250,7 +243,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                           icon="bolt"
                           onEdit={() =>
                             handleOnEdit(
-                              EditFormModeEnum.AWAY_MESSAGE,
+                              AutorepliesEditFormModeEnum.AWAY_MESSAGE,
                               dataCallFlow.IsEnableAutoOutsideHoursIncomingMessage,
                               dataCallFlow.TextAutoOutsideHoursIncomingMessage,
                             )
@@ -271,7 +264,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                         icon="phoneArrowDownLeft"
                         onEdit={() =>
                           handleOnEdit(
-                            EditFormModeEnum.AWAY_CALL,
+                            AutorepliesEditFormModeEnum.AWAY_CALL,
                             dataCallFlow.IsEnableAutoOutsideHoursMissedCall,
                             dataCallFlow.TextAutoAutoOutsideHoursMissedCall,
                           )
@@ -286,7 +279,7 @@ const AutoRepliesScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> = 
                           icon="bolt"
                           onEdit={() =>
                             handleOnEdit(
-                              EditFormModeEnum.AWAY_CALL,
+                              AutorepliesEditFormModeEnum.AWAY_CALL,
                               dataCallFlow.IsEnableAutoOutsideHoursMissedCall,
                               dataCallFlow.TextAutoAutoOutsideHoursMissedCall,
                             )
