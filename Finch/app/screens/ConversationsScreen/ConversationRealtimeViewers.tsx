@@ -95,7 +95,7 @@ const ConversationRealtimeViewers = ({ conversationId, ...rest }: IProps) => {
     <Avatar.Group space={-1} max={5}>
       {viewerAvatars.map((viewerAvatar) => {
         return (
-          <Box key={viewerAvatar.id}>
+          <Box key={viewerAvatar.id} borderWidth={0}>
             <Fade in={true}>
               <Avatar
                 source={{
