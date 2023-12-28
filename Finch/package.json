@@ -85,7 +85,6 @@
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "~2.4.0",
     "expo-task-manager": "~11.3.0",
-    "expo-updates": "~0.18.12",
     "expo-web-browser": "~12.3.2",
     "i18n-js": "3.9.2",
     "mobx": "6.6.0",
