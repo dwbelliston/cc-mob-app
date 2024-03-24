@@ -93,7 +93,7 @@ export const AttachFileButton = ({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       allowsMultipleSelection: false,
-      quality: 0.25,
+      // quality: 0.25,
       ...imagePickerOptions,
     })
 
@@ -102,7 +102,7 @@ export const AttachFileButton = ({
       let fileToUpload: ISelectedFile = {
         uri: fileAsset.uri,
         type: fileAsset.type,
-        size: fileAsset.fileSize,
+        size: fileAsset.fileSize, // File size of the picked image or video, in bytes.
         name: `${runTodayTimestamp()}.png`,
       }
 
@@ -123,7 +123,7 @@ export const AttachFileButton = ({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: false,
       allowsMultipleSelection: false,
-      quality: 0.25,
+      // quality: 0.25,
       ...imagePickerOptions,
     })
 
@@ -169,7 +169,11 @@ export const AttachFileButton = ({
     const canUpload = selectedFile.size < maxAllowSize
 
     if (!canUpload) {
-      toast.warning({ title: "File too big", description: selectedFile.name })
+      const fileSizeLabel = (selectedFile.size / 1024 / 1024).toFixed(1)
+      toast.warning({
+        title: "Too big",
+        description: `Max size 5MB. Your file is ${fileSizeLabel}MB`,
+      })
       return
     }
 
