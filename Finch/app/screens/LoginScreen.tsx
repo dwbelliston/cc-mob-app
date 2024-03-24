@@ -189,8 +189,8 @@ export const LoginScreen: FC<AppStackScreenProps<"Login">> = observer(function L
   }, [])
 
   return (
-    <Screen preset="scroll" safeAreaEdges={["top", "bottom"]}>
-      <Stack space={4} pb={spacing.extraSmall}>
+    <Screen preset="scroll" safeAreaEdges={["top"]}>
+      <Stack space={4} pb={spacing.small}>
         <ImageBackground source={imgSrc} resizeMode="cover">
           <Box>
             <Image

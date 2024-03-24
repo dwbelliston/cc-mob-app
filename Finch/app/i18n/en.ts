@@ -421,6 +421,8 @@ const en = {
     isOn: "Hours are on",
     isOff: "Hours are off",
     timezone: "Timezone",
+    openTime: "Open at",
+    closeTime: "Close at",
     selectTimezone: "Select Timezone",
     setSchedule: "Set Your Schedule",
   },

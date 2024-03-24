@@ -162,7 +162,7 @@ const BusinessHoursScreenBase: FC<ManagePhoneStackScreenProps<"BusinessHours">> 
                             icon="calendarDays"
                             value={
                               dataCallFlow &&
-                              dataCallFlow?.BusinessSchedule.length > idx + 1 &&
+                              dataCallFlow?.BusinessSchedule.length > idx &&
                               dataCallFlow?.BusinessSchedule[idx]
                             }
                             onEdit={() => handleOnEditDay(idx)}

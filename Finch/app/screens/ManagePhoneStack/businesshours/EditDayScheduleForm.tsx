@@ -64,13 +64,13 @@ export const EditDayScheduleForm = React.forwardRef<FormHandle, IProps>(
         <Text preset="heading" tx={SCHEDULE_DAYS[editDayIndex]}></Text>
         <FormPicker
           name="start"
-          labelTx="common.open"
+          labelTx="businessHours.openTime"
           control={form.control}
           options={TIMES_OF_DAY}
         />
         <FormPicker
           name="end"
-          labelTx="common.close"
+          labelTx="businessHours.closeTime"
           control={form.control}
           options={TIMES_OF_DAY}
         />
